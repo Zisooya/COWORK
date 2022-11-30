@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>임시 메인 페이지</h1>
-ddd
+깃플로우 테스트
 <P><a href="<%=request.getContextPath() %>/testDB.do">DB 연동 테스트</a></P>
 </body>
 </html>
