@@ -1,6 +1,8 @@
 
 <%@ page session="false" pageEncoding="UTF-8"  %>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
@@ -11,6 +13,7 @@
 <div id="grid_container">
 
 	<jsp:include page="include.jsp" />
+
 
 	<nav id="side">
 		<label>주소록</label>
@@ -29,7 +32,6 @@
 	</article>
 
 <a href="<%=request.getContextPath() %>/project_control.do">[프로젝트 관리]</a>
-
 
 </div>
 </body>
