@@ -56,13 +56,18 @@ public class CoworkController {
 	}
 
 
+/*
 	@RequestMapping("calendar.do")
 	public String calendarMain(Model model) {
 		return "calender";
 	}
+*/
 
 	@RequestMapping("member_login.do")
 	public String memberLogin() {
 		return "login";
 	}
+
+
+
 }
