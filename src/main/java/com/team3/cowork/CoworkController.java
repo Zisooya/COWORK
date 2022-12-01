@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.team3.model.Main_ProjectsDTO;
 import com.team3.model.MemberDAO;
@@ -43,16 +44,28 @@ public class CoworkController {
 		return "project_control";
 	}
 			
-	// 프로젝트 생성 페이지 _ 세건
-	@RequestMapping("project_insert.do")
-	public void project_insert(Model model,ProjectsDTO dto,HttpServletResponse response) throws IOException {
-		this.dao_projects.insertProject(dto);
-		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter out = response.getWriter();
-		out.println("<script>");
-		out.println("location.href='project_control.do'");
-		out.println("</script>");
-	}
+
+  // 프로젝트 생성 페이지 _ 세건
+  @RequestMapping("project_insert.do")
+  public void project_insert(Model model,ProjectsDTO dto,HttpServletResponse response) throws IOException {
+    this.dao_projects.insertProject(dto);
+    response.setContentType("text/html; charset=UTF-8");
+    PrintWriter out = response.getWriter();
+    out.println("<script>");
+    out.println("location.href='project_control.do'");
+    out.println("</script>");
+  }
+
+  // 프로젝트 상세보기 모달창 띄우기 _ 세건
+  @RequestMapping("content.do")
+  public String ProjectModal(Model model,@RequestParam int num) throws IOException {
+    ProjectsDTO cont = this.dao_projects.getprojects(num);
+    List<Main_ProjectsDTO> main = this.dao_projects.getMainList();
+    model.addAttribute("cont", cont);
+    model.addAttribute("main", main);
+    return "projects_include/Project_modal";
+    }
+			
 
 
 /*
@@ -60,7 +73,6 @@ public class CoworkController {
 	public String calendarMain(Model model) {
 		return "calender";
 	}
-
 
 	@RequestMapping("member_login.do")
 	public String memberLogin() {

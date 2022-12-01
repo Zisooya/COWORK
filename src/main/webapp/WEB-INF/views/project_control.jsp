@@ -11,10 +11,14 @@
 <body>
 	<c:set var="list" value="${list }"/>
 	<c:set var="main" value="${main }"/>
+	
+	<!-- [세건] 프로젝트 Nav Bar  -->
 	<jsp:include page="projects_include/project_include.jsp"/>
 	<br>
 	<br>
 	<br>
+	깃헙 테스트1
+	<!-- [세건] 프로젝트 목록 및 생성  -->
 	<jsp:include page="projects_include/project_table.jsp"/>
 </body>
 </html>
