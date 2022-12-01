@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.team3.model.CalendarDAO;
+import com.team3.model.CalendarDTO;
 import com.team3.model.Main_ProjectsDTO;
 import com.team3.model.MemberDAO;
 import com.team3.model.MemberDTO;
@@ -60,12 +63,17 @@ public class CoworkController {
 			}
 
 
-/*
+	@Autowired
+	private CalendarDAO dao_cal;
+	
 	@RequestMapping("calendar.do")
-	public String calendarMain(Model model) {
-
+	public String calendarMain(@RequestParam("no") int memNo, Model model) {
+		List<CalendarDTO> list = this.dao_cal.getCalList(memNo);
+		model.addAttribute("list", list);
+		return "cal_main";
 	}
 
+/*
 	@RequestMapping("login.do")
 	public String login(Model model) {
 		return "login";
