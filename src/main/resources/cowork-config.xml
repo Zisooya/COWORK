@@ -15,8 +15,8 @@
 
 	<!-- 별칭 주는 태그 -->
 	<typeAliases>
-		<typeAlias type="com.team3.model.MemberDAO" alias="memberDao"/>
-		<typeAlias type="com.team3.model.MemberDTO" alias="memberDto"/>
+		<typeAlias type="com.team3.model.MemberDAO" alias="memberDAO"/>
+		<typeAlias type="com.team3.model.MemberDTO" alias="memberDTO"/>
 	
 	
 		<!-- *************** 세건 *************** -->

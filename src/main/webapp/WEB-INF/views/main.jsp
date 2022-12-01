@@ -21,6 +21,6 @@
 
 <br>
 테스트1
-<a href="<%=request.getContextPath() %>/login.do">[로그인 페이지 테스트]</a>
+<a href="<%=request.getContextPath() %>/member_login.do">[로그인 페이지 테스트]</a>
 </body>
 </html>
