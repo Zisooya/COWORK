@@ -9,9 +9,14 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;
-	
+
 	@Override
-	public MemberDTO testDB() {
-		return this.sqlSession.selectOne("test");
-	}	
+	public int memberCheck(String id) {
+		return this.sqlSession.selectOne("check", id);
+	}
+
+	@Override
+	public MemberDTO getMember(String pwd) {
+		return this.sqlSession.selectOne("getMember", pwd);
+	}
 }

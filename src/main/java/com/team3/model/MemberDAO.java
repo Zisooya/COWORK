@@ -1,6 +1,8 @@
 package com.team3.model;
 
 public interface MemberDAO {
-	
-	MemberDTO testDB();
+
+	int memberCheck(String id);
+
+	MemberDTO getMember(String pwd);
 }
