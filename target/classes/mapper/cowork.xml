@@ -13,10 +13,6 @@
 
  <mapper namespace="member">
 
-  	<select id="test" resultType="memberDto">
- 		select * from member where mem_no = 1
- 	</select>	
-	
 	<!-- *******************세건**********************-->
  	<select id="all" resultType="projectsdto">
 		select * from projects order by project_start desc
@@ -34,11 +30,11 @@
 	    insert into projects values(#{project_no}+1,#{project_name},'',#{project_end},'','',#{project_taker},default,#{project_status},#{project_main})
 	</insert>
 
-	<!-- ****************hslee**************** -->
+	<!-- **************** hslee **************** -->
 	<select id="check" parameterType="String" resultType="int">
-		select * from member where mem_id = #{mem_id}
+		select * from member where mem_id = #{id}
 	</select>
-	<select id="getMember" parameterType="String" resultType="memberDTO">
-		select * from member where mem_pwd = #{mem_pwd}
+	<select id="login" parameterType="String" resultType="memberDTO">
+		select * from member where mem_id = #{id}
 	</select>
  </mapper> 
