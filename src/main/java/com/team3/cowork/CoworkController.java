@@ -20,7 +20,7 @@ public class CoworkController {
 		model.addAttribute("Test", dto);
 		return "testDB";
 	}
-
+/*
 	@RequestMapping("calendar.do")
 	public String calendarMain(Model model) {
 
@@ -30,4 +30,5 @@ public class CoworkController {
 	public String login(Model model) {
 		return "login";
 	}
+*/
 }
