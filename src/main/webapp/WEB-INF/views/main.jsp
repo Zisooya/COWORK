@@ -12,6 +12,12 @@
 
 
 <P><a href="<%=request.getContextPath() %>/testDB.do">DB 연동 테스트</a></P>
+
+<br><br>
+<a href="<%=request.getContextPath() %>/calendar.do">📅 캘린더</a>
+
+<br>
+테스트1
 <a href="<%=request.getContextPath() %>/login.do">[로그인 페이지 테스트]</a>
 </body>
 </html>

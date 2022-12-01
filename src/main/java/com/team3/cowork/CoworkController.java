@@ -21,6 +21,11 @@ public class CoworkController {
 		return "testDB";
 	}
 
+	@RequestMapping("calendar.do")
+	public String calendarMain(Model model) {
+
+	}
+
 	@RequestMapping("login.do")
 	public String login(Model model) {
 		return "login";
