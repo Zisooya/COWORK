@@ -13,6 +13,7 @@
 
  <mapper namespace="member">
 
+
   	<select id="test" resultType="memberDto">
  		select * from member where mem_no = 1
  	</select>	
@@ -22,6 +23,7 @@
 		select * from calendar 작성해야됨 where mem_no = 1
 	</select> -->
 	
+
 	<!-- *******************세건**********************-->
  	<select id="all" resultType="projectsdto">
 		select * from projects order by project_start desc
@@ -38,4 +40,15 @@
 	    </selectKey>
 	    insert into projects values(#{project_no}+1,#{project_name},'',#{project_end},'','',#{project_taker},default,#{project_status},#{project_main})
 	</insert>
+	<select id="cont" parameterType="int" resultType="projectsdto">
+		select * from projects where project_no=#{num}
+  </select>
+
+	<!-- **************** hslee **************** -->
+	<select id="check" parameterType="String" resultType="int">
+		select * from member where mem_id = #{id}
+	</select>
+	<select id="login" parameterType="String" resultType="memberDTO">
+		select * from member where mem_id = #{id}
+	</select>
  </mapper> 
