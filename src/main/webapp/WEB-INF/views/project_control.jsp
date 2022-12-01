@@ -17,6 +17,7 @@
 	<br>
 	<br>
 	<br>
+	깃헙 테스트1
 	<!-- [세건] 프로젝트 목록 및 생성  -->
 	<jsp:include page="projects_include/project_table.jsp"/>
 </body>
