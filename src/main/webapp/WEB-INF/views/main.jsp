@@ -22,10 +22,12 @@
 	<article id="content">
 
 	<h1>임시 메인 페이지</h1>
+
 	귀근 깃헙 데스크탑 테스트1
 	귀근 깃헙 데스크탑 테스트2
 
 	<P><a href="<%=request.getContextPath() %>/testDB.do">DB 연동 테스트</a></P>
+
 
 	<br><br>
 	<a href="<%=request.getContextPath() %>/calendar.do">📅 캘린더</a>
@@ -33,9 +35,12 @@
 	<br>
 	테스트1
 	<a href="<%=request.getContextPath() %>/member_login.do">[로그인 페이지 테스트]</a>
+	
+	<br>
+	
+	<a href="<%=request.getContextPath() %>/project_control.do">[프로젝트 관리]</a>
+	
 	</article>
-
-<a href="<%=request.getContextPath() %>/project_control.do">[프로젝트 관리]</a>
 
 </div>
 </body>
