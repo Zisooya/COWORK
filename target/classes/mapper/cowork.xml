@@ -16,5 +16,21 @@
   	<select id="test" resultType="memberDto">
  		select * from member where mem_no = 1
  	</select>	
-
+	
+	<!-- *******************세건**********************-->
+ 	<select id="all" resultType="projectsdto">
+		select * from projects order by project_start desc
+	</select>
+	<select id="getMain" resultType="maindto">
+		select * from main_project order by main_no
+	</select>
+	<select id="status" resultType="statusdto">
+		select * from projects_status order by status_no
+	</select>
+	<insert id="insert" parameterType="projectsdto">
+		<selectKey keyProperty="project_no" resultType="int" order="BEFORE">
+			select max(project_no) from projects
+	    </selectKey>
+	    insert into projects values(#{project_no}+1,#{project_name},'',#{project_end},'','',#{project_taker},default,#{project_status},#{project_main})
+	</insert>
  </mapper> 

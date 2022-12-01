@@ -13,6 +13,9 @@
 
 <P><a href="<%=request.getContextPath() %>/testDB.do">DB 연동 테스트</a></P>
 
+<a href="<%=request.getContextPath() %>/project_control.do">[프로젝트 관리]</a>
+
+
 <br><br>
 <a href="<%=request.getContextPath() %>/calendar.do">📅 캘린더</a>
 
