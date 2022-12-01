@@ -35,5 +35,14 @@
 	</insert>
 	<select id="cont" parameterType="int" resultType="projectsdto">
 		select * from projects where project_no=#{num}
+  <select>
+
+	<!-- ****************hslee**************** -->
+	<select id="check" parameterType="String" resultType="int">
+		select * from member where mem_id = #{mem_id}
+	</select>
+	<select id="getMember" parameterType="String" resultType="memberDTO">
+		select * from member where mem_pwd = #{mem_pwd}
+
 	</select>
  </mapper> 
