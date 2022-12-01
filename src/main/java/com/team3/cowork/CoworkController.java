@@ -30,6 +30,7 @@ public class CoworkController {
 		model.addAttribute("Test", dto);
 		return "testDB";
 	}
+
   
 			// ProjectDAO 변수 생성 _ 세건
 			@Autowired
@@ -59,6 +60,7 @@ public class CoworkController {
 			}
 
 
+/*
 	@RequestMapping("calendar.do")
 	public String calendarMain(Model model) {
 
@@ -68,5 +70,7 @@ public class CoworkController {
 	public String login(Model model) {
 		return "login";
 	}
+
+*/
 
 }
