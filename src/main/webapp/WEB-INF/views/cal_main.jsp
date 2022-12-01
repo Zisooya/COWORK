@@ -4,6 +4,50 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+	  var calendarEl = document.getElementById('calendar');
+
+	  var calendar = new FullCalendar.Calendar(calendarEl, {
+	    headerToolbar: {
+	      left: 'prev,next today',
+	      center: 'title',
+	      right: 'dayGridMonth,timeGridWeek'
+	    },
+	    initialDate: '2022-11-12',
+	    events: [
+	      {
+	        start: '2022-11-11T10:00:00',
+	        end: '2022-11-11T16:00:00',
+	        display: 'background',
+	        color: '#ff9f89'
+	      },
+	      {
+	        start: '2022-11-13T10:00:00',
+	        end: '2022-11-13T16:00:00',
+	        display: 'background',
+	        color: '#ff9f89'
+	      },
+	      {
+	        start: '2022-11-24',
+	        end: '2022-11-28',
+	        overlap: false,
+	        display: 'background'
+	      },
+	      {
+	        start: '2022-11-06',
+	        end: '2022-11-08',
+	        overlap: false,
+	        display: 'background'
+	      }
+	    ]
+	  });
+
+	  calendar.render();
+	});
+</script>
 <!-- <meta charset="UTF-8"> -->
 <title>Insert title here</title>
 <link href="${path}/resources/css/include.css" rel="stylesheet"/>
@@ -14,7 +58,7 @@
 		<nav id="side">
 			<input type="button" value="일정쓰기">
 		</nav>
-		<article id="content">
+		<article id="content">	<!-- 메인 기능 들어갈 부분 -->
 			<!-- 일정 검색 -->
 			<form method="post" action="<%=request.getContextPath()%>/calendar_search.do">
 				<select name="field">
@@ -27,13 +71,14 @@
 				<input type="submit" value="검색">
 			</form>
 		
+		<div id='calendar'></div>
 		
 		
 		
 		
 		
 		
-		</article>
+		</article>	<!-- 메인 기능 들어갈 부분 끝 -->
 	</div>
 </body>
 </html>

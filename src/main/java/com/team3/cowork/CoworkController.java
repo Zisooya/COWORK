@@ -68,8 +68,10 @@ public class CoworkController {
 	
 	@RequestMapping("calendar.do")
 	public String calendarMain(@RequestParam("no") int memNo, Model model) {
-		List<CalendarDTO> list = this.dao_cal.getCalList(memNo);
-		model.addAttribute("list", list);
+		/*
+		 * List<CalendarDTO> list = this.dao_cal.getCalList(memNo);
+		 * model.addAttribute("list", list);
+		 */
 		return "cal_main";
 	}
 
