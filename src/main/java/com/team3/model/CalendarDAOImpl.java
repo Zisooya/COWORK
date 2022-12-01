@@ -14,7 +14,8 @@ public class CalendarDAOImpl implements CalendarDAO{
 
 	@Override
 	public List<CalendarDTO> getCalList(int mem_no) {
-		return this.sqlSession.selectList("calList");
+		//return this.sqlSession.selectList("calList");
+		return null;
 	}
 
 	@Override
