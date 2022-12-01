@@ -31,10 +31,12 @@ body {
 	background-color: red;
 }
 
+
 #header_right {
 	grid-column : 3/4;
 	grid-row : 2/3;		
 }
+
 
 #header_container {
 	display: grid;
@@ -50,16 +52,19 @@ body {
 	
 }
 
+
 #header_navi {
 
 }
 
 #header_navi ul {
+
 	display:flex;
 	margin: 0;
 	padding: 0;
 	align-self: center;	
 }
+
 
 #header_navi li {
 	padding : 20px;
@@ -109,4 +114,5 @@ body {
 
 #header_right_container li {
 	list-style: none;
+
 }
