@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.team3.model.Main_ProjectsDTO;
 import com.team3.model.MemberDAO;
@@ -57,12 +58,21 @@ public class CoworkController {
 				out.println("location.href='project_control.do'");
 				out.println("</script>");
 			}
-
-
-	@RequestMapping("calendar.do")
-	public String calendarMain(Model model) {
-
-	}
+			
+			// 프로젝트 상세보기 모달창 띄우기 _ 세건
+			@RequestMapping("content.do")
+			public String ProjectModal(Model model,@RequestParam int num) throws IOException {
+				ProjectsDTO cont = this.dao_projects.getprojects(num);
+				List<Main_ProjectsDTO> main = this.dao_projects.getMainList();
+				model.addAttribute("cont", cont);
+				model.addAttribute("main", main);
+				return "projects_include/Project_modal";
+		    }
+			/*
+			 * @RequestMapping("calendar.do") public String calendarMain(Model model) {
+			 * 
+			 * }
+			 */
 
 	@RequestMapping("login.do")
 	public String login(Model model) {
