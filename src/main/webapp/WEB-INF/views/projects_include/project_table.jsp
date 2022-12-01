@@ -7,9 +7,10 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
 <script type="text/javascript">
-
+	
 	$(function(){
 		$(".main_select").hide();
 		$(".status").hide();
@@ -17,6 +18,8 @@
 		$(".project_create2").hide();
 		$(".project_create3").hide();
 		$(".submit").hide();
+		
+		/* 프로젝트 목록 생성 함수 */
 		$(".project_btn").click(function(){
 			$(".project_btn").hide();
 			$(".project_create1").show();
@@ -36,11 +39,25 @@
 			$(".project_create1").append(table1);
 			$(".project_create2").append(table2);
 			$(".project_create3").append(table3);
+			
 		})
+		
+		/* '+'아이콘 클릭시 'check'아이콘 변경 */
 		$(".project_check").click(function(){
 			$(".submit").hide();
 			$(".project_btn").show();
-		})	
+		})
+		
+		/* 프로젝트 이름 클릭시 상세보기 모달 창 생성 */
+		$(".project_name").click(function(){
+			let href = ($(this).attr("id"));
+			let href1 = "<%=request.getContextPath()%>/content.do?num="+href;
+			console.log(href1);
+ 			let project_name = $(".project_name").text();
+			 $("#Project_content").load(href1, function() {
+		            $("#Project_content").modal("show");
+		      });
+ 		})
 	})
 </script>
 <style type="text/css">
@@ -52,6 +69,10 @@
 		background-size: 50px;
 		background-position: 10px left;
 		border-style: none;
+	}
+	.project_name:hover{
+		cursor:pointer;
+		font-weight: bold;
 	}
 }
 </style>
@@ -76,8 +97,7 @@
 								<td><b>${mdto.getMain_name() }</b></td>
 							</c:if>
 						</c:forEach>
-					
-					<td>${dto.getProject_name() }</td>
+					<td class="project_name" id="${dto.getProject_no() }">${dto.getProject_name() }</td>
 					<td>${dto.getProject_end().substring(0,10) }</td>
 					<td>${dto.getProject_taker() }</td>
 					<td>
@@ -116,9 +136,12 @@
 					<td colspan="5" align="center">
 						<input class="submit" type="submit" value="">
 						<a href="#" class="project_btn"><img src="resources/image/Project_btn.png" width="50" height="50"></a>
+						
 					</td>
 				</tr>
 		</table>
 	</form>
+	<div id="Project_content" class="modal" tabindex="-1">
+	</div>
 </body>
 </html>

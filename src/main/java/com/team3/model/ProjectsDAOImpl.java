@@ -34,8 +34,7 @@ public class ProjectsDAOImpl implements ProjectsDAO{
 
 	@Override
 	public ProjectsDTO getprojects(int num) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.sqlSession.selectOne("cont", num);
 	}
 
 	@Override
