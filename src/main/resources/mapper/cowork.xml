@@ -35,7 +35,7 @@
 	</insert>
 	<select id="cont" parameterType="int" resultType="projectsdto">
 		select * from projects where project_no=#{num}
-  <select>
+  </select>
 
 	<!-- ****************hslee**************** -->
 	<select id="check" parameterType="String" resultType="int">
