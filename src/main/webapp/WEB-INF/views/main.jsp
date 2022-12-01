@@ -12,5 +12,7 @@
 <br><br>
 <a href="<%=request.getContextPath() %>/calendar.do">📅 캘린더</a>
 
+<br>
+테스트1
 </body>
 </html>
