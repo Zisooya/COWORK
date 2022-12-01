@@ -12,5 +12,6 @@
 
 
 <P><a href="<%=request.getContextPath() %>/testDB.do">DB 연동 테스트</a></P>
+<a href="<%=request.getContextPath() %>/login.do">[로그인 페이지 테스트]</a>
 </body>
 </html>

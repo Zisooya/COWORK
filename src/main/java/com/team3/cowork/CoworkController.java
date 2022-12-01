@@ -20,4 +20,9 @@ public class CoworkController {
 		model.addAttribute("Test", dto);
 		return "testDB";
 	}
+
+	@RequestMapping("login.do")
+	public String login(Model model) {
+		return "login";
+	}
 }
