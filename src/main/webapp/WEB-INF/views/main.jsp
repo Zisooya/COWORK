@@ -30,6 +30,9 @@
 	<a href="<%=request.getContextPath() %>/login.do">[로그인 페이지 테스트]</a>
 	</article>
 
+<a href="<%=request.getContextPath() %>/project_control.do">[프로젝트 관리]</a>
+
+
 </div>
 </body>
 </html>
