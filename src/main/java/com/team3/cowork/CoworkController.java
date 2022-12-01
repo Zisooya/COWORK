@@ -30,8 +30,7 @@ public class CoworkController {
 		model.addAttribute("Test", dto);
 		return "testDB";
 	}
-	
-	
+  
 			// ProjectDAO 변수 생성 _ 세건
 			@Autowired
 			private ProjectsDAO dao_projects;
@@ -58,4 +57,16 @@ public class CoworkController {
 				out.println("location.href='project_control.do'");
 				out.println("</script>");
 			}
+
+
+	@RequestMapping("calendar.do")
+	public String calendarMain(Model model) {
+
+	}
+
+	@RequestMapping("login.do")
+	public String login(Model model) {
+		return "login";
+	}
+
 }
