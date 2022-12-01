@@ -4,6 +4,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+
 @Repository
 public class MemberDAOImpl implements MemberDAO {
 
@@ -16,7 +18,7 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public MemberDTO getMember(String pwd) {
-		return this.sqlSession.selectOne("getMember", pwd);
+	public MemberDTO getMember(String id) {
+		return this.sqlSession.selectOne("login", id);
 	}
 }

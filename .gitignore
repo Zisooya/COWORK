@@ -25,3 +25,11 @@ hs_err_pid*
 .idea
 /target/cowork-1.0.0-BUILD-SNAPSHOT/
 /target/generated-sources/
+.settings
+/target/
+.classpath
+.project
+.springBeans
+/src/test/
+/src/main/webapp/WEB-INF/spring/
+

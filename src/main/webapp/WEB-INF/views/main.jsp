@@ -23,7 +23,6 @@
 
 	<h1>임시 메인 페이지</h1>
 
-
 	<br><br>
 	<a href="<%=request.getContextPath() %>/calendar.do">📅 캘린더</a>
 
