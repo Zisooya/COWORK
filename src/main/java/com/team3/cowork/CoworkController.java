@@ -2,6 +2,7 @@ package com.team3.cowork;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.team3.model.Main_ProjectsDTO;
 import com.team3.model.MemberDAO;
@@ -43,16 +45,28 @@ public class CoworkController {
 		return "project_control";
 	}
 			
-	// 프로젝트 생성 페이지 _ 세건
-	@RequestMapping("project_insert.do")
-	public void project_insert(Model model,ProjectsDTO dto,HttpServletResponse response) throws IOException {
-		this.dao_projects.insertProject(dto);
-		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter out = response.getWriter();
-		out.println("<script>");
-		out.println("location.href='project_control.do'");
-		out.println("</script>");
-	}
+
+  // 프로젝트 생성 페이지 _ 세건
+  @RequestMapping("project_insert.do")
+  public void project_insert(Model model,ProjectsDTO dto,HttpServletResponse response) throws IOException {
+    this.dao_projects.insertProject(dto);
+    response.setContentType("text/html; charset=UTF-8");
+    PrintWriter out = response.getWriter();
+    out.println("<script>");
+    out.println("location.href='project_control.do'");
+    out.println("</script>");
+  }
+
+  // 프로젝트 상세보기 모달창 띄우기 _ 세건
+  @RequestMapping("content.do")
+  public String ProjectModal(Model model,@RequestParam int num) throws IOException {
+    ProjectsDTO cont = this.dao_projects.getprojects(num);
+    List<Main_ProjectsDTO> main = this.dao_projects.getMainList();
+    model.addAttribute("cont", cont);
+    model.addAttribute("main", main);
+    return "projects_include/Project_modal";
+    }
+
 
 
 /*
@@ -60,14 +74,48 @@ public class CoworkController {
 	public String calendarMain(Model model) {
 		return "calender";
 	}
+*/
 
-
-	@RequestMapping("member_login.do")
+	@RequestMapping("member_login.do")	// 임시로 만든 메서드임. 추후 로그인 화면을 시작페이지(main.jsp)로 변경 예정.
 	public String memberLogin() {
 		return "login";
 	}
 
-*/
+	@RequestMapping("member_login_ok.do")
+	public String memberLoginOk(@RequestParam("mem_id") String id, @RequestParam("mem_pwd") String pwd, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String path = "";
 
+		PrintWriter out = response.getWriter();
 
+		int check = dao.memberCheck(id);
+
+		System.out.println("check값 >> " + check);
+
+		if (check > 0) {
+			MemberDTO dto = dao.getMember(id);
+
+			if (!dto.getMem_pwd().equals(pwd)) {
+				System.out.println("비번틀림");
+				out.println("<script>");
+				out.println("alert('비밀번호가 틀립니다.')");
+				out.println("</script>");
+				path = "login";
+			} else {
+				System.out.println("로그인 성공");
+				HttpSession session = request.getSession();
+
+				session.setAttribute("memId", dto.getMem_id());
+				session.setAttribute("memName", dto.getMem_name());
+
+				path = "home";
+			}
+		} else {
+			System.out.println("아이디없음");
+			out.println("<script>");
+			out.println("alert('존재하지 않는 아이디입니다.')");
+			out.println("</script>");
+			path = "login";
+		}
+		return path;
+	}
 }

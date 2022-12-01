@@ -31,6 +31,11 @@ body {
 	background-color: red;
 }
 
+#header_right {
+	grid-column : 3/4;
+	grid-row : 2/3;		
+}
+
 #header_container {
 	display: grid;
 	place-items: center;
@@ -45,18 +50,63 @@ body {
 	
 }
 
-#navi {
+#header_navi {
 
 }
 
-#navi ul {
+#header_navi ul {
 	display:flex;
 	margin: 0;
 	padding: 0;
 	align-self: center;	
 }
 
-.navi_li {
+#header_navi li {
 	padding : 20px;
+	list-style: none;
+}
+
+#header_right_container {
+	display: grid;
+	grid-template-columns: 2fr 25px 1fr;
+	grid-template-rows: 3fr 1fr;
+}
+
+#profile_circle {
+	grid-column : 3/4;
+	grid-row : 1/2;	
+}
+
+#login {
+	grid-column : 3/4;
+	grid-row : 2/3;	
+}
+
+#hi {
+	grid-column : 1/2;
+	grid-row : 2/3;		
+}
+
+#bell {
+	grid-column : 1/2;
+	grid-row : 1/2;	
+	position : relative;
+	right : 5px;
+}
+
+#alert_count {
+	grid-column : 2/3;
+	grid-row : 1/2;	
+	position : relative;
+		
+}
+
+#header_right_container ul {
+	display:flex;	
+	padding: 0px;
+	margin: 0px;
+}
+
+#header_right_container li {
 	list-style: none;
 }

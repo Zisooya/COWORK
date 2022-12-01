@@ -15,9 +15,9 @@
 
         <fieldset>
             <br>
-            <input type="text" name="mem_id" placeholder="아이디"></td>
+            <input type="text" name="mem_id" placeholder="아이디">
             <br>
-            <input type="text" name="mem_pwd" placeholder="비밀번호"></td>
+            <input type="password" name="mem_pwd" placeholder="비밀번호">
             <br><br>
             <input type="submit" value="로그인">
         </fieldset>
