@@ -22,7 +22,7 @@
 	<article id="content">
 
 	<h1>임시 메인 페이지</h1>
-
+	귀근 깃헙 데스크탑 테스트1
 
 	<P><a href="<%=request.getContextPath() %>/testDB.do">DB 연동 테스트</a></P>
 
