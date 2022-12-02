@@ -1,6 +1,7 @@
 
 <%@ page session="false" pageEncoding="UTF-8"  %>
 
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
@@ -15,6 +16,7 @@
 	<jsp:include page="include.jsp" />
 
 
+
 	<nav id="side">
 		<label>주소록</label>
 	</nav>
@@ -23,9 +25,12 @@
 
 	<h1>임시 메인 페이지</h1>
 
+	귀근 깃헙 데스크탑 테스트1
+	귀근 깃헙 데스크탑 테스트2
 
 	<br><br>
 	<a href="<%=request.getContextPath() %>/calendar.do">📅 캘린더</a>
+
 
 	<br>
 	테스트1
