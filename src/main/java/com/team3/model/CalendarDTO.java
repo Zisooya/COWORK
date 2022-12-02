@@ -11,10 +11,10 @@ public class CalendarDTO {
 	private String cal_title;
 	private String cal_start_time;
 	private String cal_end_time;
-	private int cal_repeat_day;
-	private int cal_repeat_week;
-	private int cal_repeat_month;
-	private int cal_repeat_year;
+	private int cal_repeat_d;
+	private int cal_repeat_w;
+	private int cal_repeat_m;
+	private int cal_repeat_y;
 	private String cal_repeat_detail;
 	private int cal_repeat_count;
 	private int cal_attendee1;
