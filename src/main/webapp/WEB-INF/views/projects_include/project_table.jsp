@@ -6,17 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.6.1.js"></script>
 <script type="text/javascript">
 	
 	$(function(){
 		$(".main_select").hide();
 		$(".status").hide();
+		$(".member").hide();
 		$(".project_create1").hide();
 		$(".project_create2").hide();
-		$(".project_create3").hide();
 		$(".submit").hide();
 		
 		/* 프로젝트 목록 생성 함수 */
@@ -24,18 +21,16 @@
 			$(".project_btn").hide();
 			$(".project_create1").show();
 			$(".project_create2").show();
-			$(".project_create3").show();
 			$(".submit").show();
 			let i = 0;
 			table = "";
 			table1 = "";
 			table2 = "";
-			table3 = "";
 			table += $(".main_select").show();
 			table1 += "<input class='form-control' placeholder='프로젝트 명' aria-label='Username' name='project_name'>";
 			table2 += "<input type='date' class='form-control' aria-label='Username' name='project_end'>";
-			table3 += "<input class='form-control' placeholder='멤버' aria-label='Username' name='project_taker'>";
 			table += $(".status").show();
+			table += $(".member").show();
 			$(".project_create1").append(table1);
 			$(".project_create2").append(table2);
 			$(".project_create3").append(table3);
@@ -52,7 +47,6 @@
 		$(".project_name").click(function(){
 			let href = ($(this).attr("id"));
 			let href1 = "<%=request.getContextPath()%>/content.do?num="+href;
-			console.log(href1);
  			let project_name = $(".project_name").text();
 			 $("#Project_content").load(href1, function() {
 		            $("#Project_content").modal("show");
@@ -81,6 +75,7 @@
 	<c:set var="list" value="${list }"/>
 	<c:set var="main" value="${main }"/>
 	<c:set var="status" value="${status }"/>
+	<c:set var="mlist" value="${mlist }"/>
 	<form method="post" action="<%=request.getContextPath()%>/project_insert.do">
 		<table class="table table-striped" id="project_create">
 			<tr>
@@ -121,7 +116,13 @@
 					</td>
 					<td class="project_create2">
 					</td>
-					<td class="project_create3">
+					<td class="member">
+						<select name="project_taker" class="form-select" aria-label="Default select example">
+							<option value="none">:::선택:::</option>
+							<c:forEach items="${mlist }" var="memlist">
+								<option value=${memlist.getMem_name() }>${memlist.getMem_name() }</option>
+							</c:forEach>
+						</select>
 					</td>
 					<td class="status">
 						<select name="project_status" class="form-select" aria-label="Default select example">
