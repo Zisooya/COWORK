@@ -22,5 +22,6 @@ public interface ProjectsDAO {
 	
 	List<ProjectsDTO> searchProjectList(String field,String keyword);
 	
+	void updatetaker(int num);
 
 }
