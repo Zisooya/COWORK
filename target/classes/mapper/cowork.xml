@@ -13,6 +13,7 @@
 
  <mapper namespace="member">
 
+
   	<select id="test" resultType="memberDto">
  		select * from member where mem_no = 1
  	</select>	
@@ -22,6 +23,7 @@
 		select * from calendar 작성해야됨 where mem_no = 1
 	</select> -->
 	
+
 	<!-- *******************세건**********************-->
  	<select id="all" resultType="projectsdto">
 		select * from projects order by project_start desc
