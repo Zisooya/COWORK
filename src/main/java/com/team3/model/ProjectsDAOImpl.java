@@ -5,11 +5,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class ProjectsDAOImpl implements ProjectsDAO{
-	
+		
 	@Inject
 	private SqlSessionTemplate sqlSession;
 	
@@ -59,6 +60,11 @@ public class ProjectsDAOImpl implements ProjectsDAO{
 	public List<ProjectsDTO> searchProjectList(String field, String keyword) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void updatetaker(int num) {
+		this.sqlSession.update("insertMember",num);
 	}
 
 	
