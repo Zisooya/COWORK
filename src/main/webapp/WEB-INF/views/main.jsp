@@ -37,7 +37,6 @@
 	
 	</article>
 
-
 </div>
 </body>
 </html>
