@@ -98,8 +98,6 @@ public class CoworkController {
 	 */
 
 
-
-
 	@RequestMapping("member_login.do")	// 임시로 만든 메서드임. 추후 로그인 화면을 시작페이지(main.jsp)로 변경 예정.
 	public String memberLogin() {
 		return "login";

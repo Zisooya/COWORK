@@ -19,6 +19,8 @@
 
 	<nav id="side">
 		<label>주소록</label>
+		<div id="side_menu">
+		</div>
 	</nav>
 
 	<article id="content">
