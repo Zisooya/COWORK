@@ -52,19 +52,16 @@ body {
 	
 }
 
-
 #header_navi {
 
 }
 
 #header_navi ul {
-
 	display:flex;
 	margin: 0;
 	padding: 0;
 	align-self: center;	
 }
-
 
 #header_navi li {
 	padding : 20px;
