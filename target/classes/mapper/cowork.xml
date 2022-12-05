@@ -12,6 +12,12 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
  <mapper namespace="member">
+	<resultMap type="caldto" id="calMap">
+		<result property="title" column="cal_title"/>
+		<result property="start" column="cal_start_time"/>
+		<result property="end" column="cal_end_time"/>
+		<result property="allDay" column="cal_allday"/>
+	</resultMap>
 
 
   	<select id="test" resultType="memberDto">
@@ -19,9 +25,9 @@
  	</select>	
  	
  	<!-- *******************현우**********************-->
- 	<!-- <select id="all" parameterType="int" resultType="projectsdto">
-		select * from calendar 작성해야됨 where mem_no = 1
-	</select> -->
+ 	<select id="calList" parameterType="int" resultMap="calMap">
+		select * from calendar where mem_no = #{mem_no}
+	</select>
 	
 
 	<!-- *******************세건**********************-->
