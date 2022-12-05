@@ -16,4 +16,8 @@ public class ProjectsDTO {
 	private int project_progress;
 	private int project_status;
 	private int project_main;
+	private String project_taker2;
+	private String project_taker3;
+	private String project_taker4;
+	private String project_taker5;
 }
