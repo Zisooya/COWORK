@@ -69,19 +69,41 @@ public class CoworkController {
     ProjectsDTO cont = this.dao_projects.getprojects(num);
     List<Main_ProjectsDTO> main = this.dao_projects.getMainList();
     List<MemberDTO> mlist = this.dao.getMemberList();
+    List<Projects_statusDTO> status = this.dao_projects.getStatusList();
     model.addAttribute("mlist", mlist);
     model.addAttribute("cont", cont);
     model.addAttribute("main", main);
+    model.addAttribute("status", status);
     return "projects_include/Project_modal";
     }
   
+  // 프로젝트 멤버 추가하기 _ 세건
   @RequestMapping("project_memberinsert.do")
-  public void ProjectMemberInsert(@RequestParam String project_member,@RequestParam int project_no){
-	  ProjectsDTO cont = this.dao_projects.getprojects(project_no);
+  public void ProjectMemberInsert(ProjectsDTO dto){
+	  ProjectsDTO cont = this.dao_projects.getprojects(dto.getProject_no());
 	  if(cont.getProject_taker2() == null) {
-		  this.dao_projects.updatetaker(project_no);
+		  this.dao_projects.updatetaker2(dto);
+	  }else if(cont.getProject_taker3() == null) {
+		  this.dao_projects.updatetaker3(dto);
+	  }else if(cont.getProject_taker4() == null) {
+		  this.dao_projects.updatetaker4(dto);
+	  }else if(cont.getProject_taker5() == null) {
+		  this.dao_projects.updatetaker5(dto);
 	  }
-	  
+  }
+  
+  // 프로젝트 삭제하기 _ 세건
+  @RequestMapping("project_delete.do")
+  public void ProjectDelete(@RequestParam int num, HttpServletResponse response) throws IOException {
+	  System.out.println(num);
+	  int check = this.dao_projects.deleteProjects(num);
+	  response.setContentType("text/html; charset=UTF-8");
+	  PrintWriter out = response.getWriter();
+	  if(check > 0) {
+	  out.println("<script>");
+	  out.println("location.href='project_control.do'");
+	  out.println("</script>");
+	  }
   }
 
 	@Autowired

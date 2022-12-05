@@ -12,6 +12,9 @@
 	<c:set var="list" value="${list }"/>
 	<c:set var="main" value="${main }"/>
 	
+	<!-- 인클루드 -->	
+	<jsp:include page="include.jsp"/>
+	
 	<!-- [세건] 프로젝트 Nav Bar  -->
 	<jsp:include page="projects_include/project_include.jsp"/>
 	<br><br><br>
