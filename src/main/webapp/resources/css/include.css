@@ -2,13 +2,16 @@
 
 body {
 	margin : 0;
+	width : 100vm;
+	height : 100vh;
+	overflow: hidden;
 }
 
 #grid_container {
 	width : 100vm;
 	height : 100vh;
 	display: grid;
-	grid-template-columns : minmax(180px, 180px) 7fr 2fr ;
+	grid-template-columns : 1fr 3fr 2fr;
 	grid-template-rows : 1fr 9fr;
 
 }
@@ -16,31 +19,91 @@ body {
 #header {
 	grid-column : 1/4;
 	grid-row : 1/2;
-	background-color: #E4F7BA;	
+	background-color : #FFFFFF;
 }
 
 #side {
+	text-align: center;
 	grid-column : 1/2;
 	grid-row : 2/3;	
-	background-color: #E4F7BA;
+	margin: 20px 0 20px 20px;
+	background: linear-gradient(35deg, rgba(123, 230, 109, 0.8), rgba(194, 243, 71, 0.8) ,rgba(228, 247, 186, 0.8),rgba(246, 255, 204, 0.8), rgba(255, 255, 240, 0.8));
+	border: 0.5px solid #EAEAEA;
+	border-radius: 10px;
+	padding-top:20px;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+}
+
+#side_menu {
+	margin: auto;
+	margin-top: 20px;
+	margin-bottom: 0;
+	background: #FFF;
+	border-radius: 10px;
+	width: 86%;
+	height: 86%;
+	overflow-y: scroll;
+	box-sizing: border-box;
+	
+}
+
+#side label {
+	text-align: center;
+	font-weight: bold;
+	font-size: 20px;
+	background-color: #C2F347; 
+	border-radius: 10px;
+	display:inline-block;
+	width: 75%;
+	padding: 10px 20px 10px 20px;
+	color: #000;
 }
 
 #content {
+	font-size: 1rem;
+	width: 100%;
+	height: 100%;
 	grid-column : 2/4;
+	grid-row : 2/3;
+	margin: 20px 50px;	
+	box-sizing: border-box;
+	overflow: scroll;
+}
+
+#header_left {
+	grid-column : 1/2;
+	grid-row : 1/2;	
+	font-size: 3rem;
+	font-weight: bold;
+	align-self: end;
+	justify-self: end;
+}
+
+#company{
+	grid-column : 1/2;
 	grid-row : 2/3;	
-	background-color: red;
+	font-size: 1.5rem;	
+	align-self: start;
+	justify-self: end;
+	
 }
 
 #header_right {
 	grid-column : 3/4;
-	grid-row : 2/3;		
+	grid-row : 2/3;	
+	place-self: end end;	
 }
 
 #header_container {
+	width: 100%;
+	height: 100%;
 	display: grid;
 	place-items: center;
-	grid-template-columns: 1fr 4fr 1fr;
-	grid-template-rows: repeat(3, 1fr);
+	grid-template-columns: 1fr 5fr 1fr;
+	grid-template-rows: 3fr 3fr 1fr;
+	box-sizing: border-box;
 	
 }
 
@@ -59,27 +122,74 @@ body {
 	margin: 0;
 	padding: 0;
 	align-self: center;	
+	position: relative;
 }
 
 #header_navi li {
-	padding : 20px;
+	padding : 0px 40px 0px 40px;
 	list-style: none;
+	cursor: pointer;
+}
+
+/* 말풍선 적절한 top 과 margin-left 로 위치조정 */
+[id*="arrow_box"] {
+  display: none;
+  position: absolute;
+  left: 7px;
+  top: 100px;
+  width: 100px;
+  padding: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  background: #333;
+  color: #fff;
+  font-size: 14px;
+  text-align: center;
+}
+
+[id*="arrow_box"]:after {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  margin-left: -10px;
+  border: solid transparent;
+  border-color: rgba(51, 51, 51, 0);
+  border-bottom-color: #333;
+  border-width: 10px;
+  pointer-events: none;
+  content: ' ';
+}
+
+#header_navi [id*="navi"]:hover + [id*="arrow_box"]{
+  display: block;
 }
 
 #header_right_container {
 	display: grid;
-	grid-template-columns: 2fr 25px 1fr;
+	grid-template-columns: 3fr 1fr;
 	grid-template-rows: 3fr 1fr;
+	place-items : end end;
+	margin-right: 20px;
+	grid-column-gap: 20px;
+	grid-row-gap: 5px;
+	box-sizing: border-box;
+	
+
 }
 
 #profile_circle {
-	grid-column : 3/4;
+	grid-column : 2/3;
 	grid-row : 1/2;	
+	place-self: center center;
 }
 
 #login {
-	grid-column : 3/4;
+	grid-column : 2/3;
 	grid-row : 2/3;	
+	place-self: center center;
 }
 
 #hi {
@@ -87,18 +197,35 @@ body {
 	grid-row : 2/3;		
 }
 
-#bell {
+#notification {
 	grid-column : 1/2;
 	grid-row : 1/2;	
-	position : relative;
-	right : 5px;
+	place-self: end end;
+	position: relative;
+	margin-right: 10px;
+	margin-bottom: 6px;
+	box-sizing: border-box;
 }
 
-#alert_count {
-	grid-column : 2/3;
-	grid-row : 1/2;	
-	position : relative;
-		
+#noti_img{
+	position: relative;
+}
+
+#noti_num {
+	font-size : 12px;
+	color : white;
+	background-color: red;
+	border-radius: 50%;
+	height: 19px;
+    width: 19px;
+    line-height: 19px;
+    text-align: center;
+    display: inline-block;
+    place-self: end end;
+	position: absolute;
+	top: -5;
+    right: -10;
+    z-index: 3;
 }
 
 #header_right_container ul {
@@ -109,4 +236,14 @@ body {
 
 #header_right_container li {
 	list-style: none;
+}
+
+#green {
+	grid-column : -1/-2;
+	grid-row : -1/-2;
+	width:280px;
+	height:10px;
+	background-color: #C2F347;
+	place-self: start end;	
+	margin-top: 10px;	
 }

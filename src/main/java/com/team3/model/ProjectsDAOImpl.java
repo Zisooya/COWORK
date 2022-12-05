@@ -5,11 +5,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class ProjectsDAOImpl implements ProjectsDAO{
-	
+		
 	@Inject
 	private SqlSessionTemplate sqlSession;
 	
@@ -45,8 +46,7 @@ public class ProjectsDAOImpl implements ProjectsDAO{
 
 	@Override
 	public int deleteProjects(int num) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.sqlSession.delete("deleteProject",num);
 	}
 
 	@Override
@@ -59,6 +59,26 @@ public class ProjectsDAOImpl implements ProjectsDAO{
 	public List<ProjectsDTO> searchProjectList(String field, String keyword) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void updatetaker2(ProjectsDTO dto) {
+		this.sqlSession.update("updateMember2",dto);
+	}
+
+	@Override
+	public void updatetaker3(ProjectsDTO dto) {
+		this.sqlSession.update("updateMember3",dto);
+	}
+
+	@Override
+	public void updatetaker4(ProjectsDTO dto) {
+		this.sqlSession.update("updateMember4",dto);
+	}
+
+	@Override
+	public void updatetaker5(ProjectsDTO dto) {
+		this.sqlSession.update("updateMember5",dto);
 	}
 
 	

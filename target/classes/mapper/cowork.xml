@@ -13,6 +13,17 @@
 
  <mapper namespace="member">
 
+
+  	<select id="test" resultType="memberDto">
+ 		select * from member where mem_no = 1
+ 	</select>	
+ 	
+ 	<!-- *******************현우**********************-->
+ 	<!-- <select id="all" parameterType="int" resultType="projectsdto">
+		select * from calendar 작성해야됨 where mem_no = 1
+	</select> -->
+	
+
 	<!-- *******************세건**********************-->
  	<select id="all" resultType="projectsdto">
 		select * from projects order by project_start desc
@@ -27,11 +38,29 @@
 		<selectKey keyProperty="project_no" resultType="int" order="BEFORE">
 			select max(project_no) from projects
 	    </selectKey>
-	    insert into projects values(#{project_no}+1,#{project_name},'',#{project_end},'','',#{project_taker},default,#{project_status},#{project_main})
+	    insert into projects values(#{project_no}+1,#{project_name},'',#{project_end},'','',#{project_taker},default,#{project_status},#{project_main},'','','','')
 	</insert>
 	<select id="cont" parameterType="int" resultType="projectsdto">
 		select * from projects where project_no=#{num}
-  </select>
+  	</select>
+  	<select id="allMem" resultType="memberDTO">
+  		select * from member order by dept_no
+  	</select>
+  	<update id="updateMember2" parameterType="projectsdto">
+  		update projects set project_taker2 = #{project_taker} where project_no=#{project_no}
+  	</update>
+  	<update id="updateMember3" parameterType="projectsdto">
+  		update projects set project_taker3 = #{project_taker} where project_no=#{project_no}
+  	</update>
+  	<update id="updateMember4" parameterType="projectsdto">
+  		update projects set project_taker4 = #{project_taker} where project_no=#{project_no}
+  	</update>
+  	<update id="updateMember5" parameterType="projectsdto">
+  		update projects set project_taker5 = #{project_taker} where project_no=#{project_no}
+  	</update>
+  	<delete id="deleteProject" parameterType="int">
+  		delete from projects where project_no = #{num}
+  	</delete>
 
 	<!-- **************** hslee **************** -->
 	<select id="check" parameterType="String" resultType="int">
