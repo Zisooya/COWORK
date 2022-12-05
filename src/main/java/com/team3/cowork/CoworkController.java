@@ -140,5 +140,10 @@ public class CoworkController {
 		}
 		return path;
 	}
+	
+	@RequestMapping("address.do")
+	public String address(){
+		return "address";
+	}
 
 }

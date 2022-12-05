@@ -1,0 +1,73 @@
+@charset "UTF-8";
+
+
+#side_menu button {
+	margin: 15px 3px 10px 3px;
+	width: 100px;
+	height: 46px;
+	border-radius: 5px;
+	box-sizing: border-box;
+	background-color: #7BE66D;
+	color: #FFF;
+	font-size: 0.9rem;
+	border: 0;
+	cursor: pointer;
+}
+
+
+#side_menu hr{
+	width: 86%;
+	color: #EAEAEA;
+}
+
+#side_menu p {
+	text-align: left;
+	margin: 20px;
+}
+
+#side_menu ul {
+	text-align: left;
+	list-style: none;
+}
+
+#search_box {
+	width: 30%;
+	height: 46px;
+	border-radius: 5px;
+	border: 1px solid #EAEAEA;
+	background-color:#EAEAEA;
+	background-image: url(../images/검색.png);
+	background-size: 25px;
+	background-repeat: no-repeat;
+	background-position: 5px center;
+	box-sizing: border-box;
+	padding: 0 40px;
+	font-size: 1rem;
+}
+
+#search_btn {
+	width: 100px;
+	height: 46px;
+	background-color: #7BE66D;
+	color: #FFF;
+	font-size: 1rem;
+	border: 0;
+	border-radius: 5px;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
+
+.alph a{
+	margin: 20px;
+}
+
+.subject {
+	text-align: center;
+	font-weight: bold;
+	font-size: 1.2rem;
+}
+
+.subject table td {
+	width: 180px;
+}
