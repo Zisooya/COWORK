@@ -46,8 +46,7 @@ public class ProjectsDAOImpl implements ProjectsDAO{
 
 	@Override
 	public int deleteProjects(int num) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.sqlSession.delete("deleteProject",num);
 	}
 
 	@Override
@@ -63,8 +62,23 @@ public class ProjectsDAOImpl implements ProjectsDAO{
 	}
 
 	@Override
-	public void updatetaker(int num) {
-		this.sqlSession.update("insertMember",num);
+	public void updatetaker2(ProjectsDTO dto) {
+		this.sqlSession.update("updateMember2",dto);
+	}
+
+	@Override
+	public void updatetaker3(ProjectsDTO dto) {
+		this.sqlSession.update("updateMember3",dto);
+	}
+
+	@Override
+	public void updatetaker4(ProjectsDTO dto) {
+		this.sqlSession.update("updateMember4",dto);
+	}
+
+	@Override
+	public void updatetaker5(ProjectsDTO dto) {
+		this.sqlSession.update("updateMember5",dto);
 	}
 
 	

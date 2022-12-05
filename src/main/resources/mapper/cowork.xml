@@ -46,6 +46,21 @@
   	<select id="allMem" resultType="memberDTO">
   		select * from member order by dept_no
   	</select>
+  	<update id="updateMember2" parameterType="projectsdto">
+  		update projects set project_taker2 = #{project_taker} where project_no=#{project_no}
+  	</update>
+  	<update id="updateMember3" parameterType="projectsdto">
+  		update projects set project_taker3 = #{project_taker} where project_no=#{project_no}
+  	</update>
+  	<update id="updateMember4" parameterType="projectsdto">
+  		update projects set project_taker4 = #{project_taker} where project_no=#{project_no}
+  	</update>
+  	<update id="updateMember5" parameterType="projectsdto">
+  		update projects set project_taker5 = #{project_taker} where project_no=#{project_no}
+  	</update>
+  	<delete id="deleteProject" parameterType="int">
+  		delete from projects where project_no = #{num}
+  	</delete>
 
 	<!-- **************** hslee **************** -->
 	<select id="check" parameterType="String" resultType="int">
