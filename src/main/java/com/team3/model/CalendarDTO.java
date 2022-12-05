@@ -8,9 +8,10 @@ public class CalendarDTO {
 	private int cal_no;
 	private int mem_no;
 	private String cal_mark;
-	private String cal_title;
-	private String cal_start_time;
-	private String cal_end_time;
+	private String title;
+	private String start;
+	private String end;
+	private String allDay;
 	private int cal_repeat_d;
 	private int cal_repeat_w;
 	private int cal_repeat_m;
