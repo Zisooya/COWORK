@@ -2,7 +2,6 @@ package com.team3.cowork;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team3.model.CalendarDAO;
 import com.team3.model.CalendarDTO;
@@ -23,7 +23,6 @@ import com.team3.model.MemberDTO;
 import com.team3.model.ProjectsDAO;
 import com.team3.model.ProjectsDTO;
 import com.team3.model.Projects_statusDTO;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class CoworkController {
@@ -74,13 +73,17 @@ public class CoworkController {
 	private CalendarDAO dao_cal;
 	
 	@RequestMapping("calendar.do")
-	public String calendarMain(@RequestParam("no") int memNo, Model model) {
-		/*
-		 * List<CalendarDTO> list = this.dao_cal.getCalList(memNo);
-		 * model.addAttribute("list", list);
-		 */
+	public String calendarMain(Model model) {
+		 
 		return "cal_main";
-
+	}
+	
+	@RequestMapping("calendarList.do")
+	@ResponseBody
+	public List<CalendarDTO> calendarList(@RequestParam("no") int memNo, Model model) {
+		List<CalendarDTO> list = this.dao_cal.getCalList(memNo);
+		return list;
+	}
 
 
 
