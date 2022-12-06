@@ -19,7 +19,6 @@
 		<result property="allDay" column="cal_allday"/>
 	</resultMap>
 
-
   	<select id="test" resultType="memberDto">
  		select * from member where mem_no = 1
  	</select>	
@@ -67,6 +66,18 @@
   	<delete id="deleteProject" parameterType="int">
   		delete from projects where project_no = #{num}
   	</delete>
+  	<update id="move" parameterType="projectsdto">
+  		update projects set project_status = #{project_status} where project_no=#{project_no}
+  	</update>
+  	<update id="start" parameterType="projectsdto">
+  		update projects set project_start = #{project_start} where project_no=#{project_no}
+  	</update>
+  	<update id="end" parameterType="projectsdto">
+  		update projects set project_end = #{project_end} where project_no=#{project_no}
+  	</update>
+  	<update id="comment" parameterType="projectsdto">
+  		update projects set project_comment = #{project_comment} where project_no=#{project_no}
+  	</update>
 
 	<!-- **************** hslee **************** -->
 	<select id="check" parameterType="String" resultType="int">

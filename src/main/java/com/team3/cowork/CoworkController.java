@@ -78,16 +78,24 @@ public class CoworkController {
   
   // 프로젝트 멤버 추가하기 _ 세건
   @RequestMapping("project_memberinsert.do")
-  public void ProjectMemberInsert(ProjectsDTO dto){
+  public void ProjectMemberInsert(ProjectsDTO dto,HttpServletResponse response) throws IOException{
+	  int check = 0;
 	  ProjectsDTO cont = this.dao_projects.getprojects(dto.getProject_no());
 	  if(cont.getProject_taker2() == null) {
-		  this.dao_projects.updatetaker2(dto);
+		  check = this.dao_projects.updatetaker2(dto);
 	  }else if(cont.getProject_taker3() == null) {
-		  this.dao_projects.updatetaker3(dto);
+		  check = this.dao_projects.updatetaker3(dto);
 	  }else if(cont.getProject_taker4() == null) {
-		  this.dao_projects.updatetaker4(dto);
+		  check = this.dao_projects.updatetaker4(dto);
 	  }else if(cont.getProject_taker5() == null) {
-		  this.dao_projects.updatetaker5(dto);
+		  check = this.dao_projects.updatetaker5(dto);
+	  }
+	  response.setContentType("text/html; charset=UTF-8");
+	  PrintWriter out = response.getWriter();
+	  if(check > 0) {
+		  out.println("<script>");
+		  out.println("alert('변경되었습니다.')");
+		  out.println("</script>");
 	  }
   }
   
@@ -103,6 +111,53 @@ public class CoworkController {
 	  out.println("location.href='project_control.do'");
 	  out.println("</script>");
 	  }
+  }
+  
+  // 프로젝트 status 변경 _ 세건
+  @RequestMapping("project_move.do")
+  public void ProjectMove(ProjectsDTO dto,HttpServletResponse response) throws IOException {
+	  int check = this.dao_projects.updateProjects(dto);
+	  response.setContentType("text/html; charset=UTF-8");
+	  PrintWriter out = response.getWriter();
+	  if(check > 0) {
+	  out.println("<script>");
+	  out.println("alert('변경되었습니다.')");
+	  out.println("</script>");
+	  }
+  }
+  
+  // 프로젝트 시작일 변경 _ 세건
+  @RequestMapping("project_UpdateStart.do")
+  public void ProjectUpdateStart(ProjectsDTO dto,HttpServletResponse response) throws IOException {
+	  int check = this.dao_projects.updatestart(dto);
+	  response.setContentType("text/html; charset=UTF-8");
+	  PrintWriter out = response.getWriter();
+	  if(check > 0) {
+		  out.println("<script>");
+		  out.println("alert('변경되었습니다.')");
+		  out.println("</script>");
+	  }
+  }
+  
+  // 프로젝트 마감일 변경 _ 세건
+  @RequestMapping("project_Updateend.do")
+  public void ProjectUpdateEnd(ProjectsDTO dto,HttpServletResponse response) throws IOException {
+	  int check = this.dao_projects.updateend(dto);
+	  response.setContentType("text/html; charset=UTF-8");
+	  PrintWriter out = response.getWriter();
+	  if(check > 0) {
+		  out.println("<script>");
+		  out.println("alert('변경되었습니다.')");
+		  out.println("</script>");
+	  }
+  }
+  
+  // 프로젝트 상세내용 추가하기 _ 세건
+  @RequestMapping("project_InsertComment.do")
+  public void ProjectComment(ProjectsDTO dto,HttpServletResponse response) throws IOException {
+	  this.dao_projects.updatecomment(dto);
+	  System.out.println(dto.getProject_comment());
+	  System.out.println(dto.getProject_no());
   }
 
 	@Autowired
