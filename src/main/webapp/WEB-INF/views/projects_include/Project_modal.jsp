@@ -77,7 +77,7 @@
 					},
 					error : function(request,status,error){
 						table = "";
-						table += "<input type='button' class='btn btn-secondary' value="+member+">&nbsp;"
+						table += "<a id='taker5' href='#' class='btn btn-secondary' tabindex='0' data-toggle='popover' data-trigger='focus' data-popover-content='#a2'>"+member+"</a>"
 						$(".project_taker").append(table);
 						$(".hide").hide();
 					}
@@ -86,30 +86,93 @@
 				$(".hide").hide();
 			};
 		});
-		   
-		$("#project_end_btn").click(function(){
+		  
+		/* 프로젝트 마감일 수정 */
+		$("#end").click(function(){
 			
-			$("#project_end_btn").hide();
+			$("#end").hide();
 			$("#project_end").show();
 			 $( "#project_end" ).datepicker({
 			      dateFormat: "yy-mm-dd"
 			    });
 		})
-		$("#project_start_btn").click(function(){
+		
+		/* 프로젝트 시작일 수정 */
+		$("#start").click(function(){
 			
-			$("#project_start_btn").hide();
+			$("#start").hide();
 			$("#project_start").show();
 			 $( "#project_start" ).datepicker({
 			      dateFormat: "yy-mm-dd"
 			    });
 		})
 		
-		if($("#project_taker5").val() != null){
+		/* 멤버 5인 이상 추가 불가능 */
+		if($("#taker5").val() != null){
 			$("#asd").hide();
 			$("#asd").click(function(){
 				alert("멤버를 추가할 수 없습니다.");
 			})
 		}
+		
+		/* popover창 띄우기 */
+		$(function(){
+		    $("#taker1").popover({
+		        html : true,
+		        content: function() {
+		          var content = $(this).attr("data-popover-content");
+		          return $(content).children(".popover-body").html();
+		        },
+		        title: function() {
+		          var title = $(this).attr("data-popover-content");
+		          return $(title).children(".popover-heading1").html();
+		        }
+		    });
+		    $("#taker2").popover({
+		        html : true,
+		        content: function() {
+		          var content = $(this).attr("data-popover-content");
+		          return $(content).children(".popover-body").html();
+		        },
+		        title: function() {
+		          var title = $(this).attr("data-popover-content");
+		          return $(title).children(".popover-heading2").html();
+		        }
+		    });
+		    $("#taker3").popover({
+		        html : true,
+		        content: function() {
+		          var content = $(this).attr("data-popover-content");
+		          return $(content).children(".popover-body").html();
+		        },
+		        title: function() {
+		          var title = $(this).attr("data-popover-content");
+		          return $(title).children(".popover-heading3").html();
+		        }
+		    });
+		    $("#taker4").popover({
+		        html : true,
+		        content: function() {
+		          var content = $(this).attr("data-popover-content");
+		          return $(content).children(".popover-body").html();
+		        },
+		        title: function() {
+		          var title = $(this).attr("data-popover-content");
+		          return $(title).children(".popover-heading4").html();
+		        }
+		    });
+		    $("#taker5").popover({
+		        html : true,
+		        content: function() {
+		          var content = $(this).attr("data-popover-content");
+		          return $(content).children(".popover-body").html();
+		        },
+		        title: function() {
+		          var title = $(this).attr("data-popover-content");
+		          return $(title).children(".popover-heading5").html();
+		        }
+		    });
+		});
 	})
 </script>
 <style type="text/css">
@@ -149,7 +212,7 @@
 	 .project_taker{
 	 	display: inline-block;
 	 }
-	 #delete,#move,{
+	 .btn-primary,#start,#end{
 	 	float: right;
 	 }
 	 #project_start_btn,#project_end_btn{
@@ -183,24 +246,24 @@
 		  </h5>
 	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	      </div>
+	     
 	      <div id="member" class="modal-body">
 			<img class="img" src="resources/image/project_member.jpg" width="35" height="30">Members<br>
 				<c:forEach items="${mlist }" var="memlist">
 					<c:if test="${dto.getProject_taker() == memlist.getMem_name() }">
 					<div class="project_taker">
-						&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="btn btn-secondary" value=${memlist.getMem_name() } data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-						
+						&nbsp;&nbsp;&nbsp;&nbsp;<a id="taker1" href="#" class="btn btn-secondary" tabindex="0" data-toggle="popover" data-trigger="focus" data-popover-content="#a2">${dto.getProject_taker() }</a>
 						<c:if test="${!empty dto.getProject_taker2() }">
-							<input type="button" class="btn btn-secondary" value=${dto.getProject_taker2() } data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+							<a id="taker2" href="#" class="btn btn-secondary" tabindex="0" data-toggle="popover" data-trigger="focus" data-popover-content="#a2">${dto.getProject_taker2() }</a>
 						</c:if>
 						<c:if test="${!empty dto.getProject_taker3() }">
-							<input type="button" class="btn btn-secondary" value=${dto.getProject_taker3() } data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+							<a id="taker3" href="#" class="btn btn-secondary" tabindex="0" data-toggle="popover" data-trigger="focus" data-popover-content="#a2">${dto.getProject_taker3() }</a>
 						</c:if>
 						<c:if test="${!empty dto.getProject_taker4() }">
-							<input type="button" class="btn btn-secondary" value=${dto.getProject_taker4() } data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+							<a id="taker4" href="#" class="btn btn-secondary" tabindex="0" data-toggle="popover" data-trigger="focus" data-popover-content="#a2">${dto.getProject_taker4() }</a>
 						</c:if>
 						<c:if test="${!empty dto.getProject_taker5() }">
-							<input id="project_taker5" type="button" class="btn btn-secondary" value=${dto.getProject_taker5() } data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+							<a id="taker5" href="#" class="btn btn-secondary" tabindex="0" data-toggle="popover" data-trigger="focus" data-popover-content="#a2">${dto.getProject_taker5() }</a>
 						</c:if>
 					</div>
 					</c:if>
@@ -224,12 +287,28 @@
 							</c:forEach>
 						</select>
 					</span>
-					
 			  <a id="asd" class="btn btn-secondary"><img src="resources/image/project_taker.png" width="20" height="20"></a>
-		      <button id="delete" type="button" class="btn btn-primary" onclick="if(confirm('정말로 프로젝트를 삭제하시겠습니까??')){
-																									location.href='<%=request.getContextPath()%>/project_delete.do?num=${dto.getProject_no() }'
-																									}else{ruturn;}">프로젝트 삭제</button><br>
-			  <br><select id="move" class="btn btn-primary" name="project_taker">
+	      </div>
+
+	      <div class="modal-body">
+	        <h5 class="modal-title"><img src="resources/image/project_description.png" width="20" height="20">&nbsp;상세내용</h5>
+	       	<br>
+	       	<div id="date">
+	       	<!-- 시작일 -->
+	      		<input id="start" class="btn btn-primary" type="button" value="${dto.getProject_start().substring(0,10) }">
+	        	<input id="project_start" type="text" class="btn btn-primary" value="${dto.getProject_start().substring(0,10) }">
+        																						
+	         <textarea class="textarea" id="message-text" cols="80%" rows="2" placeholder="작업 상세내용을 추가해 주세요." onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
+	         <!-- 마감일 -->
+	         	<input type="text" class="btn btn-primary" id="project_end" value="${dto.getProject_end().substring(0,10) }">
+	        	<input id="end" class="btn btn-primary" type="button" value="${dto.getProject_end().substring(0,10) }">
+	        </div>
+	      </div>
+					
+	      
+	         <!-- 이동 -->
+	      <div class="modal-body">
+			  <select id="move" class="btn btn-primary" name="project_taker">
 				 <option value="none"> : : : : 이동 : : : : </option>
 				 <c:forEach items="${status}" var="sdto">
 				 	<c:if test="${dto.getProject_status() != sdto.getStatus_no() }">
@@ -237,25 +316,12 @@
 				 	</c:if>
 				 </c:forEach>
 			  </select>
-			  
-	      </div>
-	      <div class="modal-body">
-	      <br>
-	      	<h5 class="modal-title"><img src="resources/image/project_description.png" width="20" height="20">&nbsp;기간</h5>
-	      		&nbsp;&nbsp;&nbsp;&nbsp;<input id="project_start_btn" class="btn btn-secondary" type="button" value="${dto.getProject_start().substring(0,10) }">
-	        	<input type="text" class="btn btn-secondary" id="project_start" value="${dto.getProject_start().substring(0,10) }">
-	        	~
-	         	<input type="text" class="btn btn-secondary" id="project_end" value="${dto.getProject_end().substring(0,10) }">
-	        	<input id="project_end_btn" class="btn btn-secondary" type="button" value="${dto.getProject_end().substring(0,10) }">
-	      </div>
-	      <div class="modal-body">
-	        <h5 class="modal-title"><img src="resources/image/project_description.png" width="20" height="20">&nbsp;상세내용</h5>
-	       	<br>
-	         <textarea class="textarea" id="message-text" cols="80%" rows="2" placeholder="작업 상세내용을 추가해 주세요." onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
-	      </div>
-	      <div class="modal-body">
 	      	 <h5 class="modal-title"><img src="resources/image/project_comment.png" width="20" height="20">&nbsp;코멘트</h5>
 	      	 <br>
+	      <!-- 삭제 -->
+	         <button id="delete" type="button" class="btn btn-primary" onclick="if(confirm('정말로 프로젝트를 삭제하시겠습니까??')){
+																								location.href='<%=request.getContextPath()%>/project_delete.do?num=${dto.getProject_no() }'
+																								}else{ruturn;}">프로젝트 삭제</button>
 	         <img class="img" src="resources/image/project_man.png" width="35" height="30">
          <div id="control">
 	         <textarea class="textarea" id="comment"  cols="80%" rows="2" onkeydown="resize(this)" onkeyup="resize(this)"></textarea><br>
@@ -263,8 +329,53 @@
 	     
 	      </div>
 	      </div>
-	    </div>
 	        <button type="button" class="btn btn-primary">Save</button>
 	    </div>
+	        
+		
+	    </div>
+	    
+	    <div id="a2" class="hidden">
+		    <div class="popover-heading1">
+		    	<c:forEach items="${mlist }" var="memlist">
+		    		<c:if test="${memlist.getMem_name() == dto.getProject_taker() }">
+		    				<img id="member" class="img" src="resources/image/project_man.png" width="60" height="50">${memlist.getMem_name() } ${memlist.getMem_rank() }
+		    		</c:if>
+		    	</c:forEach>
+		    </div>
+		    <div class="popover-heading2">
+		    	<c:forEach items="${mlist }" var="memlist">
+		    		<c:if test="${memlist.getMem_name() == dto.getProject_taker2() }">
+		    				<img id="member" class="img" src="resources/image/project_man.png" width="60" height="50">${memlist.getMem_name() } ${memlist.getMem_rank() }
+		    		</c:if>
+		    	</c:forEach>
+		    </div>
+		    <div class="popover-heading3">
+		    	<c:forEach items="${mlist }" var="memlist">
+		    		<c:if test="${memlist.getMem_name() == dto.getProject_taker3() }">
+		    				<img id="member" class="img" src="resources/image/project_man.png" width="60" height="50">${memlist.getMem_name() } ${memlist.getMem_rank() }
+		    		</c:if>
+		    	</c:forEach>
+		    </div>
+		    <div class="popover-heading4">
+		    	<c:forEach items="${mlist }" var="memlist">
+		    		<c:if test="${memlist.getMem_name() == dto.getProject_taker4() }">
+		    				<img id="member" class="img" src="resources/image/project_man.png" width="60" height="50">${memlist.getMem_name() } ${memlist.getMem_rank() }
+		    		</c:if>
+		    	</c:forEach>
+		    </div>
+		    <div class="popover-heading5">
+		    	<c:forEach items="${mlist }" var="memlist">
+		    		<c:if test="${memlist.getMem_name() == dto.getProject_taker5() }">
+		    				<img id="member" class="img" src="resources/image/project_man.png" width="60" height="50">${memlist.getMem_name() } ${memlist.getMem_rank() }
+		    		</c:if>
+		    	</c:forEach>
+		    </div>
+		    <div class="popover-body">
+		    	<a href="#">회원 정보 보기</a>
+		    	<hr>
+		    	<a href="#">프로젝트 제외하기</a>
+		    </div>
+		</div>
 </body>
 </html>
