@@ -12,16 +12,21 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
  <mapper namespace="member">
-
+	<resultMap type="caldto" id="calMap">
+		<result property="title" column="cal_title"/>
+		<result property="start" column="cal_start_time"/>
+		<result property="end" column="cal_end_time"/>
+		<result property="allDay" column="cal_allday"/>
+	</resultMap>
 
   	<select id="test" resultType="memberDto">
  		select * from member where mem_no = 1
  	</select>	
  	
  	<!-- *******************현우**********************-->
- 	<!-- <select id="all" parameterType="int" resultType="projectsdto">
-		select * from calendar 작성해야됨 where mem_no = 1
-	</select> -->
+ 	<select id="calList" parameterType="int" resultMap="calMap">
+		select * from calendar where mem_no = #{mem_no}
+	</select>
 	
 
 	<!-- *******************세건**********************-->
@@ -46,6 +51,33 @@
   	<select id="allMem" resultType="memberDTO">
   		select * from member order by dept_no
   	</select>
+  	<update id="updateMember2" parameterType="projectsdto">
+  		update projects set project_taker2 = #{project_taker} where project_no=#{project_no}
+  	</update>
+  	<update id="updateMember3" parameterType="projectsdto">
+  		update projects set project_taker3 = #{project_taker} where project_no=#{project_no}
+  	</update>
+  	<update id="updateMember4" parameterType="projectsdto">
+  		update projects set project_taker4 = #{project_taker} where project_no=#{project_no}
+  	</update>
+  	<update id="updateMember5" parameterType="projectsdto">
+  		update projects set project_taker5 = #{project_taker} where project_no=#{project_no}
+  	</update>
+  	<delete id="deleteProject" parameterType="int">
+  		delete from projects where project_no = #{num}
+  	</delete>
+  	<update id="move" parameterType="projectsdto">
+  		update projects set project_status = #{project_status} where project_no=#{project_no}
+  	</update>
+  	<update id="start" parameterType="projectsdto">
+  		update projects set project_start = #{project_start} where project_no=#{project_no}
+  	</update>
+  	<update id="end" parameterType="projectsdto">
+  		update projects set project_end = #{project_end} where project_no=#{project_no}
+  	</update>
+  	<update id="comment" parameterType="projectsdto">
+  		update projects set project_comment = #{project_comment} where project_no=#{project_no}
+  	</update>
 
 	<!-- **************** hslee **************** -->
 	<select id="check" parameterType="String" resultType="int">
