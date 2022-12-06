@@ -20,4 +20,5 @@ public class ProjectsDTO {
 	private String project_taker3;
 	private String project_taker4;
 	private String project_taker5;
+	private String project_comment;
 }
