@@ -6,8 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script type="text/javascript">
-
 	/* 자동으로 TextArea 크기 늘리기 */
 	function resize(obj) {
 		  obj.style.height = "2px";
@@ -15,10 +17,12 @@
 		}
 	
 	$(function(){
-		
-		/* 코멘트 창 클릭시 활성화 */
 		$(".hide").hide();
 		$("#child").hide();
+		$("#project_end").hide();
+		$("#project_start").hide();
+		
+		/* 코멘트 창 클릭시 활성화 */
 		$("#comment").click(function(){
 			$("#control").css({'border':'1px solid gray'});
 			$("#comment").css({'border-style':'none'});
@@ -82,6 +86,23 @@
 				$(".hide").hide();
 			};
 		});
+		   
+		$("#project_end_btn").click(function(){
+			
+			$("#project_end_btn").hide();
+			$("#project_end").show();
+			 $( "#project_end" ).datepicker({
+			      dateFormat: "yy-mm-dd"
+			    });
+		})
+		$("#project_start_btn").click(function(){
+			
+			$("#project_start_btn").hide();
+			$("#project_start").show();
+			 $( "#project_start" ).datepicker({
+			      dateFormat: "yy-mm-dd"
+			    });
+		})
 		
 		if($("#project_taker5").val() != null){
 			$("#asd").hide();
@@ -128,14 +149,18 @@
 	 .project_taker{
 	 	display: inline-block;
 	 }
-	 #delete,#date,#move{
+	 #delete,#move,{
 	 	float: right;
+	 }
+	 #project_start_btn,#project_end_btn{
+	 	float: left;
 	 }
 	 .card-body{
 	 	width:100px;
         margin:auto;
         display:block;
 	 }
+	 
 	
 </style>
 </head>
@@ -215,10 +240,17 @@
 			  
 	      </div>
 	      <div class="modal-body">
-	        <h5 class="modal-title"><img src="resources/image/project_description.png" width="20" height="20">&nbsp;상세내용
-	         <input id="date" class="btn btn-primary" type="button" value="${dto.getProject_end().substring(0,10) }">
-	         </h5>
-	        <br>
+	      <br>
+	      	<h5 class="modal-title"><img src="resources/image/project_description.png" width="20" height="20">&nbsp;기간</h5>
+	      		&nbsp;&nbsp;&nbsp;&nbsp;<input id="project_start_btn" class="btn btn-secondary" type="button" value="${dto.getProject_start().substring(0,10) }">
+	        	<input type="text" class="btn btn-secondary" id="project_start" value="${dto.getProject_start().substring(0,10) }">
+	        	~
+	         	<input type="text" class="btn btn-secondary" id="project_end" value="${dto.getProject_end().substring(0,10) }">
+	        	<input id="project_end_btn" class="btn btn-secondary" type="button" value="${dto.getProject_end().substring(0,10) }">
+	      </div>
+	      <div class="modal-body">
+	        <h5 class="modal-title"><img src="resources/image/project_description.png" width="20" height="20">&nbsp;상세내용</h5>
+	       	<br>
 	         <textarea class="textarea" id="message-text" cols="80%" rows="2" placeholder="작업 상세내용을 추가해 주세요." onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
 	      </div>
 	      <div class="modal-body">
