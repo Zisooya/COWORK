@@ -1,19 +1,81 @@
 @charset "UTF-8";
 
+/* 연락처 추가, 구성원 초대 모달창 */
+input[id *= "popup"] {
+	display: none;
+}
 
-#side_menu button {
-	margin: 15px 3px 10px 3px;
+.modal_label {
+
+	text-align: center;
+	margin: 15px 3px 10px 3px;	
+	border: 0;	
+	border-radius: 5px;	
+	box-sizing: border-box;	
 	width: 100px;
 	height: 46px;
-	border-radius: 5px;
-	box-sizing: border-box;
-	background-color: #7BE66D;
+	font-size: 1rem;
+	font-weight: bold;		
+	display: inline-block;
+	padding: 12px 7px;
+	background: #7BE66D;
 	color: #FFF;
-	font-size: 0.9rem;
-	border: 0;
+	cursor: pointer;
+
+}
+
+input[id *= "popup"] + label + div {
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.4s;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+}
+
+input[id *= "popup"]:checked + label + div {
+	opacity: 1;
+	visibility: visible;
+}
+
+input[id *= "popup"] + label + div > div {
+	position: absolute;
+	top:50%;
+	left: 50%;
+	transform:translate(-50%,-50%);
+	width: 40%;
+	min-width : 300px;
+	height: 85vh;
+	background: #fff;
+	z-index: 2;
+}
+
+input[id *= "popup"] + label + div > div > label {
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	top: 0%;
+	right: 0%;
+	padding: 20px;
+	background: url(../images/close.png) no-repeat center center/15px ;
+	border-radius: 100%;
+	z-index:1;
 	cursor: pointer;
 }
 
+input[id *= "popup"] + label + div > label {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0, 0.4);
+	z-index: 1;
+	border-radius: 0;
+}
 
 #side_menu hr{
 	width: 86%;
@@ -68,6 +130,100 @@
 	font-size: 1.2rem;
 }
 
-.subject table td {
-	width: 180px;
+ .subject table {
+ 	width: 100%;
+ }
+ 
+.accordion ul {
+	margin: 0;
 }
+
+.accordion li {
+	font-size: 1.1rem;
+	padding: 8px 30px;
+	width: auto;
+	height: auto;
+	cursor: pointer;
+}
+
+.addr_label {
+	background-color: #FFF;
+	text-align: left;
+	font-weight: normal;
+	font-size: 1.2rem;	
+ }
+ 
+input[id *= "addr_menu"] {
+	display: none;
+}
+
+input[id *= "addr_menu"] + label {
+	display: block;
+	padding: 10px 20px;
+	cursor: pointer;
+	position: relative;	
+	font-weight: 600;
+}
+
+input[id *= "addr_menu"] + label span {
+	position: absolute;
+	top:27px;
+	width: 30px;
+	height: 30px;
+	margin-top: -15px;
+	display: inline-block;
+	background: url(../images/오른쪽화살표.png) 0 0 no-repeat;
+	background-size: 1.1rem;
+}
+
+input[id *= "addr_menu"] + label + ul {
+	max-height: 0;
+	overflow: hidden;
+}
+input[id *= "addr_menu"]:checked + label + ul {
+	max-height: 100%;
+}
+
+input[id *= "addr_menu"]:checked + label span {
+
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	margin-top: -15px;
+	display: inline-block;
+	background: url(../images/아래쪽화살표.png) 0 0 no-repeat;
+	background-size: 1.1rem;
+	
+}
+
+#side_menu a {
+	margin-left:20px;
+	font-size: 1.1rem;
+	padding: 10px 30px;
+	text-decoration: none;
+	display:flex;
+	text-align: left;
+}
+
+.people {
+	background: url(../images/그룹.png) 0 0 no-repeat;
+	background-size: 1.1rem;
+	background-position: left;	
+}
+
+
+.vip {
+	background: url(../images/빈별.png) 0 0 no-repeat;
+	background-size: 1.1rem;
+	background-position: left;	
+}
+
+.trash {
+	background: url(../images/휴지통.png) 0 0 no-repeat;
+	background-size: 1.1rem;
+	background-position: left;	
+}
+
+
+
+
