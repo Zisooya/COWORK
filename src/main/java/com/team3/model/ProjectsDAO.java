@@ -22,9 +22,13 @@ public interface ProjectsDAO {
 	
 	List<ProjectsDTO> searchProjectList(String field,String keyword);
 	
-	void updatetaker2(ProjectsDTO dto);
-	void updatetaker3(ProjectsDTO dto);
-	void updatetaker4(ProjectsDTO dto);
-	void updatetaker5(ProjectsDTO dto);
+	int updatetaker2(ProjectsDTO dto);
+	int updatetaker3(ProjectsDTO dto);
+	int updatetaker4(ProjectsDTO dto);
+	int updatetaker5(ProjectsDTO dto);
 
+	int updateend(ProjectsDTO dto);
+	int updatestart(ProjectsDTO dto);
+	
+	int updatecomment(ProjectsDTO dto);
 }

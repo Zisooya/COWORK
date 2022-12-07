@@ -49,10 +49,10 @@ body {
 	
 }
 
-#side label {
+nav label {
 	text-align: center;
 	font-weight: bold;
-	font-size: 20px;
+	font-size: 1.25rem;
 	background-color: #C2F347; 
 	border-radius: 10px;
 	display:inline-block;
