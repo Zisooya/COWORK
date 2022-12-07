@@ -78,7 +78,22 @@
   	<update id="comment" parameterType="projectsdto">
   		update projects set project_comment = #{project_comment} where project_no=#{project_no}
   	</update>
-
+	<update id="deletetaker1" parameterType="projectsdto">
+		update projects set project_taker = '' where project_no=#{project_no}
+	</update>
+	<update id="deletetaker2" parameterType="projectsdto">
+		update projects set project_taker2 = '' where project_no=#{project_no}
+	</update>
+	<update id="deletetaker3" parameterType="projectsdto">
+		update projects set project_taker3 = '' where project_no=#{project_no}
+	</update>
+	<update id="deletetaker4" parameterType="projectsdto">
+		update projects set project_taker4 = '' where project_no=#{project_no}
+	</update>
+	<update id="deletetaker5" parameterType="projectsdto">
+		update projects set project_taker5 = '' where project_no=#{project_no}
+	</update>
+	
 	<!-- **************** hslee **************** -->
 	<select id="login_check" resultType="String">
 		select mem_name from member where mem_id = #{mem_id} and mem_pwd = #{mem_pwd}

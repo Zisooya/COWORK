@@ -97,6 +97,28 @@ public class CoworkController {
 	  }
   }
   
+  // 프로젝트 멤버 제외하기 _ 세건
+  @RequestMapping("project_Deletetaker1.do")
+  public void projectDeletetaker1(ProjectsDTO dto,HttpServletResponse response) {
+	 int check = this.dao_projects.deletetaker1(dto);
+  }
+  @RequestMapping("project_Deletetaker2.do")
+  public void projectDeletetaker2(ProjectsDTO dto,HttpServletResponse response) {
+	 int check = this.dao_projects.deletetaker2(dto);
+  }
+  @RequestMapping("project_Deletetaker3.do")
+  public void projectDeletetaker3(ProjectsDTO dto,HttpServletResponse response) {
+	 int check = this.dao_projects.deletetaker3(dto);
+  }
+  @RequestMapping("project_Deletetaker4.do")
+  public void projectDeletetaker4(ProjectsDTO dto,HttpServletResponse response) {
+	 int check = this.dao_projects.deletetaker4(dto);
+  }
+  @RequestMapping("project_Deletetaker5.do")
+  public void projectDeletetaker5(ProjectsDTO dto,HttpServletResponse response) {
+	 int check = this.dao_projects.deletetaker5(dto);
+  }
+  
   // 프로젝트 삭제하기 _ 세건
   @RequestMapping("project_delete.do")
   public void ProjectDelete(@RequestParam int num, HttpServletResponse response) throws IOException {
@@ -157,6 +179,7 @@ public class CoworkController {
 	  System.out.println(dto.getProject_comment());
 	  System.out.println(dto.getProject_no());
   }
+  
 
 	@Autowired
 	private CalendarDAO dao_cal;

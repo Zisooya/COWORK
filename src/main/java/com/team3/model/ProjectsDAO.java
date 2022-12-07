@@ -31,4 +31,10 @@ public interface ProjectsDAO {
 	int updatestart(ProjectsDTO dto);
 	
 	int updatecomment(ProjectsDTO dto);
+	
+	int deletetaker1(ProjectsDTO dto);
+	int deletetaker2(ProjectsDTO dto);
+	int deletetaker3(ProjectsDTO dto);
+	int deletetaker4(ProjectsDTO dto);
+	int deletetaker5(ProjectsDTO dto);
 }

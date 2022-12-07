@@ -95,6 +95,31 @@ public class ProjectsDAOImpl implements ProjectsDAO{
 		return this.sqlSession.update("comment", dto);
 	}
 
+	@Override
+	public int deletetaker1(ProjectsDTO dto) {
+		return this.sqlSession.update("deletetaker1", dto);
+	}
+
+	@Override
+	public int deletetaker2(ProjectsDTO dto) {
+		return this.sqlSession.update("deletetaker2", dto);
+	}
+
+	@Override
+	public int deletetaker3(ProjectsDTO dto) {
+		return this.sqlSession.update("deletetaker3", dto);
+	}
+
+	@Override
+	public int deletetaker4(ProjectsDTO dto) {
+		return this.sqlSession.update("deletetaker4", dto);
+	}
+
+	@Override
+	public int deletetaker5(ProjectsDTO dto) {
+		return this.sqlSession.update("deletetaker5", dto);
+	}
+
 	
 
 	
