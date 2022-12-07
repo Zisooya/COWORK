@@ -7,10 +7,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
-<link href="resources/css/project_modal.css" rel="stylesheet"/>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-<script src="resources/script/project_modal.js"></script>
 <script type="text/javascript">
 /* 자동으로 TextArea 크기 늘리기 */
 function resize(obj) {
@@ -21,11 +19,11 @@ function resize(obj) {
 $(function(){
 	$(".hide").hide();
 	$("#child1").hide();
+	$("#child1_1").hide();
 	$("#child2").hide();
 	$("#project_start").hide();
 	$("#project_end").hide();
 	$(".hidden").hide();
-	$("#control1_1").hide();
 	
 	/* 상세내용 div 클릭시 활성화 */
 	$("#comment1").click(function(){
@@ -33,6 +31,36 @@ $(function(){
 		$("#comment1").css({'border-style':'none'});
 		$("#child1").show(100);
 		
+	});
+	
+	/* 상세내용 비활성화  */
+	$(document).mouseup(function (e){ 
+	    var container = $("#control1")
+	    if(container.has(e.target).length == 0){ 
+	    	$("#comment1").css({'border':'1px solid gray'});
+	    	$("#control1").css({'border-color':'lightgray'})
+			$("#control1").css({'border-style':'none'});
+			$("#child1").hide(); 
+	    }
+	});
+	
+	/* 상세내용(수정본) div 클릭시 활성화 */
+	$("#project_comment").click(function(){
+		$("#control1_1").css({'border':'1px solid gray'});
+		$("#project_comment").css({'border-style':'none'});
+		$("#child1_1").show(100);
+		
+	});
+	
+	/* 상세내용(수정본) 비활성화  */
+	$(document).mouseup(function (e){ 
+	    var container = $("#control1_1")
+	    if(container.has(e.target).length == 0){ 
+	    	$("#project_comment").css({'border':'1px solid gray'});
+	    	$("#control1_1").css({'border-color':'lightgray'})
+			$("#control1_1").css({'border-style':'none'});
+			$("#child1_1").hide(); 
+	    }
 	});
 	
 	/* 상세내용 추가하기 */
@@ -48,8 +76,9 @@ $(function(){
 			datatype : "text",
 			success : function(){
 				alert('데이터 통신 에러 아님');
-				$("project_comment").append(project_comment);
-				
+				$("project_comment").innerHTML(project_comment);
+				$("#control1_1").show();
+				$("#control1").hide();
 			},
 			error : function(request,status,error){
 				alert('데이터 통신 에러');
@@ -57,16 +86,6 @@ $(function(){
 		})
 	})
 	
-	/* 상세내용 비활성화  */
-	$(document).mouseup(function (e){ 
-	    var container = $("#control1")
-	    if(container.has(e.target).length == 0){ 
-	    	$("#comment1").css({'border':'1px solid gray'});
-	    	$("#control1").css({'border-color':'lightgray'})
-			$("#control1").css({'border-style':'none'});
-			$("#child1").hide(100); 
-	    }
-	});
 	
 	/* 코멘트창 클릭시 활성화 */
 	$("#comment2").click(function(){
@@ -300,7 +319,7 @@ $(function(){
 	.btn-primary:hover{
 		background-color:#C2F347;
 	}
-	 #control1,#control2{
+	 #control1,#control2,#control1_1{
 	 	border-style: none;
 	 	width:81%;
 	 	border-radius: 5px;
@@ -410,14 +429,19 @@ $(function(){
 	        	<input id="project_start" type="text" class="btn btn-primary" value="${dto.getProject_start().substring(0,10) }">
 	        	
 	      <!-- 상세 내용 -->
+	      <c:if test="${empty dto.getProject_comment() }">
         	<div id="control1">
 		         <textarea class="textarea" id="comment1" cols="80%" rows="2" placeholder="작업 상세내용을 추가해 주세요." onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
 		         <input id="child1" type="button" class="btn btn-primary" value="저장">		     
 	      	</div>
+	      </c:if>
+	      
+	      <c:if test="${!empty dto.getProject_comment() }">
 	      	<div id="control1_1">
-		         <span id="project_comment"></span>		         
-		         <input id="child1" type="button" class="btn btn-primary" value="저장">		     
+		         <textarea class="textarea" id="project_comment" cols="80%" rows="2" placeholder="작업 상세내용을 추가해 주세요." onkeydown="resize(this)" onkeyup="resize(this)" readonly>${dto.getProject_comment() }</textarea>	         
+		         <input id="child1_1" type="button" class="btn btn-primary" value="수정하기">
 	      	</div>
+	      </c:if>
 	      					
 	         <!-- 마감일 -->
 	         	<input id="project_end" type="text" class="btn btn-primary" value="${dto.getProject_end().substring(0,10) }">

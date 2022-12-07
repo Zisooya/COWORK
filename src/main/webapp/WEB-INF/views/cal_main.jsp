@@ -7,15 +7,19 @@
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/ko.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 	
-	var cTitle;
-	var startTime;
-	var endTime;
-	var allDay;
-	var memo;
-	
+	var gTitle;
+	var gStartTime;
+	var gEndTime;
+	var gAllDay;
+	var gMemo;
+	var gPlace;
 	/* ------------------------------------모달창 관련------------------------------------ */
 	const modal = document.querySelector(".modal");
 	const closeBtn = document.querySelector(".close");
@@ -30,19 +34,36 @@ document.addEventListener('DOMContentLoaded', function() {
 	  }
 	}
 	//모달창 오픈 func
-	function explain(){
+	function detail(){
 	  const title = document.querySelector(".title");
-	  const description = document.querySelector(".description");
-	  title.innerText = cTitle;
-	  description.innerText = memo;
+	  const startTime = document.querySelector(".startTime");
+	  const endTime = document.querySelector(".endTime");
+	  const memo = document.querySelector(".memo");
+	  const place = document.querySelector(".place");
+	  title.innerText = gTitle;
+	  if(gAllDay == true) {
+		  startTime.innerText = moment(gStartTime).format("YYYY.MM.DD (ddd)");
+		  if(moment(gStartTime).format("YYYY.MM.DD") == moment(gEndTime).format("YYYY.MM.DD")) {
+		  }else {
+			  endTime.innerText = moment(gEndTime).format("YYYY.MM.DD (ddd)");
+		  }
+	  }else {
+		  startTime.innerText = moment(gStartTime).format("YYYY.MM.DD (ddd) HH:mm");
+		  if(moment(gStartTime).format("YYYY.MM.DD") == moment(gEndTime).format("YYYY.MM.DD")) {
+			  endTime.innerText = moment(gEndTime).format("HH:mm");
+		  }else {
+			  endTime.innerText = moment(gEndTime).format("YYYY.MM.DD (ddd) HH:mm");
+		  }
+	  }
+	  memo.innerText = gMemo;
+	  place.innerText = gPlace;
 	  modal.style.display = "block";
 	}
 	/* ------------------------------------모달창 관련 끝------------------------------------ */
-	
 	  var calendarEl = document.getElementById('calendar');
 	  var calendar = new FullCalendar.Calendar(calendarEl, {
 	    /* initialDate: '2022-12-01', */
-	    /* locale : "ko", */
+	    locale : "ko",
 	    headerToolbar: {
 	      left: 'prev,next today',
 	      center: 'title',
@@ -74,10 +95,13 @@ document.addEventListener('DOMContentLoaded', function() {
 					var events = [];
 					if(result!=null){
 						$.each(result, function(index, element) {
-							var eTitle = element.title
+							var eId = element.cal_no;
+							var eTitle = element.title;
 							var eStartDate = element.start;
 							var eEndDate = element.end;
 							var eAllday;
+							var eMemo = element.cal_memo;
+							var ePlace = element.cal_place;
 							if(element.allDay == "true"){
 								eAllday = true;
 							}else {
@@ -87,10 +111,13 @@ document.addEventListener('DOMContentLoaded', function() {
                             	eEndDate = eStartDate;
                             }
                             events.push({
+                            	id: eId,
                                 title: eTitle,
                                 start: eStartDate,
                                 end: eEndDate,
-                                allDay: eAllday
+                                allDay: eAllday,
+                                memo: eMemo,
+                                place: ePlace
                              }); // push() end
 						}); // each() end
 					} // if() end 
@@ -101,20 +128,20 @@ document.addEventListener('DOMContentLoaded', function() {
 		/* dateClick: function() {}, */
 		/* ------------------------------------이벤트 클릭------------------------------------ */
 		eventClick: function(info) {
-		      var eventObj = info.event;
-		        cTitle = eventObj.title;
-		        startTime = eventObj.start;
-		        endTime = eventObj.end;
-		        allDay = eventObj.allDay;
-		        memo = eventObj.cal_memo;
-		        explain();
+			var eventObj = info.event;
+			gTitle = eventObj.title;
+			gStartTime = eventObj.start;
+			gEndTime = eventObj.end;
+			gAllDay = eventObj.allDay;
+			gMemo = eventObj.extendedProps.memo;
+			gPlace = eventObj.extendedProps.place;
+			detail();
 		    },
 		/* ------------------------------------이벤트 클릭 끝------------------------------------ */
 	  });
 		/* ------------------------------------날짜 클릭------------------------------------ */
 		calendar.on('dateClick', function(info) {
 			alert('Clicked ' + info.dateStr);
-			explain();
 		});
 		/* ------------------------------------날짜 클릭 끝------------------------------------ */
 	  calendar.render();
@@ -192,7 +219,6 @@ document.addEventListener('DOMContentLoaded', function() {
 					<option value="cont">내용</option>
 					<option value="writer">작성자</option>
 				</select>
-				
 				<input name="keyword">&nbsp;&nbsp;
 				<input type="submit" value="검색">
 			</form>
@@ -206,7 +232,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			  <article class="modal-content">
 			    <span class="close">&times;</span>
 			    <h2 class="title"></h2>
-			    <p class="description"></p>
+			    <span class="startTime"></span> - <span class="endTime"></span>
+			    <p class="memo"></p>
+			    <p class="place"></p>
 			  </article>
 			</section>
 
