@@ -13,7 +13,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/ko.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-	
+	// g(global variable:전역변수) + 변수명
 	var gTitle;
 	var gStartTime;
 	var gEndTime;
