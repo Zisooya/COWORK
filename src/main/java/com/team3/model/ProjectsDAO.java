@@ -22,6 +22,7 @@ public interface ProjectsDAO {
 	
 	List<ProjectsDTO> searchProjectList(String field,String keyword);
 	
+	int updatetaker(ProjectsDTO dto);
 	int updatetaker2(ProjectsDTO dto);
 	int updatetaker3(ProjectsDTO dto);
 	int updatetaker4(ProjectsDTO dto);
@@ -37,4 +38,5 @@ public interface ProjectsDAO {
 	int deletetaker3(ProjectsDTO dto);
 	int deletetaker4(ProjectsDTO dto);
 	int deletetaker5(ProjectsDTO dto);
+
 }

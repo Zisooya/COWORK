@@ -51,6 +51,9 @@
   	<select id="allMem" resultType="memberDTO">
   		select * from member order by dept_no
   	</select>
+  	<update id="updateMember1" parameterType="projectsdto">
+  		update projects set project_taker = #{project_taker} where project_no=#{project_no}
+  	</update>
   	<update id="updateMember2" parameterType="projectsdto">
   		update projects set project_taker2 = #{project_taker} where project_no=#{project_no}
   	</update>

@@ -14,6 +14,7 @@ function resize(obj) {
 	}
 $(function(){
 	$(".hide").hide();
+	$(".hide_1").hide();
 	$("#child1").hide();
 	$("#child1_1").hide();
 	$("#child2").hide();
@@ -136,7 +137,7 @@ $(function(){
 	});
 	
 	/* select창 숨기기 */
-	$("#asd").click(function(){
+	$("#plus_taker").click(function(){
 		$(".hide").show();
 	})
 	$(document).mouseup(function (e){
@@ -188,14 +189,17 @@ $(function(){
 						project_no : project_no
 						},
 				datatype : "text",
-				success : function(){
-					table = "";
-					table += "<a id='taker5' href='#' class='btn btn-secondary' tabindex='0' data-toggle='popover' data-trigger='focus' data-popover-content='#a2'>"+member+"</a>"
+				success : function(dto){
+					/* table = "";
+					table += "<a id='taker5' href='#' class='btn btn-secondary' tabindex='0' data-toggle='popover' data-trigger='focus' data-popover-content='#a2'>"+data+"</a>"
 					$(".project_taker").append(table);
-					$(".hide").hide();
+					$(".hide").hide(); */
+					alert(dto.dog);
 				},
-				error : function(request,status,error){
-					alert('데이터 통신 에러')
+				error : function(dto){
+					alert('데이터 통신 에러');
+					alert(dto.dog);
+					alert(dto.cat);
 				}
 			})
 		}else{
@@ -370,7 +374,7 @@ $(function(){
 			}
 		})
  	})
- 	/*  */
+ 	/* 프로젝트 멤버 제외하기 */
  	var isVisible = false;
  	var clickedAway = false;
  	$('#taker1').popover({
@@ -522,7 +526,7 @@ $(function(){
 						<!-- 멤버1 -->
 						<c:if test="${!empty dto.getProject_taker() }">
 							<button id="taker1" class="popoverThis btn btn-large btn-secondary">${dto.getProject_taker() }</button>
-							<div id="popover-heading1" class="hide">
+							<div id="popover-heading1" class="hide_1">
 								<c:forEach items="${mlist }" var="memlist">
 						    		<c:if test="${memlist.getMem_name() == dto.getProject_taker() }">
 						    				<img id="member" class="img" src="resources/image/project_man.png" width="60" height="50">${memlist.getMem_name() } ${memlist.getMem_rank() }
@@ -530,15 +534,15 @@ $(function(){
 						    		</c:if>
 						    	</c:forEach>
 							</div>
-							<div id="popover-body1" class="hide">
+							<div id="popover-body1" class="hide_1">
 								<a href="#">회원 정보 보기</a><hr><a href="#" id="except1">프로젝트 제외하기</a>
 							</div>
 						</c:if>
+						
 						<!-- 멤버2 -->
 						<c:if test="${!empty dto.getProject_taker2() }">
-							<%-- <a id="taker2" href="#" class="btn btn-secondary" tabindex="0" data-toggle="popover" data-trigger="focus" data-popover-content="#a2">${dto.getProject_taker2() }</a> --%>
 							<button id="taker2" class="popoverThis btn btn-large btn-secondary">${dto.getProject_taker2() }</button>
-							<div id="popover-heading2" class="hide">
+							<div id="popover-heading2" class="hide_1">
 								<c:forEach items="${mlist }" var="memlist">
 						    		<c:if test="${memlist.getMem_name() == dto.getProject_taker2() }">
 						    				<img id="member" class="img" src="resources/image/project_man.png" width="60" height="50">${memlist.getMem_name() } ${memlist.getMem_rank() }
@@ -546,21 +550,57 @@ $(function(){
 						    		</c:if>
 						    	</c:forEach>
 							</div>
-							<div id="popover-body2" class="hide">
+							<div id="popover-body2" class="hide_1">
 								<a href="#">회원 정보 보기</a><hr><a href="#" id="except2">프로젝트 제외하기</a>
 							</div>
 						</c:if>
+						
 						<!-- 멤버3 -->
 						<c:if test="${!empty dto.getProject_taker3() }">
-							<a id="taker3" href="#" class="btn btn-secondary" tabindex="0" data-toggle="popover" data-trigger="focus" data-popover-content="#a2">${dto.getProject_taker3() }</a>
+							<button id="taker3" class="popoverThis btn btn-large btn-secondary">${dto.getProject_taker3() }</button>
+							<div id="popover-heading3" class="hide_1">
+								<c:forEach items="${mlist }" var="memlist">
+						    		<c:if test="${memlist.getMem_name() == dto.getProject_taker3() }">
+						    				<img id="member" class="img" src="resources/image/project_man.png" width="60" height="50">${memlist.getMem_name() } ${memlist.getMem_rank() }
+						    				<input type="hidden" id="heading3_mem" value="${memlist.getMem_name() }">
+						    		</c:if>
+						    	</c:forEach>
+							</div>
+							<div id="popover-body3" class="hide_1">
+								<a href="#">회원 정보 보기</a><hr><a href="#" id="except3">프로젝트 제외하기</a>
+							</div>
 						</c:if>
+						
 						<!-- 멤버4 -->
 						<c:if test="${!empty dto.getProject_taker4() }">
-							<a id="taker4" href="#" class="btn btn-secondary" tabindex="0" data-toggle="popover" data-trigger="focus" data-popover-content="#a2">${dto.getProject_taker4() }</a>
+							<button id="taker4" class="popoverThis btn btn-large btn-secondary">${dto.getProject_taker4() }</button>
+							<div id="popover-heading4" class="hide_1">
+								<c:forEach items="${mlist }" var="memlist">
+						    		<c:if test="${memlist.getMem_name() == dto.getProject_taker4() }">
+						    				<img id="member" class="img" src="resources/image/project_man.png" width="60" height="50">${memlist.getMem_name() } ${memlist.getMem_rank() }
+						    				<input type="hidden" id="heading4_mem" value="${memlist.getMem_name() }">
+						    		</c:if>
+						    	</c:forEach>
+							</div>
+							<div id="popover-body4" class="hide_1">
+								<a href="#">회원 정보 보기</a><hr><a href="#" id="except4">프로젝트 제외하기</a>
+							</div>
 						</c:if>
+						
 						<!-- 멤버5 -->
 						<c:if test="${!empty dto.getProject_taker5() }">
-							<a id="taker5" href="#" class="btn btn-secondary" tabindex="0" data-toggle="popover" data-trigger="focus" data-popover-content="#a2">${dto.getProject_taker5() }</a>
+							<button id="taker5" class="popoverThis btn btn-large btn-secondary">${dto.getProject_taker5() }</button>
+							<div id="popover-heading5" class="hide_1">
+								<c:forEach items="${mlist }" var="memlist">
+						    		<c:if test="${memlist.getMem_name() == dto.getProject_taker5() }">
+						    				<img id="member" class="img" src="resources/image/project_man.png" width="60" height="50">${memlist.getMem_name() } ${memlist.getMem_rank() }
+						    				<input type="hidden" id="heading5_mem" value="${memlist.getMem_name() }">
+						    		</c:if>
+						    	</c:forEach>
+							</div>
+							<div id="popover-body5" class="hide_1">
+								<a href="#">회원 정보 보기</a><hr><a href="#" id="except5">프로젝트 제외하기</a>
+							</div>
 						</c:if>
 					</div>
 				
@@ -568,22 +608,11 @@ $(function(){
 						<select id="project_taker" class="btn btn-secondary" name="project_taker">
 							<option value="none">:::선택::::</option>
 							<c:forEach items="${mlist }" var="memlist">
-								<c:if test="${dto.getProject_taker() != memlist.getMem_name() }">
-									<c:if test="${dto.getProject_taker2() != memlist.getMem_name() }">
-										<c:if test="${dto.getProject_taker3() != memlist.getMem_name() }">
-											<c:if test="${dto.getProject_taker4() != memlist.getMem_name() }">
-												<c:if test="${dto.getProject_taker5() != memlist.getMem_name() }">
-													<option value="${memlist.getMem_name() }">${memlist.getMem_name() }</option>	
-												</c:if>
-											</c:if>
-										</c:if>
-									</c:if>
-								</c:if>
+								<option value="${memlist.getMem_name() }">${memlist.getMem_name() }</option>				
 							</c:forEach>
 						</select>
 					</span>
-			  <a id="asd" class="btn btn-secondary" title="${dto.getProject_taker() }"><img src="resources/image/project_taker.png" width="20" height="20"></a>
-			  <input type="hidden" id="asd1" value="${dto.getProject_taker2() }">
+			  <a id="plus_taker" class="btn btn-secondary"><img src="resources/image/project_taker.png" width="20" height="20"></a>
 	      </div>
 
 	      <div class="modal-body">

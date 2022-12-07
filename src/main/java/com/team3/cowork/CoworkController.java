@@ -2,7 +2,9 @@ package com.team3.cowork;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -75,26 +77,38 @@ public class CoworkController {
     }
   
   // 프로젝트 멤버 추가하기 _ 세건
+  @ResponseBody
   @RequestMapping("project_memberinsert.do")
-  public void ProjectMemberInsert(ProjectsDTO dto,HttpServletResponse response) throws IOException{
+  public Map<String, String> ProjectMemberInsert(ProjectsDTO dto,HttpServletResponse response) throws IOException{
 	  int check = 0;
+	  String taker = "";
 	  ProjectsDTO cont = this.dao_projects.getprojects(dto.getProject_no());
-	  if(cont.getProject_taker2() == null) {
+	  
+	  if(cont.getProject_taker() == null){
+		  check = this.dao_projects.updatetaker(dto);
+		  taker = dto.getProject_taker();
+	  }else if(cont.getProject_taker2() == null) {
 		  check = this.dao_projects.updatetaker2(dto);
+		  taker = dto.getProject_taker2();
 	  }else if(cont.getProject_taker3() == null) {
 		  check = this.dao_projects.updatetaker3(dto);
+		  taker = dto.getProject_taker3();
 	  }else if(cont.getProject_taker4() == null) {
 		  check = this.dao_projects.updatetaker4(dto);
+		  taker = dto.getProject_taker4();
 	  }else if(cont.getProject_taker5() == null) {
 		  check = this.dao_projects.updatetaker5(dto);
+		  taker = dto.getProject_taker5();
 	  }
-	  response.setContentType("text/html; charset=UTF-8");
-	  PrintWriter out = response.getWriter();
-	  if(check > 0) {
-		  out.println("<script>");
-		  out.println("alert('변경되었습니다.')");
-		  out.println("</script>");
-	  }
+	  Map<String, String> map = new HashMap<String,String>(); 
+      
+      map.put("dog","강아지");
+      map.put("cat","고양이");
+      // ex_3
+      // list에 id, pw, content를 키값으로 값이 담겨있음
+      // {"id":"admin"},{"pw":"1234"},{"content":"내용 입니다."}
+      
+	return map; // Ajax로 넘겨줄 값 text, map, list
   }
   
   // 프로젝트 멤버 제외하기 _ 세건
