@@ -8,27 +8,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.team3.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.team3.model.CalendarDAO;
-import com.team3.model.CalendarDTO;
-import com.team3.model.Main_ProjectsDTO;
-import com.team3.model.MemberDAO;
-import com.team3.model.MemberDTO;
-import com.team3.model.ProjectsDAO;
-import com.team3.model.ProjectsDTO;
-import com.team3.model.Projects_statusDTO;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class CoworkController {
 
 	@Autowired
 	private MemberDAO dao;
+
+	@Autowired
+	private MemberService service;
   
 	// ProjectDAO 변수 생성 _ 세건
 	@Autowired
@@ -78,16 +76,24 @@ public class CoworkController {
   
   // 프로젝트 멤버 추가하기 _ 세건
   @RequestMapping("project_memberinsert.do")
-  public void ProjectMemberInsert(ProjectsDTO dto){
+  public void ProjectMemberInsert(ProjectsDTO dto,HttpServletResponse response) throws IOException{
+	  int check = 0;
 	  ProjectsDTO cont = this.dao_projects.getprojects(dto.getProject_no());
 	  if(cont.getProject_taker2() == null) {
-		  this.dao_projects.updatetaker2(dto);
+		  check = this.dao_projects.updatetaker2(dto);
 	  }else if(cont.getProject_taker3() == null) {
-		  this.dao_projects.updatetaker3(dto);
+		  check = this.dao_projects.updatetaker3(dto);
 	  }else if(cont.getProject_taker4() == null) {
-		  this.dao_projects.updatetaker4(dto);
+		  check = this.dao_projects.updatetaker4(dto);
 	  }else if(cont.getProject_taker5() == null) {
-		  this.dao_projects.updatetaker5(dto);
+		  check = this.dao_projects.updatetaker5(dto);
+	  }
+	  response.setContentType("text/html; charset=UTF-8");
+	  PrintWriter out = response.getWriter();
+	  if(check > 0) {
+		  out.println("<script>");
+		  out.println("alert('변경되었습니다.')");
+		  out.println("</script>");
 	  }
   }
   
@@ -103,6 +109,53 @@ public class CoworkController {
 	  out.println("location.href='project_control.do'");
 	  out.println("</script>");
 	  }
+  }
+  
+  // 프로젝트 status 변경 _ 세건
+  @RequestMapping("project_move.do")
+  public void ProjectMove(ProjectsDTO dto,HttpServletResponse response) throws IOException {
+	  int check = this.dao_projects.updateProjects(dto);
+	  response.setContentType("text/html; charset=UTF-8");
+	  PrintWriter out = response.getWriter();
+	  if(check > 0) {
+	  out.println("<script>");
+	  out.println("alert('변경되었습니다.')");
+	  out.println("</script>");
+	  }
+  }
+  
+  // 프로젝트 시작일 변경 _ 세건
+  @RequestMapping("project_UpdateStart.do")
+  public void ProjectUpdateStart(ProjectsDTO dto,HttpServletResponse response) throws IOException {
+	  int check = this.dao_projects.updatestart(dto);
+	  response.setContentType("text/html; charset=UTF-8");
+	  PrintWriter out = response.getWriter();
+	  if(check > 0) {
+		  out.println("<script>");
+		  out.println("alert('변경되었습니다.')");
+		  out.println("</script>");
+	  }
+  }
+  
+  // 프로젝트 마감일 변경 _ 세건
+  @RequestMapping("project_Updateend.do")
+  public void ProjectUpdateEnd(ProjectsDTO dto,HttpServletResponse response) throws IOException {
+	  int check = this.dao_projects.updateend(dto);
+	  response.setContentType("text/html; charset=UTF-8");
+	  PrintWriter out = response.getWriter();
+	  if(check > 0) {
+		  out.println("<script>");
+		  out.println("alert('변경되었습니다.')");
+		  out.println("</script>");
+	  }
+  }
+  
+  // 프로젝트 상세내용 추가하기 _ 세건
+  @RequestMapping("project_InsertComment.do")
+  public void ProjectComment(ProjectsDTO dto,HttpServletResponse response) throws IOException {
+	  this.dao_projects.updatecomment(dto);
+	  System.out.println(dto.getProject_comment());
+	  System.out.println(dto.getProject_no());
   }
 
 	@Autowired
@@ -123,46 +176,37 @@ public class CoworkController {
 
 
 	@RequestMapping("member_login.do")	// 임시로 만든 메서드임. 추후 로그인 화면을 시작페이지(main.jsp)로 변경 예정.
-	public String memberLogin() {
+	public String login() {
 		return "login";
 	}
 
 	@RequestMapping("member_login_ok.do")
-	public String memberLoginOk(@RequestParam("mem_id") String id, @RequestParam("mem_pwd") String pwd, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String path = "";
+	public ModelAndView loginOk(@ModelAttribute MemberDTO dto, HttpSession session) {
+		boolean result = service.loginCheck(dto, session);
 
-		PrintWriter out = response.getWriter();
+		ModelAndView mav = new ModelAndView();
 
-		int check = dao.memberCheck(id);
-
-		System.out.println("check값 >> " + check);
-
-		if (check > 0) {
-			MemberDTO dto = dao.getMember(id);
-
-			if (!dto.getMem_pwd().equals(pwd)) {
-				System.out.println("비번틀림");
-				out.println("<script>");
-				out.println("alert('비밀번호가 틀립니다.')");
-				out.println("</script>");
-				path = "login";
-			} else {
-				System.out.println("로그인 성공");
-				HttpSession session = request.getSession();
-
-				session.setAttribute("memId", dto.getMem_id());
-				session.setAttribute("memName", dto.getMem_name());
-
-				path = "home";
-			}
+		if (result) {
+			mav.setViewName("home");
+			mav.addObject("msg", "success");
 		} else {
-			System.out.println("아이디없음");
-			out.println("<script>");
-			out.println("alert('존재하지 않는 아이디입니다.')");
-			out.println("</script>");
-			path = "login";
+			mav.setViewName("login");
+			mav.addObject("msg", "fail");
 		}
-		return path;
+
+		return mav;
+	}
+
+	@RequestMapping("member_logout.do")
+	public ModelAndView logout(HttpSession session) {
+		service.logout(session);
+
+		ModelAndView mav = new ModelAndView();
+
+		mav.setViewName("login");
+		mav.addObject("msg", "logout");
+
+		return mav;
 	}
 	
 	@RequestMapping("address.do")

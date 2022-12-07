@@ -9,8 +9,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta charset="UTF-8">
 <title>주소록</title>
-<link href="${path}/resources/css/include.css" rel="stylesheet"/>
 <link href="${path}/resources/css/address.css" rel="stylesheet"/>
+<link href="${path}/resources/css/include.css" rel="stylesheet"/>
+
 </head>
 <body>
 	<div id="grid_container">
@@ -20,18 +21,51 @@
 	
 	
 		<nav id="side">
-			<label>주소록</label>
+			<label id="side_label">주소록</label>
 			<div id="side_menu" style="overflow-y: auto;">
-				<button>연락처 추가</button>
-				<button>구성원 초대</button>
+				<input type="checkbox" id="popup01">
+				<label class="modal_label" for="popup01">연락처 추가</label>
+				<div>
+					<div>
+						<label class="modal_exit" for="popup01"></label>
+						연락처 추가
+					</div>
+					<label for="popup01"></label>
+				</div>
 				
-				<hr>
-				<p>조직도</p>
-				<hr>
-				<p>고객 / 거래처</p>
-				<ul>
-					<li>sdfsdf</li>
-				</ul>
+				<input type="checkbox" id="popup02">
+				<label class="modal_label" for="popup02">구성원 초대</label>	
+				<div>
+					<div>
+						<label class="modal_exit" for="popup02"></label>
+						구성원 초대
+					</div>
+					<label for="popup02"></label>
+				</div>
+											
+				<br>
+				
+				<div class="accordion">
+					<hr>
+					<input type="checkbox" id="addr_menu01">
+					<label class="addr_label" for="addr_menu01"><span></span>&nbsp;&nbsp;&nbsp;조직도</label>
+					<ul>
+						<li class="people">경영지원본부</li>
+						<li class="people">개발본부</li>
+						<li class="people">기획마케팅본부</li>
+						<li class="people">디자인본부</li>
+					</ul>
+					<hr>
+					<input type="checkbox" id="addr_menu02">
+					<label class="addr_label" for="addr_menu02"><span></span>&nbsp;&nbsp;&nbsp;고객 / 거래처</label>					
+					<ul>
+						<li class="people">전체 연락처</li>
+					</ul>
+					<hr>
+				</div>
+				
+				<a class="vip" href="">VIP</a>
+				<a class="trash" href="">휴지통</a>
 				
 			</div>
 		</nav>

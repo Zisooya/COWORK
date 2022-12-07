@@ -43,7 +43,7 @@
 		<selectKey keyProperty="project_no" resultType="int" order="BEFORE">
 			select max(project_no) from projects
 	    </selectKey>
-	    insert into projects values(#{project_no}+1,#{project_name},'',#{project_end},'','',#{project_taker},default,#{project_status},#{project_main},'','','','')
+	    insert into projects values(#{project_no}+1,#{project_name},'',#{project_end},'','',#{project_taker},default,#{project_status},#{project_main},'','','','','')
 	</insert>
 	<select id="cont" parameterType="int" resultType="projectsdto">
 		select * from projects where project_no=#{num}
@@ -66,12 +66,24 @@
   	<delete id="deleteProject" parameterType="int">
   		delete from projects where project_no = #{num}
   	</delete>
+  	<update id="move" parameterType="projectsdto">
+  		update projects set project_status = #{project_status} where project_no=#{project_no}
+  	</update>
+  	<update id="start" parameterType="projectsdto">
+  		update projects set project_start = #{project_start} where project_no=#{project_no}
+  	</update>
+  	<update id="end" parameterType="projectsdto">
+  		update projects set project_end = #{project_end} where project_no=#{project_no}
+  	</update>
+  	<update id="comment" parameterType="projectsdto">
+  		update projects set project_comment = #{project_comment} where project_no=#{project_no}
+  	</update>
 
 	<!-- **************** hslee **************** -->
-	<select id="check" parameterType="String" resultType="int">
-		select * from member where mem_id = #{id}
+	<select id="login_check" resultType="String">
+		select mem_name from member where mem_id = #{mem_id} and mem_pwd = #{mem_pwd}
 	</select>
-	<select id="login" parameterType="String" resultType="memberDTO">
-		select * from member where mem_id = #{id}
+	<select id="getMember" resultType="MemberDTO">
+		select * from member where mem_id = #{mem_id} and mem_pwd = #{mem_pwd}
 	</select>
  </mapper> 
