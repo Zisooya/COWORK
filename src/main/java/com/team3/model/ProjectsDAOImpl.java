@@ -59,7 +59,11 @@ public class ProjectsDAOImpl implements ProjectsDAO{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	@Override
+	public int updatetaker(ProjectsDTO dto) {
+		return this.sqlSession.update("updateMember1",dto);
+	}
+	
 	@Override
 	public int updatetaker2(ProjectsDTO dto) {
 		return this.sqlSession.update("updateMember2",dto);
@@ -94,6 +98,33 @@ public class ProjectsDAOImpl implements ProjectsDAO{
 	public int updatecomment(ProjectsDTO dto) {
 		return this.sqlSession.update("comment", dto);
 	}
+
+	@Override
+	public int deletetaker1(ProjectsDTO dto) {
+		return this.sqlSession.update("deletetaker1", dto);
+	}
+
+	@Override
+	public int deletetaker2(ProjectsDTO dto) {
+		return this.sqlSession.update("deletetaker2", dto);
+	}
+
+	@Override
+	public int deletetaker3(ProjectsDTO dto) {
+		return this.sqlSession.update("deletetaker3", dto);
+	}
+
+	@Override
+	public int deletetaker4(ProjectsDTO dto) {
+		return this.sqlSession.update("deletetaker4", dto);
+	}
+
+	@Override
+	public int deletetaker5(ProjectsDTO dto) {
+		return this.sqlSession.update("deletetaker5", dto);
+	}
+
+	
 
 	
 
