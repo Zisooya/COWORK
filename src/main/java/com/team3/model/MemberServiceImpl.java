@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -12,22 +13,8 @@ public class MemberServiceImpl implements MemberService {
     private MemberDAO dao;
 
     @Override
-    public boolean loginCheck(MemberDTO dto, HttpSession session) {
-        boolean result = dao.loginCheck(dto);
-
-        if (result) {
-            MemberDTO member = getMember(dto);
-
-            session.setAttribute("memId", member.getMem_id());
-            session.setAttribute("memName", member.getMem_name());
-        }
-
-        return result;
-    }
-
-    @Override
-    public MemberDTO getMember(MemberDTO dto) {
-        return dao.getMember(dto);
+    public MemberDTO login(MemberDTO dto) {
+        return dao.login(dto);
     }
 
     @Override

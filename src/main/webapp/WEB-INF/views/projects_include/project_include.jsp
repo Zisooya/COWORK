@@ -32,8 +32,8 @@
               보기
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
-              <li><a class="dropdown-item" href="#">Table</a></li>
-              <li><a class="dropdown-item" href="#">Board</a></li>
+              <li><a class="dropdown-item" href="project_control.do">Table</a></li>
+              <li><a class="dropdown-item" href="project_board.do">Board</a></li>
             </ul>
           </li>
         </ul>

@@ -1,12 +1,11 @@
 package com.team3.model;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 public interface MemberService {
 
-    boolean loginCheck(MemberDTO dto, HttpSession session);
-
-    MemberDTO getMember(MemberDTO dto);
+    MemberDTO login(MemberDTO dto);
 
     void logout(HttpSession session);
 }
