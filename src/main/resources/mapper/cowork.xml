@@ -55,16 +55,16 @@
   		update projects set project_taker = #{project_taker} where project_no=#{project_no}
   	</update>
   	<update id="updateMember2" parameterType="projectsdto">
-  		update projects set project_taker2 = #{project_taker} where project_no=#{project_no}
+  		update projects set project_taker2 = #{project_taker2} where project_no=#{project_no}
   	</update>
   	<update id="updateMember3" parameterType="projectsdto">
-  		update projects set project_taker3 = #{project_taker} where project_no=#{project_no}
+  		update projects set project_taker3 = #{project_taker3} where project_no=#{project_no}
   	</update>
   	<update id="updateMember4" parameterType="projectsdto">
-  		update projects set project_taker4 = #{project_taker} where project_no=#{project_no}
+  		update projects set project_taker4 = #{project_taker4} where project_no=#{project_no}
   	</update>
   	<update id="updateMember5" parameterType="projectsdto">
-  		update projects set project_taker5 = #{project_taker} where project_no=#{project_no}
+  		update projects set project_taker5 = #{project_taker5} where project_no=#{project_no}
   	</update>
   	<delete id="deleteProject" parameterType="int">
   		delete from projects where project_no = #{num}
