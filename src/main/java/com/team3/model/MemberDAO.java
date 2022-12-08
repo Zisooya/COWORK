@@ -3,12 +3,11 @@ package com.team3.model;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface MemberDAO {
 
-	boolean loginCheck(MemberDTO dto);
-
-	MemberDTO getMember(MemberDTO dto);
+	MemberDTO login(MemberDTO dto);
 
 	void logout(HttpSession session);
 
