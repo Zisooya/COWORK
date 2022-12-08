@@ -5,24 +5,10 @@ input[id *= "popup"] {
 	display: none;
 }
 
-.modal_label {
-
-	text-align: center;
-	margin: 15px 3px 10px 3px;	
-	border: 0;	
-	border-radius: 5px;	
-	box-sizing: border-box;	
-	width: 100px;
-	height: 46px;
-	font-size: 1rem;
-	font-weight: bold;		
-	display: inline-block;
-	padding: 12px 7px;
-	background: #7BE66D;
-	color: #FFF;
-	cursor: pointer;
-
+#side_menu label {
 }
+
+
 
 input[id *= "popup"] + label + div {
 	opacity: 0;
@@ -51,6 +37,7 @@ input[id *= "popup"] + label + div > div {
 	height: 85vh;
 	background: #fff;
 	z-index: 2;
+	padding: 30px;
 }
 
 input[id *= "popup"] + label + div > div > label {
@@ -76,6 +63,177 @@ input[id *= "popup"] + label + div > label {
 	z-index: 1;
 	border-radius: 0;
 }
+
+.modal_label {
+
+	text-align: center;
+	margin: 15px 0px 10px 0px;	
+	border: 0;	
+	border-radius: 5px;	
+	box-sizing: border-box;	
+	width: 100px;
+	height: 46px;
+	font-size: 0.9rem;
+	font-weight: bold;		
+	display: inline-block;
+	padding: 12px 3px;
+	background: #7BE66D;
+	color: #FFF;
+	cursor: pointer;
+}
+
+/* 연락처 추가 - 모달창 콘텐츠 */
+.modal_content {
+	width: 100%;
+	height: 100%;
+}
+
+.modal_content h2{
+	text-align: left;
+	font-size: 1.2rem;	
+	font-weight: 600;
+}
+
+.add_cont {
+	width: 100%;
+	display: inline-block;
+}
+
+.add_cont img {
+	background: none;
+	background-size: 3rem;
+}
+
+
+.modal_content form {
+	text-align: left;
+	width: 100%;
+}
+
+.input_box_one {
+	width: 100%;
+	margin-bottom: 5px;	
+	display: inline-block;
+}
+
+.vip_add {
+	vertical-align: middle;
+	display: inline-block;
+	background: url(../images/찬별.png) 0 0 no-repeat;
+	background-position: center;
+	background-size: 25px;
+	width: 35px;
+	height: 35px;
+	border: 0;
+	margin: 5px 5px 5px 0;
+	box-sizing: border-box;
+}
+
+.input_box_one input {
+	width: calc(100% - 30px);
+	height:35px;
+	box-sizing: border-box;
+	border: 0.5px solid #989898;
+	border-radius: 5px;
+	font-size: 0.9rem;
+	padding-left: 8px;
+}
+
+.add_title {
+	display: inline-block;
+	width: 20%;
+	box-sizing: border-box;
+	margin: 20px 0 5px 0;
+}
+
+.input_box {
+	display: inline-block;
+	width: 100%;
+}
+
+.modal_content form label {
+	width: auto;
+	background: none;
+}
+
+.input_box input{
+	width: calc(50% - 20px);
+	height:35px;
+	box-sizing: border-box;
+	margin: 0 2.5px 5px 0;
+	border: 0.5px solid #989898;
+	border-radius: 5px;	
+	font-size: 0.9rem;
+	padding-left: 8px;
+}
+
+.input_box select{
+	width: calc(50% - 20px);
+	height:35px;
+	box-sizing: border-box;
+	margin: 0 2.5px 5px 0;
+	border: 0.5px solid #989898;
+	border-radius: 5px;	
+	font-size: 0.9rem;	
+	padding-left: 5px;
+}
+
+.input_box_radio label {
+	font-size: 0.9rem;
+	font-weight: normal;
+	padding: 10px;
+}
+
+.input_box_check {
+	height: 100%;
+	width: 100%;
+}
+
+
+
+#chooseFile {
+    visibility: hidden;
+}
+
+
+.toggleSwitch {
+  width: 32px;
+  height: 16px;
+  display: inline-block;
+  position: relative;
+  border-radius: 30px;
+  background-color: #fff;
+  box-shadow: 0 0 16px 3px rgba(0 0 0 / 15%);
+  cursor: pointer;
+  padding: 10px 20px;
+  top: 3px;
+}
+
+/* 스위치  버튼 */
+.toggleSwitch .toggleButton {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 48%;
+  left: 0px;
+  transform: translateY(-48%);
+  border-radius: 50%;
+  background: #EAEAEA;
+}
+
+#toggle:checked ~ .toggleSwitch {
+  background: #7BE66D;
+}
+
+#toggle:checked ~ .toggleSwitch .toggleButton {
+  left: calc(100% - 20px);
+  background: #fff;
+}
+
+.toggleSwitch, .toggleButton {
+  transition: all 0.2s ease-in;
+}
+
 
 #side_menu hr{
 	width: 86%;
@@ -121,17 +279,23 @@ input[id *= "popup"] + label + div > label {
 
 
 .alph a{
+	width: auto;
+	height: auto;
 	margin: 20px;
 }
 
 .subject {
 	text-align: center;
 	font-weight: bold;
-	font-size: 1.2rem;
+	font-size: 1.1rem;
 }
 
  .subject table {
- 	width: 100%;
+ 	width: 90%;
+ }
+ 
+ .subject table th,td {
+ 	width: 14.2%;
  }
  
 .accordion ul {
@@ -139,8 +303,8 @@ input[id *= "popup"] + label + div > label {
 }
 
 .accordion li {
-	font-size: 1.1rem;
-	padding: 8px 30px;
+	font-size: 0.9rem;
+	padding: 8px 25px;
 	width: auto;
 	height: auto;
 	cursor: pointer;
@@ -150,7 +314,8 @@ input[id *= "popup"] + label + div > label {
 	background-color: #FFF;
 	text-align: left;
 	font-weight: normal;
-	font-size: 1.2rem;	
+	font-size: 1rem;	
+	
  }
  
 input[id *= "addr_menu"] {
@@ -198,8 +363,8 @@ input[id *= "addr_menu"]:checked + label span {
 
 #side_menu a {
 	margin-left:20px;
-	font-size: 1.1rem;
-	padding: 10px 30px;
+	font-size: 1rem;
+	padding: 10px 25px;
 	text-decoration: none;
 	display:flex;
 	text-align: left;
