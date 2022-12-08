@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.team3.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -211,27 +212,23 @@ public class CoworkController {
 		return list;
 	}
 
-
-	@RequestMapping("member_login.do")	// 임시로 만든 메서드임. 추후 로그인 화면을 시작페이지(main.jsp)로 변경 예정.
+	@RequestMapping("member_login.do")	// 임시로 만든 메서드임. 추후 로그인 화면을 시작페이지로 변경 예정.
 	public String login() {
 		return "login";
 	}
 
 	@RequestMapping("member_login_ok.do")
-	public ModelAndView loginOk(@ModelAttribute MemberDTO dto, HttpSession session) {
-		boolean result = service.loginCheck(dto, session);
+	public String loginOk(MemberDTO dto, HttpServletRequest request) {
+		HttpSession session = request.getSession();
 
-		ModelAndView mav = new ModelAndView();
+		MemberDTO login = service.login(dto);
 
-		if (result) {
-			mav.setViewName("home");
-			mav.addObject("msg", "success");
+		if (login == null) {
+			session.setAttribute("member", null);
 		} else {
-			mav.setViewName("login");
-			mav.addObject("msg", "fail");
+			session.setAttribute("member", login);
 		}
-
-		return mav;
+		return "home";
 	}
 
 	@RequestMapping("member_logout.do")
