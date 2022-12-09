@@ -39,4 +39,7 @@ public interface ProjectsDAO {
 	int deletetaker4(ProjectsDTO dto);
 	int deletetaker5(ProjectsDTO dto);
 
+	int insertStatus(Projects_statusDTO dto);
+
+
 }

@@ -96,6 +96,12 @@
 	<update id="deletetaker5" parameterType="projectsdto">
 		update projects set project_taker5 = '' where project_no=#{project_no}
 	</update>
+	<insert id="insertStatus" parameterType="statusdto">
+		<selectKey keyProperty="status_no" resultType="int" order="BEFORE">
+			select max(status_no) from projects_status
+	    </selectKey>
+	    insert into projects_status values(#{status_no}+1,#{status_name})
+	</insert>
 	
 	<!-- **************** hslee **************** -->
 	<select id="login" resultType="memberDTO">
