@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -210,8 +210,24 @@ public class CoworkController {
 		List<CalendarDTO> list = this.dao_cal.getCalList(memNo);
 		return list;
 	}
+	
+	@Autowired
+	private Cal_Upload cal_upload;
+	
+	@RequestMapping(value="upload_ok.do", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String uploadOk(Model model, MultipartHttpServletRequest mRequest) {
+		String res = "";
+		if(cal_upload.fileUpload(mRequest)) {
+			res = "파일 업로드 성공";
+		}else {
+			res = "파일 업로드 실패";
+		}
+		System.out.println(res);
+		return res;
+	}
 
-
+	
 	@RequestMapping("member_login.do")	// 임시로 만든 메서드임. 추후 로그인 화면을 시작페이지(main.jsp)로 변경 예정.
 	public String login() {
 		return "login";
