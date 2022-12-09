@@ -12,10 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import com.team3.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -272,7 +270,7 @@ public class CoworkController {
 		} else {
 			session.setAttribute("member", login);
 		}
-		return "home";
+		return "main";
 	}
 
 	@RequestMapping("member_logout.do")
@@ -285,6 +283,27 @@ public class CoworkController {
 		mav.addObject("msg", "logout");
 
 		return mav;
+	}
+
+	@RequestMapping("member_join.do")
+	public String join() {
+		return "join";
+	}
+
+	@RequestMapping("member_join_ok.do")
+	public ModelAndView joinOk(MemberDTO dto) {
+		ModelAndView mav = new ModelAndView();
+
+		service.join(dto);
+		mav.setViewName("login");
+
+		return mav;
+	}
+
+	@RequestMapping("member_idCheck.do")
+	@ResponseBody
+	public int checkId(String mem_id) {
+		return service.checkId(mem_id);
 	}
 
 	@RequestMapping("address.do")

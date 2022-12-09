@@ -107,4 +107,13 @@
 	<select id="login" resultType="memberDTO">
 		select * from member where mem_id = #{mem_id} and mem_pwd = #{mem_pwd}
 	</select>
+	<insert id="join" parameterType="memberDTO">
+		<selectKey resultType="int" keyProperty="mem_no" order="BEFORE">
+			select max(mem_no) from member
+		</selectKey>
+		insert into member values (#{mem_no} + 1, #{mem_name}, #{mem_id}, #{mem_pwd}, #{mem_position}, #{mem_rank}, #{dept_no}, #{team_no}, #{mem_email}, #{mem_phone}, #{mem_image})
+	</insert>
+	<select id="checkId" parameterType="String" resultType="Integer">
+		select count(*) from member where mem_id = #{mem_id}
+	</select>
  </mapper> 
