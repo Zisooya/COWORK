@@ -10,11 +10,12 @@ body{
 }
 
 .container{
-    width: 80vw;
-    height: 60vh;
+    width: 100vw;
+    height: 100vh;
     display: grid;
     grid-gap : 7rem;
     padding: 0 2rem;
+    background: linear-gradient(45deg, #C2F347, #E4F7BA, #FFFFFF);
 }
 
 .login-content{
@@ -146,7 +147,7 @@ a:hover{
     border-radius: 5px;
     outline: none;
     border: none;
-    background-image: linear-gradient(to right, #7BE66D, #C2F347, #E4F7BA);
+    background-image: linear-gradient(to right, #7BE66D, #C2F347, #7BE66D);
     background-size: 200%;
     font-size: 1.2rem;
     color: #fff;
