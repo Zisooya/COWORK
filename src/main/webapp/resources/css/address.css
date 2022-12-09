@@ -152,7 +152,6 @@ input[id *= "popup"] + label + div > label {
 }
 
 .modal_content form label {
-	width: auto;
 	background: none;
 }
 
@@ -181,24 +180,18 @@ input[id *= "popup"] + label + div > label {
 .input_box_radio label {
 	font-size: 0.9rem;
 	font-weight: normal;
-	padding: 10px;
+	padding: 10px 0;
+	width: 80px;
 }
-
-.input_box_check {
-	height: 100%;
-	width: 100%;
-}
-
 
 
 #chooseFile {
     visibility: hidden;
 }
 
-
 .toggleSwitch {
-  width: 32px;
-  height: 16px;
+  width: 40px;
+  height: 20px;
   display: inline-block;
   position: relative;
   border-radius: 30px;
@@ -234,7 +227,51 @@ input[id *= "popup"] + label + div > label {
   transition: all 0.2s ease-in;
 }
 
+.add_btn_div{
+	width: auto;
+	height: auto;
+	float: right;	
+	margin-right: 30px;
+}
 
+.add_btn {
+	width: 100px;
+	height: 35px;	
+	background-color: #7BE66D;
+	border: none;
+	border-radius: 5px;
+	margin: 40px 5px 30px 5px;
+	color: #FFF;
+	color: #FFF;
+	font-weight: bold;	
+}
+
+/* 구성원 초대 - 모달창 콘텐츠 */
+.email_input {
+	width: 100%;
+	height:35px;
+	box-sizing: border-box;
+	border: 0.5px solid #989898;
+	border-radius: 5px;
+	font-size: 0.9rem;
+	padding-left: 8px;	
+}
+
+#send_email_btn{
+	width: 200px;
+	height: 35px;	
+	background-color: #7BE66D;
+	border: none;
+	border-radius: 5px;
+	margin: 40px 5px 30px 5px;
+	float: right;
+	color: #FFF;
+	font-weight: bold;	
+}
+
+
+
+/*  */
 #side_menu hr{
 	width: 86%;
 	color: #EAEAEA;

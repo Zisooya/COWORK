@@ -73,7 +73,10 @@
 									  <span class="toggleButton"></span>
 									</label>
 								</div>
-							
+								<div class="add_btn_div">
+									<button class="add_btn">취소</button>
+									<input class="add_btn" type="submit" value="저장">
+								</div>
 						</form>
 						
 					</div>
@@ -85,7 +88,11 @@
 				<div>
 					<div class="modal_content">
 						<label class="modal_exit" for="popup02"></label>
-						구성원 초대
+						<h2>구성원 초대</h2>
+						<div>초대 메일을 받은 구성원이 자신의 계정 정보를 직접 입력하여 COWORK에 가입합니다.</div>
+						<input class="email_input" type="text" placeholder="이메일">
+						<button id="send_email_btn">초대 메일 보내기</button>
+						
 					</div>
 					<label for="popup02"></label>
 				</div>
@@ -169,7 +176,6 @@
 	</div>
 <script type="text/javascript">
 
-console.log('');
 </script>
 </body>
 </html>
