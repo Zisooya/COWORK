@@ -2,18 +2,18 @@
 
 body {
 	margin : 0;
-	width : 100vm;
+	width : calc(100% - 50px );
 	height : 100vh;
-	overflow: hidden;
+	overflow-x:auto; 
+	box-sizing: border-box;
 }
 
 #grid_container {
-	width : 100vm;
-	height : 100vh;
+	width : 100%;
+	height : 100%;
 	display: grid;
-	grid-template-columns : 1fr 3fr 2fr;
-	grid-template-rows : 1fr 9fr;
-
+	grid-template-columns : 19% 62% 19%;
+	grid-template-rows : 75px 110px 600px 200px ;
 }
 
 #header {
@@ -25,8 +25,8 @@ body {
 #side {
 	text-align: center;
 	grid-column : 1/2;
-	grid-row : 2/3;	
-	margin: 20px 0 20px 20px;
+	grid-row : 3/4;	
+	margin: 20px 0 100px 20px;
 	background: linear-gradient(35deg, rgba(123, 230, 109, 0.8), rgba(194, 243, 71, 0.8) ,rgba(228, 247, 186, 0.8),rgba(246, 255, 204, 0.8), rgba(255, 255, 240, 0.8));
 	border: 0.5px solid #EAEAEA;
 	border-radius: 10px;
@@ -39,12 +39,11 @@ body {
 #side_menu {
 	margin: auto;
 	margin-top: 20px;
-	margin-bottom: 0;
+	margin-bottom: 20px;
 	background: #FFF;
 	border-radius: 10px;
 	width: 86%;
 	height: 86%;
-	overflow-y: scroll;
 	box-sizing: border-box;
 	
 }
@@ -66,10 +65,9 @@ nav label {
 	width: 100%;
 	height: 100%;
 	grid-column : 2/4;
-	grid-row : 2/3;
+	grid-row : 3/4;
 	margin: 20px 50px;	
 	box-sizing: border-box;
-	overflow: scroll;
 }
 
 #header_left {
@@ -77,8 +75,8 @@ nav label {
 	grid-row : 1/2;	
 	font-size: 3rem;
 	font-weight: bold;
-	align-self: end;
-	justify-self: end;
+	place-self: start start;
+	margin: 10px 0 0 20px;
 }
 
 #company{
@@ -87,46 +85,44 @@ nav label {
 	font-size: 1.5rem;	
 	align-self: start;
 	justify-self: end;
+	margin: 0 30px 0 20px;
 	
 }
 
 #header_right {
+	width: 80%;
+	height: 80%;	
 	grid-column : 3/4;
-	grid-row : 2/3;	
-	place-self: end end;	
-}
-
-#header_container {
-	width: 100%;
-	height: 100%;
-	display: grid;
-	place-items: center;
-	grid-template-columns: 1fr 5fr 1fr;
-	grid-template-rows: 3fr 3fr 1fr;
-	box-sizing: border-box;
-	
+	grid-row : 1/2;	
+	place-self: start end;
+	box-sizing: border-box;	
+	margin: 20px 20px 0 0;
 }
 
 #header_center {
+	width: 100%;
+	height: 100%;
 	grid-column : 2/3;
-	grid-row : 1/4;
+	grid-row : 2/3;
+	place-self: center center;
 	
 }
 
-#header_navi {
-
-}
-
-#header_navi ul {
+#header_center ul {
+	width: 100%;
+	height: 100%;
+	float: center;
 	display:flex;
 	margin: 0;
-	padding: 0;
-	align-self: center;	
+	padding: 20px 40px;
 	position: relative;
+	box-sizing: border-box;
 }
 
-#header_navi li {
-	padding : 0px 40px 0px 40px;
+#header_center li {
+	width: 16.6%;
+	text-align: center;
+	align-self: center;
 	list-style: none;
 	cursor: pointer;
 }
@@ -168,12 +164,12 @@ nav label {
 }
 
 #header_right_container {
+	width: 100%;
+	height: 100%;
 	display: grid;
-	grid-template-columns: 3fr 1fr;
-	grid-template-rows: 3fr 1fr;
+	grid-template-columns: 50% 15% 35%;
+	grid-template-rows: 80% 20%;
 	place-items : end end;
-	margin-right: 20px;
-	grid-column-gap: 20px;
 	grid-row-gap: 5px;
 	box-sizing: border-box;
 	
@@ -181,30 +177,35 @@ nav label {
 }
 
 #profile_circle {
-	grid-column : 2/3;
+	grid-column : 3/4;
 	grid-row : 1/2;	
 	place-self: center center;
 }
 
 #login {
-	grid-column : 2/3;
+	grid-column : 3/4;
 	grid-row : 2/3;	
-	place-self: center center;
+	place-self: end center;
+	font-size: 0.8rem;
 }
 
 #hi {
-	grid-column : 1/2;
+	grid-column : 1/3;
 	grid-row : 2/3;		
+	font-size: 0.8rem;
+	place-self: end end;
 }
 
 #notification {
-	grid-column : 1/2;
+	grid-column : 2/3;
 	grid-row : 1/2;	
 	place-self: end end;
 	position: relative;
 	margin-right: 10px;
 	margin-bottom: 6px;
 	box-sizing: border-box;
+	width: auto;
+	height: auto;
 }
 
 #noti_img{
@@ -212,38 +213,18 @@ nav label {
 }
 
 #noti_num {
-	font-size : 12px;
+	font-size : 0.7rem;
 	color : white;
 	background-color: red;
 	border-radius: 50%;
-	height: 19px;
-    width: 19px;
-    line-height: 19px;
+	height: 1rem;
+    width: 1rem;
+    line-height: 1rem;
     text-align: center;
     display: inline-block;
     place-self: end end;
 	position: absolute;
-	top: -5;
-    right: -10;
+	bottom: 18px;
+	right: -8px;
     z-index: 3;
-}
-
-#header_right_container ul {
-	display:flex;	
-	padding: 0px;
-	margin: 0px;
-}
-
-#header_right_container li {
-	list-style: none;
-}
-
-#green {
-	grid-column : -1/-2;
-	grid-row : -1/-2;
-	width:280px;
-	height:10px;
-	background-color: #C2F347;
-	place-self: start end;	
-	margin-top: 10px;	
 }
