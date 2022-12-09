@@ -124,10 +124,9 @@ public class ProjectsDAOImpl implements ProjectsDAO{
 		return this.sqlSession.update("deletetaker5", dto);
 	}
 
-	
-
-	
-
-	
+	@Override
+	public int insertStatus(Projects_statusDTO dto) {
+		return this.sqlSession.insert("insertStatus", dto);
+	}
 
 }

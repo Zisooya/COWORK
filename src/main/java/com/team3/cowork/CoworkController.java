@@ -160,6 +160,19 @@ public class CoworkController {
 			out.println("</script>");
 		}
 	}
+	
+	// 프로젝트 status 추가 _ 세건
+	@RequestMapping("insert_status.do")
+	public void InsertStatus(Projects_statusDTO dto, HttpServletResponse response) throws IOException {
+		int check = this.dao_projects.insertStatus(dto);
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		if (check > 0) {
+			out.println("<script>");
+			out.println("location.href='project_board.do'");
+			out.println("</script>");
+		}
+	}
 
 	// 프로젝트 시작일 변경 _ 세건
 	@RequestMapping("project_UpdateStart.do")
@@ -198,10 +211,8 @@ public class CoworkController {
 	
 	 
 	 // 프로젝트 보드 보기 _ 세건
-	 
 	 @RequestMapping("project_board.do")
-	 public String projectboard(Model model) {
-		 
+	 public String projectboard(Model model) {		 
 	 List<com.team3.model.ProjectsDTO> list = this.dao_projects.getProjectsList();
 	 List<Main_ProjectsDTO> main = this.dao_projects.getMainList();
 	 List<Projects_statusDTO> status = this.dao_projects.getStatusList();
