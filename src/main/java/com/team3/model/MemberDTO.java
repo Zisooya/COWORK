@@ -16,5 +16,4 @@ public class MemberDTO {
     private String mem_email;
     private String mem_phone;
     private String mem_image;
-    
 }

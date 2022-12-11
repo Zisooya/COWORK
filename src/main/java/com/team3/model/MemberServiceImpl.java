@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
-import java.util.Map;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -20,5 +19,15 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void logout(HttpSession session) {
         session.invalidate();
+    }
+
+    @Override
+    public void join(MemberDTO dto) {
+        dao.join(dto);
+    }
+
+    @Override
+    public int checkId(String mem_id) {
+        return dao.checkId(mem_id);
     }
 }

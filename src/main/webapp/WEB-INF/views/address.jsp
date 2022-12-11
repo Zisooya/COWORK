@@ -73,10 +73,12 @@
 									  <span class="toggleButton"></span>
 									</label>
 								</div>
+
 								<div class="add_btn_div">
 									<button class="add_btn">취소</button>
 									<input class="add_btn" type="submit" value="저장">
 								</div>
+
 						</form>
 						
 					</div>
@@ -103,6 +105,7 @@
 					<hr>
 					<input type="checkbox" id="addr_menu01">
 					<label class="addr_label" for="addr_menu01"><span></span>&nbsp;&nbsp;&nbsp;&nbsp;조직도</label>
+
 					<br>
 					<div class="accordion_cb_div">
 						<c:set var="deptList" value="${deptList}" />
@@ -121,6 +124,7 @@
 						<input type="checkbox" id="accordion_cb">
 						<label class="people" for="accordion_cb">전체 연락처</label>
 					</div>	
+
 					<hr>
 				</div>
 				

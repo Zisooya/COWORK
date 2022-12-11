@@ -23,6 +23,7 @@
 		<typeAlias type="com.team3.model.DepartmentDTO" alias="departmentDto"/>
 	
 		<!-- *************** 현우 *************** -->
+		<typeAlias type="com.team3.model.CalendarDAO" alias="caldao"/>
 		<typeAlias type="com.team3.model.CalendarDTO" alias="caldto"/>
 	
 		<!-- *************** 세건 *************** -->

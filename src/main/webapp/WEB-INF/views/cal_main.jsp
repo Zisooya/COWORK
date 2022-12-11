@@ -9,23 +9,12 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
-<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/timepicker@1.14.0/jquery.timepicker.min.css"> -->
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/ko.min.js"></script>
 <script>
 	document.addEventListener('DOMContentLoaded',function() {
-		// Event 조회용 변수 : g(global variable:전역변수) + 변수명
-		var gTitle;
-		var gStartTime;
-		var gEndTime;
-		var gAllDay;
-		var gMemo;
-		var gPlace;
-		// Event 추가용 변수 : a(add) + 변수명
-		var aTitle;
-		var aAllday;
 		/* ------------------------------------모달창 관련------------------------------------ */
 		const modal_detail = document.querySelector(".modal_detail");
 		const closeBtn_detail = document.querySelector(".close_detail");
@@ -89,6 +78,18 @@
 			modal_add.style.display = "block";
 		}
 		/* ------------------------------------모달창 관련 끝------------------------------------ */
+		
+		// Event 조회용 변수 : g(global variable:전역변수) + 변수명
+		var gTitle;
+		var gStartTime;
+		var gEndTime;
+		var gAllDay;
+		var gMemo;
+		var gPlace;
+		// Event 추가용 변수 : a(add) + 변수명
+		var aTitle;
+		var aAllday;
+		
 		var calendarEl = document.getElementById('calendar');
 		var calendar = new FullCalendar.Calendar(calendarEl,{
 			/* initialDate: '2022-12-01', */
@@ -169,21 +170,71 @@
 			},
 			/* ------------------------------------이벤트 클릭 끝------------------------------------ */
 		});
-		/* ------------------------------------날짜 클릭------------------------------------ */
-		calendar.on('dateClick', function(info) {
+		/* calendar.on('dateClick', function(info) {
 			console.log(info.dateStr);
-		});
-		/* ------------------------------------날짜 클릭 끝------------------------------------ */
+		}); */
 		calendar.render();
+		
+		$("#save_btn").click( function() {
+			/* var formData = new FormData();
+			var inputFile = $("input[id='formFileSm']");
+			var files = inputFile[0].files;
+			console.log(files);
+			// add fileData to formData
+			for(var i=0; i<files.length; i++) {
+				formData.append("uploadFile", files[i]);
+			} */
+			var form = $('#add_form')[0];
+	        var formData = new FormData(form);
+			$.ajax({
+				type : 'POST',
+				enctype: "multipart/form-data",
+				url : 'upload_ok.do',
+				cache: false, // 필수
+				processData : false, // 필수 
+				contentType : false, // 필수 
+				data : formData,
+				success : function(result) {
+					alert(result);
+				},
+				error : function() {
+					alert("파일 첨부 도중 에러 발생");
+				}
+			});
+		});
+		
 	});
 	$(function(){
-		$('input.timepicker').timepicker({
+		// timepicker 위젯 30분 단위 올림 처리
+		var start_time_minute = moment().format("mm");
+		var remainder_start_time_minute;
+		if(start_time_minute <= 30) {
+			remainder_start_time_minute = 30 - start_time_minute;
+		}else {
+			remainder_start_time_minute = 60 - start_time_minute;
+		}
+		var	start_time = moment().add(remainder_start_time_minute, "m").format("HH:mm");
+		var remainder_end_time_minute = remainder_start_time_minute + 60;
+		var end_time = moment().add(remainder_end_time_minute, "m").format("HH:mm");
+		// timepicker 위젯 func
+		$('#add_startTime').timepicker({
 		    timeFormat: 'h:mm p',
-		    interval: 60,
-		    minTime: '10',
-		    maxTime: '6:00pm',
-		    defaultTime: '13',
-		    startTime: '10:00',
+		    interval: 30,
+		    minTime: '0:00am',
+		    maxTime: '11:30pm',
+		    defaultTime: start_time,
+		    startTime: '00:00',
+		    dynamic: true,
+		    dropdown: true,
+		    scrollbar: true
+		});
+		$('#add_endTime').timepicker({
+		    timeFormat: 'h:mm p',
+		    interval: 30,
+		    minTime: '0:00am',
+		    maxTime: '11:30pm',
+		    defaultTime: end_time,
+		    startTime: '00:00',
 		    dynamic: true,
 		    dropdown: true,
 		    scrollbar: true
@@ -191,15 +242,21 @@
 	});
 </script>
 <style type="text/css">
-.add-button {
-	top: 1px;
-	right: 230px;
-	background: #2C3E50;
-	border: 0;
-	color: white;
-	height: 35px;
-	border-radius: 3px;
-	width: 157px;
+/* close button */
+.close_detail {
+	color: #fff;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.close_add {
+	color: #000;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+	cursor: pointer;
 }
 
 /* modal style */
@@ -220,7 +277,7 @@
 .modal_detail .modal-content_detail {
 	/* 실제 모달창 부분 */
 	background-color: #3f51b5;
-	padding: 20px;
+	padding: 2%;
 	border: 1px solid #fff;
 	width: 60%;
 	color: #fff;
@@ -232,8 +289,9 @@
 }
 
 .modal_add {
-	/* 모달 뒷배경 */
+	/* 모달창(add는 뒷배경없음)) */
 	display: none;
+	padding: 2%;
 	background-color: #fff;
 	color: #000;
 	position: fixed;
@@ -243,46 +301,23 @@
 	width: 100%;
 	height: 100%;
 	overflow: auto;
-	/* background-color: rgb(0, 0, 0);
-	background-color: rgba(0, 0, 0, 0.5); */
-}
-
-/* .modal_add .modal-content_add{
-	/* 실제 모달창 부분 */
-	background-color: #3f51b5;
-	padding: 20px;
-	border: 1px solid #fff;
-	width: 60%;
-	color: #fff;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	text-align: left;
-} */
-/* close button */
-.close_detail {
-	color: #fff;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-	cursor: pointer;
-}
-
-.close_add {
-	color: #000;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-	cursor: pointer;
-}
-#calendar {
-	z-index: 0;
 }
 
 a {
 	text-decoration: none;
 	color: #000;
+}
+
+.form-select {
+	width: 7%;
+}
+
+.form-control{
+	width: 15%;
+}
+
+.search-form {
+	display: flex;
 }
 </style>
 <meta charset="UTF-8">
@@ -296,7 +331,7 @@ a {
 			<div id="side_menu" style="overflow-y: auto;">
 
 				<!-- <input type="button" value="일정쓰기"> -->
-				<input class="add-button" type="button" onclick="click_add();" value="일정 추가">
+				<input class="btn btn-success" type="button" onclick="click_add();" value="일정 추가">
 
 			</div>
 		</nav>
@@ -304,14 +339,17 @@ a {
 			<!-- 메인 기능 들어갈 부분 -->
 
 			<!-- 일정 검색 -->
-			<form method="post" action="<%=request.getContextPath()%>/calendar_search.do">
-				<select name="field">
+			<form method="post" action="<%=request.getContextPath()%>/calendar_search.do" class="search-form" id="search_form">
+				<select name="field" class="form-select">
 					<option value="title">제목</option>
 					<option value="cont">내용</option>
 					<option value="writer">작성자</option>
-				</select> <input name="keyword">&nbsp;&nbsp; <input type="submit" value="검색">
+				</select>&nbsp;
+				<input name="keyword" class="form-control" type="text" placeholder="검색어를 입력하세요.">&nbsp;&nbsp;
+				<input type="button" value="검색" class="btn btn-primary" id="search_btn">
 			</form>
 
+			<br>
 			<!-- Calendar -->
 			<div id='calendar'></div>
 
@@ -330,60 +368,45 @@ a {
 
 			<!-- Modal - Add -->
 			<section class="modal_add">
+				<form id="add_form" method="post" enctype="multipart/form-data">
 				<!-- <article class="modal-content_add"> -->
 					<span class="close_add">&times;</span>
-					제목 <input type="checkbox" class="add_mark"> <input class="add_title">
+					<input type="hidden" name="mem_no" value="3">
+					제목 <input type="checkbox" class="add_mark" name="cal_mark"> <input class="add_title" name="title">
 					<br>
-					일시 <input type="date" class="add_startDate">
+					일시 <input type="date" class="add_startDate" name="start">
 					<input id="add_startTime" type="text" class="timepicker" value="" maxlength="10">
 					 - 
-					<input type="date" class="add_endDate">
+					<input type="date" class="add_endDate" name="end">
 					<input id="add_endTime" type="text" class="timepicker" value="" maxlength="10">
-					<!-- <p id="datepairExample">
-						<input type="text" class="date start" />
-						<input type="text" class="time start" /> to
-						<input type="text" class="time end" />
-						<input type="text" class="date end" />
-					</p>
-					
-					<script>
-						// initialize input widgets first
-						$('#datepairExample .time').timepicker({
-							'showDuration': true,
-							'timeFormat': 'g:ia'
-						});
-					
-						$('#datepairExample .date').datepicker({
-							'format': 'yyyy-m-d',
-							'autoclose': true
-						});
-					
-						// initialize datepair
-						$('#datepairExample').datepair();
-					</script> -->
 					<br>
-					<input type="checkbox" class="add_allDay"> 종일 &nbsp;<select></select>
+					<input type="checkbox" class="add_allDay" name="allDay"> 종일 &nbsp;<select></select>
 					<br>
-					캘린더 <select></select>
+					캘린더 <select name="cal_type_name">
+						<option value="테스트1">[기본] 캘린더1</option>
+						<option value="테스트2">캘린더2</option>
+						<option value="테스트3">캘린더3</option>
+					</select>
 					<br>
-					참석자 <input> <input type="button" value="주소록">
+					참석자 <input> <input type="button" value="주소록" name="cal_attendee1">
 					<br>
-					장소 <input class="add_place">
+					장소 <input class="add_place" name="cal_place">
 					<br>
-					메모 <textarea class="add_memo"></textarea>
+					메모 <textarea class="add_memo" name="cal_memo"></textarea>
 					<br>
-					파일첨부 <input type="button" value="내 PC">
+					파일첨부
+					<input class="form-control form-control-sm" id="formFileSm" type="file" name="cal_file">
 					<hr>
-					범주 <select></select>
+					범주 <select name="cal_category1"></select>
 					<br>
-					상태 <input type="radio" name="statusRadio"> <input type="radio" name="statusRadio">
-					<br><br> <input type="button" value="저장">
+					상태 <input type="radio" name="cal_status" value="바쁨"> <input type="radio" name="cal_status" value="한가함">
+					<br><br> <input type="button" value="저장" id="save_btn">
 				<!-- </article> -->
+				</form>
 			</section>
 
 		</article>
 		<!-- 메인 기능 들어갈 부분 끝 -->
 	</div>
-<!-- <script src="https://cdn.jsdelivr.net/npm/timepicker@1.14.0/jquery.timepicker.min.js"></script> -->
 </body>
 </html>

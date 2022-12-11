@@ -12,7 +12,9 @@
 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
     <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
 
+
     <property name="url" value="jdbc:oracle:thin:@dbteam3final_high?TNS_ADMIN=C:/NCS/download/apache-tomcat-9.0.65/wallet"/>
+
 
     <property name="username" value="ADMIN"/>
     <property name="password" value="KHteam3final"/>
@@ -26,6 +28,12 @@
 
 <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
     <constructor-arg ref="sqlSessionFactory"/>
-</bean>   	
+</bean>
+
+<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxInMemorySize" value="10485760"/>
+		<property name="defaultEncoding" value="UTF-8"/>
+</bean>
+		
 
 </beans>

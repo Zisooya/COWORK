@@ -40,7 +40,7 @@
             <input type="submit" class="btn" value="로그인" id="btnLogin" name="btnLogin">
             <a href="#">아이디 찾기</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <a href="#">비밀번호 찾기</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="#">회원가입</a>
+            <a href="${ path }/member_join.do">회원가입</a>
         </form>
     </div>
 </div>

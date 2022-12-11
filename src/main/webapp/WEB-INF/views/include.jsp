@@ -33,12 +33,15 @@
 						<div id="notification"><a href=""><img id="noti_img" src="resources/images/종.png" width="20" height="20" /><span id="noti_num">13</span></a></div>
 						<!-- <div id="bell"> <a href=""> <img src="resources/images/종.png" width="20" height="20" /><span></span> </a> </div> -->
 						<!-- <div id="alert_count"> <a href=""> 5 </a> </div> -->
-						<!-- 프로필 사진 클릭 시 마이페이지(회원정보 수정(비밀번호 변경 포함), 회원 탈퇴)로 이동 예정-->
+
+						<%-- 프로필 사진 클릭 시 마이페이지(회원정보 수정(비밀번호 변경 포함), 회원 탈퇴)로 이동 예정--%>
 						<div id="profile_circle"> <a href=""> <img src="resources/images/로그인_전_프로필.png" width="55" height="55" /> </a> </div>
 						<div id="login"> <a href="${ path }/member_logout.do">로그아웃</a> </div>
-						<div id="hi"> <b>박지수</b>님 안녕하세요!</div>
+						<div id="hi"> <b>${member.mem_name}</b>님 안녕하세요!</div>
 				</div>
 			</div>	
+			
+
 
 	
 

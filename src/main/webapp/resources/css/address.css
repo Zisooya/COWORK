@@ -5,7 +5,6 @@ input[id *= "popup"] {
 	display: none;
 }
 
-
 input[id *= "popup"] + label + div {
 	opacity: 0;
 	visibility: hidden;
@@ -180,6 +179,7 @@ input[id *= "popup"] + label + div > label {
 }
 
 
+
 #chooseFile {
     visibility: hidden;
 }
@@ -321,6 +321,7 @@ input[id *= "popup"] + label + div > label {
 
  .subject table {
  	width: 90%;
+
  }
  
  .subject table th,td {
@@ -334,7 +335,6 @@ input[id *= "popup"] + label + div > label {
 	height: auto;
 	cursor: pointer;
 	float: left;
-		
 }
 
 
