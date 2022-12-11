@@ -18,6 +18,10 @@
 		<typeAlias type="com.team3.model.MemberDAO" alias="memberDAO"/>
 		<typeAlias type="com.team3.model.MemberDTO" alias="memberDTO"/>
 	
+		<!-- *************** 지수 *************** -->	
+		<typeAlias type="com.team3.model.AddressDAO" alias="addressDao"/>
+		<typeAlias type="com.team3.model.DepartmentDTO" alias="departmentDto"/>
+	
 		<!-- *************** 현우 *************** -->
 		<typeAlias type="com.team3.model.CalendarDAO" alias="caldao"/>
 		<typeAlias type="com.team3.model.CalendarDTO" alias="caldto"/>
