@@ -19,6 +19,7 @@
 		<typeAlias type="com.team3.model.MemberDTO" alias="memberDTO"/>
 	
 		<!-- *************** 현우 *************** -->
+		<typeAlias type="com.team3.model.CalendarDAO" alias="caldao"/>
 		<typeAlias type="com.team3.model.CalendarDTO" alias="caldto"/>
 	
 		<!-- *************** 세건 *************** -->

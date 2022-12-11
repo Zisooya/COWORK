@@ -176,19 +176,21 @@
 		calendar.render();
 		
 		$("#save_btn").click( function() {
-			/* var formData = new FormData(document.getElementById("add_form")); */
-			var formData = new FormData();
+			/* var formData = new FormData();
 			var inputFile = $("input[id='formFileSm']");
 			var files = inputFile[0].files;
 			console.log(files);
 			// add fileData to formData
 			for(var i=0; i<files.length; i++) {
 				formData.append("uploadFile", files[i]);
-			}
+			} */
+			var form = $('#add_form')[0];
+	        var formData = new FormData(form);
 			$.ajax({
 				type : 'POST',
 				enctype: "multipart/form-data",
 				url : 'upload_ok.do',
+				cache: false, // 필수
 				processData : false, // 필수 
 				contentType : false, // 필수 
 				data : formData,
@@ -369,34 +371,35 @@ a {
 				<form id="add_form" method="post" enctype="multipart/form-data">
 				<!-- <article class="modal-content_add"> -->
 					<span class="close_add">&times;</span>
-					제목 <input type="checkbox" class="add_mark"> <input class="add_title">
+					<input type="hidden" name="mem_no" value="3">
+					제목 <input type="checkbox" class="add_mark" name="cal_mark"> <input class="add_title" name="title">
 					<br>
-					일시 <input type="date" class="add_startDate">
+					일시 <input type="date" class="add_startDate" name="start">
 					<input id="add_startTime" type="text" class="timepicker" value="" maxlength="10">
 					 - 
-					<input type="date" class="add_endDate">
+					<input type="date" class="add_endDate" name="end">
 					<input id="add_endTime" type="text" class="timepicker" value="" maxlength="10">
 					<br>
-					<input type="checkbox" class="add_allDay"> 종일 &nbsp;<select></select>
+					<input type="checkbox" class="add_allDay" name="allDay"> 종일 &nbsp;<select></select>
 					<br>
-					캘린더 <select>
-						<option value="title">테스트1</option>
-						<option value="cont">테스트2</option>
-						<option value="writer">테스트3</option>
+					캘린더 <select name="cal_type_name">
+						<option value="테스트1">[기본] 캘린더1</option>
+						<option value="테스트2">캘린더2</option>
+						<option value="테스트3">캘린더3</option>
 					</select>
 					<br>
-					참석자 <input> <input type="button" value="주소록">
+					참석자 <input> <input type="button" value="주소록" name="cal_attendee1">
 					<br>
-					장소 <input class="add_place">
+					장소 <input class="add_place" name="cal_place">
 					<br>
-					메모 <textarea class="add_memo"></textarea>
+					메모 <textarea class="add_memo" name="cal_memo"></textarea>
 					<br>
 					파일첨부
-					<input class="form-control form-control-sm" id="formFileSm" type="file">
+					<input class="form-control form-control-sm" id="formFileSm" type="file" name="cal_file">
 					<hr>
-					범주 <select></select>
+					범주 <select name="cal_category1"></select>
 					<br>
-					상태 <input type="radio" name="statusRadio"> <input type="radio" name="statusRadio">
+					상태 <input type="radio" name="cal_status" value="바쁨"> <input type="radio" name="cal_status" value="한가함">
 					<br><br> <input type="button" value="저장" id="save_btn">
 				<!-- </article> -->
 				</form>
