@@ -23,8 +23,7 @@ public class CalendarDAOImpl implements CalendarDAO{
 
 	@Override
 	public int insertEvent(CalendarDTO dto) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.sqlSession.insert("add", dto);
 	}
 
 	@Override

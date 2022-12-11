@@ -5,7 +5,6 @@ input[id *= "popup"] {
 	display: none;
 }
 
-
 input[id *= "popup"] + label + div {
 	opacity: 0;
 	visibility: hidden;
