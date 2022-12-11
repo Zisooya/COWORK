@@ -218,13 +218,13 @@ nav label {
 }
 
 #noti_num {
-	font-size : 0.7rem;
+	font-size : 0.6rem;
 	color : white;
 	background-color: red;
 	border-radius: 50%;
-	height: 1rem;
-    width: 1rem;
-    line-height: 1rem;
+	height: 0.9rem;
+    width: 0.9rem;
+    line-height: 0.9rem;
     text-align: center;
     display: inline-block;
     place-self: end end;

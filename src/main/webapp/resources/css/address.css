@@ -5,10 +5,6 @@ input[id *= "popup"] {
 	display: none;
 }
 
-#side_menu label {
-}
-
-
 
 input[id *= "popup"] + label + div {
 	opacity: 0;
@@ -103,7 +99,6 @@ input[id *= "popup"] + label + div > label {
 	background: none;
 	background-size: 3rem;
 }
-
 
 .modal_content form {
 	text-align: left;
@@ -269,9 +264,6 @@ input[id *= "popup"] + label + div > label {
 	font-weight: bold;	
 }
 
-
-
-/*  */
 #side_menu hr{
 	width: 86%;
 	color: #EAEAEA;
@@ -335,16 +327,23 @@ input[id *= "popup"] + label + div > label {
  	width: 14.2%;
  }
  
-.accordion ul {
-	margin: 0;
-}
-
-.accordion li {
+.accordion label {
 	font-size: 0.9rem;
 	padding: 8px 25px;
 	width: auto;
 	height: auto;
 	cursor: pointer;
+	float: left;
+		
+}
+
+
+.accordion_cb_div label{
+	float: left;
+}
+
+.accordion_cb_div {
+	text-align: left;
 }
 
 .addr_label {
@@ -378,11 +377,16 @@ input[id *= "addr_menu"] + label span {
 	background-size: 1.1rem;
 }
 
-input[id *= "addr_menu"] + label + ul {
+.accordion_cb_div {
+	margin-left: 40px;
+	width:90%;
 	max-height: 0;
 	overflow: hidden;
+	box-sizing: border-box;
+	
 }
-input[id *= "addr_menu"]:checked + label + ul {
+
+input[id *= "addr_menu"]:checked + label + br + div {
 	max-height: 100%;
 }
 
@@ -411,7 +415,15 @@ input[id *= "addr_menu"]:checked + label span {
 	background: url(../images/그룹.png) 0 0 no-repeat;
 	background-size: 1.1rem;
 	background-position: left;	
+	font-size: 0.9rem;
+	font-weight: normal;
 }
+
+#accordion_cb{
+	display: none;
+	text-align: left;
+}
+
 
 
 .vip {

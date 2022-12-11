@@ -103,18 +103,24 @@
 					<hr>
 					<input type="checkbox" id="addr_menu01">
 					<label class="addr_label" for="addr_menu01"><span></span>&nbsp;&nbsp;&nbsp;&nbsp;조직도</label>
-					<ul>
-						<li class="people">경영지원본부</li>
-						<li class="people">개발본부</li>
-						<li class="people">기획마케팅본부</li>
-						<li class="people">디자인본부</li>
-					</ul>
+					<br>
+					<div class="accordion_cb_div">
+						<c:set var="deptList" value="${deptList}" />
+						<c:if test="${!empty deptList }">
+							<c:forEach items="${deptList }" var="deptDto">
+								<input type="checkbox" id="accordion_cb">
+								<label class="people" for="accordion_cb">${deptDto.getDept_name() }</label>
+							</c:forEach>
+						</c:if>
+					</div>
 					<hr>
 					<input type="checkbox" id="addr_menu02">
 					<label class="addr_label" for="addr_menu02"><span></span>&nbsp;&nbsp;&nbsp;&nbsp;고객 / 거래처</label>					
-					<ul>
-						<li class="people">전체 연락처</li>
-					</ul>
+					<br>
+					<div class="accordion_cb_div">
+						<input type="checkbox" id="accordion_cb">
+						<label class="people" for="accordion_cb">전체 연락처</label>
+					</div>	
 					<hr>
 				</div>
 				
