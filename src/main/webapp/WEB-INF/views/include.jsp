@@ -38,7 +38,7 @@
 						<div id="profile_circle"> <a href=""> <img src="resources/images/로그인_전_프로필.png" width="55" height="55" /> </a> </div>
 						<div id="logout"> <a href="${ path }/member_logout.do">로그아웃</a> </div>
 
-						<div id="hi"> <b>박지수</b>님 안녕하세요!</div>
+						<div id="hi"> <b>${member.mem_name}</b>님 안녕하세요!</div>
 				</div>
 			</div>	
 			
