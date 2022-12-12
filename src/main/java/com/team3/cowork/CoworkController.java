@@ -238,6 +238,22 @@ public class CoworkController {
 	 model.addAttribute("status", status); 
 	 return "projects_include/project_board"; 
 	 
+		 
+	 }
+	 // 프로젝트 status 변경 _ 세건
+	 @RequestMapping("project_UpdateStatus.do")
+	 public void updatestatus(ProjectsDTO dto, Projects_statusDTO sdto,HttpServletResponse response) throws IOException {
+		 System.out.println(sdto.getStatus_name());
+		 System.out.println(dto.getProject_no());
+		 response.setContentType("text/html; charset=UTF-8");
+		 PrintWriter out = response.getWriter();
+			
+	
+	 }
+	 
+	 @RequestMapping("drag.do")
+	 public String dragetest() {
+		 return "projects_include/drag";
 	 }
 	
 
