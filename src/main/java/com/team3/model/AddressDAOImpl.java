@@ -15,7 +15,7 @@ public class AddressDAOImpl implements AddressDAO {
 
 	@Override
 	public List<DepartmentDTO> getAllDeptList() {
-		return this.sqlSession.selectList("address_deptList");
+		return this.sqlSession.selectList("addressDao.address_deptList");
 	}
 
 	@Override

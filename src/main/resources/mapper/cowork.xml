@@ -19,10 +19,6 @@
 		<result property="allDay" column="cal_allday"/>
 	</resultMap>
 	
-	<!-- *******************지수**********************-->
-	<select id="address_deptList" resultType="departmentDto">
-		select * from department
-	</select> 	
  	<!-- *******************현우**********************-->
  	<select id="calList" parameterType="int" resultMap="calMap">
 		select * from calendar where mem_no = #{mem_no}

@@ -19,15 +19,11 @@
 		<result property="allDay" column="cal_allday"/>
 	</resultMap>
 	
-	<!-- *******************지수**********************-->
-	<select id="address_deptList" resultType="departmentDto">
-		select * from department
-	</select> 	
  	<!-- *******************현우**********************-->
  	<select id="calList" parameterType="int" resultMap="calMap">
 		select * from calendar where mem_no = #{mem_no}
 	</select>
-
+	
 	<!-- *******************세건**********************-->
  	<select id="all" resultType="projectsdto">
 		select * from projects order by project_start desc
