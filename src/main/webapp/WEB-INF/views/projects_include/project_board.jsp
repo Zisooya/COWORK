@@ -47,15 +47,16 @@
 		      cancel: ".portlet-toggle",
 		      placeholder: "portlet-placeholder ui-corner-all",
 		      receive:function(){
-		    	  var no = $(this).sortable("toArray");
+		    	  var no = ($(this).sortable("toArray"));
 		    	  var status = ($(this).attr("id"));
-		    	  var leng = no.length;
-		    	  var project_no = no[leng-1];
+		    	  var leng = no.length-1;
+		    	  var project_no = no[leng];
+		    	  alert(no);
+		    	  alert(no[leng-1]);
 		    	  $.ajax({
 		  			type : "post",
 		  			url : "project_UpdateStatus.do",
 		  			data : {status_name : status,
-		  				    project_no : project_no
 		  					},
 		  			datatype : "text",
 		  			success : function(){

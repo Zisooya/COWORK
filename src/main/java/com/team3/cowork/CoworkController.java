@@ -243,8 +243,11 @@ public class CoworkController {
 	 // 프로젝트 status 변경 _ 세건
 	 @RequestMapping("project_UpdateStatus.do")
 	 public void updatestatus(ProjectsDTO dto, Projects_statusDTO sdto,HttpServletResponse response) throws IOException {
-		 System.out.println(sdto.getStatus_name());
-		 System.out.println(dto.getProject_no());
+		 String status_name = sdto.getStatus_name();
+		 int status_no = this.dao_projects.selectStatus_no(status_name);
+		 System.out.println(status_no);
+		 int project_no = dto.getProject_no();
+		 this.dao_projects.updateStatus(status_name,project_no);
 		 response.setContentType("text/html; charset=UTF-8");
 		 PrintWriter out = response.getWriter();
 			
