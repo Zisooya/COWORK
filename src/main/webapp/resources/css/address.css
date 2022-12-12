@@ -171,7 +171,7 @@ input[id *= "popup"] + label + div > label {
 	padding-left: 5px;
 }
 
-.input_box_radio label {
+.input_box_cb label {
 	font-size: 0.9rem;
 	font-weight: normal;
 	padding: 10px 0;
@@ -322,9 +322,20 @@ input[id *= "popup"] + label + div > label {
  	width: 90%;
  }
  
- .subject table th,td {
+.subject table th,td {
  	width: 14.2%;
+ 	padding: 10px;
  }
+
+.subject table th {
+	font-size: 0.9rem;
+	color: grey;
+}
+
+.subject table td {
+	font-weight: normal;
+	font-size: 1rem;
+} 
  
 .accordion label {
 	font-size: 0.9rem;
@@ -363,6 +374,7 @@ input[id *= "addr_menu"] + label {
 	cursor: pointer;
 	position: relative;	
 	font-weight: 600;
+	width: 100%;
 }
 
 input[id *= "addr_menu"] + label span {
@@ -401,6 +413,12 @@ input[id *= "addr_menu"]:checked + label span {
 	
 }
 
+input[id *= "accordion_cb"]:checked + label {
+	font-weight: bold;
+	color: red;
+	
+}
+
 #side_menu a {
 	margin-left:20px;
 	font-size: 1rem;
@@ -418,7 +436,7 @@ input[id *= "addr_menu"]:checked + label span {
 	font-weight: normal;
 }
 
-#accordion_cb{
+input[id *= "accordion_cb"] {
 	display: none;
 	text-align: left;
 }

@@ -10,6 +10,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta charset="UTF-8">
 <title>주소록</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.js"></script>
 <link href="${path}/resources/css/address.css" rel="stylesheet"/>
 <link href="${path}/resources/css/include.css" rel="stylesheet"/>
 </head>
@@ -62,8 +63,8 @@
 									<input type="text" placeholder="이메일">
 								</div>
 								<div class="add_title">공개범위</div>
-								<div class="input_box_radio">
-									<input type="radio" value="전체공개"><label for="전체공개">전체공개</label><input type="radio" value="멤버공개"><label for="멤버공개">멤버공개</label>
+								<div class="input_box_cb">
+									<input type="checkbox" value="전체공개"><label for="전체공개">전체공개</label><input type="checkbox" value="멤버공개"><label for="멤버공개">멤버공개</label>
 								</div>
 								
 								<div class="add_title">편집허용</div>
@@ -99,6 +100,7 @@
 											
 				<br>
 				
+
 				<div class="accordion">
 					<hr>
 					<input type="checkbox" id="addr_menu01">
@@ -106,10 +108,11 @@
 					<br>
 					<div class="accordion_cb_div">
 						<c:set var="deptList" value="${deptList}" />
+						<c:set var="myDept_no" value="${myDept_no}" />
 						<c:if test="${!empty deptList }">
-							<c:forEach items="${deptList }" var="deptDto">
-								<input type="checkbox" id="accordion_cb">
-								<label class="people" for="accordion_cb">${deptDto.getDept_name() }</label>
+							<c:forEach items="${deptList }" var="deptDto" varStatus="vs">
+								<input type="checkbox" id="accordion_cb_${vs.index }" name="accordion_cb_dept" value="${deptDto.getDept_name() }">
+								<label class="people" for="accordion_cb_${vs.index }">${deptDto.getDept_name() }</label>
 							</c:forEach>
 						</c:if>
 					</div>
@@ -168,11 +171,17 @@
 						<th>전화번호</th>			
 					</tr>	
 					
-					<tr>
-						<td></td> <td></td> <td></td>
-						<td></td> <td></td> <td></td>
-						<td></td>
-					</tr>
+					<c:set var="myMemList" value="${myDeptMemberList}" />
+					<c:if test="${!empty myMemList }">
+						<c:forEach items="${myMemList }" var="myMemDto">
+							<tr>
+								<td><b>${myMemDto.getMem_name() }</b></td> <td>${myMemDto.getMem_position() }</td> <td>${myMemDto.getMem_rank() }</td>
+								<td>${myMemDto.getDept_name() }</td> <td>${myMemDto.getTeam_name() }</td> <td>${myMemDto.getMem_email() }</td>
+								<td>${myMemDto.getMem_phone() }</td>
+							</tr>
+						</c:forEach>
+					</c:if>
+					
 				</table>
 		
 			</div>	
@@ -181,6 +190,50 @@
 	
 	</div>
 <script type="text/javascript">
+
+$(function(){
+	
+	// 부서 별 주소록 클릭 시 이벤트
+	$("input[name *= 'accordion_cb_dept']").click(function(){
+		// 부서명 체크박스 하나만 선택되도록 하기.
+	    if(this.checked) {
+	        const checkboxes = $("input[name *= 'accordion_cb_dept']");
+	        for(let i = 0; i < checkboxes.length; i++){
+	            checkboxes[i].checked = false;
+	        }
+	        this.checked = true;
+	    } else {
+	        this.checked = false;
+	    }
+		
+		let dept_name = $("input:checkbox[name=accordion_cb_dept]:checked").val();
+		
+		console.log('체크한 부서명은?' + dept_name);
+		
+		$.ajax({
+			type: 'POST',
+		//	async : false,
+			url: '<%=request.getContextPath()%>/getAddrList_dept.do',
+			dataType:'json',
+			data: {"dept_name" : dept_name},
+			success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
+				alert('성공, 결과는' + data);
+				//addrList_dept
+				$(data).each(function(){
+					$(".subject").text(this.mem_name);
+					});		
+								
+			},
+			error: function(res){ // 응답을 받지 못하였다거나 정상적인 응답이지만 데이터 형식을 확인할 수 없을 때 error 콜백이 호출.
+				alert('ajax 응답 오류');
+			}
+		});	// 부서 별 리스트 조회 $.ajax() end		
+		
+		
+	});
+});
+
+
 
 </script>
 </body>

@@ -11,4 +11,17 @@
 		select * from department
 	</select> 	
 	
+	<!-- 추후에 로그인 사용자 회원 번호 받아와서 수정할 것. -->
+	<select id="address_myDeptNum" resultType="int">
+		select dept_no from member where mem_no = 1	
+	</select>
+	
+	<select id="address_myDeptMemberList" parameterType="int" resultType="memberDTO">
+		select * from member where dept_no = #{dept_no}
+	</select>
+	
+	<select id="getAddrList_dept" parameterType="String" resultType="memberDTO">
+		select * from member where dept_name = #{dept_name}	
+	</select>
+	
  </mapper>
