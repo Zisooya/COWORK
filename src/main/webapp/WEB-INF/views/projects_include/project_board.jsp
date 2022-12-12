@@ -23,7 +23,8 @@
 		    	$(".plus_card").hide(100);
 		    }
 		});
-	/* 프로젝트 이름 클릭시 상세보기 모달 창 생성 */
+		
+		/* 프로젝트 이름 클릭시 상세보기 모달 창 생성 */
 		$(".project_name").click(function(){
 			let href = ($(this).attr("id"));
 			let href1 = "<%=request.getContextPath()%>/content.do?num="+href;
@@ -38,16 +39,45 @@
  		$(".insert_card").click(function(){
 			$(".plus_card").toggle(100);
 		})
+		
+		/* div 드래그 */
+		$( ".column" ).sortable({
+		      connectWith: ".column",
+		      handle: ".portlet-header",
+		      cancel: ".portlet-toggle",
+		      placeholder: "portlet-placeholder ui-corner-all",
+		      receive:function(){
+		    	  var no = ($(this).sortable("toArray"));
+		    	  var status = ($(this).attr("id"));
+		    	  var leng = no.length-1;
+		    	  var project_no = no[leng];
+		    	  alert(no);
+		    	  alert(no[leng-1]);
+		    	  $.ajax({
+		  			type : "post",
+		  			url : "project_UpdateStatus.do",
+		  			data : {status_name : status,
+		  					},
+		  			datatype : "text",
+		  			success : function(){
+		  				alert('데이터 통신 에러 아님');
+		  			},
+		  			error : function(request,status,error){
+		  				alert('데이터 통신 에러');
+		  			}
+		  		})
+		      }
+		});
 	})
 	
 </script>
-<link href="${path}/resources/css/include.css" rel="stylesheet"/>
+<link href="${path}/resources/css/bootstrap_include.css" rel="stylesheet"/>
 <style type="text/css">
 body{
 	background-color: #E4F7BA;
 	height: 100%;
 }
-#content{
+ #content{
 	height:100%;
 	outline: none;
     position: relative;
@@ -65,6 +95,7 @@ body{
 .row:first-child{
 	margin-left: 10px;
 }
+
 .col{
 	max-width: 300px;
 	height:100%;
@@ -72,16 +103,17 @@ body{
 	padding-right: 5px;
 	min-width: 300px;
 }
+
 .border-success{
 	box-shadow: var(--ds-shadow-raised,0 1px 0 #091e4240);
 }
+
 .plus{
 	display: inline-block;
 }
 .card{
 	margin-bottom: 10px !important;
 	max-height: 95%;
-	z-index: 1;
 }
 .card-body,.card-header{
 	padding: 8px;
@@ -96,11 +128,10 @@ body{
     height: 8px;
     width: 8px;
 }
-
 .list-cards {
     flex: 1 1 auto;
     margin: 0 4px;
-    min-height: 0;
+    min-height: 100px;
     padding: 0 4px;
     z-index: 1;
     overflow: auto;
@@ -111,6 +142,11 @@ body{
 	margin-top: 5px;
 	margin-bottom: 0;
 }
+ .portlet-placeholder {
+   border: 1px dotted black;
+   margin: 0 1em 1em 0;
+   height: 106px;
+ }
 </style>
 </head>
 <body class="feplat3731">
@@ -118,8 +154,8 @@ body{
 	<c:set var="main" value="${main }"/>
 	<c:set var="status" value="${status }"/>
 	<c:set var="mlist" value="${mlist }"/>
-	<%-- <jsp:include page="../include.jsp" />  --%>
 	<div id="grid_container">
+	<jsp:include page="../include.jsp" />
 		<nav id="side">
 			<label>목 록</label>
 			<div id="side_menu" style="overflow-y: auto;">
@@ -136,27 +172,27 @@ body{
 				      <div class="card-body">
 			        	<h5 class="card-title">${sdto.getStatus_name() }</h5>
 			        	<hr class="card_title_hr">
-						    <div class="list-cards u-fancy-scrollbar u-clearfix js-list-cards js-sortable ui-sortable">
+						    <div id="${sdto.getStatus_name() }" class="list-cards u-fancy-scrollbar u-clearfix js-list-cards js-sortable ui-sortable column">
 						        <p class="card-text">
 						        	<c:forEach items="${list }" var="dto">
 						        	<c:if test="${sdto.getStatus_no() == dto.getProject_status() }">
 						        	<!-- card -->					        	  	
 						        	 <c:set var="count" value="${count +1 }"/>
-										<div style="cursor:pointer" id="${dto.getProject_no() }" class="card border-light mb-3 shadow p-3 mb-5 bg-body rounded project_name"style="max-width: 18rem;">
+										<div style="cursor:pointer" id="${dto.getProject_no() }" class="card border-light mb-3 shadow p-3 mb-5 bg-body rounded project_name portlet"style="max-width: 18rem;">
 							        	  <c:forEach items="${main }" var="mdto">
 							        	  <c:if test="${mdto.getMain_no() == dto.getProject_main() }">
 							        	  <c:if test="${mdto.getMain_name().length() > 15 }">
-											  <div id="${dto.getProject_no() }" class="card-header">${mdto.getMain_name().substring(0,15) }...</div>
+											  <div id="${dto.getProject_no() }" class="card-header portlet-header">${mdto.getMain_name().substring(0,15) }...</div>
 										  </c:if>
 										  <c:if test="${mdto.getMain_name().length() <= 14 }">
-											  <div id="${dto.getProject_no() }" class="card-header">${mdto.getMain_name() }</div>
+											  <div id="${dto.getProject_no() }" class="card-header portlet-header">${mdto.getMain_name() }</div>
 										  </c:if>
-											  <div class="card-body">
+											  <div class="card-body portlet-content">
 											  	<c:if test="${dto.getProject_name().length() > 15 }">
 											    	<b class="card-title">${dto.getProject_name().substring(0,15) }...</b>
 											    </c:if>
 											    <c:if test="${dto.getProject_name().length() <= 14 }">
-											    	<b class="card-title">${dto.getProject_name() }</b>
+											    	<b class="card-title portlet-content">${dto.getProject_name() }</b>
 											    </c:if>
 											  </div>
 										  </c:if>
@@ -167,7 +203,6 @@ body{
 						        </p>
 						      </div>
 					      <div class="card-footer">
-					        <small class="text-muted">${count }</small>
 					      </div>
 					    </div>
 				    </div>

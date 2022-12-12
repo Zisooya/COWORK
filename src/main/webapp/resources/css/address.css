@@ -5,11 +5,6 @@ input[id *= "popup"] {
 	display: none;
 }
 
-#side_menu label {
-}
-
-
-
 input[id *= "popup"] + label + div {
 	opacity: 0;
 	visibility: hidden;
@@ -104,7 +99,6 @@ input[id *= "popup"] + label + div > label {
 	background-size: 3rem;
 }
 
-
 .modal_content form {
 	text-align: left;
 	width: 100%;
@@ -152,7 +146,6 @@ input[id *= "popup"] + label + div > label {
 }
 
 .modal_content form label {
-	width: auto;
 	background: none;
 }
 
@@ -181,12 +174,8 @@ input[id *= "popup"] + label + div > label {
 .input_box_radio label {
 	font-size: 0.9rem;
 	font-weight: normal;
-	padding: 10px;
-}
-
-.input_box_check {
-	height: 100%;
-	width: 100%;
+	padding: 10px 0;
+	width: 80px;
 }
 
 
@@ -195,10 +184,9 @@ input[id *= "popup"] + label + div > label {
     visibility: hidden;
 }
 
-
 .toggleSwitch {
-  width: 32px;
-  height: 16px;
+  width: 40px;
+  height: 20px;
   display: inline-block;
   position: relative;
   border-radius: 30px;
@@ -234,6 +222,47 @@ input[id *= "popup"] + label + div > label {
   transition: all 0.2s ease-in;
 }
 
+.add_btn_div{
+	width: auto;
+	height: auto;
+	float: right;	
+	margin-right: 30px;
+}
+
+.add_btn {
+	width: 100px;
+	height: 35px;	
+	background-color: #7BE66D;
+	border: none;
+	border-radius: 5px;
+	margin: 40px 5px 30px 5px;
+	color: #FFF;
+	color: #FFF;
+	font-weight: bold;	
+}
+
+/* 구성원 초대 - 모달창 콘텐츠 */
+.email_input {
+	width: 100%;
+	height:35px;
+	box-sizing: border-box;
+	border: 0.5px solid #989898;
+	border-radius: 5px;
+	font-size: 0.9rem;
+	padding-left: 8px;	
+}
+
+#send_email_btn{
+	width: 200px;
+	height: 35px;	
+	background-color: #7BE66D;
+	border: none;
+	border-radius: 5px;
+	margin: 40px 5px 30px 5px;
+	float: right;
+	color: #FFF;
+	font-weight: bold;	
+}
 
 #side_menu hr{
 	width: 86%;
@@ -292,22 +321,29 @@ input[id *= "popup"] + label + div > label {
 
  .subject table {
  	width: 90%;
+
  }
  
  .subject table th,td {
  	width: 14.2%;
  }
  
-.accordion ul {
-	margin: 0;
-}
-
-.accordion li {
+.accordion label {
 	font-size: 0.9rem;
 	padding: 8px 25px;
 	width: auto;
 	height: auto;
 	cursor: pointer;
+	float: left;
+}
+
+
+.accordion_cb_div label{
+	float: left;
+}
+
+.accordion_cb_div {
+	text-align: left;
 }
 
 .addr_label {
@@ -341,11 +377,16 @@ input[id *= "addr_menu"] + label span {
 	background-size: 1.1rem;
 }
 
-input[id *= "addr_menu"] + label + ul {
+.accordion_cb_div {
+	margin-left: 40px;
+	width:90%;
 	max-height: 0;
 	overflow: hidden;
+	box-sizing: border-box;
+	
 }
-input[id *= "addr_menu"]:checked + label + ul {
+
+input[id *= "addr_menu"]:checked + label + br + div {
 	max-height: 100%;
 }
 
@@ -374,7 +415,15 @@ input[id *= "addr_menu"]:checked + label span {
 	background: url(../images/그룹.png) 0 0 no-repeat;
 	background-size: 1.1rem;
 	background-position: left;	
+	font-size: 0.9rem;
+	font-weight: normal;
 }
+
+#accordion_cb{
+	display: none;
+	text-align: left;
+}
+
 
 
 .vip {

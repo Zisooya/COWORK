@@ -73,7 +73,12 @@
 									  <span class="toggleButton"></span>
 									</label>
 								</div>
-							
+
+								<div class="add_btn_div">
+									<button class="add_btn">취소</button>
+									<input class="add_btn" type="submit" value="저장">
+								</div>
+
 						</form>
 						
 					</div>
@@ -85,7 +90,11 @@
 				<div>
 					<div class="modal_content">
 						<label class="modal_exit" for="popup02"></label>
-						구성원 초대
+						<h2>구성원 초대</h2>
+						<div>초대 메일을 받은 구성원이 자신의 계정 정보를 직접 입력하여 COWORK에 가입합니다.</div>
+						<input class="email_input" type="text" placeholder="이메일">
+						<button id="send_email_btn">초대 메일 보내기</button>
+						
 					</div>
 					<label for="popup02"></label>
 				</div>
@@ -96,18 +105,26 @@
 					<hr>
 					<input type="checkbox" id="addr_menu01">
 					<label class="addr_label" for="addr_menu01"><span></span>&nbsp;&nbsp;&nbsp;&nbsp;조직도</label>
-					<ul>
-						<li class="people">경영지원본부</li>
-						<li class="people">개발본부</li>
-						<li class="people">기획마케팅본부</li>
-						<li class="people">디자인본부</li>
-					</ul>
+
+					<br>
+					<div class="accordion_cb_div">
+						<c:set var="deptList" value="${deptList}" />
+						<c:if test="${!empty deptList }">
+							<c:forEach items="${deptList }" var="deptDto">
+								<input type="checkbox" id="accordion_cb">
+								<label class="people" for="accordion_cb">${deptDto.getDept_name() }</label>
+							</c:forEach>
+						</c:if>
+					</div>
 					<hr>
 					<input type="checkbox" id="addr_menu02">
 					<label class="addr_label" for="addr_menu02"><span></span>&nbsp;&nbsp;&nbsp;&nbsp;고객 / 거래처</label>					
-					<ul>
-						<li class="people">전체 연락처</li>
-					</ul>
+					<br>
+					<div class="accordion_cb_div">
+						<input type="checkbox" id="accordion_cb">
+						<label class="people" for="accordion_cb">전체 연락처</label>
+					</div>	
+
 					<hr>
 				</div>
 				
@@ -169,7 +186,6 @@
 	</div>
 <script type="text/javascript">
 
-console.log('');
 </script>
 </body>
 </html>

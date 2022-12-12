@@ -129,4 +129,14 @@ public class ProjectsDAOImpl implements ProjectsDAO{
 		return this.sqlSession.insert("insertStatus", dto);
 	}
 
+	@Override
+	public void updateStatus(String status_name, int project_no) {
+		this.sqlSession.update(status_name, status_name);
+	}
+
+	@Override
+	public int selectStatus_no(String status_name) {
+		return this.sqlSession.selectOne("SelectStatus_no", status_name);
+	}
+
 }
