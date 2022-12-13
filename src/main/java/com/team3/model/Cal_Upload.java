@@ -10,8 +10,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 @Service
 public class Cal_Upload {
-	public boolean fileUpload(MultipartHttpServletRequest mRequest) {
-		boolean isUpload = false;
+	public String fileUpload(MultipartHttpServletRequest mRequest) {
+		//boolean isUpload = false;
+		String saveFileName = "";
 		
 		String uploadPath = "C:\\Users\\VVIP\\Documents\\GitHub\\COWORK\\src\\main\\webapp\\resources\\cal_upload\\";
 		
@@ -38,7 +39,7 @@ public class Cal_Upload {
 			}
 			
 			// 실제 파일을 만들어보자
-			String saveFileName = originalFileName;
+			saveFileName = originalFileName;
 			if(!saveFileName.equals("")) {
 				saveFileName = System.currentTimeMillis() + "_" + saveFileName;
 				
@@ -48,7 +49,7 @@ public class Cal_Upload {
 					// transferTo() : 파일 데이터를 지정한 폴더로 실제 저장하는 메서드
 					mFile.transferTo(origin);
 					
-					isUpload = true;
+					//isUpload = true;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -56,6 +57,7 @@ public class Cal_Upload {
 			
 		}	// while문 end
 		
-		return isUpload;
+		//return isUpload;
+		return saveFileName;
 	}
 }

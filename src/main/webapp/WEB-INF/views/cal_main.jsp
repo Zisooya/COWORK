@@ -7,13 +7,16 @@
 <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script> -->
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/ko.min.js"></script>
 <script>
+	jQuery.datetimepicker.setLocale('kr');
 	document.addEventListener('DOMContentLoaded',function() {
 		/* ------------------------------------모달창 관련------------------------------------ */
 		const modal_detail = document.querySelector(".modal_detail");
@@ -21,7 +24,7 @@
 		const modal_add = document.querySelector(".modal_add");
 		const closeBtn_add = document.querySelector(".close_add");
 
-		const allDay_checkBox_add = document.querySelector(".add_allDay");
+		/* const allDay_checkBox_add = document.querySelector(".add_allDay");
 		const startTime_add = document.querySelector(".add_startTime");
 		const endTime_add = document.querySelector(".add_endTime");
 		//종일(allDay) 체크 시 시간선택 요소 사라짐 func
@@ -33,7 +36,7 @@
 				startTime_add.style.display = 'inline';
 				endTime_add.style.display = 'inline';
 			}
-		}
+		} */
 		//close 버튼 클릭 시 모달창 닫힘 func
 		closeBtn_detail.onclick = function() {
 			modal_detail.style.display = "none";
@@ -173,7 +176,32 @@
 		/* calendar.on('dateClick', function(info) {
 			console.log(info.dateStr);
 		}); */
-		calendar.render();
+		let allday_check = document.getElementById("allday_check");
+		allday_check.onclick = function() {
+			if (allday_check.checked == true){
+				$(".datetimepicker").datetimepicker({ 
+					timepicker:false
+				});
+				const origin_startTime_val = document.getElementById("add_startTime").value;
+				const origin_endTime_val = document.getElementById("add_endTime").value;
+				const final_startTime_val = origin_startTime_val.substr(0, 11);
+				const final_endTime_val = origin_endTime_val.substr(0, 11);
+				if(origin_startTime_val != ""){
+					$("#add_startTime").val(final_startTime_val + "00:00");
+				}else {
+					$("#add_startTime").val();
+				}
+				if(origin_endTime_val != ""){
+					$("#add_endTime").val(final_endTime_val + "00:00");
+				}else {
+					$("#add_endTime").val();
+				}
+			} else {
+				$(".datetimepicker").datetimepicker({ 
+					timepicker:true
+				});
+			}
+		}
 		
 		$("#save_btn").click( function() {
 			/* var formData = new FormData();
@@ -203,9 +231,15 @@
 			});
 		});
 		
+		calendar.render();
 	});
 	$(function(){
-		// timepicker 위젯 30분 단위 올림 처리
+		$(".datetimepicker").datetimepicker({ 
+			format: "Y-m-d H:i",
+			step : 30,
+			timepicker:true
+		});
+		/* // timepicker 위젯 30분 단위 올림 처리
 		var start_time_minute = moment().format("mm");
 		var remainder_start_time_minute;
 		if(start_time_minute <= 30) {
@@ -238,7 +272,7 @@
 		    dynamic: true,
 		    dropdown: true,
 		    scrollbar: true
-		});
+		}); */
 	});
 </script>
 <style type="text/css">
@@ -319,6 +353,24 @@ a {
 .search-form {
 	display: flex;
 }
+
+.add_mark {
+    visibility:hidden;
+    cursor:pointer;
+    transform: scale(.04);
+    position: relative;
+    top: -10px;
+    left: -10px;
+}
+.add_mark:before {
+   content: url("https://cdn-icons-png.flaticon.com/512/149/149220.png");
+   position: absolute;
+   visibility:visible;
+}
+.add_mark:checked:before {
+   content: url("https://cdn-icons-png.flaticon.com/512/148/148839.png");
+   position: absolute;
+}
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -374,13 +426,21 @@ a {
 					<input type="hidden" name="mem_no" value="3">
 					제목 <input type="checkbox" class="add_mark" name="cal_mark"> <input class="add_title" name="title">
 					<br>
-					일시 <input type="date" class="add_startDate" name="start">
-					<input id="add_startTime" type="text" class="timepicker" value="" maxlength="10">
+					일시
+					<input id="add_startTime" type="text" class="datetimepicker" name="startTime">
+					<!-- <input type="date" class="add_startDate" name="start">
+					<input id="add_startTime" type="text" class="timepicker" value="" maxlength="10" name="startTime"> -->
 					 - 
-					<input type="date" class="add_endDate" name="end">
-					<input id="add_endTime" type="text" class="timepicker" value="" maxlength="10">
+					<input id="add_endTime" type="text" class="datetimepicker" name="endTime">
+					<!-- <input type="date" class="add_endDate" name="end">
+					<input id="add_endTime" type="text" class="timepicker" value="" maxlength="10"> -->
 					<br>
-					<input type="checkbox" class="add_allDay" name="allDay"> 종일 &nbsp;<select></select>
+					<input type="checkbox" class="add_allDay" name="allDay" id="allday_check"> 종일 &nbsp;
+					<select>
+						<option value="반복1">반복1</option>
+						<option value="반복2">반복2</option>
+						<option value="반복3">반복3</option>
+					</select>
 					<br>
 					캘린더 <select name="cal_type_name">
 						<option value="테스트1">[기본] 캘린더1</option>
@@ -395,9 +455,13 @@ a {
 					메모 <textarea class="add_memo" name="cal_memo"></textarea>
 					<br>
 					파일첨부
-					<input class="form-control form-control-sm" id="formFileSm" type="file" name="cal_file">
+					<input class="form-control form-control-sm" id="formFileSm" type="file" name="file1">
 					<hr>
-					범주 <select name="cal_category1"></select>
+					범주 <select name="cal_category1">
+						<option value="범주1">범주1</option>
+						<option value="범주2">범주2</option>
+						<option value="범주3">범주3</option>
+					</select>
 					<br>
 					상태 <input type="radio" name="cal_status" value="바쁨"> <input type="radio" name="cal_status" value="한가함">
 					<br><br> <input type="button" value="저장" id="save_btn">

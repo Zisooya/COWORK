@@ -97,6 +97,9 @@
 	    </selectKey>
 	    insert into projects_status values(#{status_no}+1,#{status_name})
 	</insert>
+	<select id="SelectStatus_no" parameterType="String" resultType="int">
+		select status_no from projects_status where status_name = #{status_name}
+	</select>
 	
 	<!-- **************** hslee **************** -->
 	<select id="login" resultType="memberDTO">
