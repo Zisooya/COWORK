@@ -56,18 +56,18 @@
             </div>
 
             <div class="form-group">
-                <label for="mem_position">회원 구분</label>
+                <label for="mem_position">직책 선택</label>
                 <select class="form-control" id="mem_position" name="mem_position">
-                    <option>-</option>
+                    <option selected>-</option>
                     <option>팀장</option>
                     <option>팀원</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="mem_rank">회원 직급</label>
+                <label for="mem_rank">직급 선택</label>
                 <select class="form-control" id="mem_rank" name="mem_rank">
-                    <option>-</option>
+                    <option selected>-</option>
                     <option>사원</option>
                     <option>대리</option>
                     <option>과장</option>
@@ -77,9 +77,9 @@
             </div>
 
             <div class="form-group">
-                <label for="dept_no">부서</label>
+                <label for="dept_no">부서 선택</label>
                 <select class="form-control" id="dept_no" name="dept_no">
-                    <option>-</option>
+                    <option selected>-</option>
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -88,9 +88,9 @@
             </div>
 
             <div class="form-group">
-                <label for="team_no">팀명</label>
+                <label for="team_no">소속 선택</label>
                 <select class="form-control" id="team_no" name="team_no">
-                    <option>-</option>
+                    <option selected>-</option>
                     <option>1</option>
                     <option>2</option>
                 </select>
