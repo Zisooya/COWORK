@@ -17,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -25,9 +24,6 @@ public class CoworkController {
 
 	@Autowired
 	private MemberDAO dao;
-
-	@Autowired
-	private MemberService service;
 
 	// ProjectDAO 변수 생성 _ 세건
 	@Autowired
@@ -269,7 +265,7 @@ public class CoworkController {
 	public String loginOk(MemberDTO dto, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 
-		MemberDTO login = service.login(dto);
+		MemberDTO login = dao.login(dto);
 
 		if (login == null) {
 			session.setAttribute("member", null);
@@ -281,7 +277,7 @@ public class CoworkController {
 
 	@RequestMapping("member_logout.do")
 	public ModelAndView logout(HttpSession session) {
-		service.logout(session);
+		dao.logout(session);
 
 		ModelAndView mav = new ModelAndView();
 
@@ -290,7 +286,6 @@ public class CoworkController {
 
 		return mav;
 	}
-
 
 	@RequestMapping("member_join.do")
 	public String join() {
@@ -301,7 +296,7 @@ public class CoworkController {
 	public ModelAndView joinOk(MemberDTO dto) {
 		ModelAndView mav = new ModelAndView();
 
-		service.join(dto);
+		dao.join(dto);
 		mav.setViewName("login");
 
 		return mav;
@@ -310,8 +305,6 @@ public class CoworkController {
 	@RequestMapping("member_idCheck.do")
 	@ResponseBody
 	public int checkId(String mem_id) {
-		return service.checkId(mem_id);
+		return dao.checkId(mem_id);
 	}
-
-
 }
