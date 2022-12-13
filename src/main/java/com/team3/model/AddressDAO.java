@@ -12,5 +12,9 @@ public interface AddressDAO {
 	
 	List<MemberDTO> getAddrList_dept(String dept_name);
 	
+	List<MemberDTO> getAddrList_search(String keyword);
+	
+	List<MemberDTO> getAddrList_customer(int mem_no);
+	
 	
 }

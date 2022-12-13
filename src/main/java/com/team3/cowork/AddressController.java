@@ -2,11 +2,13 @@ package com.team3.cowork;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team3.model.AddressDAO;
@@ -49,6 +51,26 @@ public class AddressController {
 		System.out.println(addrList_dept);
 		
 		return addrList_dept;
+	}
+	
+	@RequestMapping("address_search.do")
+	public @ResponseBody List<MemberDTO> getAddrList_search(@RequestParam ("keyword") String keyword) {
+		
+		System.out.println("넘어온 keyword : " + keyword);
+		
+		List<MemberDTO> addrList_search = this.addressDao.getAddrList_search(keyword);
+		
+		return addrList_search;
+	}
+	
+	@RequestMapping("getAddrList_customer.do")
+	public @ResponseBody List<MemberDTO> getAddrList_customer(@RequestParam ("mem_no") int mem_no) {
+		
+		System.out.println("넘어온 mem_no : " + mem_no);
+		
+		List<MemberDTO> addrList_customer = this.addressDao.getAddrList_customer(mem_no);
+		
+		return addrList_customer;
 	}
 	
 }

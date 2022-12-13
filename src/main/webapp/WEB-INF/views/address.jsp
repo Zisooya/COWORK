@@ -20,7 +20,6 @@
 		<jsp:include page="include.jsp" />
 	
 	
-	
 		<nav id="side">
 			<label id="side_label">주소록</label>
 			<div id="side_menu" style="overflow-y: auto;">
@@ -121,8 +120,8 @@
 					<label class="addr_label" for="addr_menu02"><span></span>&nbsp;&nbsp;&nbsp;&nbsp;고객 / 거래처</label>					
 					<br>
 					<div class="accordion_cb_div">
-						<input type="checkbox" id="accordion_cb">
-						<label class="people" for="accordion_cb">전체 연락처</label>
+						<input type="checkbox" id="accordion_cb_customer" name="accordion_cb_customer">
+						<label class="people" for="accordion_cb_customer">전체 연락처</label>
 					</div>	
 					<hr>
 				</div>
@@ -134,11 +133,8 @@
 		</nav>
 	
 		<article id="content">
-			<form method="post" action="addr_search.do">
-				<input id="search_box" type="text" name="keyword" placeholder="연락처 검색">
-				<input id="search_btn" type="submit" value="검색">
-			</form>
-			
+				<input id="search_box" type="text" name="keyword" placeholder="이름으로 검색">
+				<input id="search_btn" type="button" value="검색" >
 			<br>
 			
 			<div class="alph">
@@ -194,10 +190,10 @@
 $(function(){
 	
 	// 부서 별 주소록 클릭 시 이벤트
-	$("input[name *= 'accordion_cb_dept']").click(function(){
+	$("input[name *= 'accordion_cb']").click(function(){
 		// 부서명 체크박스 하나만 선택되도록 하기.
 	    if(this.checked) {
-	        const checkboxes = $("input[name *= 'accordion_cb_dept']");
+	        const checkboxes = $("input[name *= 'accordion_cb']");
 	        for(let i = 0; i < checkboxes.length; i++){
 	            checkboxes[i].checked = false;
 	        }
@@ -219,28 +215,87 @@ $(function(){
 			success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
 				//addrList_dept
 				$("#addr_table").html("<tr><th>이름</th> <th>직책</th> <th>직급</th><th>부서</th> <th>소속팀</th> <th>이메일</th><th>전화번호</th></tr>");	
-				$.each(data, function(index, MemberDTO) { // 데이터 =item
-					//$("#addr_table").find('tr').html(MemberDTO.mem_position + MemberDTO.mem_name);
 				
+			$.each(data, function(index, MemberDTO) {
 				$("#addr_table").append("<tr><td><b>"+MemberDTO.mem_name+"</b></td><td>"+MemberDTO.mem_position+"</td><td>"+MemberDTO.mem_rank+"</td><td>"+MemberDTO.dept_name+"</td><td>"+MemberDTO.team_name+"</td><td>"+MemberDTO.mem_email+"</td><td>"+MemberDTO.mem_phone+"</td></tr>");
-					
-				/*
- 					$("#addr_table").append(index + " "); // index가 끝날때까지 
-					$("#addr_table").append(MemberDTO.mem_name + " ");
-					$("#addr_table").append(MemberDTO.mem_position + " ");
-					$("#addr_table").append(MemberDTO.mem_rank + " ");
-					$("#addr_table").append(MemberDTO.mem_phone + "<br>");
-				*/
 				});	
 								
 			},
 			error: function(res){ // 응답을 받지 못하였다거나 정상적인 응답이지만 데이터 형식을 확인할 수 없을 때 error 콜백이 호출.
 				alert('ajax 응답 오류');
 			}
-		});	// 부서 별 리스트 조회 $.ajax() end		
+		});	// 부서 별 연락처 조회 $.ajax() end		
 		
+	});	// 부서 별 주소록 클릭 시 이벤트 end
+	
+	
+	// 고객 / 거래처 주소록 클릭 시 이벤트
+	$('#accordion_cb_customer').click(function(){
+		
+		// 로그인 기능 완성 시 세션 값으로 변경 할 예정.
+		let mem_no = 1;
+		
+		$.ajax({
+			type: 'POST',
+		//	async : false,
+			url: '<%=request.getContextPath()%>/getAddrList_customer.do',
+			dataType:'json',
+			data: {"mem_no" : mem_no},
+			success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
+				//addrList_customer
+				$("#addr_table").html("<tr><th>이름</th> <th>직책</th> <th>직급</th><th>부서</th> <th>소속팀</th> <th>이메일</th><th>전화번호</th></tr>");	
+				
+			$.each(data, function(index, MemberDTO) {
+				$("#addr_table").append("<tr><td><b>"+MemberDTO.mem_name+"</b></td><td>"+MemberDTO.mem_position+"</td><td>"+MemberDTO.mem_rank+"</td><td>"+MemberDTO.dept_name+"</td><td>"+MemberDTO.team_name+"</td><td>"+MemberDTO.mem_email+"</td><td>"+MemberDTO.mem_phone+"</td></tr>");
+				});	
+								
+			},
+			error: function(res){ // 응답을 받지 못하였다거나 정상적인 응답이지만 데이터 형식을 확인할 수 없을 때 error 콜백이 호출.
+				alert('ajax 응답 오류');
+			}
+		});	// 전체 연락처 조회 $.ajax() end		
+		
+	});	// 고객 / 거래처 주소록 클릭 시 이벤트 end
+	
+	
+	// 검색창 엔터키 / 클릭 이벤트
+	$('#search_box').on('keydown', function(e){
+		  if(e.code == 'Enter'){
+			  	$('#search_btn').click();
+		  }
+    });	
+		
+	$('#search_btn').click(function(){
+		
+		let keyword = $('#search_box').val();
+		
+		// 검색 내용 조회 $.ajax()
+		$.ajax({
+			type: 'POST',
+		//	async : false,
+			url: '<%=request.getContextPath()%>/address_search.do',
+			dataType:'json',
+			data: {"keyword" : keyword},
+			success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
+				//addrList_search	
+				$("#addr_table").html("<tr><th>이름</th> <th>직책</th> <th>직급</th><th>부서</th> <th>소속팀</th> <th>이메일</th><th>전화번호</th></tr>");	
+				
+				$.each(data, function(index, MemberDTO) {
+					$("#addr_table").append("<tr><td><b>"+MemberDTO.mem_name+"</b></td><td>"+MemberDTO.mem_position+"</td><td>"+MemberDTO.mem_rank+"</td><td>"+MemberDTO.dept_name+"</td><td>"+MemberDTO.team_name+"</td><td>"+MemberDTO.mem_email+"</td><td>"+MemberDTO.mem_phone+"</td></tr>");
+					});					$("#addr_table").html("<tr><th>이름</th> <th>직책</th> <th>직급</th><th>부서</th> <th>소속팀</th> <th>이메일</th><th>전화번호</th></tr>");	
+					
+					$.each(data, function(index, MemberDTO) {
+						$("#addr_table").append("<tr><td><b>"+MemberDTO.mem_name+"</b></td><td>"+MemberDTO.mem_position+"</td><td>"+MemberDTO.mem_rank+"</td><td>"+MemberDTO.dept_name+"</td><td>"+MemberDTO.team_name+"</td><td>"+MemberDTO.mem_email+"</td><td>"+MemberDTO.mem_phone+"</td></tr>");
+						});				
+			},
+			error: function(res){ // 응답을 받지 못하였다거나 정상적인 응답이지만 데이터 형식을 확인할 수 없을 때 error 콜백이 호출.
+				alert('ajax 응답 오류');
+			}
+		});	// 검색 내용 조회 $.ajax() end				
 		
 	});
+	
+	
 });
 
 

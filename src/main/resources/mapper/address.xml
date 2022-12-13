@@ -24,4 +24,12 @@
 		select * from member where dept_name = #{dept_name}	order by mem_name
 	</select>
 	
+	<select id="getAddrList_search" parameterType="String" resultType="memberDTO">
+		select * from member where mem_name like '%' || #{keyword} || '%' order by mem_name
+	</select>
+	
+	<select id="getAddrList_customer" parameterType="int" resultType="memberDTO">
+		select * from member
+	</select>
+	
  </mapper>
