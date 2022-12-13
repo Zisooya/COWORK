@@ -6,20 +6,26 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
+<link href="${path}/resources/css/bootstrap_include.css" rel="stylesheet"/>
 <jsp:include page="projects_include/link.jsp"/>
 </head>
 <body>
-	<c:set var="list" value="${list }"/>
-	<c:set var="main" value="${main }"/>
+	<div id="grid_container">
 	
-	<!-- 인클루드 -->	
-	<jsp:include page="include.jsp"/>
+		<jsp:include page="include.jsp" />
 	
-	<!-- [세건] 프로젝트 Nav Bar  -->
-	<jsp:include page="projects_include/project_include.jsp"/>
-	<br><br><br>
+		<nav id="side">
+			<label>주소록</label>
+			<div id="side_menu" style="overflow-y: auto;">
+				<a href="project_board.do">보드</a>
+			</div>
+		</nav>
 	
-	<!-- [세건] 프로젝트 목록 및 생성  -->
-	<jsp:include page="projects_include/project_table.jsp"/>
+		<article id="content">
+			<jsp:include page="projects_include/project_table.jsp"/>
+		</article>
+	
+	</div>
 </body>
 </html>

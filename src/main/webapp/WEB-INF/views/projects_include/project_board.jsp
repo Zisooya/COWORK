@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="path" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +8,14 @@
 <title>Insert title here</title>
 <jsp:include page="link.jsp"/>
 <script type="text/javascript">
+	/* textarea 창 자동 늘리기 */
+	function resize(obj) {
+		  obj.style.height = "4px";
+		  obj.style.height = (12+obj.scrollHeight)+"px";
+		}
+	
 	$(function(){
+		$(".add_card").hide();
 		$(".list_header_update").hide();
  		$(".list-name-input").hide();
  		$(".plus_card").hide();
@@ -17,12 +23,25 @@
 			$(".list-name-input").show();
 			$(".mod-list-add-button").hide();
 		})
+		
+		
+		/* 추가하기 창 닫기 */
 		$(document).mouseup(function (e){
 		    var container = $(".plus")
 		    if(container.has(e.target).length == 0){ 
 		    	$(".plus_card").hide(100);
+		    	$(".board_insert").val('');
 		    }
 		});
+		$(document).mouseup(function (e){
+		    var container = $(".add_card")
+		    if(container.has(e.target).length == 0){ 
+		    	$(".add_card").hide(100);
+		    	$(".add_card_main").val('');
+		    	$(".add_card_content").text('');
+		    }
+		});
+		
 		
 		/* 프로젝트 이름 클릭시 상세보기 모달 창 생성 */
 		$(".project_name").click(function(){
@@ -40,27 +59,41 @@
 			$(".plus_card").toggle(100);
 		})
 		
-		/* div 드래그 */
+		/* 카드 추가하기 창 활성화 */
+		$(".card-footer").click(function(){
+			$(this).find(".add_card").show();
+		})
+		
+		/* div 드래그 및 db저장 */
+		var no = [];
+		var i = [];
+		var asd = 0;
 		$( ".column" ).sortable({
 		      connectWith: ".column",
 		      handle: ".portlet-header",
 		      cancel: ".portlet-toggle",
 		      placeholder: "portlet-placeholder ui-corner-all",
+		      start:function(){
+		    	  no = $(this).sortable("toArray");
+		      },
+		      update:function(){
+		    	  no1 = $(this).sortable("toArray");
+		    	  i = (no.filter(x => !no1.includes(x)));
+
+		    	  asd = i[0];
+		      },
 		      receive:function(){
-		    	  var no = ($(this).sortable("toArray"));
-		    	  var status = ($(this).attr("id"));
-		    	  var leng = no.length-1;
-		    	  var project_no = no[leng];
-		    	  alert(no);
-		    	  alert(no[leng-1]);
+		    	  var status = $(this).attr("id");
+		    	  console.log(asd);
+		    	  console.log(status);
 		    	  $.ajax({
 		  			type : "post",
 		  			url : "project_UpdateStatus.do",
 		  			data : {status_name : status,
+		  				 	project_no : asd
 		  					},
 		  			datatype : "text",
 		  			success : function(){
-		  				alert('데이터 통신 에러 아님');
 		  			},
 		  			error : function(request,status,error){
 		  				alert('데이터 통신 에러');
@@ -71,8 +104,10 @@
 	})
 	
 </script>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
 <link href="${path}/resources/css/bootstrap_include.css" rel="stylesheet"/>
 <style type="text/css">
+
 body{
 	background-color: #E4F7BA;
 	height: 100%;
@@ -115,7 +150,7 @@ body{
 	margin-bottom: 10px !important;
 	max-height: 95%;
 }
-.card-body,.card-header{
+.card-body, .card-header{
 	padding: 8px;
 	font-size: 13px;
 }
@@ -147,6 +182,17 @@ body{
    margin: 0 1em 1em 0;
    height: 106px;
  }
+ .textarea{
+ 	resize: none;
+ }
+ .btn-primary{
+		background-color:#7BE66D;
+		border-style: none;
+		width:140px;
+ }
+ .btn-primary:hover{
+		background-color:#C2F347;
+ }
 </style>
 </head>
 <body class="feplat3731">
@@ -159,7 +205,7 @@ body{
 		<nav id="side">
 			<label>목 록</label>
 			<div id="side_menu" style="overflow-y: auto;">
-				
+				<a href="project_control.do">테이블</a>
 			</div>
 		</nav>
 		<article id="content">
@@ -178,7 +224,7 @@ body{
 						        	<c:if test="${sdto.getStatus_no() == dto.getProject_status() }">
 						        	<!-- card -->					        	  	
 						        	 <c:set var="count" value="${count +1 }"/>
-										<div style="cursor:pointer" id="${dto.getProject_no() }" class="card border-light mb-3 shadow p-3 mb-5 bg-body rounded project_name portlet"style="max-width: 18rem;">
+										<div style="cursor:pointer" id="${dto.getProject_no() }" class="card border-light mb-3 shadow p-3 mb-5 bg-body rounded project_name portlet" style="max-width: 18rem;">
 							        	  <c:forEach items="${main }" var="mdto">
 							        	  <c:if test="${mdto.getMain_no() == dto.getProject_main() }">
 							        	  <c:if test="${mdto.getMain_name().length() > 15 }">
@@ -197,25 +243,48 @@ body{
 											  </div>
 										  </c:if>
 										  </c:forEach>
-										</div>
+										</div>							
 									</c:if>
 									</c:forEach>
 						        </p>
 						      </div>
-					      <div class="card-footer">
+					      <div class="card-footer" style="cursor:pointer">	
+					      	추가하기
+					      	
+						<!-- 카드 추가하기 -->
+						<form id="isert_card" method="post" action="board_project_insert.do">
+						<div style="cursor:pointer" class="card border-light mb-3 shadow p-3 mb-5 bg-body rounded portlet add_card" style="max-width: 18rem;">
+							  <div id="add_card_header" class="card-header portlet-header">
+							  	<select id="add_card_main" name="project_main" class="form-select add_card_main" aria-label="Default select example">
+									<option value="none">:::메인 프로젝트:::</option>
+									<c:forEach items="${main }" var="mdto">
+										<option value="${mdto.getMain_no() }">${mdto.getMain_name() }</option>
+									</c:forEach> 
+								</select>
+							  </div>
+							  <div class="card-body portlet-content">
+							    	<b id="add_card_body" class="card-title portlet-content">
+							    		<textarea name="project_name" class="textarea card border-light mb-3 shadow p-3 mb-5 bg-body rounded portlet add_card_content" id="comment1 add_card_content" cols="24%" rows="2" placeholder="프로젝트명을 입력해주세요." onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
+							    	</b>
+							    	<input class="board_insert_project btn btn-primary" type="submit" value="추가">
+							  </div>
+							  <input type="hidden" name="project_status" value="${sdto.getStatus_no() }">
+						</div>
+						</form>
 					      </div>
 					    </div>
 				    </div>
 				 <input type="hidden" class="project_count" value="${count }">
 				  </div>
 				 </c:forEach>
+				 <!-- 보드 추가하기 -->
 				<div class="plus">
 					<form method="post" action="insert_status.do">
 						<div id="plus" class="card text-bg-light" style="max-width: 18rem;">
 						  <div style="cursor:pointer" class="card-header insert_card">추가하기</div>
 						  <div class="card-body plus_card">
 						    <div class="input-group mb-3">
-							  <input type="text" class="form-control" name="status_name" aria-label="Recipient's username" aria-describedby="button-addon2" >
+							  <input type="text" class="form-control board_insert" name="status_name" aria-label="Recipient's username" aria-describedby="button-addon2" >
 							  <button class="btn btn-outline-secondary" type="submit" id="button-addon2">ADD</button>
 							</div>
 						  </div>
