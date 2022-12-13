@@ -15,19 +15,22 @@ public class AddressDAOImpl implements AddressDAO {
 
 	@Override
 	public List<DepartmentDTO> getAllDeptList() {
-		return this.sqlSession.selectList("address_deptList");
+		return this.sqlSession.selectList("addressDao.address_deptList");
 	}
 
 	@Override
 	public int getMyDeptNum() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.sqlSession.selectOne("addressDao.address_myDeptNum");
 	}
 
 	@Override
-	public List<MemberDTO> myDeptMemberList(int myDeptNum) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<MemberDTO> getMyDeptMemberList(int dept_no) {
+		return this.sqlSession.selectList("addressDao.address_myDeptMemberList", dept_no);
+	}
+
+	@Override
+	public List<MemberDTO> getAddrList_dept(String dept_name) {
+		return this.sqlSession.selectList("addressDao.getAddrList_dept", dept_name);
 	} 
 
 

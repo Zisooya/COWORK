@@ -28,26 +28,8 @@ public class CoworkController {
 	// ProjectDAO 변수 생성 _ 세건
 	@Autowired
 	private ProjectsDAO dao_projects;
-	@Autowired
-	private AddressDAO addressDao;
 
-	@RequestMapping("address.do")
-	public String address(Model model){
-		
-		// 전체 부서 목록 조회
-		List<DepartmentDTO> deptList = this.addressDao.getAllDeptList();
-/*		
-		// 내 부서 번호 조회
-		int myDeptNum = this.addressDao.getMyDeptNum();
-		// 나와 같은 부서 멤버 리스트 조회
-		List<MemberDTO> memberDto = this.addressDao.myDeptMemberList(myDeptNum);
- */		
-		
-		model.addAttribute("deptList", deptList);
-/*		model.addAttribute("memberDto", memberDto); */
-		
-		return "address";
-	}	
+
 	// 프로젝트 목록 생성 페이지 _ 세건
 	@RequestMapping("project_control.do")
 	public String project_control(Model model) {
@@ -64,8 +46,12 @@ public class CoworkController {
 
 	// 프로젝트 생성 페이지 _ 세건
 	@RequestMapping("project_insert.do")
-	public void project_insert(Model model, ProjectsDTO dto, HttpServletResponse response, MemberDTO mdto)
-			throws IOException {
+	public void project_insert(Model model, ProjectsDTO dto, HttpServletResponse response, MemberDTO mdto)throws IOException {
+		if(dto.getProject_name().equals("")) {
+			dto.setProject_name("프로젝트 명을 입력해 주세요.");
+		}
+		System.out.println("project_name : "+dto.getProject_name());
+		
 		this.dao_projects.insertProject(dto);
 		List<MemberDTO> mlist = this.dao.getMemberList();
 		model.addAttribute("mlist", mlist);
@@ -239,15 +225,24 @@ public class CoworkController {
 	 // 프로젝트 status 변경 _ 세건
 	 @RequestMapping("project_UpdateStatus.do")
 	 public void updatestatus(ProjectsDTO dto, Projects_statusDTO sdto,HttpServletResponse response) throws IOException {
-		 String status_name = sdto.getStatus_name();
-		 int status_no = this.dao_projects.selectStatus_no(status_name);
-		 System.out.println(status_no);
-		 int project_no = dto.getProject_no();
-		 this.dao_projects.updateStatus(status_name,project_no);
+		 int status_no = this.dao_projects.selectStatus_no(sdto);
+		 dto.setProject_status(status_no);
+		 this.dao_projects.UpdateStatus(dto);
 		 response.setContentType("text/html; charset=UTF-8");
 		 PrintWriter out = response.getWriter();
-			
-	
+	 }
+	 
+	 // 프로젝트 보드 카드 생성 _ 세건
+	 @RequestMapping("board_project_insert.do")
+	 public void board_insert_project(ProjectsDTO dto,HttpServletResponse response) throws IOException {
+		 int check = this.dao_projects.board_insertProject(dto);
+		 response.setContentType("text/html; charset=UTF-8");
+		 PrintWriter out = response.getWriter();
+		 if (check > 0) {
+				out.println("<script>");
+				out.println("location.href='project_board.do'");
+				out.println("</script>");
+			}
 	 }
 	 
 	 @RequestMapping("drag.do")
