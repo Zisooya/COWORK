@@ -192,7 +192,6 @@ nav label {
 
 #login a {
 	text-decoration: none;
-
 }
 
 #hi {
@@ -226,7 +225,6 @@ nav label {
 	height: 0.9rem;
     width: 0.9rem;
     line-height: 0.9rem;
-
     text-align: center;
     display: inline-block;
     place-self: end end;
