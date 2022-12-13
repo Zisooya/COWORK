@@ -164,7 +164,7 @@
 			<hr width="90%" align="left">
 			
 			<div class="subject">
-				<table>
+				<table  id="addr_table">
 					<tr>
 						<th>이름</th> <th>직책</th> <th>직급</th>
 						<th>부서</th> <th>소속팀</th> <th>이메일</th>
@@ -217,11 +217,21 @@ $(function(){
 			dataType:'json',
 			data: {"dept_name" : dept_name},
 			success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
-				alert('성공, 결과는' + data);
 				//addrList_dept
-				$(data).each(function(){
-					$(".subject").text(this.mem_name);
-					});		
+				$("#addr_table").html("<tr><th>이름</th> <th>직책</th> <th>직급</th><th>부서</th> <th>소속팀</th> <th>이메일</th><th>전화번호</th></tr>");	
+				$.each(data, function(index, MemberDTO) { // 데이터 =item
+					//$("#addr_table").find('tr').html(MemberDTO.mem_position + MemberDTO.mem_name);
+				
+				$("#addr_table").append("<tr><td><b>"+MemberDTO.mem_name+"</b></td><td>"+MemberDTO.mem_position+"</td><td>"+MemberDTO.mem_rank+"</td><td>"+MemberDTO.dept_name+"</td><td>"+MemberDTO.team_name+"</td><td>"+MemberDTO.mem_email+"</td><td>"+MemberDTO.mem_phone+"</td></tr>");
+					
+				/*
+ 					$("#addr_table").append(index + " "); // index가 끝날때까지 
+					$("#addr_table").append(MemberDTO.mem_name + " ");
+					$("#addr_table").append(MemberDTO.mem_position + " ");
+					$("#addr_table").append(MemberDTO.mem_rank + " ");
+					$("#addr_table").append(MemberDTO.mem_phone + "<br>");
+				*/
+				});	
 								
 			},
 			error: function(res){ // 응답을 받지 못하였다거나 정상적인 응답이지만 데이터 형식을 확인할 수 없을 때 error 콜백이 호출.
