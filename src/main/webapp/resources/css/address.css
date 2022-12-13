@@ -344,7 +344,6 @@ input[id *= "popup"] + label + div > label {
 	height: auto;
 	cursor: pointer;
 	float: left;
-		
 }
 
 
