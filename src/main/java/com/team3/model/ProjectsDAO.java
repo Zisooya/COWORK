@@ -41,9 +41,10 @@ public interface ProjectsDAO {
 
 	int insertStatus(Projects_statusDTO dto);
 
-	void updateStatus(String status_name, int project_no);
+	void UpdateStatus(ProjectsDTO dto);
 
-	int selectStatus_no(String status_name);
+	int selectStatus_no(Projects_statusDTO sdto);
 
+	int board_insertProject(ProjectsDTO dto);
 
 }

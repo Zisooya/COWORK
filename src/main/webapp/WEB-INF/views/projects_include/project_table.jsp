@@ -48,9 +48,24 @@
 			let href = ($(this).attr("id"));
 			let href1 = "<%=request.getContextPath()%>/content.do?num="+href;
  			let project_name = $(".project_name").text();
+ 			console.log($(this).text())
 			 $("#Project_content").load(href1, function() {
 		            $("#Project_content").modal("show");
 		      });
+ 		})
+ 		
+ 		$(".submit").click(function(){
+ 			console.log("project_main : "+$("select[name='project_main']").val());
+ 			
+ 			if($("select[name='project_main']").val() == "none"){
+ 				alert("메인 프로젝트를 선택해 주세요.")
+ 			}else if($("select[name='project_status']").val() == "none"){
+ 				alert("프로젝트의 상태를 선택해 주세요.")
+ 			}else if($("select[name='project_taker']").val() == "none"){
+ 				alert("프로젝트 멤버를 선택해 주세요.")
+ 			}else{
+ 				$("form").submit();
+ 			}
  		})
 	})
 </script>
@@ -135,7 +150,7 @@
 				</tr>
 				<tr>
 					<td colspan="5" align="center">
-						<input class="submit" type="submit" value="">
+						<input class="submit" type="button" value="">
 						<a href="#" class="project_btn"><img src="resources/image/Project_btn.png" width="50" height="50"></a>
 						
 					</td>
