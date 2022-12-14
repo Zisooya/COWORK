@@ -197,31 +197,31 @@ $(function(){
 				console.log("text: "+$("#taker1").text());
 				console.log(dto.taker);
 				if($("#taker1").text() == ""){
-					table += "<button id='taker1' class='popoverThis btn btn-large btn-secondary'>&nbsp;"+dto.taker+"</button>";
+					table += "<button id='taker1' class='popoverThis btn btn-large btn-secondary'>"+dto.taker+"</button>";
 					table += "<div id='popover-heading1' class='hide_1'>";
 				    table += "<img id='member1' class='img' src='resources/image/project_man.png' width='60' height='50'>"+dto.taker;
 				    table += "<input type='hidden' id='heading1_mem' value="+dto.taker+"></div><div id='popover-body1' class='hide_1'>";
 					table += "<a href='#'>회원 정보 보기</a><hr><a href='#' id='except1'>프로젝트 제외하기</a></div>";
 				}else if($("#taker2").text() == ""){
-					table += "<button id='taker2' class='popoverThis btn btn-large btn-secondary'>&nbsp;"+dto.taker+"</button>";
+					table += "<button id='taker2' class='popoverThis btn btn-large btn-secondary'>"+dto.taker+"</button>";
 					table += "<div id='popover-heading2' class='hide_1'>";
 				    table += "<img id='member2' class='img' src='resources/image/project_man.png' width='60' height='50'>"+dto.taker;
 				    table += "<input type='hidden' id='heading2_mem' value="+dto.taker+"></div><div id='popover-body2' class='hide_1'>";
 					table += "<a href='#'>회원 정보 보기</a><hr><a href='#' id='except2'>프로젝트 제외하기</a></div>";
 				}else if($("#taker3").text() == ""){
-					table += "<button id='taker3' class='popoverThis btn btn-large btn-secondary'>&nbsp;"+dto.taker+"</button>";
+					table += "<button id='taker3' class='popoverThis btn btn-large btn-secondary'>"+dto.taker+"</button>";
 					table += "<div id='popover-heading3' class='hide_1'>";
 				    table += "<img id='member3' class='img' src='resources/image/project_man.png' width='60' height='50'>"+dto.taker;
 				    table += "<input type='hidden' id='heading3_mem' value="+dto.taker+"></div><div id='popover-body3' class='hide_1'>";
 					table += "<a href='#'>회원 정보 보기</a><hr><a href='#' id='except3'>프로젝트 제외하기</a></div>";
 				}else if($("#taker4").text() == ""){
-					table += "<button id='taker4' class='popoverThis btn btn-large btn-secondary'>&nbsp;"+dto.taker+"</button>";
+					table += "<button id='taker4' class='popoverThis btn btn-large btn-secondary'>"+dto.taker+"</button>";
 					table += "<div id='popover-heading4' class='hide_1'>";
 				    table += "<img id='member4' class='img' src='resources/image/project_man.png' width='60' height='50'>"+dto.taker;
 				    table += "<input type='hidden' id='heading4_mem' value="+dto.taker+"></div><div id='popover-body4' class='hide_1'>";
 					table += "<a href='#'>회원 정보 보기</a><hr><a href='#' id='except4'>프로젝트 제외하기</a></div>";
 				}else if($("#taker5").text() == ""){
-					table += "<button id='taker5' class='popoverThis btn btn-large btn-secondary'>&nbsp;"+dto.taker+"</button>";
+					table += "<button id='taker5' class='popoverThis btn btn-large btn-secondary'>"+dto.taker+"</button>";
 					table += "<div id='popover-heading5' class='hide_1'>";
 				    table += "<img id='member5' class='img' src='resources/image/project_man.png' width='60' height='50'>"+dto.taker;
 				    table += "<input type='hidden' id='heading5_mem' value="+dto.taker+"></div><div id='popover-body5' class='hide_1'>";
@@ -770,7 +770,7 @@ $(function(){
 				         <button id="delete" type="button" class="btn btn-primary" onclick="if(confirm('정말로 프로젝트를 삭제하시겠습니까??')){
 																											location.href='<%=request.getContextPath()%>/project_delete.do?num=${dto.getProject_no() }'
 																											}else{ruturn;}">프로젝트 삭제</button>
-	         <img class="img" src="resources/image/project_man.png" width="35" height="30">
+	         <img class="img" src="resources/image/project_man.png" width="35" height="30"><p>${memlist.getMem_name() }님</p>
 			  <!-- 댓글 -->
          <div id="control2">
 	         <textarea class="textarea" id="comment2"  cols="80%" rows="2" onkeydown="resize(this)" onkeyup="resize(this)"></textarea><br>

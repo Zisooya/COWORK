@@ -34,6 +34,7 @@
 		<typeAlias type="com.team3.model.ProjectsDTO" alias="projectsdto"/>
 		<typeAlias type="com.team3.model.Main_ProjectsDTO" alias="maindto"/>
 		<typeAlias type="com.team3.model.Projects_statusDTO" alias="statusdto"/>
+		<typeAlias type="com.team3.model.PageDTO" alias="pagedto"/>
 	</typeAliases>
 
 </configuration>

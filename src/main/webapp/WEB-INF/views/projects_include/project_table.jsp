@@ -16,24 +16,37 @@
 		$(".project_create2").hide();
 		$(".submit").hide();
 		
+		/* 프로젝트 추가 창 닫기 */
+		$(document).mouseup(function (e){
+		    var container = $("#insert_projects_tr,.project_create")
+		    if(container.has(e.target).length == 0){ 
+		    	$(".project_create").hide(1000);
+		    	$(".submit").hide();
+				$(".project_btn").show();
+		    }
+		});
+		
 		/* 프로젝트 목록 생성 함수 */
 		$(".project_btn").click(function(){
-			$(".project_btn").hide();
-			$(".project_create1").show();
-			$(".project_create2").show();
-			$(".submit").show();
-			let i = 0;
-			table = "";
-			table1 = "";
-			table2 = "";
-			table += $(".main_select").show();
-			table1 += "<input class='form-control' placeholder='프로젝트 명' aria-label='Username' name='project_name'>";
-			table2 += "<input type='date' class='form-control' aria-label='Username' name='project_end'>";
-			table += $(".status").show();
-			table += $(".member").show();
-			$(".project_create1").append(table1);
-			$(".project_create2").append(table2);
-			$(".project_create3").append(table3);
+			if($("input[name='project_name']").val() != ""){
+				$(".project_btn").hide();
+				$(".project_create1").show();
+				$(".project_create2").show();
+				$(".submit").show();
+				let i = 0;
+				table = "";
+				table1 = "";
+				table2 = "";
+				table += $(".main_select").show();
+				table1 += "<input class='form-control' placeholder='프로젝트 명' aria-label='Username' name='project_name'>";
+				table2 += "<input type='date' class='form-control' aria-label='Username' name='project_end'>";
+				table += $(".status").show();
+				table += $(".member").show();
+				$(".project_create1").append(table1);
+				$(".project_create2").append(table2);
+			}else{
+				$(".project_create").show(1000);
+			}
 			
 		})
 		
@@ -70,20 +83,34 @@
 	})
 </script>
 <style type="text/css">
-	.submit{
-		width:50px; height:50px;
-		background-image: url('resources/image/Project_check.png');
-		background-repeat: no-repeat;
-		background-color:white;
-		background-size: 50px;
-		background-position: 10px left;
-		border-style: none;
-	}
+	
 	.project_name:hover{
 		cursor:pointer;
 		font-weight: bold;
 	}
-}
+	#project_create{
+		max-width: 75vw;
+		align-self: center;
+	}
+	table{
+		border-radius: 5px;
+	}
+	.paging_btn:hover{
+		background-color:#C2F347;
+		color:white;
+ 	}
+ 	.paging_btn{
+		color:green;
+	 }
+	.insert_projects_btn{
+		background-color:#7BE66D;
+		border-style: none;
+		width:140px;
+		margin-right: 10.5vw;
+	}
+	.insert_projects_btn:hover{
+		background-color:#C2F347;
+	}
 </style>
 </head>
 <body>
@@ -91,8 +118,9 @@
 	<c:set var="main" value="${main }"/>
 	<c:set var="status" value="${status }"/>
 	<c:set var="mlist" value="${mlist }"/>
-	<form method="post" action="<%=request.getContextPath()%>/project_insert.do">
-		<table class="table table-striped" id="project_create">
+	<c:set var="paging" value="${Paging }" />
+	<form id="project_create" method="post" action="<%=request.getContextPath()%>/project_insert.do">
+		<table class="table table-striped" >
 			<tr>
 				<th>Main</th>
 				<th>Project</th>
@@ -117,7 +145,6 @@
 					</td>
 				</tr>
 			</c:forEach>
-				
 				<tr class="project_create">
 					<td class="main_select">
 						<select name="project_main" class="form-select" aria-label="Default select example">
@@ -148,15 +175,54 @@
 						</select>
 					</td>
 				</tr>
-				<tr>
+				<tr id="insert_projects_tr">
 					<td colspan="5" align="center">
-						<input class="submit" type="button" value="">
-						<a href="#" class="project_btn"><img src="resources/image/Project_btn.png" width="50" height="50"></a>
-						
+						<input class="submit btn btn-primary insert_projects_btn" style="background-color: #C2F347; color:white;" type="button" value="추가하기">
+						<a href="#" class="project_btn insert_projects_a"><input class="btn btn-primary insert_projects_btn" style="background-color: #C2F347; color:white;" type="button" value="추가하기"></a>
 					</td>
 				</tr>
 		</table>
 	</form>
+	<br>
+	<div class="paging_div">
+	<nav class="paging">
+		<ul class="pagination">
+			<li class="page-item"><a class="page-link paging_btn"
+				href="project_control.do?page=1">First</a></li>
+			<c:if test="${paging.getPage() == 1 }">
+		    <li>
+		      <a class="page-link paging_btn" 
+		      		href="project_control.do?page=1">Previous</a>
+		    </li>
+		    </c:if>
+		    <c:if test="${paging.getPage() != 1 }">
+		    <li>
+		      <a class="page-link paging_btn" 
+		      		href="project_control.do?page=${paging.getPage() - 1 }">Previous</a>
+		    </li>
+		    </c:if>
+			<c:forEach begin="${paging.getStartBlock() }" end="${paging.getEndBlock() }" var="i">
+
+				<c:if test="${i == paging.getPage() }">
+					<li class="page-item active" aria-current="page"><a
+						class="page-link paging_btn" style="background-color: #C2F347; border-style:none;"  href="project_control.do?page=${i }">${i }</a></li>
+				</c:if>
+
+				<c:if test="${i != paging.getPage() }">
+					<li class="page-item"><a class="page-link paging_btn" 
+						href="project_control.do?page=${i }">${i }</a></li>
+				</c:if>
+			</c:forEach>
+
+			<c:if test="${paging.getEndBlock() < paging.getAllPage() }">
+				<li class="page-item"><a class="page-link paging_btn"
+					href="project_control.do?page=${paging.getEndBlock() + 1 }">Next</a></li>
+				<li class="page-item"><a class="page-link paging_btn"
+					href="project_control.do?page=${paging.getAllPage() }&">End</a></li>
+			</c:if>
+		</ul>
+	</nav>
+	</div>
 	<div id="Project_content" class="modal" tabindex="-1">
 	</div>
 </body>
