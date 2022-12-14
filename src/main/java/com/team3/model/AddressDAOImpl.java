@@ -39,8 +39,13 @@ public class AddressDAOImpl implements AddressDAO {
 	}
 
 	@Override
-	public List<MemberDTO> getAddrList_customer(int mem_no) {
+	public List<CustomerDTO> getAddrList_customer(int mem_no) {
 		return this.sqlSession.selectList("addressDao.getAddrList_customer", mem_no);
+	}
+
+	@Override
+	public int insert_customer(CustomerDTO customerDTO) {
+		return this.sqlSession.insert("addressDao.insert_customer", customerDTO);
 	} 
 
 
