@@ -8,6 +8,15 @@ public interface AddressDAO {
 	
 	int getMyDeptNum();
 	
-	List<MemberDTO> myDeptMemberList(int myDeptNum);
+	List<MemberDTO> getMyDeptMemberList(int dept_no);
+	
+	List<MemberDTO> getAddrList_dept(String dept_name);
+	
+	List<MemberDTO> getAddrList_search(String keyword);
+	
+	List<CustomerDTO> getAddrList_customer(int mem_no);
+	
+	int insert_customer(CustomerDTO customerDTO);
+	
 	
 }
