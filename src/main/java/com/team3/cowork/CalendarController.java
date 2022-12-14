@@ -99,16 +99,16 @@ public class CalendarController {
 				MultipartHttpServletRequest mRequest) throws ParseException {
 		 String res = "";
 		 String filename = cal_upload.fileUpload(mRequest);
-		 System.out.println(stTime);
+		 /*
 		 SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		 SimpleDateFormat output = new SimpleDateFormat("yy/MM/dd HH:mm");
-		 Date stTime_date = input.parse(stTime);
-		 Date endTime_date = input.parse(endTime);
+		 SimpleDateFormat output = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+		 Date stTime_date = input.parse(stTime.substring(0, 16));
+		 Date endTime_date = input.parse(endTime.substring(0, 16));
 		 String stTime_string = output.format(stTime_date);
 		 String endTime_string = output.format(endTime_date);
-		 System.out.println(stTime_string);
-		 dto.setStart(stTime_string);
-		 dto.setEnd(endTime_string);
+		 */
+		 dto.setStart(stTime.substring(0, 16));
+		 dto.setEnd(endTime.substring(0, 16));
 		 /*
 		 SimpleDateFormat input = new SimpleDateFormat("h:mm a");
 		 SimpleDateFormat output = new SimpleDateFormat("HH:mm");
@@ -127,7 +127,6 @@ public class CalendarController {
 			 res = "파일 업로드 실패";
 		 }
 		 this.dao_cal.insertEvent(dto);
-		 System.out.println(res);
 		 return res;
 	 }
 	 
