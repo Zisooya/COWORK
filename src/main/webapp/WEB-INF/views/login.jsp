@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:;base64,=">
 </head>
 <body>
 
@@ -34,7 +35,7 @@
                 </div>
             </div>
             <div class="remember">
-                <input type="checkbox" class="checkbox" checked id="remember_me">
+                <input type="checkbox" class="checkbox" id="remember_me">
                 <label for="remember_me">아이디 저장</label>
             </div>
             <input type="submit" class="btn" value="로그인" id="btnLogin" name="btnLogin">
@@ -62,16 +63,65 @@
                 return false;
             }
         });
+
+        let key = getCookie("key");
+        $("#mem_id").val(key);
+
+        if ($("#mem_id").val() !== "") {
+            $("#remember_me").attr("checked", true);
+        }
+
+        $("#remember_me").change(function () {
+            if ($("#remember_me").is(":checked")) {
+                setCookie("key", $("#mem_id").val(), 7);
+            } else {
+                deleteCookie("key");
+            }
+        });
+
+        $("#mem_id").keyup(function () {
+            if ($("#remember_me").is(":checked")) {
+                setCookie("key", $("#mem_id").val(), 7);
+            }
+        });
     });
+
+    function setCookie(cookieName, value, exDays) {
+        let exDate = new Date();
+        exDate.setDate(exDate.getDate() + exDays);
+        let cookieValue = escape(value) + ((exDays == null) ? "" : "; expires=" + exDate.toDateString());
+        document.cookie = cookieName + "=" + cookieValue;
+    }
+
+    function deleteCookie(cookieName) {
+        let expireDate = new Date();
+        expireDate.setDate(expireDate.getDate() - 1);
+        document.cookie = cookieName + "= " + "; expires=" + expireDate.toDateString();
+    }
+
+    function getCookie(cookieName) {
+        cookieName = cookieName + '=';
+        let cookieData = document.cookie;
+        let start = cookieData.indexOf(cookieName);
+        let cookieValue = '';
+        if (start !== -1) {
+            start += cookieName.length;
+            let end = cookieData.indexOf(';', start);
+            if (end === -1)
+                end = cookieData.length;
+            cookieValue = cookieData.substring(start, end);
+        }
+        return unescape(cookieValue);
+    }
 
     const inputs = document.querySelectorAll(".input");
 
-    function addcl(){
+    function addClass(){
         let parent = this.parentNode.parentNode;
         parent.classList.add("focus");
     }
 
-    function remcl(){
+    function remClass(){
         let parent = this.parentNode.parentNode;
         if(this.value === ""){
             parent.classList.remove("focus");
@@ -79,8 +129,8 @@
     }
 
     inputs.forEach(input => {
-        input.addEventListener("focus", addcl);
-        input.addEventListener("blur", remcl);
+        input.addEventListener("focus", addClass);
+        input.addEventListener("blur", remClass);
     });
 </script>
 </html>

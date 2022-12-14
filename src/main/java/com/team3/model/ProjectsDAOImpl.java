@@ -15,8 +15,8 @@ public class ProjectsDAOImpl implements ProjectsDAO{
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public List<ProjectsDTO> getProjectsList() {
-		return this.sqlSession.selectList("all");	
+	public List<ProjectsDTO> getProjectsList(PageDTO dto) {
+		return this.sqlSession.selectList("all",dto);
 	}
 	
 	@Override
@@ -46,12 +46,6 @@ public class ProjectsDAOImpl implements ProjectsDAO{
 	@Override
 	public int deleteProjects(int num) {
 		return this.sqlSession.delete("deleteProject",num);
-	}
-
-	@Override
-	public void updateSeq(int num) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -130,13 +124,43 @@ public class ProjectsDAOImpl implements ProjectsDAO{
 	}
 
 	@Override
-	public void updateStatus(String status_name, int project_no) {
-		this.sqlSession.update(status_name, status_name);
+	public void UpdateStatus(ProjectsDTO dto) {
+		this.sqlSession.update("update_status", dto);
 	}
 
 	@Override
-	public int selectStatus_no(String status_name) {
-		return this.sqlSession.selectOne("SelectStatus_no", status_name);
+	public int selectStatus_no(Projects_statusDTO sdto) {
+		return this.sqlSession.selectOne("select_status_no", sdto);
 	}
 
+	@Override
+	public int board_insertProject(ProjectsDTO dto) {
+		return this.sqlSession.insert("board_insertProject", dto);
+	}
+
+	@Override
+	public void updateSeq(int num) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getListCount() {
+		return this.sqlSession.selectOne("count");
+	}
+
+	@Override
+	public List<ProjectsDTO> getProjectsList() {
+		return this.sqlSession.selectList("board_project_list");
+	}
+
+	@Override
+	public List<ProjectsDTO> getProjectsListByProjects(PageDTO dto) {
+		return this.sqlSession.selectList("selectproject", dto);
+	}
+
+	@Override
+	public List<ProjectsDTO> getProjectsListByname(PageDTO dto) {
+		return this.sqlSession.selectList("selectname", dto);
+	}
 }
