@@ -186,12 +186,12 @@ body{
  	resize: none;
  }
  .btn-primary{
-		background-color:#7BE66D;
-		border-style: none;
-		width:140px;
+	background-color:#7BE66D;
+	border-style: none;
+	width:100%;
  }
  .btn-primary:hover{
-		background-color:#C2F347;
+	background-color:#C2F347;
  }
 </style>
 </head>
@@ -277,15 +277,15 @@ body{
 				 <input type="hidden" class="project_count" value="${count }">
 				  </div>
 				 </c:forEach>
-				 <!-- 보드 추가하기 -->
+				 <!-- status 추가하기 -->
 				<div class="plus">
-					<form method="post" action="insert_status.do">
+					<form id="insert_status" method="post" action="insert_status.do">
 						<div id="plus" class="card text-bg-light" style="max-width: 18rem;">
 						  <div style="cursor:pointer" class="card-header insert_card">추가하기</div>
 						  <div class="card-body plus_card">
 						    <div class="input-group mb-3">
 							  <input type="text" class="form-control board_insert" name="status_name" aria-label="Recipient's username" aria-describedby="button-addon2" >
-							  <button class="btn btn-outline-secondary" type="submit" id="button-addon2">ADD</button>
+							  <button id="StatusInsert_btn" class="btn btn-outline-secondary" type="submit">ADD</button>
 							</div>
 						  </div>
 						</div>
