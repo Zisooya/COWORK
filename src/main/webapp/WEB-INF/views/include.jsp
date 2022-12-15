@@ -23,7 +23,7 @@
 					<li> <a href=""> <img id="navi03"  src="resources/images/커뮤니티.png" width="45" height="45"/><label for="navi03" id="arrow_box03">커뮤니티</label></a> </li>
 					<li> <a href="<%=request.getContextPath()%>/address.do"> <img id="navi04" src="resources/images/주소록.png" width="45" height="45" /><label for="navi04" id="arrow_box04">주소록</label></a> </li>
 					<li> <a href=""> <img id="navi05" src="resources/images/메일.png" width="40" height="40" /><label for="navi05" id="arrow_box05">메일</label></a> </li>
-					<li> <a href=""> <img id="navi06" src="resources/images/메신저.png"width="50" height="50" /><label for="navi06" id="arrow_box06">메신저</label></a> </li>
+					<li> <a href="<%=request.getContextPath()%>/messenger.do"> <img id="navi06" src="resources/images/메신저.png"width="50" height="50" /><label for="navi06" id="arrow_box06">메신저</label></a> </li>
 				</ul>	
 			</div>
 

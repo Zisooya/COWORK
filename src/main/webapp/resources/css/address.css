@@ -279,8 +279,10 @@ input[id *= "popup"] + label + div > label {
 }
 
 #side_menu hr{
-	width: 86%;
-	color: #EAEAEA;
+	width: 90%;
+	height: 1px;
+	background-color: #EAEAEA;
+	border : 0;
 }
 
 #side_menu p {
@@ -327,11 +329,19 @@ input[id *= "popup"] + label + div > label {
 	margin: 20px;
 }
 
+#content hr{
+	width: 90%;
+	height: 2px;
+	background-color: #EAEAEA;
+	border : 0;
+}
+
 .subject {
 	text-align: left;
 	font-weight: bold;
 	font-size: 1.1rem;
 }
+
 
  .subject table {
  	width: 90%;
