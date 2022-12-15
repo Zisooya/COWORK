@@ -183,7 +183,6 @@
 				</tr>
 		</table>
 	</form>
-	<br>
 	<div class="paging_div">
 	<nav class="paging">
 		<ul class="pagination">

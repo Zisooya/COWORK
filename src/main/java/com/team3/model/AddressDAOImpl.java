@@ -2,6 +2,7 @@ package com.team3.model;
 
 import java.util.List;
 
+import com.team3.model.member.MemberDTO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
