@@ -85,20 +85,27 @@ public class projectController {
 			}else {
 				page = 1;
 			}
-			totalRecord = this.dao_projects.getListCount();
 			String field = request.getParameter("field").trim();
 			String keyword = request.getParameter("keyword").trim();
+			if(dto.getField().equals("name")) {
+				totalRecord = this.dao_projects.getListCountByname(dto);
+			}else {
+				totalRecord = this.dao_projects.getListCountByproject(dto);
+			}
+
 			dto = new com.team3.model.PageDTO(page, rowsize, totalRecord, field, keyword);
 			
 			if(dto.getField().equals("name")) {
+				totalRecord = this.dao_projects.getListCountByname(dto);
 				List<com.team3.model.ProjectsDTO> list = this.dao_projects.getProjectsListByname(dto);
 				model.addAttribute("list", list);
 			}else {
+				totalRecord = this.dao_projects.getListCountByproject(dto);
 				List<com.team3.model.ProjectsDTO> list = this.dao_projects.getProjectsListByProjects(dto);
 				model.addAttribute("list", list);
 			}
 			model.addAttribute("Paging", dto);
-			return "project_control";
+			return "projects_include/project_search_n";
 		 }
 	
 	// 프로젝트 생성 페이지 _ 세건
@@ -302,6 +309,29 @@ public class projectController {
 			}
 	 }
 	 
-	 
-	 
+	 // 프로젝트 status별로 필터링 _ 세건
+	 @RequestMapping("project_status_table.do")
+	 public String ProjectStatusSelect(ProjectsDTO dto,PageDTO pdto,Model model,HttpServletRequest request) {
+		List<Main_ProjectsDTO> main = this.dao_projects.getMainList();
+		List<Projects_statusDTO> status = this.dao_projects.getStatusList();
+		List<MemberDTO> mlist = this.dao.getMemberList();
+		model.addAttribute("mlist", mlist);
+		model.addAttribute("main", main);
+		model.addAttribute("status", status);
+		int status_no = Integer.parseInt(request.getParameter("project_status"));
+		// 페이징
+		int page;
+		if(request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page"));
+		}else {
+			page = 1;
+		}
+		totalRecord = this.dao_projects.getListCountByStatus(status_no);
+		pdto = new com.team3.model.PageDTO(page, rowsize, totalRecord, status_no);
+		List<com.team3.model.ProjectsDTO> list = this.dao_projects.getProjectsListByStatus(pdto);
+		model.addAttribute("list", list);
+		model.addAttribute("Paging",pdto);
+		return "projects_include/project_status";
+	 }
+
 }

@@ -55,4 +55,13 @@ public interface ProjectsDAO {
 
 	List<ProjectsDTO> getProjectsListByname(PageDTO dto);
 
+	int getListCountByname(PageDTO dto);
+
+	int getListCountByproject(PageDTO dto);
+
+	int getListCountByStatus(int status_no);
+
+	List<ProjectsDTO> getProjectsListByStatus(PageDTO pdto);
+
+
 }

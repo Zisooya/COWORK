@@ -124,4 +124,25 @@
 		        where rnum >= #{startNo}
 		]]>
 	</select>
+	<select id="countByName" resultType="int">
+		select count(*) from projects where project_taker like '%' || #{keyword} || '%'
+		  or project_taker2 like '%' || #{keyword} || '%'
+     	  or project_taker3 like '%' || #{keyword} || '%'
+     	  or project_taker4 like '%' || #{keyword} || '%'
+     	  or project_taker5 like '%' || #{keyword} || '%'
+	</select>
+	<select id="countByProject" resultType="int">
+		select count(*) from projects where project_name like '%' || #{keyword} || '%'
+	</select>
+	<select id="countByStatus" resultType="int">
+		select count(*) from projects where project_status = #{status_no}
+	</select>
+	<select id="selectStatus" resultType="projectsdto" parameterType="pagedto">
+		<![CDATA[
+		   select * from 
+		    (select rownum as rnum , a.* from 
+		     (select * from projects where project_status=#{status_no} order by project_no desc) a where rownum <= #{endNo})
+		       where rnum >= #{startNo}
+		]]>
+	</select>
  </mapper>
