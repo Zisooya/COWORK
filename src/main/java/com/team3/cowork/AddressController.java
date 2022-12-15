@@ -5,13 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team3.model.AddressDAO;
 import com.team3.model.DepartmentDTO;
-import com.team3.model.MemberDTO;
+import com.team3.model.member.MemberDTO;
 
 @Controller
 public class AddressController {

@@ -18,7 +18,6 @@
 
     <div class="col-sm-6 col-md-offset-3">
         <form action="${ path }/member_join_ok.do" method="post" role="form" id="user_check" name="member">
-
             <div class="form-group">
                 <label for="mem_id">아이디</label>
                 <input type="text" class="form-control" id="mem_id" name="mem_id">
@@ -77,22 +76,22 @@
             </div>
 
             <div class="form-group">
-                <label for="dept_no">부서 선택</label>
-                <select class="form-control" id="dept_no" name="dept_no">
+                <label for="dept_name">부서 선택</label>
+                <select class="form-control" id="dept_name" name="dept_name">
                     <option selected>-</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
+                    <option>경영지원본부</option>
+                    <option>개발본부</option>
+                    <option>기획마케팅본부</option>
+                    <option>디자인본부</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="team_no">소속 선택</label>
-                <select class="form-control" id="team_no" name="team_no">
+                <label for="team_name">소속 선택</label>
+                <select class="form-control" id="team_name" name="team_name">
                     <option selected>-</option>
-                    <option>1</option>
-                    <option>2</option>
+                    <option>한화큐셀팀</option>
+                    <option>sk행복나래팀</option>
                 </select>
             </div>
 
@@ -117,8 +116,8 @@
 </body>
 <script type="text/javascript">
     // 모든 공백 체크 정규식
-    let empJ = /\s/g;
-    //아이디 정규식
+    let memJ = /\s/g;
+    // 아이디 정규식
     let idJ = /^[a-z0-9][a-z0-9_\-]{4,19}$/;
     // 비밀번호 정규식
     let pwJ = /^[A-Za-z0-9]{4,12}$/;
@@ -172,7 +171,7 @@
         }
     });
 
-    $('form').on('submit',function() {
+    $('form').on('submit', function() {
         let in_val_arr = new Array(5).fill(false);
         if (idJ.test($('#mem_id').val())) {
             in_val_arr[0] = true;

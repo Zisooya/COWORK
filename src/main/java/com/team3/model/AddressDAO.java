@@ -1,5 +1,7 @@
 package com.team3.model;
 
+import com.team3.model.member.MemberDTO;
+
 import java.util.List;
 
 public interface AddressDAO {

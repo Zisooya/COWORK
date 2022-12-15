@@ -1,4 +1,4 @@
-package com.team3.model;
+package com.team3.model.member;
 
 import lombok.Data;
 
