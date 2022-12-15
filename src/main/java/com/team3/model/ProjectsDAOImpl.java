@@ -163,4 +163,25 @@ public class ProjectsDAOImpl implements ProjectsDAO{
 	public List<ProjectsDTO> getProjectsListByname(PageDTO dto) {
 		return this.sqlSession.selectList("selectname", dto);
 	}
+
+	@Override
+	public int getListCountByname(PageDTO dto) {
+		return this.sqlSession.selectOne("countByName", dto);
+	}
+
+	@Override
+	public int getListCountByproject(PageDTO dto) {
+		return this.sqlSession.selectOne("countByProject",dto);
+	}
+
+	@Override
+	public int getListCountByStatus(int status_no) {
+		return this.sqlSession.selectOne("countByStatus",status_no);
+	}
+
+	@Override
+	public List<ProjectsDTO> getProjectsListByStatus(PageDTO pdto) {
+		return this.sqlSession.selectList("selectStatus", pdto);
+	}
+
 }

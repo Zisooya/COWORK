@@ -44,20 +44,59 @@
 		box-sizing: border-box;
 		cursor: pointer;
 	}
+	.modal_label {
+		text-align: center;
+		margin: 15px 0px 10px 0px;	
+		border: 0;	
+		border-radius: 5px;	
+		box-sizing: border-box;	
+		width: 100px;
+		height: 46px;
+		font-size: 0.9rem;
+		font-weight: bold;		
+		display: inline-block;
+		padding: 12px 3px;
+		background: #7BE66D;
+		color: #FFF;
+		cursor: pointer;
+	}
+	.modal_label a{
+		display:block;
+		color: #FFF;
+		text-decoration: none;
+	}
+	.side_menu_body{
+		text-align: left;
+	}
+	.side_menu_body a{
+		text-decoration: none;
+		color: black;
+	}
+	.side_menu_body hr{
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
 </style>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <link href="${path}/resources/css/bootstrap_include.css" rel="stylesheet"/>
 <jsp:include page="projects_include/link.jsp"/>
 </head>
 <body>
+	<c:set var="status" value="${status }"/>
 	<div id="grid_container">
 	
 		<jsp:include page="include.jsp" />
 	
 		<nav id="side">
-			<label>주소록</label>
+			<label>목 록</label>
 			<div id="side_menu" style="overflow-y: auto;">
-				<a href="project_board.do">보드</a>
+				<label class="modal_label" for="popup01"><a href="project_board.do">보 드</a></label><br>
+				<div class="side_menu_body">
+					<c:forEach items="${status }" var="sdto">
+						<a href="project_status_table.do?project_status=${sdto.getStatus_no() }">${sdto.getStatus_name() }</a><br>
+						<hr>
+					</c:forEach>
+				</div>
 			</div>
 		</nav>
 	
