@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team3.model.Main_ProjectsDTO;
-import com.team3.model.MemberDAO;
-import com.team3.model.MemberDTO;
+import com.team3.model.member.MemberDAO;
+import com.team3.model.member.MemberDTO;
 import com.team3.model.PageDTO;
 import com.team3.model.ProjectsDAO;
 import com.team3.model.ProjectsDTO;
