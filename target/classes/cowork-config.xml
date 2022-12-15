@@ -25,6 +25,8 @@
 		<!-- *************** 지수 *************** -->	
 		<typeAlias type="com.team3.model.AddressDAO" alias="addressDao"/>
 		<typeAlias type="com.team3.model.DepartmentDTO" alias="departmentDto"/>
+		<typeAlias type="com.team3.model.CustomerDTO" alias="customerDto"/>
+		
 	
 		<!-- *************** 현우 *************** -->
 		<typeAlias type="com.team3.model.CalendarDAO" alias="caldao"/>
@@ -35,6 +37,7 @@
 		<typeAlias type="com.team3.model.ProjectsDTO" alias="projectsdto"/>
 		<typeAlias type="com.team3.model.Main_ProjectsDTO" alias="maindto"/>
 		<typeAlias type="com.team3.model.Projects_statusDTO" alias="statusdto"/>
+		<typeAlias type="com.team3.model.PageDTO" alias="pagedto"/>
 	</typeAliases>
 
 </configuration>

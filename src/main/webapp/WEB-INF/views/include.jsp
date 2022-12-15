@@ -19,7 +19,7 @@
 			<div id="header_center">
 				<ul>
 					<li> <a href="<%=request.getContextPath() %>/calendar.do"> <img id="navi01" src="resources/images/캘린더.png" width="45" height="45" /><label for="navi01" id="arrow_box01">캘린더</label></a> </li>
-					<li> <a href=""> <img id="navi02" src="resources/images/프로젝트.png" width="45" height="45" /><label for="navi02" id="arrow_box02">프로젝트</label></a> </li>
+					<li> <a href="<%=request.getContextPath()%>/project_board.do"> <img id="navi02" src="resources/images/프로젝트.png" width="45" height="45" /><label for="navi02" id="arrow_box02">프로젝트</label></a> </li>
 					<li> <a href=""> <img id="navi03"  src="resources/images/커뮤니티.png" width="45" height="45"/><label for="navi03" id="arrow_box03">커뮤니티</label></a> </li>
 					<li> <a href="<%=request.getContextPath()%>/address.do"> <img id="navi04" src="resources/images/주소록.png" width="45" height="45" /><label for="navi04" id="arrow_box04">주소록</label></a> </li>
 					<li> <a href=""> <img id="navi05" src="resources/images/메일.png" width="40" height="40" /><label for="navi05" id="arrow_box05">메일</label></a> </li>

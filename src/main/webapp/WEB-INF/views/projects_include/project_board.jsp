@@ -19,6 +19,7 @@
 		$(".list_header_update").hide();
  		$(".list-name-input").hide();
  		$(".plus_card").hide();
+ 		$(".status_div").hide();
 		$(".mod-list-add-button").click(function(){
 			$(".list-name-input").show();
 			$(".mod-list-add-button").hide();
@@ -101,6 +102,25 @@
 		  		})
 		      }
 		});
+		$(".status_list").click(function(){
+			// status_no
+			let status_no = $(this).attr("id");
+
+			// 마지막 보드
+			let lastNum = $(".status_count").val();
+			$(".col").each(function(){
+				if($(this).attr("id") == status_no){
+					$(this).toggle(1000);
+				}
+			})
+			console.log("status_no : "+ status_no);
+			console.log("lastNum : "+ lastNum);
+		})
+		
+		/*  */
+		$(".status_oc").click(function(){
+			$(".status_div").toggle(50);
+		})
 	})
 	
 </script>
@@ -186,13 +206,42 @@ body{
  	resize: none;
  }
  .btn-primary{
-		background-color:#7BE66D;
-		border-style: none;
-		width:140px;
+	background-color:#7BE66D;
+	border-style: none;
+	width:100%;
  }
  .btn-primary:hover{
-		background-color:#C2F347;
+	background-color:#C2F347;
  }
+ .modal_label {
+	text-align: center;
+	margin: 15px 0px 10px 0px;	
+	border: 0;	
+	border-radius: 5px;	
+	box-sizing: border-box;	
+	width: 100px;
+	height: 46px;
+	font-size: 0.9rem;
+	font-weight: bold;		
+	display: inline-block;
+	padding: 12px 3px;
+	background: #7BE66D;
+	color: #FFF;
+	cursor: pointer;
+  }
+  .modal_label a{
+  	text-decoration: none;
+  	color:white;
+  }
+  .status_list{
+  	text-align: left;
+  }
+  .status_list_div{
+	text-align: left;
+  }
+  .portlet{
+  	min-height: 106px;
+  }
 </style>
 </head>
 <body class="feplat3731">
@@ -205,15 +254,24 @@ body{
 		<nav id="side">
 			<label>목 록</label>
 			<div id="side_menu" style="overflow-y: auto;">
-				<a href="project_control.do">테이블</a>
+				<label class="modal_label" for="popup01"><a href="project_control.do">테이블</a></label><br>
+				<hr>
+				<b style="cursor:pointer" class="status_oc">STATUS</b><br>
+				<c:forEach items="${status }" var="sdto">
+					<div class="btn-group status_div" role="group" aria-label="Basic checkbox toggle button group">
+					  <input type="checkbox" class="btn-check status_list" id="${sdto.getStatus_no() }" autocomplete="off" checked>
+					  <label class="btn btn-outline-primary" for="${sdto.getStatus_no() }">${sdto.getStatus_name() }</label>
+					</div>
+				</c:forEach>
+				<hr>
 			</div>
 		</nav>
 		<article id="content">
 			<div class="row row-cols-1 row-cols-md-3 g-4 d-flex flex-nowrap ">
 				<c:forEach items="${status }" var="sdto">
-				<c:set var="count1" value="${count1 +1 }"/>
+				<c:set var="count" value="${count +1 }"/>
 				<!-- borad -->
-				  <div class="col">
+				  <div class="col" id="${sdto.getStatus_no() }">
 				    <div class="card">
 				      <div class="card-body">
 			        	<h5 class="card-title">${sdto.getStatus_name() }</h5>
@@ -223,7 +281,6 @@ body{
 						        	<c:forEach items="${list }" var="dto">
 						        	<c:if test="${sdto.getStatus_no() == dto.getProject_status() }">
 						        	<!-- card -->					        	  	
-						        	 <c:set var="count" value="${count +1 }"/>
 										<div style="cursor:pointer" id="${dto.getProject_no() }" class="card border-light mb-3 shadow p-3 mb-5 bg-body rounded project_name portlet" style="max-width: 18rem;">
 							        	  <c:forEach items="${main }" var="mdto">
 							        	  <c:if test="${mdto.getMain_no() == dto.getProject_main() }">
@@ -243,7 +300,7 @@ body{
 											  </div>
 										  </c:if>
 										  </c:forEach>
-										</div>							
+										</div>
 									</c:if>
 									</c:forEach>
 						        </p>
@@ -259,7 +316,7 @@ body{
 									<option value="none">:::메인 프로젝트:::</option>
 									<c:forEach items="${main }" var="mdto">
 										<option value="${mdto.getMain_no() }">${mdto.getMain_name() }</option>
-									</c:forEach> 
+									</c:forEach>
 								</select>
 							  </div>
 							  <div class="card-body portlet-content">
@@ -274,18 +331,18 @@ body{
 					      </div>
 					    </div>
 				    </div>
-				 <input type="hidden" class="project_count" value="${count }">
 				  </div>
 				 </c:forEach>
-				 <!-- 보드 추가하기 -->
+				 <!-- status 추가하기 -->
+				 <input type="hidden" class="status_count" value="${count }">
 				<div class="plus">
-					<form method="post" action="insert_status.do">
+					<form id="insert_status" method="post" action="insert_status.do">
 						<div id="plus" class="card text-bg-light" style="max-width: 18rem;">
 						  <div style="cursor:pointer" class="card-header insert_card">추가하기</div>
 						  <div class="card-body plus_card">
 						    <div class="input-group mb-3">
 							  <input type="text" class="form-control board_insert" name="status_name" aria-label="Recipient's username" aria-describedby="button-addon2" >
-							  <button class="btn btn-outline-secondary" type="submit" id="button-addon2">ADD</button>
+							  <button id="StatusInsert_btn" class="btn btn-outline-secondary" type="submit">ADD</button>
 							</div>
 						  </div>
 						</div>

@@ -8,50 +8,106 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.team3.model.*;
-import com.team3.model.member.MemberDAO;
-import com.team3.model.member.MemberDTO;
-import com.team3.model.member.MemberService;
+import org.apache.ibatis.reflection.SystemMetaObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+
+import com.team3.model.Main_ProjectsDTO;
+import com.team3.model.MemberDAO;
+import com.team3.model.MemberDTO;
+import com.team3.model.PageDTO;
+import com.team3.model.ProjectsDAO;
+import com.team3.model.ProjectsDTO;
+import com.team3.model.Projects_statusDTO;
 
 @Controller
-public class CoworkController {
+public class projectController {
 
-	@Autowired
-	private MemberDAO dao;
-
-	@Autowired
-	private MemberService service;
-
+	
 	// ProjectDAO 변수 생성 _ 세건
-
-	@Autowired
-	private ProjectsDAO dao_projects;
-
-
+		@Autowired
+		private ProjectsDAO dao_projects;
+		
+	// MemeberDAO 변수 생성
+		@Autowired
+		private MemberDAO dao;
+		
+	// 한 페이지당 보여질 게시물의 수
+	private final int rowsize = 15;
+	
+	// DB 상의 전체 게시물의 수
+	private int totalRecord = 0;
+	
 	// 프로젝트 목록 생성 페이지 _ 세건
 	@RequestMapping("project_control.do")
-	public String project_control(Model model) {
-		List<com.team3.model.ProjectsDTO> list = this.dao_projects.getProjectsList();
+	public String project_control(Model model,HttpServletRequest request) {
 		List<Main_ProjectsDTO> main = this.dao_projects.getMainList();
 		List<Projects_statusDTO> status = this.dao_projects.getStatusList();
 		List<MemberDTO> mlist = this.dao.getMemberList();
 		model.addAttribute("mlist", mlist);
-		model.addAttribute("list", list);
 		model.addAttribute("main", main);
 		model.addAttribute("status", status);
+		
+		// 페이징
+		int page;
+		if(request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page"));
+		}else {
+			page = 1;
+		}
+		totalRecord = this.dao_projects.getListCount();
+		com.team3.model.PageDTO dto = new com.team3.model.PageDTO(page, rowsize, totalRecord);
+		List<com.team3.model.ProjectsDTO> list = this.dao_projects.getProjectsList(dto);
+		model.addAttribute("list", list);
+		model.addAttribute("Paging", dto);
 		return "project_control";
 	}
+	
+	// 프로젝트 테이블 검색 _ 세건
+		 @RequestMapping("project_search.do")
+		 public String project_search(Model model,HttpServletRequest request,PageDTO dto) {
+			List<Main_ProjectsDTO> main = this.dao_projects.getMainList();
+			List<Projects_statusDTO> status = this.dao_projects.getStatusList();
+			List<MemberDTO> mlist = this.dao.getMemberList();
+			model.addAttribute("mlist", mlist);
+			model.addAttribute("main", main);
+			model.addAttribute("status", status);
+			
+			// 페이징
+			int page;
+			if(request.getParameter("page") != null) {
+				page = Integer.parseInt(request.getParameter("page"));
+			}else {
+				page = 1;
+			}
+			String field = request.getParameter("field").trim();
+			String keyword = request.getParameter("keyword").trim();
+			if(dto.getField().equals("name")) {
+				totalRecord = this.dao_projects.getListCountByname(dto);
+			}else {
+				totalRecord = this.dao_projects.getListCountByproject(dto);
+			}
 
+			dto = new com.team3.model.PageDTO(page, rowsize, totalRecord, field, keyword);
+			
+			if(dto.getField().equals("name")) {
+				totalRecord = this.dao_projects.getListCountByname(dto);
+				List<com.team3.model.ProjectsDTO> list = this.dao_projects.getProjectsListByname(dto);
+				model.addAttribute("list", list);
+			}else {
+				totalRecord = this.dao_projects.getListCountByproject(dto);
+				List<com.team3.model.ProjectsDTO> list = this.dao_projects.getProjectsListByProjects(dto);
+				model.addAttribute("list", list);
+			}
+			model.addAttribute("Paging", dto);
+			return "projects_include/project_search_n";
+		 }
+	
 	// 프로젝트 생성 페이지 _ 세건
 	@RequestMapping("project_insert.do")
 	public void project_insert(Model model, ProjectsDTO dto, HttpServletResponse response, MemberDTO mdto)throws IOException {
@@ -59,7 +115,7 @@ public class CoworkController {
 			dto.setProject_name("프로젝트 명을 입력해 주세요.");
 		}
 		System.out.println("project_name : "+dto.getProject_name());
-
+		
 		this.dao_projects.insertProject(dto);
 		List<MemberDTO> mlist = this.dao.getMemberList();
 		model.addAttribute("mlist", mlist);
@@ -167,7 +223,7 @@ public class CoworkController {
 			out.println("</script>");
 		}
 	}
-
+	
 	// 프로젝트 status 추가 _ 세건
 	@RequestMapping("insert_status.do")
 	public void InsertStatus(Projects_statusDTO dto, HttpServletResponse response) throws IOException {
@@ -215,20 +271,20 @@ public class CoworkController {
 		System.out.println(dto.getProject_no());
 	}
 
-
-
+	
+	 
 	 // 프로젝트 보드 보기 _ 세건
 	 @RequestMapping("project_board.do")
-	 public String projectboard(Model model) {
+	 public String projectboard(Model model) {		 
 	 List<com.team3.model.ProjectsDTO> list = this.dao_projects.getProjectsList();
 	 List<Main_ProjectsDTO> main = this.dao_projects.getMainList();
 	 List<Projects_statusDTO> status = this.dao_projects.getStatusList();
 	 List<MemberDTO> mlist = this.dao.getMemberList(); model.addAttribute("mlist",
 	 mlist); model.addAttribute("list", list); model.addAttribute("main", main);
-	 model.addAttribute("status", status);
+	 model.addAttribute("status", status); 
 	 return "projects_include/project_board";
-
-
+	 
+		 
 	 }
 	 // 프로젝트 status 변경 _ 세건
 	 @RequestMapping("project_UpdateStatus.do")
@@ -239,7 +295,7 @@ public class CoworkController {
 		 response.setContentType("text/html; charset=UTF-8");
 		 PrintWriter out = response.getWriter();
 	 }
-
+	 
 	 // 프로젝트 보드 카드 생성 _ 세건
 	 @RequestMapping("board_project_insert.do")
 	 public void board_insert_project(ProjectsDTO dto,HttpServletResponse response) throws IOException {
@@ -253,121 +309,29 @@ public class CoworkController {
 			}
 	 }
 	 
-	 @RequestMapping("drag.do")
-	 public String dragetest() {
-		 return "projects_include/drag";
+	 // 프로젝트 status별로 필터링 _ 세건
+	 @RequestMapping("project_status_table.do")
+	 public String ProjectStatusSelect(ProjectsDTO dto,PageDTO pdto,Model model,HttpServletRequest request) {
+		List<Main_ProjectsDTO> main = this.dao_projects.getMainList();
+		List<Projects_statusDTO> status = this.dao_projects.getStatusList();
+		List<MemberDTO> mlist = this.dao.getMemberList();
+		model.addAttribute("mlist", mlist);
+		model.addAttribute("main", main);
+		model.addAttribute("status", status);
+		int status_no = Integer.parseInt(request.getParameter("project_status"));
+		// 페이징
+		int page;
+		if(request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page"));
+		}else {
+			page = 1;
+		}
+		totalRecord = this.dao_projects.getListCountByStatus(status_no);
+		pdto = new com.team3.model.PageDTO(page, rowsize, totalRecord, status_no);
+		List<com.team3.model.ProjectsDTO> list = this.dao_projects.getProjectsListByStatus(pdto);
+		model.addAttribute("list", list);
+		model.addAttribute("Paging",pdto);
+		return "projects_include/project_status";
 	 }
-	
 
-	@RequestMapping("member_login.do")	// 임시로 만든 메서드임. 추후 로그인 화면을 시작페이지로 변경 예정.
-	public String login() {
-		return "member/login";
-	}
-
-	@RequestMapping("member_login_ok.do")
-	public String loginOk(@ModelAttribute MemberDTO dto, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-
-		MemberDTO result = service.memberLogin(dto);
-
-		if (result != null) {
-			session.setAttribute("member", result);
-			return "redirect:/";
-		} else {
-			return "redirect:member_login.do";
-		}
-	}
-
-	@RequestMapping("member_logout.do")
-	public String logout(HttpSession session) {
-		service.memberLogout(session);
-
-		return "redirect:member_login.do";
-	}
-
-	@RequestMapping("member_join.do")
-	public String join() {
-
-		return "member/join";
-	}
-
-	@RequestMapping("member_join_ok.do")
-	public String joinOk(@ModelAttribute MemberDTO dto) {
-		service.memberJoin(dto);
-		return "redirect:member_login.do";
-	}
-
-	@RequestMapping("member_idCheck.do")
-	@ResponseBody
-	public void checkId(String mem_id, HttpServletResponse response) throws IOException {
-		int result = 0;
-
-		if (service.idCheck(mem_id) != 0) {
-			result = 1;
-		}
-		response.getWriter().print(result);
-	}
-
-	@RequestMapping("member_edit.do")
-	public ModelAndView memberEdit(@RequestParam String mem_id) {
-		ModelAndView mav = new ModelAndView();
-
-		mav.setViewName("member/edit");
-		mav.addObject("memberEdit", service.memberDetail(mem_id));
-
-		return mav;
-	}
-
-	@RequestMapping("member_edit_ok.do")
-	public String memberEditOk(@ModelAttribute MemberDTO dto) {
-		service.memberEdit(dto);
-
-		return "redirect:member_edit.do?mem_id=" + dto.getMem_id();
-	}
-
-	@RequestMapping("member_delete.do")
-	public String memberDelete() {
-		return "member/delete";
-	}
-
-	@RequestMapping("member_delete_ok.do")
-	public String memberDeleteOk(@RequestParam String mem_id, HttpSession session) {
-		service.memberDelete(mem_id, session);
-
-		return "redirect:member_login.do";
-	}
-
-	@RequestMapping("member_findId.do")
-	public String memberFindId() {
-		return "member/findId";
-	}
-
-	@RequestMapping("member_findId_ok.do")
-	public ModelAndView memberFindIdOk(@ModelAttribute MemberDTO dto) {
-		ModelAndView mav = new ModelAndView();
-
-		List<MemberDTO> list = service.memberFindId(dto);
-
-		mav.setViewName("member/login");
-		mav.addObject("memberFindId", list);
-
-		return mav;
-	}
-
-	@RequestMapping("member_findPwd.do")
-	public String memberFindPwd() {
-		return "member/findPwd";
-	}
-
-	@RequestMapping("member_findPwd_ok.do")
-	public ModelAndView memberFindPwdOk(@ModelAttribute MemberDTO dto) {
-		ModelAndView mav = new ModelAndView();
-
-		String pwd = service.memberFindPwd(dto);
-
-		mav.setViewName("member/login");
-		mav.addObject("memberFindPwd", pwd);
-
-		return mav;
-	}
 }

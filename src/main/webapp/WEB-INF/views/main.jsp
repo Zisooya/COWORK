@@ -29,9 +29,6 @@
 		<br>
 		<a href="<%=request.getContextPath() %>/member_login.do">[로그인 페이지 테스트]</a>
 		
-		<br>
-		
-		<a href="<%=request.getContextPath() %>/project_control.do">[프로젝트 관리]</a>
 		</article>
 	
 	</div>

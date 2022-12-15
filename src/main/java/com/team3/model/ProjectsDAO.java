@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ProjectsDAO {
 	
-	List<ProjectsDTO> getProjectsList();
+	List<ProjectsDTO> getProjectsList(PageDTO dto);
 	
 	List<Main_ProjectsDTO> getMainList();
 	
@@ -46,5 +46,22 @@ public interface ProjectsDAO {
 	int selectStatus_no(Projects_statusDTO sdto);
 
 	int board_insertProject(ProjectsDTO dto);
+
+	int getListCount();
+
+	List<ProjectsDTO> getProjectsList();
+
+	List<ProjectsDTO> getProjectsListByProjects(PageDTO dto);
+
+	List<ProjectsDTO> getProjectsListByname(PageDTO dto);
+
+	int getListCountByname(PageDTO dto);
+
+	int getListCountByproject(PageDTO dto);
+
+	int getListCountByStatus(int status_no);
+
+	List<ProjectsDTO> getProjectsListByStatus(PageDTO pdto);
+
 
 }
