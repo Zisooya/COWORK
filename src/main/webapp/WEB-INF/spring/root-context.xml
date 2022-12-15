@@ -11,7 +11,6 @@
 <!-- 스프링 + 마이바티스 + 오라클 클라우드 -->
 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
     <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-
     <property name="url" value="jdbc:oracle:thin:@dbteam3final_high?TNS_ADMIN=C:/NCS/Download/apache-tomcat-9.0.69/wallet"/>
 
     <property name="username" value="ADMIN"/>
