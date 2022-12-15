@@ -1,4 +1,4 @@
-<%@ page session="false" pageEncoding="UTF-8"%>
+<%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
@@ -9,6 +9,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script> -->
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.css" rel="stylesheet">
@@ -17,6 +19,33 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/ko.min.js"></script>
 <script>
 	jQuery.datetimepicker.setLocale('kr');
+	const Toast = Swal.mixin({
+	    toast: true,
+	    position: 'top-start',
+	    showConfirmButton: false,
+	    timer: 3000,
+	    timerProgressBar: true,
+	    didOpen: (toast) => {
+	        toast.addEventListener('mouseenter', Swal.stopTimer)
+	        toast.addEventListener('mouseleave', Swal.resumeTimer)
+	    }
+	})
+	 
+	// 요일 구하는 함수
+	function getDayOfWeek(date_str){ //ex) getDayOfWeek('2022-06-13')
+	    const week = ['일','월','화','수','목','금','토'];
+	    const dayOfWeek = week[new Date(date_str).getDay()];
+	    return dayOfWeek;
+	}
+	// 몇번째 주인지 구하는 함수
+	function getWeekNo(date_str) {
+		 var date = new Date();
+		 if(date_str){
+		  date = new Date(date_str);
+		 }
+		 return Math.ceil(date.getDate() / 7);
+	}
+	
 	document.addEventListener('DOMContentLoaded',function() {
 		/* ------------------------------------모달창 관련------------------------------------ */
 		const modal_detail = document.querySelector(".modal_detail");
@@ -37,26 +66,28 @@
 				endTime_add.style.display = 'inline';
 			}
 		} */
-		//close 버튼 클릭 시 모달창 닫힘 func
+		
+		//close 버튼 클릭 시 모달창 닫힘 함수
 		closeBtn_detail.onclick = function() {
 			modal_detail.style.display = "none";
 		}
 		closeBtn_add.onclick = function() {
 			modal_add.style.display = "none";
 		}
-		//빈 여백 클릭 시 모달창 닫힘 func
+		//빈 여백 클릭 시 모달창 닫힘 함수
 		window.onclick = function() {
 			if (event.target == modal_detail) {
 				modal_detail.style.display = "none";
 			}
 		}
-		// 상세정보 모달창 오픈 func
+		// 상세정보 모달창 오픈 함수
 		function detail() {
 			const title = document.querySelector(".title");
 			const startTime = document.querySelector(".startTime");
 			const endTime = document.querySelector(".endTime");
 			const memo = document.querySelector(".memo");
 			const place = document.querySelector(".place");
+			const cal_name = document.querySelector(".cal_name");
 			title.innerText = gTitle;
 			if (gAllDay == true) {
 				startTime.innerText = moment(gStartTime).format("YYYY.MM.DD (ddd)");
@@ -74,9 +105,10 @@
 			}
 			memo.innerText = gMemo;
 			place.innerText = gPlace;
+			cal_name.innerText = gCalName;
 			modal_detail.style.display = "block";
 		}
-		// 일정 추가 모달창 오픈 func
+		// 일정 추가 모달창 오픈 함수
 		function add() {
 			modal_add.style.display = "block";
 		}
@@ -89,6 +121,7 @@
 		var gAllDay;
 		var gMemo;
 		var gPlace;
+		var gCalName;
 		// Event 추가용 변수 : a(add) + 변수명
 		var aTitle;
 		var aAllday;
@@ -106,7 +139,17 @@
 			editable : true,
 			select : function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
 				add();
-				/* var title_d = prompt('Event Title:');
+				/* 모달창 뜨자마자 시작일, 종료일 세팅(로직은 맞는데 실행안됨)
+				const startTime = document.querySelector("#add_startTime");
+				alert(moment(arg.start).format("YYYY-MM-DD HH:mm"));
+				startTime.innerText = moment(arg.start).format("YYYY-MM-DD HH:mm");
+				*/
+				const repeat_w = document.querySelector("#repeat_w");
+				repeat_w.innerText = '매주 ' + getDayOfWeek(arg.start) + '요일';
+				repeat_m.innerText = '매월 ' + getWeekNo(arg.start) + '번째 ' + getDayOfWeek(arg.start) + '요일';
+				repeat_y.innerText = '매년 ' + moment(arg.start).format("MM") + '월 ' + moment(arg.start).format("DD") + '일';
+				/* 원래 있던 예시 코드
+				var title_d = prompt('Event Title:');
 				if (title_d) {
 				  calendar.addEvent({
 				    title: title_d,
@@ -114,16 +157,17 @@
 				    end: arg.end,
 				    allDay: arg.allDay
 				  })
-				} */
+				}
+				*/
 				calendar.unselect()
 			},
 			dayMaxEvents : true,
-			events : function(info, successCallback,failureCallback) {
+			events : function (info, successCallback,failureCallback) {
 				// ajax 처리로 데이터를 로딩 시킨다.
 				$.ajax({
 					type : "get",
 					contentType : "application/x-www-form-urlencoded; charset=UTF-8",
-					url : "calendarList.do?no=3",
+					url : "calendarList.do?no=${member.mem_no}",
 					dataType : "json",
 					success : function(result) {
 						var events = [];
@@ -136,6 +180,13 @@
 								var eAllday;
 								var eMemo = element.cal_memo;
 								var ePlace = element.cal_place;
+								var eCalName = element.cal_type_name;
+								var eColor;
+								if (element.cal_category != null) {
+									eColor = element.cal_category;
+								} else {
+									eColor = element.cal_type_color;
+								}
 								if (element.allDay == "true") {
 									eAllday = true;
 								} else {
@@ -145,20 +196,22 @@
 									eEndDate = eStartDate;
 								}
 								events.push({
+									color : eColor,
 									id : eId,
 									title : eTitle,
 									start : eStartDate,
 									end : eEndDate,
 									allDay : eAllday,
 									memo : eMemo,
-									place : ePlace
+									place : ePlace,
+									cal_name : eCalName
 								}); // push() end
 							}); // each() end
 						} // if() end 
 						successCallback(events);
 					} // success: function() end
 				}); // ajax end
-			}, // events: end
+			}, // events : function end
 			/* dateClick: function() {}, */
 			/* ------------------------------------이벤트 클릭------------------------------------ */
 			eventClick : function(info) {
@@ -169,6 +222,7 @@
 				gAllDay = eventObj.allDay;
 				gMemo = eventObj.extendedProps.memo;
 				gPlace = eventObj.extendedProps.place;
+				gCalName = eventObj.extendedProps.cal_name;
 				detail();
 			},
 			/* ------------------------------------이벤트 클릭 끝------------------------------------ */
@@ -230,10 +284,47 @@
 				}
 			});
 		});
-		
 		calendar.render();
 	});
 	$(function(){
+		let add_startTime_val;
+		let start_date_select;
+		let add_endTime_val;
+		let end_date_select;
+		const save_btn = document.getElementById('save_btn');
+		function end_must_more() { // 시작일 > 종료일 이면 나오는 알림창, 저장 버튼도 비활성화
+			if(start_date_select > end_date_select) {
+				save_btn.disabled = true;
+				Toast.fire({
+					showCloseButton: true,
+					width: '27%',
+				    icon: 'error',
+				    title: '종료일은 시작일 이후여야 합니다.'
+				})
+			}else {
+				save_btn.disabled = false;
+			}
+		}
+		$("#add_startTime").change(function(){ // 시작일 변경 시 : 요일 글자(ex:(금)) 추가, 반복 select 글자 변경
+			add_startTime_val = document.getElementById("add_startTime").value;
+			start_date_select = new Date(add_startTime_val.substr(0, 16));
+			$("#add_startTime").val(add_startTime_val + " ("+getDayOfWeek(start_date_select)+")");
+			
+			const repeat_w = document.querySelector("#repeat_w");
+			repeat_w.innerText = '매주 ' + getDayOfWeek(start_date_select) + '요일';
+			repeat_m.innerText = '매월 ' + getWeekNo(start_date_select) + '번째 ' + getDayOfWeek(start_date_select) + '요일';
+			repeat_y.innerText = '매년 ' + moment(start_date_select).format("MM") + '월 ' + moment(start_date_select).format("DD") + '일';
+			
+			end_must_more();
+		});
+		$("#add_endTime").change(function(){ // 종료일 변경 시 : 요일 글자(ex:(금)) 추가
+			add_endTime_val = document.getElementById("add_endTime").value;
+			end_date_select = new Date(add_endTime_val.substr(0, 16));
+			$("#add_endTime").val(add_endTime_val + " ("+getDayOfWeek(end_date_select)+")");
+			
+			end_must_more();
+		});
+		
 		$(".datetimepicker").datetimepicker({ 
 			format: "Y-m-d H:i",
 			step : 30,
@@ -276,6 +367,12 @@
 	});
 </script>
 <style type="text/css">
+/* bootstrap fullcalendar에 적용안하기 */
+a {
+	text-decoration: none;
+	color: #000;
+}
+
 /* close button */
 .close_detail {
 	color: #fff;
@@ -292,8 +389,8 @@
 	font-weight: bold;
 	cursor: pointer;
 }
-
-/* modal style */
+/* close button 끝*/
+/* modal창 관련 */
 .modal_detail {
 	/* 모달 뒷배경 */
 	display: none;
@@ -336,24 +433,19 @@
 	height: 100%;
 	overflow: auto;
 }
-
-a {
-	text-decoration: none;
-	color: #000;
-}
-
+/* modal창 관련 끝 */
+/* 검색창 관련 */
 .form-select {
 	width: 7%;
 }
-
 .form-control{
 	width: 15%;
 }
-
 .search-form {
 	display: flex;
 }
-
+/* 검색창 관련 끝 */
+/* 일정 추가 창 관련 */
 .add_mark {
     visibility:hidden;
     cursor:pointer;
@@ -371,6 +463,14 @@ a {
    content: url("https://cdn-icons-png.flaticon.com/512/148/148839.png");
    position: absolute;
 }
+
+#my_setting {
+	font-size: 12px;
+	color: gray;
+	position: relative;
+	top: -10px;
+}
+/* 일정 추가 창 관련 끝 */
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -384,7 +484,6 @@ a {
 
 				<!-- <input type="button" value="일정쓰기"> -->
 				<input class="btn btn-success" type="button" onclick="click_add();" value="일정 추가">
-
 			</div>
 		</nav>
 		<article id="content">
@@ -411,9 +510,13 @@ a {
 				<article class="modal-content_detail">
 					<span class="close_detail">&times;</span>
 					<h2 class="title"></h2>
-					<span class="startTime"></span> - <span class="endTime"></span>
-					<p class="memo"></p>
-					<p class="place"></p>
+					일시 <span class="startTime"></span> - <span class="endTime"></span>
+					<br>
+					메모 <span class="memo"></span>
+					<br>
+					장소 <span class="place"></span>
+					<br>
+					캘린더 <span class="cal_name"></span>
 				</article>
 			</section>
 
@@ -423,47 +526,131 @@ a {
 				<form id="add_form" method="post" enctype="multipart/form-data">
 				<!-- <article class="modal-content_add"> -->
 					<span class="close_add">&times;</span>
-					<input type="hidden" name="mem_no" value="3">
-					제목 <input type="checkbox" class="add_mark" name="cal_mark"> <input class="add_title" name="title">
+					<input type="hidden" name="mem_no" value="${member.mem_no}">
+					제목
+					<input type="checkbox" class="add_mark" name="cal_mark">
+					<input class="add_title" name="title" placeholder="제목을 입력하세요.">
 					<br>
 					일시
-					<input id="add_startTime" type="text" class="datetimepicker" name="startTime">
+					<input id="add_startTime" type="text" class="datetimepicker" name="startTime" placeholder="시작일을 선택하세요.">
 					<!-- <input type="date" class="add_startDate" name="start">
 					<input id="add_startTime" type="text" class="timepicker" value="" maxlength="10" name="startTime"> -->
 					 - 
-					<input id="add_endTime" type="text" class="datetimepicker" name="endTime">
+					<input id="add_endTime" type="text" class="datetimepicker" name="endTime" placeholder="종료일을 선택하세요.">
 					<!-- <input type="date" class="add_endDate" name="end">
 					<input id="add_endTime" type="text" class="timepicker" value="" maxlength="10"> -->
 					<br>
 					<input type="checkbox" class="add_allDay" name="allDay" id="allday_check"> 종일 &nbsp;
 					<select>
-						<option value="반복1">반복1</option>
-						<option value="반복2">반복2</option>
-						<option value="반복3">반복3</option>
+						<option value="no_repeat">반복 안 함</option>
+						<option value="cycle_d_1">매일</option>
+						<option value="cycle_d_weekday">주중 매일(월-금)</option>
+						<option value="cycle_w_1" id="repeat_w"></option>
+						<option value="cycle_m_1" id="repeat_m"></option>
+						<option value="cycle_y_1" id="repeat_y"></option>
 					</select>
 					<br>
-					캘린더 <select name="cal_type_name">
-						<option value="테스트1">[기본] 캘린더1</option>
-						<option value="테스트2">캘린더2</option>
-						<option value="테스트3">캘린더3</option>
+					캘린더
+					<select name="cal_type_name">
+						<c:if test="${!empty member.mem_cal1}">
+							<option value="${member.mem_cal1}" value2="${member.mem_cal1_color}">
+							<c:choose>
+								<c:when test="${member.mem_cal1_color eq 'red'}">
+									🔴
+								</c:when>
+								<c:when test="${member.mem_cal1_color eq 'yellow'}">
+									🟡
+								</c:when>
+								<c:when test="${member.mem_cal1_color eq 'green'}">
+									🟢
+								</c:when>
+								<c:when test="${member.mem_cal1_color eq 'blue'}">
+									🔵
+								</c:when>
+								<c:when test="${member.mem_cal1_color eq 'purple'}">
+									🟣
+								</c:when>
+								<c:otherwise>
+								</c:otherwise>
+							</c:choose>
+							[기본] ${member.mem_cal1}</option>
+						</c:if>
+						<c:if test="${!empty member.mem_cal2}">
+							<option value="${member.mem_cal2}" value2="${member.mem_cal2_color}">
+							<c:choose>
+								<c:when test="${member.mem_cal2_color eq 'red'}">
+									🔴
+								</c:when>
+								<c:when test="${member.mem_cal2_color eq 'yellow'}">
+									🟡
+								</c:when>
+								<c:when test="${member.mem_cal2_color eq 'green'}">
+									🟢
+								</c:when>
+								<c:when test="${member.mem_cal2_color eq 'blue'}">
+									🔵
+								</c:when>
+								<c:when test="${member.mem_cal2_color eq 'purple'}">
+									🟣
+								</c:when>
+								<c:otherwise>
+								</c:otherwise>
+							</c:choose>
+							${member.mem_cal2}</option>
+						</c:if>
+						<c:if test="${!empty member.mem_cal3}">
+							<option value="${member.mem_cal3}" value2="${member.mem_cal3_color}">
+							<c:choose>
+								<c:when test="${member.mem_cal3_color eq 'red'}">
+									🔴
+								</c:when>
+								<c:when test="${member.mem_cal3_color eq 'yellow'}">
+									🟡
+								</c:when>
+								<c:when test="${member.mem_cal3_color eq 'green'}">
+									🟢
+								</c:when>
+								<c:when test="${member.mem_cal3_color eq 'blue'}">
+									🔵
+								</c:when>
+								<c:when test="${member.mem_cal3_color eq 'purple'}">
+									🟣
+								</c:when>
+								<c:otherwise>
+								</c:otherwise>
+							</c:choose>
+							${member.mem_cal3}</option>
+						</c:if>
 					</select>
 					<br>
-					참석자 <input> <input type="button" value="주소록" name="cal_attendee1">
+					참석자
+					<input name="cal_attendee1" placeholder="이름을 입력하세요.">
+					<input type="button" value="주소록">
 					<br>
-					장소 <input class="add_place" name="cal_place">
+					장소
+					<input class="add_place" name="cal_place" placeholder="장소를 입력하세요.">
 					<br>
-					메모 <textarea class="add_memo" name="cal_memo"></textarea>
+					메모
+					<textarea class="add_memo" name="cal_memo" placeholder="메모를 작성하세요"></textarea>
 					<br>
 					파일첨부
 					<input class="form-control form-control-sm" id="formFileSm" type="file" name="file1">
 					<hr>
-					범주 <select name="cal_category1">
-						<option value="범주1">범주1</option>
-						<option value="범주2">범주2</option>
-						<option value="범주3">범주3</option>
+					<span id="my_setting">내 설정</span>
+					<br>
+					범주
+					<select name="cal_category">
+						<option value="none">없음</option>
+						<option value="red">🟥</option>
+						<option value="orange">🟧</option>
+						<option value="yellow">🟨</option>
+						<option value="green">🟩</option>
+						<option value="blue">🟦</option>
+						<option value="purple">🟪</option>
 					</select>
 					<br>
-					상태 <input type="radio" name="cal_status" value="바쁨"> <input type="radio" name="cal_status" value="한가함">
+					상태
+					<input type="radio" name="cal_status" value="바쁨" checked>바쁨 <input type="radio" name="cal_status" value="한가함">한가함
 					<br><br> <input type="button" value="저장" id="save_btn">
 				<!-- </article> -->
 				</form>

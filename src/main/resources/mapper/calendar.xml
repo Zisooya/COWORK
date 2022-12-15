@@ -21,9 +21,9 @@
 		<selectKey resultType="int" keyProperty="cal_no" order="BEFORE">
 			select max(cal_no) from calendar
 		</selectKey>
-		insert into calendar values(#{cal_no}+1, #{mem_no}, default, #{title}, to_date(#{start},'yyyy.mm.dd hh24:mi'), #{end},
+		insert into calendar values(#{cal_no}+1, #{mem_no}, default, #{title}, to_date(#{start},'yyyy.mm.dd hh24:mi'), to_date(#{end},'yyyy.mm.dd hh24:mi'),
 		'','','','', default, '', #{cal_attendee1},'','','','','',#{cal_type_name},#{cal_place},#{cal_memo},#{cal_file},
-		#{cal_category1},'','','','','','','',#{cal_status},#{allDay})
+		#{cal_category},'',#{cal_status},#{allDay})
 	</insert>
 	
 </mapper>
