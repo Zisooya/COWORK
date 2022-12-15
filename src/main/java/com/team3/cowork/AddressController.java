@@ -11,6 +11,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +30,6 @@ import com.team3.model.DepartmentDTO;
 import com.team3.model.member.MemberDTO;
 
 import lombok.extern.log4j.Log4j;
-
 @Controller
 public class AddressController {
 
@@ -58,6 +60,7 @@ public class AddressController {
 	public @ResponseBody List<MemberDTO> getAddrList_dept(String dept_name) {
 		
 		System.out.println("넘어온 부서명 : " + dept_name);
+		
 		// ajax로 넘어온 부서명에 해당하는 부서의 멤버 전체 리스트 조회
 		List<MemberDTO> addrList_dept = this.addressDao.getAddrList_dept(dept_name);
 		
@@ -76,6 +79,7 @@ public class AddressController {
 		return addrList_search;
 	}
 	
+	
 	@RequestMapping("getAddrList_customer.do")
 	public @ResponseBody List<CustomerDTO> getAddrList_customer(@RequestParam ("mem_no") int mem_no) {
 		
@@ -86,11 +90,14 @@ public class AddressController {
 		return addrList_customer;
 	}
 	
+	
 	@RequestMapping(method = RequestMethod.POST, value = "/add_customer.do")
-	public int addCustomer( CustomerDTO customerDTO, Model model) throws IOException {
+	public @ResponseBody int addCustomer( CustomerDTO customerDTO, Model model) throws IOException {
 		  // 배열 타입으로 선언하여 여러 개의 파일 저장
 	
 	System.out.println("받아온 데이터 : "+ customerDTO);
+	
+	System.out.println(System.getProperty("java.io.tmpdir")); // 자바 임시 저장 디렉토리
 	
 	MultipartFile multi = customerDTO.getMulti_image();
 	

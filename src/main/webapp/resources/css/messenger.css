@@ -1,0 +1,161 @@
+@charset "UTF-8";
+
+
+/* 사이드바 주소록 버튼 */
+#messenger_newChat {
+	display: none;	
+}
+
+#messenger_newChat + label span{
+	vertical-align: middle;
+	display: inline-block;
+	background: url(../images/추가.png) 0 0 no-repeat;
+	background-position: center;
+	background-size: 25px;
+	width: 30px;
+	height: 30px;
+	border: 0;
+	margin: 5px 0 5px 0;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
+#messenger_newChat + label {
+	text-align: center;
+    margin: 15px 0px 10px 0px;
+    border: 0;
+    border-radius: 5px;
+    box-sizing: border-box;
+    width: 90%;
+    height: 46px;
+    font-size: 1rem;
+    font-weight: bold;
+    display: inline-block;
+    padding: 5px 9px 0 0;
+    background: #7BE66D;
+    color: #FFF;
+    cursor: pointer;
+}
+
+#side hr{
+	width: 90%;
+	height: 1px;
+	background-color: #EAEAEA;
+	border : 0;
+}
+
+/* 사이드바 대화 목록 버튼 */
+#messenger_chatList {
+	display: none;
+}
+
+#messenger_chatList + label span{
+	vertical-align: middle;
+	display: inline-block;
+	background: url(../images/대화.png) 0 0 no-repeat;
+	background-position: center;
+	background-size: 20px;
+	width: 35px;
+	height: 35px;
+	border: 0;
+	margin: 5px 0 5px 0;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
+#messenger_chatList + label {
+	background: none;
+	text-align: left;
+    margin: 10px 10px 15px 10px;
+    width: auto;
+    height: 30px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    display: block;
+    padding: 3px 9px 0 0;
+    color: #000;
+}
+
+/* 사이드바 메뉴 대화 목록 아코디언 */
+.chatList_div label {
+	font-size: 1rem;
+	padding: 8px 25px;
+	width: auto;
+	height: auto;
+	cursor: pointer;
+	float: left;
+}
+
+
+.accordion_cb_div label{
+	float: left;
+}
+
+.accordion_cb_div {
+	text-align: left;
+}
+
+.messenger_label {
+	background-color: #FFF;
+	text-align: left;
+	font-weight: normal;
+	font-size: 0.9rem;	
+	margin-top: 15px;
+ }
+ 
+input[id *= "messenger_menu"] {
+	display: none;
+}
+
+input[id *= "messenger_menu"] + label {
+	display: block;
+	padding: 10px 0 0 30px;
+	cursor: pointer;
+	position: relative;	
+	font-weight: 600;
+	width: 100%;
+}
+
+input[id *= "messenger_menu"] + label span {
+	position: absolute;
+	top:27px;
+	width: 30px;
+	height: 30px;
+	margin-top: -15px;
+	display: inline-block;
+	background: url(../images/오른쪽화살표.png) 0 0 no-repeat;
+	background-size: 1.1rem;
+}
+
+.accordion_cb_div {
+	margin-left: 40px;
+	width:90%;
+	max-height: 0;
+	overflow: hidden;
+	box-sizing: border-box;
+	
+}
+
+input[id *= "messenger_menu"]:checked + label + br + div {
+	max-height: 100%;
+}
+
+input[id *= "messenger_menu"]:checked + label span {
+
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	margin-top: -15px;
+	display: inline-block;
+	background: url(../images/아래쪽화살표.png) 0 0 no-repeat;
+	background-size: 1.1rem;
+	
+}
+
+input[id *= "accordion_cb"]:checked + label {
+	font-weight: bold;
+	color: red;
+	
+}
+
+
