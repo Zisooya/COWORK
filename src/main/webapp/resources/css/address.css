@@ -407,7 +407,6 @@ input[id *= "addr_vip"]:checked + label span {
 	text-align: left;
 	font-weight: normal;
 	font-size: 1rem;	
-	
  }
  
 input[id *= "addr_menu"] {
