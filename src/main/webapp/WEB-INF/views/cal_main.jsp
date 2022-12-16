@@ -673,7 +673,7 @@ a {
 					<input id="add_endTime" type="text" class="timepicker" value="" maxlength="10"> -->
 					<br>
 					<input type="checkbox" class="add_allDay" name="allDay" id="allday_check"> 종일 &nbsp;
-					<select name="">
+					<select name="cal_repeat">
 						<option value="no_repeat">반복 안 함</option>
 						<option value="cycle_d_1">매일</option>
 						<option value="cycle_d_weekday">주중 매일(월-금)</option>
