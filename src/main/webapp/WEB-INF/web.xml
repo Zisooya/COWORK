@@ -79,12 +79,12 @@
 		<load-on-startup>1</load-on-startup>
 		
 		<!-- 파일 업로드 설정 -->
-		<multipart-config>
+		<!-- <multipart-config>
 			<location>C:/Users/user/Desktop/Github_desktop/COWORK/src/main/webapp/resources/address</location>
 			<max-file-size>20971520</max-file-size> 
 			<max-request-size>41943040</max-request-size> 
 			<file-size-threshold>20971520</file-size-threshold> 
-		</multipart-config> 
+		</multipart-config> -->
 	</servlet>
 	
 </web-app>

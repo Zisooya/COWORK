@@ -26,8 +26,6 @@ public class CoworkController {
 	private MemberDAO dao;
 
 
-	@Autowired
-	private MemberService service;
 	 
 	 @RequestMapping("drag.do")
 	 public String dragetest() {
