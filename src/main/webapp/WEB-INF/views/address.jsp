@@ -312,7 +312,8 @@ $(function(){
           type: 'POST',
           data: formData,
           success: function (data) {
-        	 if(data>0){
+        	 console.log(data);
+        	 if(data=1){
         		 alert('고객 / 거래처 연락처 추가 성공');
         	 }else{
         		 alert('고객 / 거래처 연락처 추가 실패');
@@ -330,13 +331,13 @@ $(function(){
 		
 	});	// 연락처 추가 모달창 폼페이지 입력 시 이벤트 end
 
-	
+/* 	
 	// 각 연락처 클릭 시 상세 정보 모달창 띄우기
 	$('#addr_table tr').click(function(){
 
 	});
 
-
+ */
 	
 });
 

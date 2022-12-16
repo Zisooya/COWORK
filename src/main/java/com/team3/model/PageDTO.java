@@ -21,6 +21,7 @@ public class PageDTO {
 	// 검색 관련 멤버 선언
 	private String field;
 	private String keyword;
+	private int status_no;
 	
 	
 	public PageDTO() {    }     // 기본 생성자
@@ -63,6 +64,38 @@ public class PageDTO {
 		this.totalRecord = totalRecord;
 		this.field = field;
 		this.keyword = keyword;
+		
+		// 해당 페이지에서 시작 글 번호
+		this.startNo = (this.page * this.rowsize) 
+								- (this.rowsize - 1);
+		
+		// 해당 페이지에서 끝 글 번호
+		this.endNo = (this.page * this.rowsize);
+		
+		// 해당 페이지에서 시작 블럭
+		this.startBlock = 
+			(((this.page - 1) / this.block) * this.block) + 1;
+		
+		// 해당 페이지에서 끝 블럭
+		this.endBlock = 
+			(((this.page - 1) / this.block) * this.block) 
+					+ this.block;	
+		
+		// 전체 페이지 수 얻어오는 과정
+		this.allPage = 
+				(int)Math.ceil(this.totalRecord / 
+								(double)this.rowsize);
+		
+		if(this.endBlock > this.allPage) {
+			this.endBlock = this.allPage;
+		}
+		
+	}  // 인자 생성자
+	public PageDTO(int page, int rowsize, int totalRecord,int status_no) {
+		this.page = page;
+		this.rowsize = rowsize;
+		this.totalRecord = totalRecord;
+		this.status_no = status_no;
 		
 		// 해당 페이지에서 시작 글 번호
 		this.startNo = (this.page * this.rowsize) 
