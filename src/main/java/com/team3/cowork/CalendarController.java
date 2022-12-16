@@ -100,6 +100,7 @@ public class CalendarController {
 	 public String calInsert(@ModelAttribute CalendarDTO dto,
 				@RequestParam("startTime") String stTime,
 				@RequestParam("endTime") String endTime,
+				@RequestParam("cal_repeat") String repeat,
 				MultipartHttpServletRequest mRequest) throws ParseException {
 		 String res = "";
 		 String filename = cal_upload.fileUpload(mRequest);
@@ -125,17 +126,6 @@ public class CalendarController {
 			 dto.setStart(stTime.substring(0, 16));
 			 dto.setEnd(endTime.substring(0, 16));
 		 }
-		 /*
-		 SimpleDateFormat input = new SimpleDateFormat("h:mm a");
-		 SimpleDateFormat output = new SimpleDateFormat("HH:mm");
-		 Date stTime_date = input.parse(stTime);
-		 System.out.println("stTime파싱 성공");
-		 String stTime_string = output.format(stTime_date);
-		 System.out.println("date->String 변환 성공");
-		 String final_startTime = dto.getStart() +" "+stTime_string;
-		 System.out.println("final_startTime >> "+final_startTime);
-		 dto.setStart(final_startTime);
-		  */
 		 if(filename != null) {
 			 dto.setCal_file(filename);
 			 res = "파일 업로드 성공";
