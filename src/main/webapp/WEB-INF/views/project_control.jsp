@@ -1,85 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style type="text/css">
-	#search_select{
-		max-width: 7.5vw;
-		height: 46px;
-		border-radius: 5px;
-		border: 1px solid #EAEAEA;
-		background-color:#EAEAEA;
-		box-sizing: border-box;
-		padding: 0 40px;
-		font-size: 1em;
-		padding-left: 1vw;
-		padding-right: 0;
-	}
-	#search_box {
-		width: 30%;
-		height: 46px;
-		border-radius: 5px;
-		border: 1px solid #EAEAEA;
-		background-color:#EAEAEA;
-		background-image: url(resources/images/검색.png);
-		background-size: 25px;
-		background-repeat: no-repeat;
-		background-position: 5px center;
-		box-sizing: border-box;
-		padding: 0 40px;
-		font-size: 1rem;
-	}
-	#search_btn {
-		width: 100px;
-		height: 46px;
-		background-color: #C2F347;
-		color: #FFF;
-		font-size: 1rem;
-		border: 0;
-		border-radius: 5px;
-		box-sizing: border-box;
-		cursor: pointer;
-	}
-	.modal_label {
-		text-align: center;
-		margin: 15px 0px 10px 0px;	
-		border: 0;	
-		border-radius: 5px;	
-		box-sizing: border-box;	
-		width: 100px;
-		height: 46px;
-		font-size: 0.9rem;
-		font-weight: bold;		
-		display: inline-block;
-		padding: 12px 3px;
-		background: #7BE66D;
-		color: #FFF;
-		cursor: pointer;
-	}
-	.modal_label a{
-		display:block;
-		color: #FFF;
-		text-decoration: none;
-	}
-	.side_menu_body{
-		text-align: left;
-	}
-	.side_menu_body a{
-		text-decoration: none;
-		color: black;
-	}
-	.side_menu_body hr{
-		margin-top: 5px;
-		margin-bottom: 5px;
-	}
-</style>
-<c:set var="path" value="${pageContext.request.contextPath}"/>
-<link href="${path}/resources/css/bootstrap_include.css" rel="stylesheet"/>
+
 <jsp:include page="projects_include/link.jsp"/>
+<link href="${path}/resources/css/bootstrap_include.css" rel="stylesheet"/>
+<link href="${path}/resources/css/project/project_control.css" rel="stylesheet"/>
+
 </head>
 <body>
 	<c:set var="status" value="${status }"/>
@@ -93,8 +25,7 @@
 				<label class="modal_label" for="popup01"><a href="project_board.do">보 드</a></label><br>
 				<div class="side_menu_body">
 					<c:forEach items="${status }" var="sdto">
-						<a href="project_status_table.do?project_status=${sdto.getStatus_no() }">${sdto.getStatus_name() }</a><br>
-						<hr>
+						<div class="status_div"><a href="project_status_table.do?project_status=${sdto.getStatus_no() }">${sdto.getStatus_name() }</a></div>
 					</c:forEach>
 				</div>
 			</div>

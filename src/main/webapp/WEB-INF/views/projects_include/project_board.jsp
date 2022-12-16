@@ -1,250 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 <jsp:include page="link.jsp"/>
-<script type="text/javascript">
-	/* textarea 창 자동 늘리기 */
-	function resize(obj) {
-		  obj.style.height = "4px";
-		  obj.style.height = (12+obj.scrollHeight)+"px";
-		}
-	
-	$(function(){
-		$(".add_card").hide();
-		$(".list_header_update").hide();
- 		$(".list-name-input").hide();
- 		$(".plus_card").hide();
- 		$(".status_div").hide();
-		$(".mod-list-add-button").click(function(){
-			$(".list-name-input").show();
-			$(".mod-list-add-button").hide();
-		})
-		
-		
-		/* 추가하기 창 닫기 */
-		$(document).mouseup(function (e){
-		    var container = $(".plus")
-		    if(container.has(e.target).length == 0){ 
-		    	$(".plus_card").hide(100);
-		    	$(".board_insert").val('');
-		    }
-		});
-		$(document).mouseup(function (e){
-		    var container = $(".add_card")
-		    if(container.has(e.target).length == 0){ 
-		    	$(".add_card").hide(100);
-		    	$(".add_card_main").val('');
-		    	$(".add_card_content").text('');
-		    }
-		});
-		
-		
-		/* 프로젝트 이름 클릭시 상세보기 모달 창 생성 */
-		$(".project_name").click(function(){
-			let href = ($(this).attr("id"));
-			let href1 = "<%=request.getContextPath()%>/content.do?num="+href;
- 			let project_name = $(".project_name").text();
-			 $("#Project_content").load(href1, function() {
-		            $("#Project_content").modal("show");
-		            $('#form-control').focus();
-		      });
- 		})
-		
-		
- 		$(".insert_card").click(function(){
-			$(".plus_card").toggle(100);
-		})
-		
-		/* 카드 추가하기 창 활성화 */
-		$(".card-footer").click(function(){
-			$(this).find(".add_card").show();
-		})
-		
-		/* div 드래그 및 db저장 */
-		var no = [];
-		var i = [];
-		var asd = 0;
-		$( ".column" ).sortable({
-		      connectWith: ".column",
-		      handle: ".portlet-header",
-		      cancel: ".portlet-toggle",
-		      placeholder: "portlet-placeholder ui-corner-all",
-		      start:function(){
-		    	  no = $(this).sortable("toArray");
-		      },
-		      update:function(){
-		    	  no1 = $(this).sortable("toArray");
-		    	  i = (no.filter(x => !no1.includes(x)));
-
-		    	  asd = i[0];
-		      },
-		      receive:function(){
-		    	  var status = $(this).attr("id");
-		    	  console.log(asd);
-		    	  console.log(status);
-		    	  $.ajax({
-		  			type : "post",
-		  			url : "project_UpdateStatus.do",
-		  			data : {status_name : status,
-		  				 	project_no : asd
-		  					},
-		  			datatype : "text",
-		  			success : function(){
-		  			},
-		  			error : function(request,status,error){
-		  				alert('데이터 통신 에러');
-		  			}
-		  		})
-		      }
-		});
-		$(".status_list").click(function(){
-			// status_no
-			let status_no = $(this).attr("id");
-
-			// 마지막 보드
-			let lastNum = $(".status_count").val();
-			$(".col").each(function(){
-				if($(this).attr("id") == status_no){
-					$(this).toggle(1000);
-				}
-			})
-			console.log("status_no : "+ status_no);
-			console.log("lastNum : "+ lastNum);
-		})
-		
-		/*  */
-		$(".status_oc").click(function(){
-			$(".status_div").toggle(50);
-		})
-	})
-	
-</script>
-<c:set var="path" value="${pageContext.request.contextPath}"/>
+<script src="resources/script/project/project_board.js"></script>
 <link href="${path}/resources/css/bootstrap_include.css" rel="stylesheet"/>
-<style type="text/css">
+<link href="${path}/resources/css/project/project_board.css" rel="stylesheet"/>
 
-body{
-	background-color: #E4F7BA;
-	height: 100%;
-}
- #content{
-	height:100%;
-	outline: none;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    margin-right: 0;
-    position: relative;
-    transition: margin .1s ease-in;
-    overflow-x: auto;
-    overflow-y: hidden;
-    position: relative;
-    z-index: 0;
-}
-.row:first-child{
-	margin-left: 10px;
-}
-
-.col{
-	max-width: 300px;
-	height:100%;
-	padding-left: 5px;
-	padding-right: 5px;
-	min-width: 300px;
-}
-
-.border-success{
-	box-shadow: var(--ds-shadow-raised,0 1px 0 #091e4240);
-}
-
-.plus{
-	display: inline-block;
-}
-.card{
-	margin-bottom: 10px !important;
-	max-height: 95%;
-}
-.card-body, .card-header{
-	padding: 8px;
-	font-size: 13px;
-}
-.plus_card{
-	padding-top: 16px;
-	padding-bottom: 0;
-}
-
-.u-fancy-scrollbar::-webkit-scrollbar {
-    height: 8px;
-    width: 8px;
-}
-.list-cards {
-    flex: 1 1 auto;
-    margin: 0 4px;
-    min-height: 100px;
-    padding: 0 4px;
-    z-index: 1;
-    overflow: auto;
-    max-height: 775px;
-    min-width: 239px;
-}
-.card_title_hr{
-	margin-top: 5px;
-	margin-bottom: 0;
-}
- .portlet-placeholder {
-   border: 1px dotted black;
-   margin: 0 1em 1em 0;
-   height: 106px;
- }
- .textarea{
- 	resize: none;
- }
- .btn-primary{
-	background-color:#7BE66D;
-	border-style: none;
-	width:100%;
- }
- .btn-primary:hover{
-	background-color:#C2F347;
- }
- .modal_label {
-	text-align: center;
-	margin: 15px 0px 10px 0px;	
-	border: 0;	
-	border-radius: 5px;	
-	box-sizing: border-box;	
-	width: 100px;
-	height: 46px;
-	font-size: 0.9rem;
-	font-weight: bold;		
-	display: inline-block;
-	padding: 12px 3px;
-	background: #7BE66D;
-	color: #FFF;
-	cursor: pointer;
-  }
-  .modal_label a{
-  	text-decoration: none;
-  	color:white;
-  }
-  .status_list{
-  	text-align: left;
-  }
-  .status_list_div{
-	text-align: left;
-  }
-  .portlet{
-  	min-height: 106px;
-  }
-</style>
 </head>
-<body class="feplat3731">
+<body>
 	<c:set var="list" value="${list }"/>
 	<c:set var="main" value="${main }"/>
 	<c:set var="status" value="${status }"/>
@@ -261,6 +31,14 @@ body{
 					<div class="btn-group status_div" role="group" aria-label="Basic checkbox toggle button group">
 					  <input type="checkbox" class="btn-check status_list" id="${sdto.getStatus_no() }" autocomplete="off" checked>
 					  <label class="btn btn-outline-primary" for="${sdto.getStatus_no() }">${sdto.getStatus_name() }</label>
+					</div>
+				</c:forEach>
+				<hr>
+				<b style="cursor:pointer" class="member_oc">MEMBER</b><br>
+				<c:forEach items="${mlist }" var="memlist">
+					<div class="btn-group member_div" role="group" aria-label="Basic checkbox toggle button group">
+					  <input type="checkbox" class="btn-check member_list" id="${memlist.getMem_name() }" autocomplete="off" checked>
+					  <label class="btn btn-outline-primary" for="${memlist.getMem_name() }">${memlist.getMem_name() }</label>
 					</div>
 				</c:forEach>
 				<hr>
@@ -300,6 +78,11 @@ body{
 											  </div>
 										  </c:if>
 										  </c:forEach>
+										<input type="hidden" class="taker" value="${dto.getProject_taker() }">
+										<input type="hidden" class="taker" value="${dto.getProject_taker2() }">
+										<input type="hidden" class="taker" value="${dto.getProject_taker3() }">
+										<input type="hidden" class="taker" value="${dto.getProject_taker4() }">
+										<input type="hidden" class="taker" value="${dto.getProject_taker5() }">
 										</div>
 									</c:if>
 									</c:forEach>
@@ -355,7 +138,4 @@ body{
 <div id="Project_content" class="modal" tabindex="-1">
 </div>
 </body>
-<script type="text/javascript">
-
-</script>
 </html>
