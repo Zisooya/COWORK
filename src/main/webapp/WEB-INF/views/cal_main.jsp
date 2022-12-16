@@ -18,8 +18,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/ko.min.js"></script>
 <script>
-	jQuery.datetimepicker.setLocale('kr');
-	const Toast = Swal.mixin({
+	jQuery.datetimepicker.setLocale('kr');	// datetimepicker 한글 설정
+	
+	const Toast = Swal.mixin({	// toast창 설정(시작일 > 종료일 선택 시)
 	    toast: true,
 	    position: 'top-start',
 	    showConfirmButton: false,
@@ -45,6 +46,12 @@
 		 }
 		 return Math.ceil(date.getDate() / 7);
 	}
+	
+	// 날짜 뒤에 요일(ex:2022-12-15 (목)) 추가 시 필요한 변수
+	let add_startTime_val;
+	let start_date_select;
+	let add_endTime_val;
+	let end_date_select;
 	
 	document.addEventListener('DOMContentLoaded',function() {
 		/* ------------------------------------모달창 관련------------------------------------ */
@@ -88,15 +95,21 @@
 			const memo = document.querySelector(".memo");
 			const place = document.querySelector(".place");
 			const cal_name = document.querySelector(".cal_name");
+			const mark = document.querySelector("#mark_detail");
+			const time_dash = document.querySelector("#time_dash");
 			title.innerText = gTitle;
 			if (gAllDay == true) {
 				startTime.innerText = moment(gStartTime).format("YYYY.MM.DD (ddd)");
-				if (moment(gStartTime).format("YYYY.MM.DD") == moment(gEndTime).format("YYYY.MM.DD")) {
+				endTime.innerText = moment(gEndTime).subtract(1, "d").format("YYYY.MM.DD (ddd)")
+				if (moment(gStartTime).format("YYYY.MM.DD (ddd) HH:mm") == moment(gEndTime).subtract(1, "d").format("YYYY.MM.DD (ddd) HH:mm")) {
+					time_dash.innerText = "";
+					endTime.innerText = "";
 				} else {
-					endTime.innerText = moment(gEndTime).format("YYYY.MM.DD (ddd)");
+					time_dash.innerText = " - ";
 				}
 			} else {
 				startTime.innerText = moment(gStartTime).format("YYYY.MM.DD (ddd) HH:mm");
+				time_dash.innerText = " - ";
 				if (moment(gStartTime).format("YYYY.MM.DD") == moment(gEndTime).format("YYYY.MM.DD")) {
 					endTime.innerText = moment(gEndTime).format("HH:mm");
 				} else {
@@ -106,6 +119,11 @@
 			memo.innerText = gMemo;
 			place.innerText = gPlace;
 			cal_name.innerText = gCalName;
+			if(gMark != null) {
+				mark.style.display = "inline";
+			}else {
+				mark.style.display = "none";
+			}
 			modal_detail.style.display = "block";
 		}
 		// 일정 추가 모달창 오픈 함수
@@ -122,6 +140,7 @@
 		var gMemo;
 		var gPlace;
 		var gCalName;
+		var gMark;
 		// Event 추가용 변수 : a(add) + 변수명
 		var aTitle;
 		var aAllday;
@@ -130,6 +149,15 @@
 		var calendar = new FullCalendar.Calendar(calendarEl,{
 			/* initialDate: '2022-12-01', */
 			locale : "ko",
+			timeZone: 'UTC',
+			/* allDay체크된 경우 +1해줘서 캘린더 상에서 제대로 보이게 해줌(근데 작동안함)
+			eventDataTransform: function(event) {
+				if(event.allDay) {
+					event.end = moment(event.end).add(1, 'days');
+				}
+				return event;
+			},
+			*/
 			headerToolbar : {
 				left : 'prev,next today',
 				center : 'title',
@@ -138,12 +166,22 @@
 			selectable : true,
 			editable : true,
 			select : function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
+				// 일정 추가 창 호출
 				add();
-				/* 모달창 뜨자마자 시작일, 종료일 세팅(로직은 맞는데 실행안됨)
-				const startTime = document.querySelector("#add_startTime");
-				alert(moment(arg.start).format("YYYY-MM-DD HH:mm"));
-				startTime.innerText = moment(arg.start).format("YYYY-MM-DD HH:mm");
-				*/
+				// input태그에 선택한 날짜 넣기
+				const startTime_to_input = moment(arg.start).format("YYYY-MM-DD 00:00");
+				const endTime_to_input = moment(arg.end).subtract(1, "d").format("YYYY-MM-DD 00:00");
+				$('#add_startTime').attr("value", startTime_to_input);
+				$('#add_endTime').attr("value", endTime_to_input);
+				// 날짜 뒤에 요일 추가
+				start_date_select = new Date(startTime_to_input.substr(0, 16));
+				$("#add_startTime").val(startTime_to_input + " ("+getDayOfWeek(start_date_select)+")");
+				end_date_select = new Date(endTime_to_input.substr(0, 16));
+				$("#add_endTime").val(endTime_to_input + " ("+getDayOfWeek(end_date_select)+")");
+				
+				document.getElementById("allday_check").checked = true;
+				
+				// 날짜 선택에 따른 라디오 텍스트 변경
 				const repeat_w = document.querySelector("#repeat_w");
 				repeat_w.innerText = '매주 ' + getDayOfWeek(arg.start) + '요일';
 				repeat_m.innerText = '매월 ' + getWeekNo(arg.start) + '번째 ' + getDayOfWeek(arg.start) + '요일';
@@ -182,12 +220,14 @@
 								var ePlace = element.cal_place;
 								var eCalName = element.cal_type_name;
 								var eColor;
+								var eMark = element.cal_mark;
+								// category값 설정되어있으면 그 색을 우선 적용
 								if (element.cal_category != null) {
 									eColor = element.cal_category;
 								} else {
 									eColor = element.cal_type_color;
 								}
-								if (element.allDay == "true") {
+								if (element.allDay == "on") {
 									eAllday = true;
 								} else {
 									eAllday = false;
@@ -204,7 +244,8 @@
 									allDay : eAllday,
 									memo : eMemo,
 									place : ePlace,
-									cal_name : eCalName
+									cal_name : eCalName,
+									mark : eMark
 								}); // push() end
 							}); // each() end
 						} // if() end 
@@ -223,9 +264,47 @@
 				gMemo = eventObj.extendedProps.memo;
 				gPlace = eventObj.extendedProps.place;
 				gCalName = eventObj.extendedProps.cal_name;
+				gMark = eventObj.extendedProps.mark;
 				detail();
 			},
 			/* ------------------------------------이벤트 클릭 끝------------------------------------ */
+			/* ------------------------------------드래그 수정------------------------------------ */
+			eventDrop: function (info){
+                var eventObj = info.event;
+                var obj = new Object();
+                
+                obj.id = eventObj.id;
+                obj.start = eventObj.start;
+                obj.end = eventObj.end;
+                obj.allDay = eventObj.allDay;
+                console.log(obj);
+                
+    			$.ajax({
+    				url : 'cal_update_drag.do',
+    				type : 'POST',
+    				data: JSON.stringify(obj),
+    				contentType: 'application/json',
+    				success : function(result) {
+    					alert(result);
+    				},
+    				error : function() {
+    					alert("날짜 업데이트 중 에러 발생");
+    				}
+    			});
+                
+                /* 인터넷에서 가져온 원본 코드
+                $(function deleteData() {
+                    $.ajax({
+                        url: "/full-calendar/calendar-admin-update",
+                        method: "PATCH",
+                        dataType: "json",
+                        data: JSON.stringify(events),
+                        contentType: 'application/json',
+                    })
+                })
+                */
+            },
+            /* ------------------------------------드래그 수정 끝------------------------------------ */
 		});
 		/* calendar.on('dateClick', function(info) {
 			console.log(info.dateStr);
@@ -233,6 +312,7 @@
 		let allday_check = document.getElementById("allday_check");
 		allday_check.onclick = function() {
 			if (allday_check.checked == true){
+				
 				$(".datetimepicker").datetimepicker({ 
 					timepicker:false
 				});
@@ -250,6 +330,13 @@
 				}else {
 					$("#add_endTime").val();
 				}
+				// 날짜 뒤에 요일 추가
+				add_startTime_val = document.getElementById("add_startTime").value;
+				start_date_select = new Date(add_startTime_val.substr(0, 16));
+				$("#add_startTime").val(add_startTime_val + " ("+getDayOfWeek(start_date_select)+")");
+				add_endTime_val = document.getElementById("add_endTime").value;
+				end_date_select = new Date(add_endTime_val.substr(0, 16));
+				$("#add_endTime").val(add_endTime_val + " ("+getDayOfWeek(end_date_select)+")");
 			} else {
 				$(".datetimepicker").datetimepicker({ 
 					timepicker:true
@@ -271,7 +358,7 @@
 			$.ajax({
 				type : 'POST',
 				enctype: "multipart/form-data",
-				url : 'upload_ok.do',
+				url : 'cal_insert.do',
 				cache: false, // 필수
 				processData : false, // 필수 
 				contentType : false, // 필수 
@@ -284,13 +371,29 @@
 				}
 			});
 		});
+		// 일정 추가 버튼 클릭 시
+		$("#eventAdd_btn").on("click", function() {
+			add();
+			const startTime_to_input_btn = moment().format("YYYY-MM-DD 00:00");
+			$('#add_startTime').attr("value", startTime_to_input_btn);
+			$('#add_endTime').attr("value", startTime_to_input_btn);
+			// 날짜 뒤에 요일 추가
+			start_date_select = new Date(startTime_to_input_btn.substr(0, 16));
+			$("#add_startTime").val(startTime_to_input_btn + " ("+getDayOfWeek(start_date_select)+")");
+			$("#add_endTime").val(startTime_to_input_btn + " ("+getDayOfWeek(start_date_select)+")");
+			
+			document.getElementById("allday_check").checked = true;
+			
+			// 날짜 선택에 따른 라디오 텍스트 변경
+			const repeat_w = document.querySelector("#repeat_w");
+			repeat_w.innerText = '매주 ' + getDayOfWeek(start_date_select) + '요일';
+			repeat_m.innerText = '매월 ' + getWeekNo(start_date_select) + '번째 ' + getDayOfWeek(start_date_select) + '요일';
+			repeat_y.innerText = '매년 ' + moment(start_date_select).format("MM") + '월 ' + moment(start_date_select).format("DD") + '일';
+		});
+		
 		calendar.render();
 	});
 	$(function(){
-		let add_startTime_val;
-		let start_date_select;
-		let add_endTime_val;
-		let end_date_select;
 		const save_btn = document.getElementById('save_btn');
 		function end_must_more() { // 시작일 > 종료일 이면 나오는 알림창, 저장 버튼도 비활성화
 			if(start_date_select > end_date_select) {
@@ -310,10 +413,26 @@
 			start_date_select = new Date(add_startTime_val.substr(0, 16));
 			$("#add_startTime").val(add_startTime_val + " ("+getDayOfWeek(start_date_select)+")");
 			
+			// 날짜 선택에 따른 라디오 텍스트 변경
 			const repeat_w = document.querySelector("#repeat_w");
 			repeat_w.innerText = '매주 ' + getDayOfWeek(start_date_select) + '요일';
 			repeat_m.innerText = '매월 ' + getWeekNo(start_date_select) + '번째 ' + getDayOfWeek(start_date_select) + '요일';
 			repeat_y.innerText = '매년 ' + moment(start_date_select).format("MM") + '월 ' + moment(start_date_select).format("DD") + '일';
+			
+			// 종일 미체크 시 시작일 변경하면 종료일은 무조건 시작일+1시간 되게
+			let allday_check = document.getElementById("allday_check");
+			if(allday_check.checked == false) {
+				const start_add1hour = moment(add_startTime_val).add(1, 'h').format("YYYY-MM-DD HH:mm");;
+				$("#add_endTime").val(start_add1hour);
+				add_endTime_val = document.getElementById("add_endTime").value;
+				end_date_select = new Date(add_endTime_val.substr(0, 16));
+				$("#add_endTime").val(add_endTime_val + " ("+getDayOfWeek(end_date_select)+")");
+			}else {
+				$("#add_endTime").val(add_startTime_val);
+				add_endTime_val = document.getElementById("add_endTime").value;
+				end_date_select = new Date(add_endTime_val.substr(0, 16));
+				$("#add_endTime").val(add_endTime_val + " ("+getDayOfWeek(end_date_select)+")");
+			}
 			
 			end_must_more();
 		});
@@ -328,7 +447,7 @@
 		$(".datetimepicker").datetimepicker({ 
 			format: "Y-m-d H:i",
 			step : 30,
-			timepicker:true
+			timepicker:false
 		});
 		/* // timepicker 위젯 30분 단위 올림 처리
 		var start_time_minute = moment().format("mm");
@@ -390,7 +509,7 @@ a {
 	cursor: pointer;
 }
 /* close button 끝*/
-/* modal창 관련 */
+/* event 상세 창(modal) 관련 */
 .modal_detail {
 	/* 모달 뒷배경 */
 	display: none;
@@ -433,7 +552,20 @@ a {
 	height: 100%;
 	overflow: auto;
 }
-/* modal창 관련 끝 */
+
+.title {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#mark_detail {
+	width: 2.7%;
+	object-fit: cover;
+	position: relative;
+    top: -5px;
+    padding-right: 5px;
+}
+/* event 상세 창(modal) 관련 끝 */
 /* 검색창 관련 */
 .form-select {
 	width: 7%;
@@ -445,7 +577,7 @@ a {
 	display: flex;
 }
 /* 검색창 관련 끝 */
-/* 일정 추가 창 관련 */
+/* 일정 추가 창(modal) 관련 */
 .add_mark {
     visibility:hidden;
     cursor:pointer;
@@ -470,7 +602,7 @@ a {
 	position: relative;
 	top: -10px;
 }
-/* 일정 추가 창 관련 끝 */
+/* 일정 추가 창(modal) 관련 끝 */
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -483,7 +615,7 @@ a {
 			<div id="side_menu" style="overflow-y: auto;">
 
 				<!-- <input type="button" value="일정쓰기"> -->
-				<input class="btn btn-success" type="button" onclick="click_add();" value="일정 추가">
+				<input class="btn btn-success" type="button" id="eventAdd_btn" value="일정 추가">
 			</div>
 		</nav>
 		<article id="content">
@@ -509,8 +641,8 @@ a {
 			<section class="modal_detail">
 				<article class="modal-content_detail">
 					<span class="close_detail">&times;</span>
-					<h2 class="title"></h2>
-					일시 <span class="startTime"></span> - <span class="endTime"></span>
+					<img id="mark_detail" src="https://cdn-icons-png.flaticon.com/512/148/148839.png"><span class="title"></span><br>
+					일시 <span class="startTime"></span><span id="time_dash"></span><span class="endTime"></span>
 					<br>
 					메모 <span class="memo"></span>
 					<br>
@@ -528,7 +660,7 @@ a {
 					<span class="close_add">&times;</span>
 					<input type="hidden" name="mem_no" value="${member.mem_no}">
 					제목
-					<input type="checkbox" class="add_mark" name="cal_mark">
+					<input type="checkbox" class="add_mark" name="cal_mark" value="주요">
 					<input class="add_title" name="title" placeholder="제목을 입력하세요.">
 					<br>
 					일시
@@ -541,7 +673,7 @@ a {
 					<input id="add_endTime" type="text" class="timepicker" value="" maxlength="10"> -->
 					<br>
 					<input type="checkbox" class="add_allDay" name="allDay" id="allday_check"> 종일 &nbsp;
-					<select>
+					<select name="">
 						<option value="no_repeat">반복 안 함</option>
 						<option value="cycle_d_1">매일</option>
 						<option value="cycle_d_weekday">주중 매일(월-금)</option>
