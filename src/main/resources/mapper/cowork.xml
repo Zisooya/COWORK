@@ -25,34 +25,4 @@
 	</select>
 	
 	<!-- *******************세건**********************-->
-
-	<!-- **************** hslee **************** -->
-	<select id="memberLogin" resultType="memberDTO" parameterType="memberDTO">
-		select * from member where mem_id = #{mem_id} and mem_pwd = #{mem_pwd}
-	</select>
-	<insert id="memberJoin" parameterType="memberDTO">
-		<selectKey resultType="int" keyProperty="mem_no" order="BEFORE">
-			select max(mem_no) from member
-		</selectKey>
-		insert into member (mem_no, mem_name, mem_id, mem_pwd, mem_position, mem_rank, dept_name, team_name, mem_email, mem_phone, mem_image)
-		values (#{mem_no} + 1, #{mem_name}, #{mem_id}, #{mem_pwd}, #{mem_position}, #{mem_rank}, #{dept_name}, #{team_name}, #{mem_email}, #{mem_phone}, #{mem_image})
-	</insert>
-	<select id="memberDetail" resultType="memberDTO">
-		select * from member where mem_id = #{mem_id}
-	</select>
-	<update id="memberEdit">
-		update member set mem_pwd = #{mem_pwd}, mem_position = #{mem_position}, mem_rank = #{mem_rank}, dept_name = #{dept_name}, team_name = #{team_name}, mem_email = #{mem_email}, mem_phone = #{mem_phone}, mem_image = #{mem_image}
-	</update>
-	<delete id="memberDelete">
-		delete from member where mem_id = #{mem_id}
-	</delete>
-	<select id="memberFindId" resultType="memberDTO">
-		select mem_id from member where mem_name = #{mem_name} and mem_email = #{mem_email}
-	</select>
-	<select id="memberFindPwd" resultType="String">
-		select mem_pwd from member where mem_name = #{mem_name} and mem_id = #{mem_id} and mem_email = #{mem_email}
-	</select>
-	<select id="idCheck" parameterType="String" resultType="Integer">
-		select count(*) from member where mem_id = #{mem_id}
-	</select>
  </mapper> 
