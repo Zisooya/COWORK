@@ -67,11 +67,22 @@
                 <label for="mem_rank">직급 선택</label>
                 <select class="form-control" id="mem_rank" name="mem_rank">
                     <option selected>-</option>
-                    <option>사원</option>
-                    <option>대리</option>
-                    <option>과장</option>
-                    <option>차장</option>
                     <option>부장</option>
+                    <option>차장</option>
+                    <option>과장</option>
+                    <option>대리</option>
+                    <option>사원</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="dept_no">부서번호 선택</label>
+                <select class="form-control" id="dept_no" name="dept_no">
+                    <option selected>-</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
                 </select>
             </div>
 
@@ -83,6 +94,15 @@
                     <option>개발본부</option>
                     <option>기획마케팅본부</option>
                     <option>디자인본부</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="team_no">소속번호 선택</label>
+                <select class="form-control" id="team_no" name="team_no">
+                    <option selected>-</option>
+                    <option>1</option>
+                    <option>2</option>
                 </select>
             </div>
 
@@ -107,7 +127,7 @@
 
             <div class="form-group text-center">
                 <button type="submit" class="btn btn-primary">회원가입</button>
-                <button type="reset" class="btn btn-primary">취소</button>
+                <button type="button" class="btn btn-primary" onclick="back();">취소</button>
             </div>
         </form>
     </div>
@@ -115,6 +135,9 @@
 
 </body>
 <script type="text/javascript">
+    function back() {
+        location.href='/';
+    }
     // 모든 공백 체크 정규식
     let memJ = /\s/g;
     // 아이디 정규식
