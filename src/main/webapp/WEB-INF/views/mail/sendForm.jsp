@@ -16,17 +16,25 @@
 <link href="${path}/resources/css/include.css" rel="stylesheet"/>
 <style type="text/css">
 
+.hord { display: table; margin-left: auto; margin-right: auto; }
+
+
 ul{
 	list-style:none;
 }
 
 .liany{
-  	float : left;	
+	text-align: center;
 }
+
+#side_menu li a{
+	padding: 5px 0px;
+}
+
 
 a{
 	text-decoration-line: none;
-	padding: 10px 0px
+	padding: 10px 10px
 }
 
 .meun li a:hover{
@@ -53,16 +61,15 @@ input{
 <body>
 	<div id="grid_container">
 	
-		<jsp:include page="include.jsp" />
+		<jsp:include page="../include.jsp" />
 
 		<nav id="side">
  		<div align="center">
  			<label id="side_label">전자메일</label>
  		</div>
- 		<div id="side_menu" style="overflow-y: auto;">
+ 		<div id="side_menu" style="overflow-y: hide; height: 65%; width: 65%;">
  			<hr>
- 				<input class="" type="button" value="메일쓰기" onclick="location.href='send.do'">
- 				<%-- <input class="" type="button" value="내게쓰기" onclick="#"> --%>
+ 			<input class="" type="button" value="메일쓰기" onclick="location.href='send.do'">
  			<hr>
  			<ul class="meun">
  				<li class="liany"><a href="mail_list.do">전체메일</a></li>
@@ -72,6 +79,7 @@ input{
  				<li class="liany"><a href="#">임시저장함</a></li>
  				<li class="liany"><a href="#">외부메일함</a></li>
  			</ul>
+ 			<!-- <hr class="add">  -->
  			<ul class="meun">
  				<li class="liany"><a href="#">스펨메일함</a></li>
  				<li class="liany"><a href="#">휴지통</a></li>
@@ -80,8 +88,8 @@ input{
  		</nav>
 		
 		<article id="content">
-			
+			<jsp:include page="send.jsp"/>
 		</article>
-	</div>
+	</div>				
 </body>
 </html>

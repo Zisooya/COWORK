@@ -10,11 +10,13 @@ import com.team3.model.EmailDAO;
 public class EmailController {
 	
 	@Autowired
-	private EmailDAO dao;
+	private EmailDAO mailService; 
 
-	@RequestMapping("mail_list.do")
-	public String list() {
-		return "mail_list";
+	@RequestMapping("mail_list.do") public String list() { return "mail_list"; }
+	
+	@RequestMapping("send.do")
+	public String inserString() {
+		return "mail/sendForm";
 	}
 	
 }

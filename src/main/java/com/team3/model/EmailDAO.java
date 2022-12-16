@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.team3.model.member.MemberDTO;
+
 public interface EmailDAO {
 	
 	int getListCount();
