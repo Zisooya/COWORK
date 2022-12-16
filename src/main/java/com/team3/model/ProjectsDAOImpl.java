@@ -27,6 +27,25 @@ public class ProjectsDAOImpl implements ProjectsDAO{
 	public List<Projects_statusDTO> getStatusList() {
 		return this.sqlSession.selectList("status");
 	}
+	@Override
+	public List<ProjectsDTO> getProjectsList() {
+		return this.sqlSession.selectList("board_project_list");
+	}
+
+	@Override
+	public List<ProjectsDTO> getProjectsListByProjects(PageDTO dto) {
+		return this.sqlSession.selectList("selectproject", dto);
+	}
+
+	@Override
+	public List<ProjectsDTO> getProjectsListByname(PageDTO dto) {
+		return this.sqlSession.selectList("selectname", dto);
+	}
+	
+	@Override
+	public List<ProjectsDTO> getProjectsListByStatus(PageDTO pdto) {
+		return this.sqlSession.selectList("selectStatus", pdto);
+	}
 
 	@Override
 	public void insertProject(ProjectsDTO dto) {
@@ -48,11 +67,6 @@ public class ProjectsDAOImpl implements ProjectsDAO{
 		return this.sqlSession.delete("deleteProject",num);
 	}
 
-	@Override
-	public List<ProjectsDTO> searchProjectList(String field, String keyword) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	@Override
 	public int updatetaker(ProjectsDTO dto) {
 		return this.sqlSession.update("updateMember1",dto);
@@ -139,30 +153,11 @@ public class ProjectsDAOImpl implements ProjectsDAO{
 	}
 
 	@Override
-	public void updateSeq(int num) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public int getListCount() {
 		return this.sqlSession.selectOne("count");
 	}
 
-	@Override
-	public List<ProjectsDTO> getProjectsList() {
-		return this.sqlSession.selectList("board_project_list");
-	}
-
-	@Override
-	public List<ProjectsDTO> getProjectsListByProjects(PageDTO dto) {
-		return this.sqlSession.selectList("selectproject", dto);
-	}
-
-	@Override
-	public List<ProjectsDTO> getProjectsListByname(PageDTO dto) {
-		return this.sqlSession.selectList("selectname", dto);
-	}
+	
 
 	@Override
 	public int getListCountByname(PageDTO dto) {
@@ -179,9 +174,6 @@ public class ProjectsDAOImpl implements ProjectsDAO{
 		return this.sqlSession.selectOne("countByStatus",status_no);
 	}
 
-	@Override
-	public List<ProjectsDTO> getProjectsListByStatus(PageDTO pdto) {
-		return this.sqlSession.selectList("selectStatus", pdto);
-	}
+
 
 }

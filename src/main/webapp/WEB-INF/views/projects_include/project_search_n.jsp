@@ -1,194 +1,21 @@
 <%@ page session="false" pageEncoding="UTF-8"  %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
-<%
-%>
 <!DOCTYPE HTML>
 <html>
 <head>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>Home</title>
-<jsp:include page="link.jsp"/>
-<script type="text/javascript">
-	$(function(){
-		$(".main_select").hide();
-		$(".status").hide();
-		$(".member").hide();
-		$(".project_create1").hide();
-		$(".project_create2").hide();
-		$(".submit").hide();
-		
-		/* 프로젝트 추가 창 닫기 */
-		$(document).mouseup(function (e){
-		    var container = $("#insert_projects_tr,.project_create")
-		    if(container.has(e.target).length == 0){ 
-		    	$(".project_create").hide(1000);
-		    	$(".submit").hide();
-				$(".project_btn").show();
-		    }
-		});
-		
-		/* 프로젝트 목록 생성 함수 */
-		$(".project_btn").click(function(){
-			if($("input[name='project_name']").val() != ""){
-				$(".project_btn").hide();
-				$(".project_create1").show();
-				$(".project_create2").show();
-				$(".submit").show();
-				let i = 0;
-				table = "";
-				table1 = "";
-				table2 = "";
-				table += $(".main_select").show();
-				table1 += "<input class='form-control' placeholder='프로젝트 명' aria-label='Username' name='project_name'>";
-				table2 += "<input type='date' class='form-control' aria-label='Username' name='project_end'>";
-				table += $(".status").show();
-				table += $(".member").show();
-				$(".project_create1").append(table1);
-				$(".project_create2").append(table2);
-			}else{
-				$(".project_create").show(1000);
-			}
-			
-		})
-		
-		/* '+'아이콘 클릭시 'check'아이콘 변경 */
-		$(".project_check").click(function(){
-			$(".submit").hide();
-			$(".project_btn").show();
-		})
-		
-		/* 프로젝트 이름 클릭시 상세보기 모달 창 생성 */
-		$(".project_name").click(function(){
-			let href = ($(this).attr("id"));
-			let href1 = "<%=request.getContextPath()%>/content.do?num="+href;
- 			let project_name = $(".project_name").text();
- 			console.log($(this).text())
-			 $("#Project_content").load(href1, function() {
-		            $("#Project_content").modal("show");
-		      });
- 		})
- 		
- 		$(".submit").click(function(){
- 			console.log("project_main : "+$("select[name='project_main']").val());
- 			
- 			if($("select[name='project_main']").val() == "none"){
- 				alert("메인 프로젝트를 선택해 주세요.")
- 			}else if($("select[name='project_status']").val() == "none"){
- 				alert("프로젝트의 상태를 선택해 주세요.")
- 			}else if($("select[name='project_taker']").val() == "none"){
- 				alert("프로젝트 멤버를 선택해 주세요.")
- 			}else{
- 				$("form").submit();
- 			}
- 		})
-	})
-</script>
-<style type="text/css">
-	#search_select{
-		max-width: 7.5vw;
-		height: 46px;
-		border-radius: 5px;
-		border: 1px solid #EAEAEA;
-		background-color:#EAEAEA;
-		box-sizing: border-box;
-		padding: 0 40px;
-		font-size: 1em;
-		padding-left: 1vw;
-		padding-right: 0;
-	}
-	#search_box {
-		width: 30%;
-		height: 46px;
-		border-radius: 5px;
-		border: 1px solid #EAEAEA;
-		background-color:#EAEAEA;
-		background-image: url(resources/images/검색.png);
-		background-size: 25px;
-		background-repeat: no-repeat;
-		background-position: 5px center;
-		box-sizing: border-box;
-		padding: 0 40px;
-		font-size: 1rem;
-	}
-	#search_btn {
-		width: 100px;
-		height: 46px;
-		background-color: #C2F347;
-		color: #FFF;
-		font-size: 1rem;
-		border: 0;
-		border-radius: 5px;
-		box-sizing: border-box;
-		cursor: pointer;
-	}
-	.project_name:hover{
-		cursor:pointer;
-		font-weight: bold;
-	}
-	#project_create{
-		max-width: 75vw;
-		align-self: center;
-	}
-	table{
-		border-radius: 5px;
-	}
-	.paging_btn:hover{
-		background-color:#C2F347;
-		color:white;
- 	}
- 	.paging_btn{
-		color:green;
-	 }
-	.insert_projects_btn{
-		background-color:#7BE66D;
-		border-style: none;
-		width:140px;
-		margin-right: 10.5vw;
-	}
-	.insert_projects_btn:hover{
-		background-color:#C2F347;
-	}
- .modal_label {
-	text-align: center;
-	margin: 15px 0px 10px 0px;	
-	border: 0;	
-	border-radius: 5px;	
-	box-sizing: border-box;	
-	width: 100px;
-	height: 46px;
-	font-size: 0.9rem;
-	font-weight: bold;		
-	display: inline-block;
-	padding: 12px 3px;
-	background: #7BE66D;
-	color: #FFF;
-	cursor: pointer;
-  }
-  .modal_label a{
-	display:block;
-	color: #FFF;
-	text-decoration: none;
-  }
-  .side_menu_body{
-		text-align: left;
-	}
-	.side_menu_body a{
-		text-decoration: none;
-		color: black;
-	}
-	.side_menu_body hr{
-		margin-top: 5px;
-		margin-bottom: 5px;
-	}
-</style>
-<link href="${path}/resources/css/bootstrap_include.css" rel="stylesheet"/>
-</head>
+<title>Home</title>
 
+<jsp:include page="link.jsp"/>
+<script src="resources/script/project/project_table.js"></script>
+<link href="${path}/resources/css/project/project_ss.css" rel="stylesheet"/>
+<link href="${path}/resources/css/bootstrap_include.css" rel="stylesheet"/>
+
+</head>
 <body>
 	<div id="grid_container">
 		<jsp:include page="../include.jsp" />
-	
 		<nav id="side">
 			<label>목 록</label>
 			<div id="side_menu" style="overflow-y: auto;">
@@ -196,8 +23,7 @@
 				<label class="modal_label" for="popup01"><a href="project_control.do">전체보기</a></label><br>
 				<div class="side_menu_body">
 					<c:forEach items="${status }" var="sdto">
-						<a href="project_status_table.do?project_status=${sdto.getStatus_no() }">${sdto.getStatus_name() }</a><br>
-						<hr>
+						<div class="status_div"><a href="project_status_table.do?project_status=${sdto.getStatus_no() }">${sdto.getStatus_name() }</a></div>
 					</c:forEach>
 				</div>
 			</div>

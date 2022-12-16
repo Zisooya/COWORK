@@ -1,0 +1,28 @@
+@charset "UTF-8";
+.project_name:hover{
+		cursor:pointer;
+		font-weight: bold;
+	}
+	#project_create{
+		max-width: 75vw;
+		align-self: center;
+	}
+	table{
+		border-radius: 5px;
+	}
+	.paging_btn:hover{
+		background-color:#C2F347;
+		color:white;
+ 	}
+ 	.paging_btn{
+		color:green;
+	 }
+	.insert_projects_btn{
+		background-color:#7BE66D;
+		border-style: none;
+		width:140px;
+		margin-right: 10.5vw;
+	}
+	.insert_projects_btn:hover{
+		background-color:#C2F347;
+	}
