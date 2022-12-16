@@ -39,5 +39,6 @@
 	<classpathentry kind="lib" path="C:/NCS/download/apache-tomcat-9.0.65/lib/ojdbc8.jar"/>
 	<classpathentry kind="lib" path="C:/NCS/download/apache-tomcat-9.0.65/bin/bootstrap.jar"/>
 	<classpathentry kind="lib" path="C:/NCS/download/apache-tomcat-9.0.65/bin/tomcat-juli.jar"/>
+	<classpathentry kind="lib" path="C:/NCS/download/apache-tomcat-9.0.65/lib/catalina.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

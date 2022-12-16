@@ -243,7 +243,33 @@
 			<artifactId>junit</artifactId>
 			<version>4.7</version>
 			<scope>test</scope>
-		</dependency>        
+		</dependency> 
+<!-- 		
+		채팅 관련 웹소켓
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-websocket</artifactId>
+    <version>5.2.2.RELEASE</version>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-messaging</artifactId>
+    <version>5.2.2.RELEASE</version>
+</dependency>		
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-core</artifactId>
+    <version>2.10.2</version>
+</dependency>
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId> 
+    <version>2.10.2</version>
+</dependency>		
+ -->		       
 	</dependencies>
     <build>
         <plugins>

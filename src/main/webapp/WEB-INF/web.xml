@@ -77,7 +77,7 @@
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
-		
+ 		
 		<!-- 파일 업로드 설정 -->
 		<multipart-config>
 			<location>C:\Users\user\AppData\Local\Temp\</location>
@@ -85,7 +85,7 @@
 			<max-request-size>41943040</max-request-size> 
 			<file-size-threshold>20971520</file-size-threshold> 
 		</multipart-config> 
-		
+		 
 	</servlet>
 	
 </web-app>

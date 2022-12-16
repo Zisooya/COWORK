@@ -26,16 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class CoworkController {
 
-	@Autowired
-	private MemberDAO dao;
-
-	/*
-	 * @Autowired private MemberService service;
-	 */
-	 @RequestMapping("drag.do")
-	 public String dragetest() {
-		 return "projects_include/drag";
-	 }
+	 @Autowired private MemberService service;
 	
 
 	@RequestMapping("member_login.do")	// 임시로 만든 메서드임. 추후 로그인 화면을 시작페이지로 변경 예정.
