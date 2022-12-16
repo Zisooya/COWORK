@@ -22,4 +22,6 @@ public class MemberDTO {
     private String mem_cal2_color;
     private String mem_cal3;
     private String mem_cal4_color;
+    private String dept_name;
+    private String team_name;
 }
