@@ -20,7 +20,6 @@
 		<jsp:include page="include.jsp" />
 	
 	
-	
 		<nav id="side">
 			<label id="side_label">주소록</label>
 			<div id="side_menu" style="overflow-y: auto;">
@@ -30,18 +29,19 @@
 					<div class="modal_content" style="overflow-y:auto; ">
 						<label class="modal_exit" for="popup01"></label>
 						<h2>고객 / 거래처 연락처 추가</h2>
-						<form enctype="multipart/form-data" method="post" action="">
-						
-								<div class="add_title"><label for="chooseFile"><img src="${path}/resources/images/로그인_전_프로필.png" width="100px"></img></label><input type="file" id="chooseFile" accept="image/*" onchange="loadFile(this)"></div>
+						<form id="form" enctype="multipart/form-data" method="post" action="<%=request.getContextPath()%>/add_customer.do">
+								<input type="hidden" value="${member.mem_no}" name="mem_no">
+								<div class="add_title"><label for="chooseFile"><img id="img" src="${path}/resources/images/로그인_전_프로필.png" width="100px"></img></label><input name="multi_image" type="file" id="chooseFile" accept="image/*"></div>
 								<div class="input_box_one">
-								<button class="vip_add"></button><input type="text" placeholder="이름"> <br>
+								<input id="vip_add" type="checkbox" hidden><label for="vip_add"></label>
+								<input name="customer_name" type="text" placeholder="이름"> <br>
 								</div>
 							
 							
 								<div class="add_title">회사 / 소속</div> 
 								<div class="input_box">
-									<input type="text" placeholder="직책"> <input type="text" placeholder="직급"> 
-									<input type="text" placeholder="부서"> <input type="text" placeholder="소속"> 
+									<input name="customer_position" type="text" placeholder="직급"> <input name="customer_rank" type="text" placeholder="직책"> 
+									<input name="customer_dept" type="text" placeholder="부서"> <input name="customer_team" type="text" placeholder="소속"> 
 								</div>
 							
 								<div class="add_title">전화번호</div>
@@ -55,28 +55,25 @@
 									<option>기타</option>
 									<option>직접입력</option>
 								</select>  
-								<input type="text" placeholder="전화번호"> <span id="phone_add"></span><br>
+								<input name="customer_phone" type="text" placeholder="전화번호"> <span id="phone_add"></span><br>
 								</div>
 								
 								<div class="add_title">이메일</div>
 								<div class="input_box_one">
-									<input type="text" placeholder="이메일">
-								</div>
-								<div class="add_title">공개범위</div>
-								<div class="input_box_cb">
-									<input type="checkbox" value="전체공개"><label for="전체공개">전체공개</label><input type="checkbox" value="멤버공개"><label for="멤버공개">멤버공개</label>
+									<input name="customer_email" type="text" placeholder="이메일">
 								</div>
 								
 								<div class="add_title">편집허용</div>
 								<div class="input_box_check">
-									<input type="checkbox" id="toggle" hidden> 
+									<input name="customer_edit" type="checkbox" id="toggle" value="edit_yes" hidden> 
 									<label for="toggle" class="toggleSwitch">
 									  <span class="toggleButton"></span>
 									</label>
 								</div>
+								
 								<div class="add_btn_div">
 									<button class="add_btn">취소</button>
-									<input class="add_btn" type="submit" value="저장">
+									<input id="add_customer" class="add_btn" type="button" value="저장">
 								</div>
 						</form>
 						
@@ -121,8 +118,8 @@
 					<label class="addr_label" for="addr_menu02"><span></span>&nbsp;&nbsp;&nbsp;&nbsp;고객 / 거래처</label>					
 					<br>
 					<div class="accordion_cb_div">
-						<input type="checkbox" id="accordion_cb">
-						<label class="people" for="accordion_cb">전체 연락처</label>
+						<input type="checkbox" id="accordion_cb_customer" name="accordion_cb_customer">
+						<label class="people" for="accordion_cb_customer">전체 연락처</label>
 					</div>	
 					<hr>
 				</div>
@@ -134,13 +131,13 @@
 		</nav>
 	
 		<article id="content">
-			<form method="post" action="addr_search.do">
-				<input id="search_box" type="text" name="keyword" placeholder="연락처 검색">
-				<input id="search_btn" type="submit" value="검색">
-			</form>
-			
+				<input id="search_box" type="text" name="keyword" placeholder="이름으로 검색">
+				<input id="search_btn" type="button" value="검색" >
 			<br>
-			
+			<br>
+			<button>삭제</button><button>이동</button><button>메일</button><button>메시지</button>
+			<br>
+			<br>
 			<div class="alph">
 				<a>전체</a>
 				<a>ㄱ</a>
@@ -164,17 +161,18 @@
 			<hr width="90%" align="left">
 			
 			<div class="subject">
-				<table>
+				<table id="addr_table">
 					<tr>
-						<th>이름</th> <th>직책</th> <th>직급</th>
+						<th><th>이름</th> <th>직책</th> <th>직급</th>
 						<th>부서</th> <th>소속팀</th> <th>이메일</th>
 						<th>전화번호</th>			
 					</tr>	
 					
 					<c:set var="myMemList" value="${myDeptMemberList}" />
 					<c:if test="${!empty myMemList }">
-						<c:forEach items="${myMemList }" var="myMemDto">
+						<c:forEach items="${myMemList }" var="myMemDto" varStatus="vs">
 							<tr>
+								<td><input id="addr_check_${vs.index }" type="checkbox" ><input id="addr_vip_${vs.index }" type="checkbox"><label for="addr_vip_${vs.index }"><span></span></label></td>
 								<td><b>${myMemDto.getMem_name() }</b></td> <td>${myMemDto.getMem_position() }</td> <td>${myMemDto.getMem_rank() }</td>
 								<td>${myMemDto.getDept_name() }</td> <td>${myMemDto.getTeam_name() }</td> <td>${myMemDto.getMem_email() }</td>
 								<td>${myMemDto.getMem_phone() }</td>
@@ -193,18 +191,22 @@
 
 $(function(){
 	
-	// 부서 별 주소록 클릭 시 이벤트
-	$("input[name *= 'accordion_cb_dept']").click(function(){
-		// 부서명 체크박스 하나만 선택되도록 하기.
+	// 부서명 체크박스 하나만 선택되도록 하기.
+	$("input[name *= 'accordion_cb']").click(function(){
+		
 	    if(this.checked) {
-	        const checkboxes = $("input[name *= 'accordion_cb_dept']");
+	        const checkboxes = $("input[name *= 'accordion_cb']");
 	        for(let i = 0; i < checkboxes.length; i++){
 	            checkboxes[i].checked = false;
 	        }
 	        this.checked = true;
 	    } else {
 	        this.checked = false;
-	    }
+	    }		
+	});
+	
+	// 부서 별 주소록 클릭 시 이벤트
+	$("input[name = 'accordion_cb_dept']").click(function(){
 		
 		let dept_name = $("input:checkbox[name=accordion_cb_dept]:checked").val();
 		
@@ -217,21 +219,154 @@ $(function(){
 			dataType:'json',
 			data: {"dept_name" : dept_name},
 			success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
-				alert('성공, 결과는' + data);
 				//addrList_dept
-				$(data).each(function(){
-					$(".subject").text(this.mem_name);
-					});		
+				$("#addr_table").html("<tr><th>이름</th> <th>직책</th> <th>직급</th><th>부서</th> <th>소속팀</th> <th>이메일</th><th>전화번호</th></tr>");	
+				
+			$.each(data, function(index, MemberDTO) {
+				$("#addr_table").append("<tr><td><input id='addr_check_"+index+"' type='checkbox' ><input id='addr_vip_"+index+"' type='checkbox'><label for='addr_vip_"+index+"'><span></span></label></td><td><b>"+MemberDTO.mem_name+"</b></td><td>"+MemberDTO.mem_position+"</td><td>"+MemberDTO.mem_rank+"</td><td>"+MemberDTO.dept_name+"</td><td>"+MemberDTO.team_name+"</td><td>"+MemberDTO.mem_email+"</td><td>"+MemberDTO.mem_phone+"</td></tr>");
+				});	
 								
 			},
 			error: function(res){ // 응답을 받지 못하였다거나 정상적인 응답이지만 데이터 형식을 확인할 수 없을 때 error 콜백이 호출.
 				alert('ajax 응답 오류');
 			}
-		});	// 부서 별 리스트 조회 $.ajax() end		
+		});	// 부서 별 연락처 조회 $.ajax() end		
 		
+	});	// 부서 별 주소록 클릭 시 이벤트 end
+	
+	
+	// 고객 / 거래처 주소록 클릭 시 이벤트
+	$('#accordion_cb_customer').click(function(){
 		
+		// 로그인 기능 완성 시 세션 값으로 변경 할 예정.
+		let mem_no = 1;
+		
+		$.ajax({
+			type: 'POST',
+		//	async : false,
+			url: '<%=request.getContextPath()%>/getAddrList_customer.do',
+			dataType:'json',
+			data: {"mem_no" : mem_no},
+			success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
+				//addrList_customer
+				$("#addr_table").html("<tr><th>이름</th> <th>직책</th> <th>직급</th><th>부서</th> <th>소속팀</th> <th>이메일</th><th>전화번호</th></tr>");	
+				
+			$.each(data, function(index, CustomerDTO) {
+				$("#addr_table").append("<tr><td><input id='addr_check_"+index+"' type='checkbox' ><input id='addr_vip_"+index+"' type='checkbox'><label for='addr_vip_"+index+"'><span></span></label></td><td><b>"+CustomerDTO.customer_name+"</b></td><td>"+CustomerDTO.customer_position+"</td><td>"+CustomerDTO.customer_rank+"</td><td>"+CustomerDTO.customer_dept+"</td><td>"+CustomerDTO.customer_team+"</td><td>"+CustomerDTO.customer_email+"</td><td>"+CustomerDTO.customer_phone+"</td></tr>");
+				});	
+								
+			},
+			error: function(res){ // 응답을 받지 못하였다거나 정상적인 응답이지만 데이터 형식을 확인할 수 없을 때 error 콜백이 호출.
+				alert('ajax 응답 오류');
+			}
+		});	// 전체 연락처 조회 $.ajax() end		
+		
+	});	// 고객 / 거래처 주소록 클릭 시 이벤트 end
+
+	
+	// 검색창 엔터키 / 클릭 이벤트
+	$('#search_box').on('keydown', function(e){
+		  if(e.code == 'Enter'){
+			  	$('#search_btn').click();
+		  }
+    });	
+		
+	$('#search_btn').click(function(){
+		
+		let keyword = $('#search_box').val();
+		
+		// 검색 내용 조회 $.ajax()
+		$.ajax({
+			type: 'POST',
+		//	async : false,
+			url: '<%=request.getContextPath()%>/address_search.do',
+			dataType:'json',
+			data: {"keyword" : keyword},
+			success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
+				//addrList_search	
+				$("#addr_table").html("<tr><th>이름</th> <th>직책</th> <th>직급</th><th>부서</th> <th>소속팀</th> <th>이메일</th><th>전화번호</th></tr>");	
+				
+				$.each(data, function(index, MemberDTO) {
+					$("#addr_table").append("<tr><td><input id='addr_check_"+index+"' type='checkbox' ><input id='addr_vip_"+index+"' type='checkbox'><label for='addr_vip_"+index+"'><span></span></label></td><td><b>"+MemberDTO.mem_name+"</b></td><td>"+MemberDTO.mem_position+"</td><td>"+MemberDTO.mem_rank+"</td><td>"+MemberDTO.dept_name+"</td><td>"+MemberDTO.team_name+"</td><td>"+MemberDTO.mem_email+"</td><td>"+MemberDTO.mem_phone+"</td></tr>");
+					});				
+			},
+			error: function(res){ // 응답을 받지 못하였다거나 정상적인 응답이지만 데이터 형식을 확인할 수 없을 때 error 콜백이 호출.
+				alert('ajax 응답 오류');
+			}
+		});	// 검색 내용 조회 $.ajax() end				
+		
+	});	// 검색창 엔터키 / 클릭 이벤트 end
+	
+	// 연락처 추가 모달창 폼 페이지 이미지 미리보기 변경
+	$("#chooseFile").on("change", handleImgFileSelect);
+	
+	// 연락처 추가 모달창 폼페이지 입력 시 이벤트
+	$('#add_customer').click(function(){
+        /// event.preventDefault();
+        var url = $("#form").attr("action");
+        var form = $('#form')[0];
+        var formData = new FormData(form);
+        
+        $.ajax({
+          url: url,
+          type: 'POST',
+          data: formData,
+          success: function (data) {
+        	 console.log(data);
+        	 if(data=1){
+        		 alert('고객 / 거래처 연락처 추가 성공');
+        	 }else{
+        		 alert('고객 / 거래처 연락처 추가 실패');
+        	 }
+
+          },
+          error: function (data) {
+            alert('고객 / 거래처 연락처 추가 실패');
+          },
+          cache: false,
+          contentType: false,
+          processData: false		
+		
+		});	// 폼페이지 ajax end
+		
+	});	// 연락처 추가 모달창 폼페이지 입력 시 이벤트 end
+
+/* 	
+	// 각 연락처 클릭 시 상세 정보 모달창 띄우기
+	$('#addr_table tr').click(function(){
+
 	});
+
+ */
+	
 });
+
+
+
+
+// 이미지 미리보기 변경 함수
+function handleImgFileSelect(e) {
+    var files = e.target.files;
+    var filesArr = Array.prototype.slice.call(files);
+
+    var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
+
+    filesArr.forEach(function(f) {
+        if (!f.type.match(reg)) {
+            alert("확장자는 이미지 확장자만 가능합니다.");
+            return;
+        }
+
+        sel_file = f;
+
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $("#img").attr("src", e.target.result);
+        }
+        reader.readAsDataURL(f);
+    });
+}	// 이미지 미리보기 변경 함수 end
+
 
 
 

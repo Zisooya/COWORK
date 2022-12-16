@@ -110,7 +110,21 @@ input[id *= "popup"] + label + div > label {
 	display: inline-block;
 }
 
-.vip_add {
+#vip_add + label{
+	vertical-align: middle;
+	display: inline-block;
+	background: url(../images/빈별.png) 0 0 no-repeat;
+	background-position: center;
+	background-size: 25px;
+	width: 35px;
+	height: 35px;
+	border: 0;
+	margin: 5px 5px 5px 0;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
+#vip_add:checked + label {
 	vertical-align: middle;
 	display: inline-block;
 	background: url(../images/찬별.png) 0 0 no-repeat;
@@ -120,7 +134,8 @@ input[id *= "popup"] + label + div > label {
 	height: 35px;
 	border: 0;
 	margin: 5px 5px 5px 0;
-	box-sizing: border-box;
+	box-sizing: border-box;	
+	cursor: pointer;
 }
 
 .input_box_one input {
@@ -264,8 +279,10 @@ input[id *= "popup"] + label + div > label {
 }
 
 #side_menu hr{
-	width: 86%;
-	color: #EAEAEA;
+	width: 90%;
+	height: 1px;
+	background-color: #EAEAEA;
+	border : 0;
 }
 
 #side_menu p {
@@ -312,18 +329,26 @@ input[id *= "popup"] + label + div > label {
 	margin: 20px;
 }
 
+#content hr{
+	width: 90%;
+	height: 2px;
+	background-color: #EAEAEA;
+	border : 0;
+}
+
 .subject {
-	text-align: center;
+	text-align: left;
 	font-weight: bold;
 	font-size: 1.1rem;
 }
+
 
  .subject table {
  	width: 90%;
  }
  
 .subject table th,td {
- 	width: 14.2%;
+ 	width: auto;
  	padding: 10px;
  }
 
@@ -336,6 +361,38 @@ input[id *= "popup"] + label + div > label {
 	font-weight: normal;
 	font-size: 1rem;
 } 
+
+
+input[id *= "addr_check"] {
+	text-align: center;
+}
+
+input[id *= "addr_vip"] {
+	display: none;
+}
+
+input[id *= "addr_vip"] + label span {
+	width: 20px;
+	height: 20px;
+	background: url(../images/빈별.png) 0 0 no-repeat;
+	background-size: 20px; 
+	cursor: pointer;
+	display: inline-block;
+	margin-left: 10px;
+	float: right;
+}
+
+input[id *= "addr_vip"]:checked + label span {
+	width: 20px;
+	height: 20px;
+	background: url(../images/찬별.png) 0 0 no-repeat;
+	background-size: 20px; 
+	cursor: pointer;
+	display: inline-block;
+	margin-left: 10px;
+	float: right;	
+}
+
  
 .accordion label {
 	font-size: 0.9rem;
@@ -442,7 +499,7 @@ input[id *= "accordion_cb"] {
 
 
 .vip {
-	background: url(../images/빈별.png) 0 0 no-repeat;
+	background: url(../images/찬별.png) 0 0 no-repeat;
 	background-size: 1.1rem;
 	background-position: left;	
 }

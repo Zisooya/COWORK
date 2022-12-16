@@ -17,11 +17,27 @@
 	</select>
 	
 	<select id="address_myDeptMemberList" parameterType="int" resultType="memberDTO">
-		select * from member where dept_no = #{dept_no}
+		select * from member where dept_no = #{dept_no} order by mem_name
 	</select>
 	
 	<select id="getAddrList_dept" parameterType="String" resultType="memberDTO">
-		select * from member where dept_name = #{dept_name}	
+		select * from member where dept_name = #{dept_name}	order by mem_name
 	</select>
+	
+	<select id="getAddrList_search" parameterType="String" resultType="memberDTO">
+		select * from member where mem_name like '%' || #{keyword} || '%' order by mem_name
+	</select>
+	
+	<select id="getAddrList_customer" parameterType="int" resultType="customerDto">
+		select * from customer where mem_no = #{mem_no} order by customer_name
+	</select>
+	
+	<insert id="insert_customer">
+ 		<!-- max(customer_no)값이 customer_no에 저장됨.-->
+ 		<selectKey resultType="int" keyProperty="customer_no" order="BEFORE">
+ 			select max(customer_no) from customer
+ 		</selectKey>
+ 		insert into customer values(#{customer_no} + 1,#{customer_name},#{customer_position},#{customer_rank},#{customer_dept}, #{customer_team},#{customer_email},#{customer_phone},#{mem_no},#{customer_image})
+ 	</insert>
 	
  </mapper>

@@ -18,12 +18,15 @@
 
 	<!-- 별칭 주는 태그 -->
 	<typeAliases>
-		<typeAlias type="com.team3.model.MemberDAO" alias="memberDAO"/>
-		<typeAlias type="com.team3.model.MemberDTO" alias="memberDTO"/>
+		<typeAlias type="com.team3.model.member.MemberDAO" alias="memberDAO"/>
+		<typeAlias type="com.team3.model.member.MemberDTO" alias="memberDTO"/>
+		<typeAlias type="com.team3.model.TeamDTO" alias="teamDTO"/>
 	
 		<!-- *************** 지수 *************** -->	
 		<typeAlias type="com.team3.model.AddressDAO" alias="addressDao"/>
 		<typeAlias type="com.team3.model.DepartmentDTO" alias="departmentDto"/>
+		<typeAlias type="com.team3.model.CustomerDTO" alias="customerDto"/>
+		
 	
 		<!-- *************** 현우 *************** -->
 		<typeAlias type="com.team3.model.CalendarDAO" alias="caldao"/>

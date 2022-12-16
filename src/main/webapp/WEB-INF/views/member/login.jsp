@@ -22,7 +22,7 @@
                 </div>
                 <div class="div">
                     <h5>ID</h5>
-                    <input type="text" class="input" id="mem_id" name="mem_id">
+                    <input type="text" class="input" id="mem_id" name="mem_id" required>
                 </div>
             </div>
             <div class="input-div pass">
@@ -31,7 +31,7 @@
                 </div>
                 <div class="div">
                     <h5>PASSWORD</h5>
-                    <input type="password" class="input" id="mem_pwd" name="mem_pwd">
+                    <input type="password" class="input" id="mem_pwd" name="mem_pwd" required>
                 </div>
             </div>
             <div class="remember">
@@ -39,8 +39,8 @@
                 <label for="remember_me">아이디 저장</label>
             </div>
             <input type="submit" class="btn" value="로그인" id="btnLogin" name="btnLogin">
-            <a href="#">아이디 찾기</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="#">비밀번호 찾기</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="${ path }/member_findId.do">아이디 찾기</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="${ path }/member_findPwd.do">비밀번호 찾기</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <a href="${ path }/member_join.do">회원가입</a>
         </form>
     </div>

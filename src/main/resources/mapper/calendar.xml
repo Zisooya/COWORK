@@ -17,13 +17,18 @@
 		select * from calendar where mem_no = #{mem_no}
 	</select>
 	
-	<insert id="add" parameterType="caldto">
+	<insert id="calAdd" parameterType="caldto">
 		<selectKey resultType="int" keyProperty="cal_no" order="BEFORE">
 			select max(cal_no) from calendar
 		</selectKey>
-		insert into calendar values(#{cal_no}+1, #{mem_no}, default, #{title}, to_date(#{start},'yyyy.mm.dd hh24:mi'), #{end},
+		insert into calendar values(#{cal_no}+1, #{mem_no}, #{cal_mark}, #{title}, to_date(#{start},'yyyy.mm.dd hh24:mi'), to_date(#{end},'yyyy.mm.dd hh24:mi'),
 		'','','','', default, '', #{cal_attendee1},'','','','','',#{cal_type_name},#{cal_place},#{cal_memo},#{cal_file},
-		#{cal_category1},'','','','','','','',#{cal_status},#{allDay})
+		#{cal_category},'',#{cal_status},#{allDay})
 	</insert>
+	
+	<update id="calUpdate_drag" parameterType="caldto">
+		update calendar set cal_start_time = to_date(#{start},'yyyy.mm.dd hh24:mi'), cal_end_time = to_date(#{end},'yyyy.mm.dd hh24:mi')
+		where cal_no = #{cal_no}
+	</update>
 	
 </mapper>
