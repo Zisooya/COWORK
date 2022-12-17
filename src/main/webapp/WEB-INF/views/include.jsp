@@ -6,9 +6,9 @@
 <!DOCTYPE html>
 
 <meta charset="UTF-8">
-<!-- 
+
 	<header id="header">
-		<div id="header_container"> -->
+		<div id="header_container">
 			<div id="header_left">
 				COWORK.
 			</div>	
@@ -40,8 +40,8 @@
 						<div id="hi"> <b>${member.mem_name}</b>님 안녕하세요!</div>
 				</div>
 			</div>	
-			
-
+		</div>	
+	</header>
 
 	
 

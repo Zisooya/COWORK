@@ -54,18 +54,21 @@
 		</nav>
 	
 		<article id="content">
-			<div>
-				<button type="button" onclick="openSocket();">대화방 참여</button>
-				<button type="button" onclick="closeSocket();">대화방 나가기</button>
-				<br><br><br>
-				메세지 입력 :
-				<input type="text" id="sender" value="박지수" style="display: none;" >
-				<input type="text" id="messageinput">
-				<button type="button" onclick="send();">메세지 전송</button>
-				<button type="button" onclick="javascript:clearText();">대화내용 지우기</button>	
-			</div>
-		
-			<div id="messages">
+			<div id="chat_grid_container">
+				<div id="messages" style="overflow-y: scroll;">
+					<button type="button" onclick="openSocket();" style="width:200px;">대화방 참여</button>
+					<button type="button" onclick="closeSocket();" style="width:200px;">대화방 나가기</button>
+				
+				</div>				
+					<div id="bottom_input">
+					<input type="text" id="sender" value="${member.mem_id}" style="display: none;" >
+					<input type="text" id="messageinput">
+					<button type="button" id="message_send_btn" onclick="send();">메세지 전송</button>
+					<button type="button" onclick="javascript:clearText();">대화내용 지우기</button>	
+					</div>
+				<div id="right_chatRoomDetail">
+					사이드바
+				</div>		
 			</div>
 		</article>
 	
