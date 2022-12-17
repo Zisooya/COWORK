@@ -20,7 +20,19 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-	
+
+	<!-- 웹소켓 핸들러 -->
+    <!-- websocket handler -->
+<!--     <beans:bean id="replyEchochoHandler" class="com.team3.websocketchatHandler" />
+
+    <websocket:handlers>
+        <websocket:mapping handler="replyEchochoHandler" path="/replyEcho" />
+        <websocket:handshake-interceptors>
+            <beans:bean
+                class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+        </websocket:handshake-interceptors>
+    </websocket:handlers>
+    	 -->
 	<!-- 첨부 파일을 처리하는 빈 -->
 	<beans:bean name="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 	        <beans:property name="maxUploadSize" value="10000000"></beans:property> <!-- 업로드 사이즈 제한 -->
