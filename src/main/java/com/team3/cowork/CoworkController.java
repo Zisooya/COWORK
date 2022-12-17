@@ -37,7 +37,7 @@ public class CoworkController {
 		if (result != null) {
 			session.setAttribute("member", result);
 			model.addAttribute("msg", null);
-			model.addAttribute("url", "main.do");
+			model.addAttribute("url", "/main.do");
 		} else {
 			model.addAttribute("msg", "아이디 또는 비밀번호가 올바르지 않습니다.");
 			model.addAttribute("url", "/");

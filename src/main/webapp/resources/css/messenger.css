@@ -136,7 +136,7 @@ input[id *= "messenger_menu"] + label span {
 	
 }
 
-input[id *= "messenger_menu"]:checked + label + br + div {
+input[id *= "messenger_menu"]:checked + label + div {
 	max-height: 100%;
 }
 
@@ -154,8 +154,18 @@ input[id *= "messenger_menu"]:checked + label span {
 
 input[id *= "accordion_cb"]:checked + label {
 	font-weight: bold;
-	color: red;
-	
+}
+
+input[name *= accordion_cb_] {
+	display: none;
+}
+
+.chat_room {
+	background: none;
+	font-size: 0.9rem;
+	font-weight: normal;
+	text-align: left;
+	cursor: pointer;
 }
 
 

@@ -27,18 +27,27 @@
 					<input type="checkbox" id="messenger_menu01">
 					<label class="messenger_label" for="messenger_menu01"><span></span>&nbsp;&nbsp;&nbsp;&nbsp;일대일</label>
 					<div class="accordion_cb_div">
-						<c:set var="deptList" value="${deptList}" />
-						<c:set var="myDept_no" value="${myDept_no}" />
-						<c:if test="${!empty deptList }">
-							<c:forEach items="${deptList }" var="deptDto" varStatus="vs">
-								<input type="checkbox" id="accordion_cb_${vs.index }" name="accordion_cb_dept" value="${deptDto.getDept_name() }">
-								<label class="people" for="accordion_cb_${vs.index }">${deptDto.getDept_name() }</label>
+						<c:set var="oneToOneChatList" value="${oneToOneChatList}" />
+						<c:if test="${!empty oneToOneChatList }">
+							<c:forEach items="${oneToOneChatList }" var="chatRoomDto" varStatus="vs">
+								<input type="checkbox" id="accordion_cb_o${vs.index }" name="accordion_cb_oneToOne" value="${chatRoomDto.getChat_room_no() }">
+								<label class="chat_room" for="accordion_cb_o${vs.index }">${chatRoomDto.getChat_room_name() }</label>
 							</c:forEach>
 						</c:if>
-					
 					</div>
+					
 					<input type="checkbox" id="messenger_menu02">
 					<label class="messenger_label" for="messenger_menu02"><span></span>&nbsp;&nbsp;&nbsp;&nbsp;그룹</label>					
+					<div class="accordion_cb_div">
+						<c:set var="groupChatList" value="${groupChatList}" />
+						<c:if test="${!empty groupChatList }">
+							<c:forEach items="${groupChatList }" var="chatRoomDto2" varStatus="vs">
+								<input type="checkbox" id="accordion_cb_g${vs.index }" name="accordion_cb_group" value="${chatRoomDto2.getChat_room_no() }">
+								<label class="chat_room" for="accordion_cb_g${vs.index }">${chatRoomDto2.getChat_room_name() }</label>
+							</c:forEach>
+						</c:if>
+					</div>				
+				
 				</div>
 			
 			</div>
@@ -62,6 +71,31 @@
 	
 	</div>
 <script type="text/javascript">
+
+$(function(){
+	
+	// 부서명 체크박스 하나만 선택되도록 하기.
+	$("input[name *= 'accordion_cb']").click(function(){
+		
+	    if(this.checked) {
+	        const checkboxes = $("input[name *= 'accordion_cb']");
+	        for(let i = 0; i < checkboxes.length; i++){
+	            checkboxes[i].checked = false;
+	        }
+	        this.checked = true;
+	    } else {
+	        this.checked = false;
+	    }		
+	});	// 부서명 체크박스 하나만 선택되도록 하기.
+	
+	// 각 채팅방 클릭 시 이벤트
+	$("input[id *= 'accordion_cb_']").click(function() {
+		
+		
+	}); // 각 채팅방 클릭 시 이벤트 end
+	
+	
+});
 
     var ws;
     var messages = document.getElementById("messages");
