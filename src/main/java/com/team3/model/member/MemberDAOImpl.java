@@ -38,8 +38,8 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public List<MemberDTO> memberFindId(MemberDTO dto) {
-		return this.sqlSession.selectList("memberFindId", dto);
+	public String memberFindId(MemberDTO dto) {
+		return this.sqlSession.selectOne("memberFindId", dto);
 	}
 
 	@Override

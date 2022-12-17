@@ -15,7 +15,6 @@ public class Cal_Upload {
 		String saveFileName = "";
 		
 		String uploadPath = "C:\\Users\\VVIP\\Documents\\GitHub\\COWORK\\src\\main\\webapp\\resources\\cal_upload\\";
-		
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH);

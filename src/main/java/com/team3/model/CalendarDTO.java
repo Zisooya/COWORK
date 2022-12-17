@@ -12,6 +12,7 @@ public class CalendarDTO {
 	private String start;
 	private String end;
 	private String allDay;
+	private String cal_repeat;
 	private int cal_repeat_d;
 	private int cal_repeat_w;
 	private int cal_repeat_m;

@@ -17,7 +17,7 @@ public interface MemberService {
 
     void memberLogout(HttpSession session);
 
-    List<MemberDTO> memberFindId(MemberDTO dto);
+    String memberFindId(MemberDTO dto);
 
     String memberFindPwd(MemberDTO dto);
 
