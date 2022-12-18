@@ -3,30 +3,65 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
-    <title>Title</title>
+    <title>아이디찾기</title>
+    <script
+            src="https://code.jquery.com/jquery-3.6.1.js"
+            integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+            crossorigin="anonymous"
+    ></script>
+    <link
+            href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap"
+            rel="stylesheet"
+    />
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+            crossorigin="anonymous"
+    />
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:;base64,=" />
+    <style>
+        .btn {
+            width: 180px;
+        }
+        .form-input {
+            width: 300px;
+        }
+
+        .form-style {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            margin: 0 auto;
+            margin-top: 108px;
+        }
+
+        .d-grid {
+            margin-top: 30px;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <form method="post" action="${path}/member_findId_ok.do">
-        <div class="input-name">
-            <h5>이름</h5>
-            <input type="text" class="input" id="mem_name" name="mem_name">
+<div class="container py-4">
+    <div class="row align-items-center justify-content-between">
+        <span class="text-dark h2 text-center">아이디 찾기</span>
+    </div>
+    <form class="form-style">
+        <div class="form-group form-input">
+            <label for="name" class="form-label mt-4">이름</label>
+            <input type="text" class="form-control" id="name" />
         </div>
-        <div class="input-email">
-            <h5>이메일</h5>
-            <input type="text" name="mem_email">
-            <span class="a">@</span>
-            <input type="text" name="mail_domain">
-            <select name="mail_select">
-                <option value="naver">naver.com</option>
-                <option value="nate">nate.com</option>
-                <option value="gmail">gmail.com</option>
-                <option value="self">직접입력</option>
-            </select>
+        <div class="form-group form-input">
+            <label class="form-label mt-4" for="inputValid">EMAIL</label>
+            <input type="email" class="form-control" id="inputValid" />
+            <div class="valid-feedback"></div>
         </div>
-        <div class="confirm_btn">
-            <button type="submit" name="confirm">확인</button>
-            <button type="button" name="cancel" onclick="cancel();">취소</button>
+        <div class="d-grid gap-2">
+            <button class="btn btn-primary btn-lg" type="button">찾기</button>
         </div>
     </form>
 </div>
