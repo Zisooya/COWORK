@@ -14,7 +14,7 @@ public interface MemberDAO {
 
 	void memberDelete(String mem_id);
 
-	List<MemberDTO> memberFindId(MemberDTO dto);
+	String memberFindId(MemberDTO dto);
 
 	String memberFindPwd(MemberDTO dto);
 

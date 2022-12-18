@@ -5,112 +5,43 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
  <mapper namespace="projectsDAO">
- 	<select id="count" resultType="int">
- 		select count(*) from projects
- 	</select>
+ 
+<!-- 카운트 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
  	
+ 	<!-- 프로젝트 카운트 -->
+ 	<select id="count" resultType="int">	select count(*) from projects 	</select>
+ 	
+	<!-- 프로젝트명으로 프로젝트 카운트 -->
+	<select id="countByProject" resultType="int">	select count(*) from projects where project_name like '%' || #{keyword} || '%'	</select>
+	
+	<!-- 스테이터스별로 프로젝트 카운트 -->
+	<select id="countByStatus" resultType="int">	select count(*) from projects where project_status = #{status_no} 	</select>
+	
+ 	<!-- 멤버 이름으로 프로젝트 카운트 -->
+ 	<select id="countByName" resultType="int">
+		select count(*) from projects where project_taker like '%' || #{keyword} || '%'
+		  or project_taker2 like '%' || #{keyword} || '%'
+     	  or project_taker3 like '%' || #{keyword} || '%'
+     	  or project_taker4 like '%' || #{keyword} || '%'
+     	  or project_taker5 like '%' || #{keyword} || '%'
+	</select>
+	
+	
+<!-- 리스트 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+
+ 	<!-- 모든 프로젝트 리스트 _ 테이블 -->
  	<select id="all" resultType="projectsdto">
-		<![CDATA[
-		   select * from 
-		    (select rownum as rnum , a.* from 
-		     (select * from projects order by project_no desc) a where rownum <= #{endNo})
-		       where rnum >= #{startNo}
-		]]>
+		<![CDATA[ select * from (select rownum as rnum , a.* from (select * from projects order by project_no desc) a where rownum <= #{endNo}) where rnum >= #{startNo} ]]>
 	</select>
 	
-	<select id="board_project_list" resultType="projectsdto">
-		select * from projects order by project_start desc
-	</select>
-	
-	<select id="getMain" resultType="maindto">
-		select * from main_project order by main_no
-	</select>
-	<select id="status" resultType="statusdto">
-		select * from projects_status order by status_no
-	</select>
-	<insert id="insert" parameterType="projectsdto">
-		<selectKey keyProperty="project_no" resultType="int" order="BEFORE">
-			select max(project_no) from projects
-	    </selectKey>
-	    insert into projects values(#{project_no}+1,#{project_name},'',#{project_end},'','',#{project_taker},default,#{project_status},#{project_main},'','','','','')
-	</insert>
-	<select id="cont" parameterType="int" resultType="projectsdto">
-		select * from projects where project_no=#{num}
-  	</select>
-  	<select id="allMem" resultType="memberDTO">
-  		select * from member order by dept_no
-  	</select>
-  	<update id="updateMember1" parameterType="projectsdto">
-  		update projects set project_taker = #{project_taker} where project_no=#{project_no}
-  	</update>
-  	<update id="updateMember2" parameterType="projectsdto">
-  		update projects set project_taker2 = #{project_taker2} where project_no=#{project_no}
-  	</update>
-  	<update id="updateMember3" parameterType="projectsdto">
-  		update projects set project_taker3 = #{project_taker3} where project_no=#{project_no}
-  	</update>
-  	<update id="updateMember4" parameterType="projectsdto">
-  		update projects set project_taker4 = #{project_taker4} where project_no=#{project_no}
-  	</update>
-  	<update id="updateMember5" parameterType="projectsdto">
-  		update projects set project_taker5 = #{project_taker5} where project_no=#{project_no}
-  	</update>
-  	<delete id="deleteProject" parameterType="int">
-  		delete from projects where project_no = #{num}
-  	</delete>
-  	<update id="move" parameterType="projectsdto">
-  		update projects set project_status = #{project_status} where project_no=#{project_no}
-  	</update>
-  	<update id="start" parameterType="projectsdto">
-  		update projects set project_start = #{project_start} where project_no=#{project_no}
-  	</update>
-  	<update id="end" parameterType="projectsdto">
-  		update projects set project_end = #{project_end} where project_no=#{project_no}
-  	</update>
-  	<update id="comment" parameterType="projectsdto">
-  		update projects set project_comment = #{project_comment} where project_no=#{project_no}
-  	</update>
-	<update id="deletetaker1" parameterType="projectsdto">
-		update projects set project_taker = '' where project_no=#{project_no}
-	</update>
-	<update id="deletetaker2" parameterType="projectsdto">
-		update projects set project_taker2 = '' where project_no=#{project_no}
-	</update>
-	<update id="deletetaker3" parameterType="projectsdto">
-		update projects set project_taker3 = '' where project_no=#{project_no}
-	</update>
-	<update id="deletetaker4" parameterType="projectsdto">
-		update projects set project_taker4 = '' where project_no=#{project_no}
-	</update>
-	<update id="deletetaker5" parameterType="projectsdto">
-		update projects set project_taker5 = '' where project_no=#{project_no}
-	</update>
-	<insert id="insertStatus" parameterType="statusdto">
-		<selectKey keyProperty="status_no" resultType="int" order="BEFORE">
-			select max(status_no) from projects_status
-	    </selectKey>
-	    insert into projects_status values(#{status_no}+1,#{status_name})
-	</insert>
-	<select id="select_status_no" parameterType="statusdto" resultType="int">
-		select status_no from projects_status where status_name = #{status_name}
-	</select>
-	<update id="update_status" parameterType="projectsdto">
-		update projects set project_status=#{project_status} where project_no=#{project_no}
-	</update>
-	<insert id="board_insertProject" parameterType="projectsdto">
-		<selectKey keyProperty="project_no" resultType="int" order="BEFORE">
-			select max(project_no) from projects
-	    </selectKey>
-	    insert into projects values(#{project_no}+1,#{project_name},'','','','','',default,#{project_status},#{project_main},'','','','','')
-	</insert>
+	<!-- 프로젝트 명으로 프로젝트 리스트 _ 테이블 -->
 	<select id="selectproject" resultType="projectsdto">
 		<![CDATA[
-		   select * from 
-		    (select rownum as rnum , a.* from 
-		     (select * from projects where project_name like '%' || #{keyword} || '%'  order by project_no desc) a where rownum <= #{endNo})
-		       where rnum >= #{startNo}
+		   select * from (select rownum as rnum , a.* from (select * from projects where project_name like '%' || #{keyword} || '%'  order by project_no desc) a where rownum <= #{endNo}) where rnum >= #{startNo}
 		]]>
 	</select>
+	
+	<!-- 멤버 이름으로 프로젝트 리스트 _ 테이블 -->
 	<select id="selectname" resultType="projectsdto">
 		<![CDATA[
 		   select * from 
@@ -124,25 +55,90 @@
 		        where rnum >= #{startNo}
 		]]>
 	</select>
-	<select id="countByName" resultType="int">
-		select count(*) from projects where project_taker like '%' || #{keyword} || '%'
-		  or project_taker2 like '%' || #{keyword} || '%'
-     	  or project_taker3 like '%' || #{keyword} || '%'
-     	  or project_taker4 like '%' || #{keyword} || '%'
-     	  or project_taker5 like '%' || #{keyword} || '%'
-	</select>
-	<select id="countByProject" resultType="int">
-		select count(*) from projects where project_name like '%' || #{keyword} || '%'
-	</select>
-	<select id="countByStatus" resultType="int">
-		select count(*) from projects where project_status = #{status_no}
-	</select>
+	
+	<!-- 스테이브별로 프로젝트 리스트 _ 테이블 -->
 	<select id="selectStatus" resultType="projectsdto" parameterType="pagedto">
-		<![CDATA[
-		   select * from 
-		    (select rownum as rnum , a.* from 
-		     (select * from projects where project_status=#{status_no} order by project_no desc) a where rownum <= #{endNo})
-		       where rnum >= #{startNo}
-		]]>
+		<![CDATA[ select * from (select rownum as rnum , a.* from (select * from projects where project_status=#{status_no} order by project_no desc) a where rownum <= #{endNo}) where rnum >= #{startNo} ]]>
 	</select>
+	
+	<!-- 프로젝트 리스트 _ 보드 -->
+	<select id="board_project_list" resultType="projectsdto">	select * from projects order by project_start desc 	</select>
+	
+	<!-- 메인 프로젝트 리스트 _ 테이블 & 보드 & 모달 -->
+	<select id="getMain" resultType="maindto">	select * from main_project order by main_no 	</select>
+	
+	<!-- 스테이터스 리스트 _ 테이블 & 보드 & 모달 -->
+	<select id="status" resultType="statusdto">	select * from projects_status order by status_no 	</select>
+
+	<!-- 모든 멤버 리스트 _ 테이블 & 보드 & 모달 -->	
+  	<select id="allMem" resultType="memberDTO">	select * from member order by dept_no 	</select>
+	
+	
+<!-- 추가 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+
+	<!-- 프로젝트 추가 _ 테이블 -->
+	<insert id="insert" parameterType="projectsdto">
+		<selectKey keyProperty="project_no" resultType="int" order="BEFORE">	select max(project_no) from projects 	</selectKey>
+	    insert into projects values(#{project_no}+1,#{project_name},'',#{project_end},'','',#{project_taker},default,#{project_status},#{project_main},'','','','','')
+	</insert>
+	
+	<!-- 스테이터스 추가 _ 보드 -->
+	<insert id="insertStatus" parameterType="statusdto">
+		<selectKey keyProperty="status_no" resultType="int" order="BEFORE">	select max(status_no) from projects_status 	</selectKey>
+	    insert into projects_status values(#{status_no}+1,#{status_name})
+	</insert>
+	
+	<!-- 프로젝트 추가 _ 보드 -->
+	<insert id="board_insertProject" parameterType="projectsdto">
+		<selectKey keyProperty="project_no" resultType="int" order="BEFORE">	select max(project_no) from projects 	</selectKey>
+	    insert into projects values(#{project_no}+1,#{project_name},'','','','','',default,#{project_status},#{project_main},'','','','','')
+	</insert>
+	
+	
+<!-- 수정 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+	
+	<!-- 프로젝트 스테이터스 수정 _ 모달 -->
+	<update id="move" parameterType="projectsdto">	update projects set project_status = #{project_status} where project_no=#{project_no} 	</update>
+  	
+  	<!-- 프로젝트 시작일 수정 _ 모달 -->
+  	<update id="start" parameterType="projectsdto">	update projects set project_start = #{project_start} where project_no=#{project_no} 	</update>
+  	
+  	<!-- 프로젝트 마감일 수정 _ 모달 -->
+  	<update id="end" parameterType="projectsdto">	update projects set project_end = #{project_end} where project_no=#{project_no} 	</update>
+  	
+  	<!-- 프로젝트 상세내용 추가 및 수정 _ 모달 -->
+  	<update id="comment" parameterType="projectsdto"> 	update projects set project_comment = #{project_comment} where project_no=#{project_no} 	</update>
+  	
+  	<!-- 프로젝트 스테이터스 수정 _ 보드 -->
+  	<update id="update_status" parameterType="projectsdto">	update projects set project_status=#{project_status} where project_no=#{project_no} 	</update>
+	
+  	<!-- 멤버 추가 _ 모달 -->
+  	<update id="updateMember1" parameterType="projectsdto">		update projects set project_taker = #{project_taker} where project_no=#{project_no} 	</update>
+  	<update id="updateMember2" parameterType="projectsdto"> 	update projects set project_taker2 = #{project_taker2} where project_no=#{project_no} 	</update>
+  	<update id="updateMember3" parameterType="projectsdto"> 	update projects set project_taker3 = #{project_taker3} where project_no=#{project_no} 	</update>
+  	<update id="updateMember4" parameterType="projectsdto"> 	update projects set project_taker4 = #{project_taker4} where project_no=#{project_no} 	</update>
+  	<update id="updateMember5" parameterType="projectsdto"> 	update projects set project_taker5 = #{project_taker5} where project_no=#{project_no} 	</update>
+  	
+  	<!-- 멤버 삭제 _ 모달 -->
+	<update id="deletetaker1" parameterType="projectsdto"> 	update projects set project_taker = '' where project_no=#{project_no} 	</update>
+	<update id="deletetaker2" parameterType="projectsdto"> 	update projects set project_taker2 = '' where project_no=#{project_no} 	</update>
+	<update id="deletetaker3" parameterType="projectsdto"> 	update projects set project_taker3 = '' where project_no=#{project_no} 	</update>
+	<update id="deletetaker4" parameterType="projectsdto"> 	update projects set project_taker4 = '' where project_no=#{project_no} 	</update>
+	<update id="deletetaker5" parameterType="projectsdto"> 	update projects set project_taker5 = '' where project_no=#{project_no} 	</update>
+	
+	
+<!-- 삭제 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+	
+	<!-- 프로젝트 삭제 -->
+  	<delete id="deleteProject" parameterType="int"> 	delete from projects where project_no = #{num} 	</delete>
+
+
+<!-- 기타 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+	
+	<!-- 스테이터스로 프로젝트 필터링 _ 테이블 -->
+	<select id="select_status_no" parameterType="statusdto" resultType="int"> 	select status_no from projects_status where status_name = #{status_name} 	</select>
+	
+	<!-- 프로젝트 상세보기 _ 모달 -->
+	<select id="cont" parameterType="int" resultType="projectsdto"> 	select * from projects where project_no=#{num} 	</select>
+	
  </mapper>

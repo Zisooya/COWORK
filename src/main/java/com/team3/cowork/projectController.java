@@ -36,11 +36,9 @@ public class projectController {
 	// MemeberDAO 변수 생성
 		@Autowired
 		private MemberDAO dao;
-		
-	// 한 페이지당 보여질 게시물의 수
-	private final int rowsize = 15;
 	
-	// DB 상의 전체 게시물의 수
+	
+	private final int rowsize = 15;
 	private int totalRecord = 0;
 	
 	// 프로젝트 목록 생성 페이지 _ 세건
@@ -114,8 +112,6 @@ public class projectController {
 		if(dto.getProject_name().equals("")) {
 			dto.setProject_name("프로젝트 명을 입력해 주세요.");
 		}
-		System.out.println("project_name : "+dto.getProject_name());
-		
 		this.dao_projects.insertProject(dto);
 		List<MemberDTO> mlist = this.dao.getMemberList();
 		model.addAttribute("mlist", mlist);
@@ -147,7 +143,6 @@ public class projectController {
 		int check = 0;
 		String taker = "";
 		ProjectsDTO cont = this.dao_projects.getprojects(dto.getProject_no());
-		List<MemberDTO> mlist = this.dao.getMemberList();
 		if (cont.getProject_taker() == null) {
 			check = this.dao_projects.updatetaker(dto);
 			taker = dto.getProject_taker();
@@ -166,8 +161,6 @@ public class projectController {
 		}
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("taker", taker);
-		map.put("cat", "고양이");
-		System.out.println(taker);
 		return map;
 	}
 
@@ -176,22 +169,18 @@ public class projectController {
 	public void projectDeletetaker1(ProjectsDTO dto, HttpServletResponse response) {
 		int check = this.dao_projects.deletetaker1(dto);
 	}
-
 	@RequestMapping("project_Deletetaker2.do")
 	public void projectDeletetaker2(ProjectsDTO dto, HttpServletResponse response) {
 		int check = this.dao_projects.deletetaker2(dto);
 	}
-
 	@RequestMapping("project_Deletetaker3.do")
 	public void projectDeletetaker3(ProjectsDTO dto, HttpServletResponse response) {
 		int check = this.dao_projects.deletetaker3(dto);
 	}
-
 	@RequestMapping("project_Deletetaker4.do")
 	public void projectDeletetaker4(ProjectsDTO dto, HttpServletResponse response) {
 		int check = this.dao_projects.deletetaker4(dto);
 	}
-
 	@RequestMapping("project_Deletetaker5.do")
 	public void projectDeletetaker5(ProjectsDTO dto, HttpServletResponse response) {
 		int check = this.dao_projects.deletetaker5(dto);
@@ -200,7 +189,6 @@ public class projectController {
 	// 프로젝트 삭제하기 _ 세건
 	@RequestMapping("project_delete.do")
 	public void ProjectDelete(@RequestParam int num, HttpServletResponse response) throws IOException {
-		System.out.println(num);
 		int check = this.dao_projects.deleteProjects(num);
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
@@ -217,11 +205,6 @@ public class projectController {
 		int check = this.dao_projects.updateProjects(dto);
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
-		if (check > 0) {
-			out.println("<script>");
-			out.println("alert('변경되었습니다.')");
-			out.println("</script>");
-		}
 	}
 	
 	// 프로젝트 status 추가 _ 세건
@@ -243,11 +226,6 @@ public class projectController {
 		int check = this.dao_projects.updatestart(dto);
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
-		if (check > 0) {
-			out.println("<script>");
-			out.println("alert('변경되었습니다.')");
-			out.println("</script>");
-		}
 	}
 
 	// 프로젝트 마감일 변경 _ 세건
@@ -256,23 +234,14 @@ public class projectController {
 		int check = this.dao_projects.updateend(dto);
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
-		if (check > 0) {
-			out.println("<script>");
-			out.println("alert('변경되었습니다.')");
-			out.println("</script>");
-		}
 	}
 
 	// 프로젝트 상세내용 추가하기 _ 세건
 	@RequestMapping("project_InsertComment.do")
 	public void ProjectComment(ProjectsDTO dto, HttpServletResponse response) throws IOException {
 		this.dao_projects.updatecomment(dto);
-		System.out.println(dto.getProject_comment());
-		System.out.println(dto.getProject_no());
 	}
-
-	
-	 
+ 
 	 // 프로젝트 보드 보기 _ 세건
 	 @RequestMapping("project_board.do")
 	 public String projectboard(Model model) {		 
@@ -282,10 +251,9 @@ public class projectController {
 	 List<MemberDTO> mlist = this.dao.getMemberList(); model.addAttribute("mlist",
 	 mlist); model.addAttribute("list", list); model.addAttribute("main", main);
 	 model.addAttribute("status", status); 
-	 return "projects_include/project_board";
-	 
-		 
+	 return "projects_include/project_board"; 
 	 }
+	 
 	 // 프로젝트 status 변경 _ 세건
 	 @RequestMapping("project_UpdateStatus.do")
 	 public void updatestatus(ProjectsDTO dto, Projects_statusDTO sdto,HttpServletResponse response) throws IOException {

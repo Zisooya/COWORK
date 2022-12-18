@@ -148,12 +148,6 @@ $(function(){
 	    }
 	});
 	
-	/* 모달창 닫으면 리로딩 */
-	$(".btn-close").click(function(){
-		$(".hide").hide();
-		location.reload();
-	});
-	
 	/* 프로젝트 status 이동 */
 	$("#move").change(function(){
 		let project_status = $(this).val();
