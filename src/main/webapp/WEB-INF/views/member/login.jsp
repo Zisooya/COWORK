@@ -22,7 +22,7 @@
                 </div>
                 <div class="div">
                     <h5>ID</h5>
-                    <input type="text" class="input" id="mem_id" name="mem_id" required>
+                    <input type="text" class="input" id="mem_id" name="mem_id" autocomplete="off" required>
                 </div>
             </div>
             <div class="input-div pass">
@@ -62,6 +62,21 @@
                 $("#mem_pwd").focus();
                 return false;
             }
+            let loginData = {"mem_id" : mem_id, "mem_pwd" : mem_pwd};
+
+            /*$.ajax({
+                type : 'post',
+                data : JSON.stringify(loginData),
+                url : '${path}/member_loginCheck.do',
+                contentType: "application/json; charset=UTF-8",
+                success : function(data) {
+                    if (data === "false") {
+                        alert('잘못된 아이디이거나, 비밀번호가 일치하지 않습니다.');
+                        location.reload();
+                        return false;
+                    }
+                }
+            });*/
         });
 
         let key = getCookie("key");
@@ -69,6 +84,7 @@
 
         if ($("#mem_id").val() !== "") {
             $("#remember_me").attr("checked", true);
+            $(".input-div.one").addClass("focus");
         }
 
         $("#remember_me").change(function () {

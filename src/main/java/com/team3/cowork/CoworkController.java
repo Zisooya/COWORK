@@ -45,6 +45,25 @@ public class CoworkController {
 		return "member/msg";
 	}
 
+	/*@RequestMapping("member_loginCheck.do")
+	@ResponseBody
+	public void loginCheck(@ModelAttribute MemberDTO dto, HttpServletResponse response) throws IOException {
+		MemberDTO check = service.loginCheck(dto);
+
+		System.out.println("check는 >> " + check);
+		String str = "";
+
+		if (check != null) {
+			if (dto.getMem_pwd().equals(check.getMem_pwd())) {
+				str = "true";
+			} else {
+				str = "false";
+			}
+		}
+
+		response.getWriter().print(str);
+	}*/
+
 	@RequestMapping("member_logout.do")
 	public String logout(HttpSession session) {
 		service.memberLogout(session);
@@ -66,7 +85,7 @@ public class CoworkController {
 
 	@RequestMapping("member_idCheck.do")
 	@ResponseBody
-	public void checkId(String mem_id, HttpServletResponse response) throws IOException {
+	public void idCheck(String mem_id, HttpServletResponse response) throws IOException {
 		int result = 0;
 
 		if (service.idCheck(mem_id) != 0) {
@@ -136,5 +155,10 @@ public class CoworkController {
 		mav.addObject("memberFindPwd", pwd);
 
 		return mav;
+	}
+
+	@RequestMapping("myPage.do")
+	public String myPage() {
+		return "myPage";
 	}
 }
