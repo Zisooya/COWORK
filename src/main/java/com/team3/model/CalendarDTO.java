@@ -32,4 +32,5 @@ public class CalendarDTO {
 	private String cal_category;
 	private String cal_alarm;
 	private String cal_status;
+	private int cal_type_no;
 }
