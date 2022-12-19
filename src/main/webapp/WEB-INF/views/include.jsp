@@ -9,13 +9,15 @@
 <!-- 
 	<header id="header">
 		<div id="header_container"> -->
-			<div id="header_left">
+			<!-- <div id="header_left">
 				COWORK.
 			</div>	
 			<div id="company">
 				(주)그린테크
-			</div>
-			
+			</div> -->
+			<a href="<%=request.getContextPath() %>/">
+			<img id="logo_home" src="resources/images/COWORK.png" style="height: 60%; margin: 105px 0 0 40px;"/>
+			</a>
 			<div id="header_center">
 				<ul>
 					<li> <a href="<%=request.getContextPath() %>/calendar.do"> <img id="navi01" src="resources/images/캘린더.png" width="45" height="45" /><label for="navi01" id="arrow_box01">캘린더</label></a> </li>
