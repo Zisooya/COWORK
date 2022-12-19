@@ -70,7 +70,7 @@ nav label {
 	box-sizing: border-box;
 }
 
-#header_left {
+/* #header_left {
 	grid-column : 1/2;
 	grid-row : 1/2;	
 	font-size: 3rem;
@@ -87,7 +87,7 @@ nav label {
 	justify-self: end;
 	margin: 0 30px 0 20px;
 	
-}
+} */
 
 #header_right {
 	width: 80%;
