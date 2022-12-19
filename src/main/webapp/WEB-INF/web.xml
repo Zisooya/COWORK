@@ -78,6 +78,9 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 		
+		<!-- 웹소켓을 위한 비동기 설정 -->
+		<async-supported>true</async-supported>
+ 		
 		<!-- 파일 업로드 설정 -->
 		<!-- <multipart-config>
 			<location>C:/Users/user/Desktop/Github_desktop/COWORK/src/main/webapp/resources/address</location>

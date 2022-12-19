@@ -26,6 +26,10 @@
 		<typeAlias type="com.team3.model.AddressDAO" alias="addressDao"/>
 		<typeAlias type="com.team3.model.DepartmentDTO" alias="departmentDto"/>
 		<typeAlias type="com.team3.model.CustomerDTO" alias="customerDto"/>
+		<typeAlias type="com.team3.model.MessengerDAO" alias="messengerDao"/>
+		<typeAlias type="com.team3.model.Chat_RoomDTO" alias="chatRoomDto"/>
+		
+		
 		
 	
 		<!-- *************** 현우 *************** -->

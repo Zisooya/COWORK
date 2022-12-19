@@ -19,17 +19,6 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void memberJoin(MemberDTO dto) {
-        dto.setMem_name(dto.getMem_name());
-        dto.setMem_id(dto.getMem_id());
-        dto.setMem_pwd(dto.getMem_pwd());
-        dto.setMem_position(dto.getMem_position());
-        dto.setMem_rank(dto.getMem_rank());
-        dto.setDept_name(dto.getDept_name());
-        dto.setTeam_name(dto.getTeam_name());
-        dto.setMem_email(dto.getMem_email());
-        dto.setMem_phone(dto.getMem_phone());
-        dto.setMem_image(dto.getMem_image());
-
         dao.memberJoin(dto);
     }
 
@@ -55,7 +44,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<MemberDTO> memberFindId(MemberDTO dto) {
+    public String memberFindId(MemberDTO dto) {
         return dao.memberFindId(dto);
     }
 

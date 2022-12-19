@@ -1,17 +1,11 @@
 package com.team3.cowork;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.team3.model.*;
-import com.team3.model.member.MemberDAO;
 import com.team3.model.member.MemberDTO;
 import com.team3.model.member.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,41 +20,55 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class CoworkController {
 
-@Autowired
-private MemberDAO dao;
+	@Autowired
+	private MemberService service;
 
- @RequestMapping("drag.do")
- public String dragetest() {
-   return "projects_include/drag";
- }
-	
-	@Autowired private MemberService service;
-
-
-	@RequestMapping("member_login.do")	// 임시로 만든 메서드임. 추후 로그인 화면을 시작페이지로 변경 예정.
-	public String login() {
-		return "member/login";
+	@RequestMapping("main.do")
+	public String main() {
+		return "main";
 	}
 
 	@RequestMapping("member_login_ok.do")
-	public String loginOk(@ModelAttribute MemberDTO dto, HttpServletRequest request) {
+	public String loginOk(@ModelAttribute MemberDTO dto, HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
 
 		MemberDTO result = service.memberLogin(dto);
 
 		if (result != null) {
 			session.setAttribute("member", result);
-			return "redirect:/";
+			model.addAttribute("msg", null);
+			model.addAttribute("url", "main.do");
 		} else {
-			return "redirect:member_login.do";
+			model.addAttribute("msg", "아이디 또는 비밀번호가 올바르지 않습니다.");
+			model.addAttribute("url", "/");
 		}
+		return "member/msg";
 	}
+
+	/*@RequestMapping("member_loginCheck.do")
+	@ResponseBody
+	public void loginCheck(@ModelAttribute MemberDTO dto, HttpServletResponse response) throws IOException {
+		MemberDTO check = service.loginCheck(dto);
+
+		System.out.println("check는 >> " + check);
+		String str = "";
+
+		if (check != null) {
+			if (dto.getMem_pwd().equals(check.getMem_pwd())) {
+				str = "true";
+			} else {
+				str = "false";
+			}
+		}
+
+		response.getWriter().print(str);
+	}*/
 
 	@RequestMapping("member_logout.do")
 	public String logout(HttpSession session) {
 		service.memberLogout(session);
 
-		return "redirect:member_login.do";
+		return "redirect:/";
 	}
 
 	@RequestMapping("member_join.do")
@@ -72,12 +80,12 @@ private MemberDAO dao;
 	@RequestMapping("member_join_ok.do")
 	public String joinOk(@ModelAttribute MemberDTO dto) {
 		service.memberJoin(dto);
-		return "redirect:member_login.do";
+		return "redirect:/";
 	}
 
 	@RequestMapping("member_idCheck.do")
 	@ResponseBody
-	public void checkId(String mem_id, HttpServletResponse response) throws IOException {
+	public void idCheck(String mem_id, HttpServletResponse response) throws IOException {
 		int result = 0;
 
 		if (service.idCheck(mem_id) != 0) {
@@ -112,7 +120,7 @@ private MemberDAO dao;
 	public String memberDeleteOk(@RequestParam String mem_id, HttpSession session) {
 		service.memberDelete(mem_id, session);
 
-		return "redirect:member_login.do";
+		return "redirect:/";
 	}
 
 	@RequestMapping("member_findId.do")
@@ -124,10 +132,10 @@ private MemberDAO dao;
 	public ModelAndView memberFindIdOk(@ModelAttribute MemberDTO dto) {
 		ModelAndView mav = new ModelAndView();
 
-		List<MemberDTO> list = service.memberFindId(dto);
+		String id = service.memberFindId(dto);
 
-		mav.setViewName("member/login");
-		mav.addObject("memberFindId", list);
+		mav.setViewName("member/getId");
+		mav.addObject("memberFindId", id);
 
 		return mav;
 	}
@@ -143,9 +151,14 @@ private MemberDAO dao;
 
 		String pwd = service.memberFindPwd(dto);
 
-		mav.setViewName("member/login");
+		mav.setViewName("member/getPwd");
 		mav.addObject("memberFindPwd", pwd);
 
 		return mav;
+	}
+
+	@RequestMapping("myPage.do")
+	public String myPage() {
+		return "myPage";
 	}
 }

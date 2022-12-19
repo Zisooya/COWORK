@@ -45,54 +45,72 @@
 		</nav>
 	
 		<article id="content">
-	
-	
+			<div>
+				<button type="button" onclick="openSocket();">대화방 참여</button>
+				<button type="button" onclick="closeSocket();">대화방 나가기</button>
+				<br><br><br>
+				메세지 입력 :
+				<input type="text" id="sender" value="박지수" style="display: none;" >
+				<input type="text" id="messageinput">
+				<button type="button" onclick="send();">메세지 전송</button>
+				<button type="button" onclick="javascript:clearText();">대화내용 지우기</button>	
+			</div>
 		
+			<div id="messages">
+			</div>
 		</article>
 	
 	</div>
 <script type="text/javascript">
-$(function(){
-	
-	// '새로운 대화 버튼' 모달창
-	$("#messenger_newChat").click(function() {
-		
-	});
-/* 	
-	// 주소록 or 대화 목록 체크박스 하나만 선택되도록 하기.
-	$("input[id *= 'messenger_']").click(function(){
-	    if(this.checked) {
-	        const checkboxes = $("input[id *= 'messenger_']");
-	        for(let i = 0; i < checkboxes.length; i++){
-	            checkboxes[i].checked = false;
-	        }
-	        this.checked = true;
-	    } else {
-	        this.checked = false;
-	    }		
-	});
-	
-	// 사이드바 메뉴 주소록 / 대화 목록 선택
-	$('input[name=messenger_list]').change(function(){
-		
-        if($("#messenger_address").is(":checked")){
-		    $('#address_div').css('display', 'block');
-		    $('#chatList_div').css('display', 'none');	
-		    
-		    
-		    
-        }else if($("#messenger_chatList").is(":checked")){
-		     $('#address_div').css('display', 'none');
-		     $('#chatList_div').css('display', 'block');
-		     
-		     
-		     
-		     
+
+    var ws;
+    var messages = document.getElementById("messages");
+    
+    function openSocket(){
+        if(ws !== undefined && ws.readyState !== WebSocket.CLOSED ){
+            writeResponse("WebSocket is already opened.");
+            return;
         }
-	});	
-	 */
-	
-});
+        //웹소켓 객체 만드는 코드
+        ws = new WebSocket("ws://localhost:8282/cowork/messanger.do");
+        
+        ws.onopen = function(event){
+            if(event.data === undefined){
+          		return;
+            }
+            writeResponse(event.data);
+        };
+        
+        ws.onmessage = function(event){
+            console.log('writeResponse');
+            console.log(event.data)
+            writeResponse(event.data);
+        };
+        
+        ws.onclose = function(event){
+            writeResponse("대화 종료");
+        }
+        
+    }
+    
+    function send(){
+       // var text=document.getElementById("messageinput").value+","+document.getElementById("sender").value;
+        var text = document.getElementById("messageinput").value+","+document.getElementById("sender").value;
+        ws.send(text);
+        text = "";
+    }
+    
+    function closeSocket(){
+        ws.close();
+    }
+    
+    function writeResponse(text){
+        messages.innerHTML += "<br/>"+text;
+    }
+    function clearText(){
+        console.log(messages.parentNode);
+        messages.parentNode.removeChild(messages)
+  	}    
 </script>	
 </body>
 </html>
