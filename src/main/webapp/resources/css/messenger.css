@@ -225,7 +225,7 @@ input[name *= accordion_cb_] {
 }
 
 #right_chatRoomDetail{
-	background-color: red;
+	background-color: #E4F7BA;
 	width: 100%;
 	height: 100%;
 

@@ -30,7 +30,9 @@
 						<c:set var="oneToOneChatList" value="${oneToOneChatList}" />
 						<c:if test="${!empty oneToOneChatList }">
 							<c:forEach items="${oneToOneChatList }" var="chatRoomDto" varStatus="vs">
-								<input type="checkbox" id="accordion_cb_o${vs.index }" name="accordion_cb_oneToOne" value="${chatRoomDto.getChat_room_no() }">
+								<input type="checkbox" id="accordion_cb_o${vs.index }" 
+										name="accordion_cb_oneToOne" value="${chatRoomDto.getChat_room_no() }" 
+										onclick="openSocket(this.value);">
 								<label class="chat_room" for="accordion_cb_o${vs.index }">${chatRoomDto.getChat_room_name() }</label>
 							</c:forEach>
 						</c:if>
@@ -42,7 +44,9 @@
 						<c:set var="groupChatList" value="${groupChatList}" />
 						<c:if test="${!empty groupChatList }">
 							<c:forEach items="${groupChatList }" var="chatRoomDto2" varStatus="vs">
-								<input type="checkbox" id="accordion_cb_g${vs.index }" name="accordion_cb_group" value="${chatRoomDto2.getChat_room_no() }">
+								<input type="checkbox" id="accordion_cb_g${vs.index }" 
+										name="accordion_cb_group" value="${chatRoomDto2.getChat_room_no() }"
+										onclick="openSocket(this.value);" >
 								<label class="chat_room" for="accordion_cb_g${vs.index }">${chatRoomDto2.getChat_room_name() }</label>
 							</c:forEach>
 						</c:if>
@@ -56,7 +60,6 @@
 		<article id="content">
 			<div id="chat_grid_container">
 				<div id="messages" style="overflow-y: scroll;">
-					<button type="button" onclick="openSocket();" style="width:200px;">대화방 참여</button>
 					<button type="button" onclick="closeSocket();" style="width:200px;">대화방 나가기</button>
 				
 				</div>				
@@ -100,17 +103,28 @@ $(function(){
 	
 });
 
+
+	// 웹소켓 관련 내용
     var ws;
     var messages = document.getElementById("messages");
     
-    function openSocket(){
+    // 웹소켓 연결 요청(핸드쉐이크) 시 실행 함수
+    function openSocket(chat_room_no){
+    	
+    	console.log("현재 채팅방 번호는 ? "+chat_room_no);
+    	
+    	
         if(ws !== undefined && ws.readyState !== WebSocket.CLOSED ){
-            writeResponse("WebSocket is already opened.");
+            // writeResponse("WebSocket is already opened.");
             return;
         }
+        
         //웹소켓 객체 만드는 코드
+        //cowork는 프로젝트 이름
+        //messanger.do 웹소켓 서버단 @ServerEndpoint에 적은 path
         ws = new WebSocket("ws://localhost:8282/cowork/messanger.do");
         
+      	//웹 소켓이 서버와 연결되었을 때 호출되는 이벤트
         ws.onopen = function(event){
             if(event.data === undefined){
           		return;
@@ -118,36 +132,51 @@ $(function(){
             writeResponse(event.data);
         };
         
+      	//웹 소켓에서 메시지가 왔을 때 호출되는 이벤트
         ws.onmessage = function(event){
             console.log('writeResponse');
             console.log(event.data)
             writeResponse(event.data);
         };
         
+      	//웹 소켓이 닫혔을 때 호출되는 이벤트
         ws.onclose = function(event){
             writeResponse("대화 종료");
         }
-        
+      	
+        //웹 소켓이 에러가 났을 때 호출되는 이벤트
+        ws.onerror = function(event){
+            alert('에러');
+        };          
     }
     
+    // 메세지 전송 버튼 클릭 시 실행되는 함수
     function send(){
-       // var text=document.getElementById("messageinput").value+","+document.getElementById("sender").value;
         var text = document.getElementById("messageinput").value+","+document.getElementById("sender").value;
+     	
+        //웹소켓으로 textMessage객체의 값을 보낸다.
         ws.send(text);
+        
         text = "";
     }
     
+    //웹소켓 종료 함수
     function closeSocket(){
         ws.close();
     }
     
+    
     function writeResponse(text){
         messages.innerHTML += "<br/>"+text;
     }
+    
     function clearText(){
         console.log(messages.parentNode);
         messages.parentNode.removeChild(messages)
   	}    
+    
+
+    
 </script>	
 </body>
 </html>
