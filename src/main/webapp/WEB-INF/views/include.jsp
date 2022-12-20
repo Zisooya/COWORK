@@ -10,13 +10,14 @@
 	<header id="header">
 		<div id="header_container">
 			<div id="header_left">
-				COWORK.
+				<img id="logo_home" src="resources/images/COWORK.png" style="width:70%; height:70%; margin: 20px 10px 5px 10px; "/>
+
 			</div>	
 			<div id="company">
 				(주)그린테크
-			</div> -->
+			</div>
 			<a href="<%=request.getContextPath() %>/">
-			<img id="logo_home" src="resources/images/COWORK.png" style="height: 60%; margin: 105px 0 0 40px;"/>
+			
 			</a>
 			<div id="header_center">
 				<ul>
