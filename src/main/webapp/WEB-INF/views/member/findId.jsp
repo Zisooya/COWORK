@@ -3,7 +3,7 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
-    <title>아이디찾기</title>
+    <title>아이디 찾기</title>
     <script
             src="https://code.jquery.com/jquery-3.6.1.js"
             integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
@@ -50,20 +50,35 @@
     <div class="row align-items-center justify-content-between">
         <span class="text-dark h2 text-center">아이디 찾기</span>
     </div>
-    <form class="form-style">
+    <form class="form-style" role="form" method="post" action="${path}/member_findId_ok.do">
         <div class="form-group form-input">
-            <label for="name" class="form-label mt-4">이름</label>
-            <input type="text" class="form-control" id="name" />
+            <label for="mem_name" class="form-label mt-4">이름</label>
+            <input type="text" class="form-control" id="mem_name" name="mem_name"/>
         </div>
         <div class="form-group form-input">
-            <label class="form-label mt-4" for="inputValid">EMAIL</label>
-            <input type="email" class="form-control" id="inputValid" />
-            <div class="valid-feedback"></div>
+            <label class="form-label mt-4" for="mem_email">EMAIL</label>
+            <input type="email" class="form-control" id="mem_email" name="mem_email"/>
+            <div class="check_font" id="email_check"></div>
         </div>
         <div class="d-grid gap-2">
-            <button class="btn btn-primary btn-lg" type="button">찾기</button>
+            <button class="btn btn-primary btn-lg" type="submit">찾기</button>
         </div>
     </form>
 </div>
 </body>
+<script>
+    // 이메일 검사 정규식
+    let mailJ =
+        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+    $("#mem_email").blur(function () {
+        if (mailJ.test($(this).val())) {
+            $("#email_check").text("");
+        } else {
+            $("#email_check").text("이메일을 확인하세요.");
+            $("#email_check").css("color", "red");
+        }
+    });
+
+</script>
 </html>
