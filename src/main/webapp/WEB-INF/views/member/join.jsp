@@ -105,6 +105,7 @@
                 action="${ path }/member_join_ok.do"
                 method="post"
                 role="form"
+                enctype="multipart/form-data"
                 id="user_check"
                 name="member"
         >
@@ -144,7 +145,7 @@
                         id="mem_name"
                         name="mem_name"
                 />
-                <div class="check_font" id="name_check"></div>
+                <%--<div class="check_font" id="name_check"></div>--%>
             </div>
 
             <div class="form-group">
@@ -219,7 +220,7 @@
                     <canvas id="canvas"></canvas>
                 </div>
                 <br>
-                <input type="file" class="form-control" id="mem_image" name="mem_image" onChange="uploadImgPreview();" accept="image/*">
+                <input type="file" class="form-control" id="mem_image" name="file" onChange="uploadImgPreview();" accept="image/*">
             </div>
 
             <div class="form-group text-center" id="btn_box">
@@ -240,8 +241,8 @@
     let idJ = /^[a-z0-9][a-z0-9_\-]{4,19}$/;
     // 비밀번호 정규식
     let pwJ = /^[A-Za-z0-9]{4,12}$/;
-    // 이름 정규식
-    let nameJ = /^[가-힣]{2,4}|[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
+    /*// 이름 정규식
+    let nameJ = /^[가-힣]{2,4}|[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;*/
     // 이메일 검사 정규식
     let mailJ =
         /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
@@ -294,7 +295,7 @@
     });
 
     $("form").on("submit", function () {
-        let in_val_arr = new Array(5).fill(false);
+        let in_val_arr = new Array(4).fill(false);
         if (idJ.test($("#mem_id").val())) {
             in_val_arr[0] = true;
         } else {
@@ -313,29 +314,29 @@
             alert("비밀번호를 확인하세요.");
             return false;
         }
-        // 이름 정규식
+        /*// 이름 정규식
         if (nameJ.test($("#mem_name").val())) {
             in_val_arr[2] = true;
         } else {
             in_val_arr[2] = false;
             alert("이름을 확인하세요.");
             return false;
-        }
+        }*/
         // 이메일 정규식
         if (mailJ.test($("#mem_email").val())) {
             console.log(phoneJ.test($("#mem_email").val()));
-            in_val_arr[3] = true;
+            in_val_arr[2] = true;
         } else {
-            in_val_arr[3] = false;
+            in_val_arr[2] = false;
             alert("이메일을 확인하세요.");
             return false;
         }
         // 휴대폰번호 정규식
         if (phoneJ.test($("#mem_phone").val())) {
             console.log(phoneJ.test($("#mem_phone").val()));
-            in_val_arr[4] = true;
+            in_val_arr[3] = true;
         } else {
-            in_val_arr[4] = false;
+            in_val_arr[3] = false;
             alert("휴대폰 번호를 확인하세요.");
             return false;
         }
@@ -388,7 +389,7 @@
         }
     });
 
-    // 이름에 특수문자 들어가지 않도록 설정
+    /*// 이름에 특수문자 들어가지 않도록 설정
     $("#mem_name").blur(function () {
         if (nameJ.test($(this).val())) {
             console.log(nameJ.test($(this).val()));
@@ -399,7 +400,7 @@
             );
             $("#name_check").css("color", "red");
         }
-    });
+    });*/
 
     $("#mem_email").blur(function () {
         if (mailJ.test($(this).val())) {
@@ -422,62 +423,46 @@
     });
 
     function uploadImgPreview() {
-        // @breif 업로드 파일 읽기
 
         let fileInfo = document.getElementById("mem_image").files[0];
 
         let reader = new FileReader();
 
-        // @details INDEX #01 실행 이후, 파일의 업로드( onload )가 확인되고 나서 실행된다.
-
         reader.onload = function () {
-            console.log("INDEX #02");
-
-            // @details 업로드한 파일의 URL을 가져온다.
 
             document.getElementById("preview").src = reader.result;
 
             $("#preview").hide();
 
-            // @breif 썸네일 이미지 생성
+            let tempImage = new Image();
 
-            let tempImage = new Image(); // @details drawImage 메서드에 넣기 위해 이미지 객체화
-
-            tempImage.src = reader.result; // @details data-uri를 이미지 객체에 주입
+            tempImage.src = reader.result;
 
             tempImage.addEventListener("load", function () {
-                // @breif 캔버스 위에 이미지 그리기
+
                 $("#canvas").show();
 
                 let canvas = document.getElementById("canvas");
 
                 let canvasContext = canvas.getContext("2d");
 
-                // @breif 캔버스 크기 셋팅
-
                 canvas.width = 240;
 
                 canvas.height = 300;
 
-                // @breif 캔버스 위에 이미지 그리기
-
                 canvasContext.drawImage(
-                    this, // @details 업로드한 이미지 파일의 정보
+                    this,
 
-                    -10, // @details X좌표
+                    -10,
 
-                    -10, // @details Y좌표
+                    -10,
 
-                    270, // @details 넣을 이미지의 가로 사이즈( 해당 예제는 변화를 보기위해 살짝 크게 했다. )
+                    270,
 
-                    330 // @details 넣을 이미지의 세로 사이즈( 해당 예제는 변화를 보기위해 살짝 크게 했다. )
+                    330
                 );
 
-                // @breif 캔버스 위에 이미지 그리기
-
                 canvasContext.stroke();
-
-                // @breif 캔버스의 이미지 URL 정보를 받아 썸네일 출력
 
                 let dataURI = canvas.toDataURL("image/jpeg");
             });
@@ -485,8 +470,6 @@
 
         if (fileInfo) {
             console.log("INDEX #01");
-
-            // @details readAsDataURL을 통해 업로드한 파일의 URL을 읽어 들인다.
 
             reader.readAsDataURL(fileInfo);
         }

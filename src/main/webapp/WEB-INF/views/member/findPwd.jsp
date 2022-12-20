@@ -3,7 +3,7 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
-    <title>아이디찾기</title>
+    <title>비밀번호 찾기</title>
     <script
             src="https://code.jquery.com/jquery-3.6.1.js"
             integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
@@ -50,25 +50,51 @@
     <div class="row align-items-center justify-content-between">
         <span class="text-dark h2 text-center">비밀번호 찾기</span>
     </div>
-    <form class="form-style">
+    <form class="form-style" role="form" method="post" action="${path}/member_findPwd_ok.do">
         <div class="form-group form-input">
-            <label for="name" class="form-label mt-4">이름</label>
-            <input type="text" class="form-control" id="name" />
+            <label for="mem_name" class="form-label mt-4">이름</label>
+            <input type="text" class="form-control" id="mem_name" name="mem_name" />
         </div>
         <div class="form-group form-input">
-            <label class="form-label mt-4" for="inputValid">ID</label>
-            <input type="text" class="form-control" id="inputValid" />
-            <div class="valid-feedback"></div>
+            <label class="form-label mt-4" for="mem_id">ID</label>
+            <input type="text" class="form-control" id="mem_id" name="mem_id"/>
+            <div class="check_font" id="id_check"></div>
         </div>
         <div class="form-group form-input">
-            <label class="form-label mt-4" for="inputValEmail">EMAIL</label>
-            <input type="email" class="form-control" id="inputValEmail" />
-            <div class="valid-feedback"></div>
+            <label class="form-label mt-4" for="mem_email">EMAIL</label>
+            <input type="email" class="form-control" id="mem_email" name="mem_email"/>
+            <div class="check_font" id="email_check"></div>
         </div>
         <div class="d-grid gap-2">
-            <button class="btn btn-primary btn-lg" type="button">찾기</button>
+            <button class="btn btn-primary btn-lg" type="submit">찾기</button>
         </div>
     </form>
 </div>
 </body>
+<script>
+    // 아이디 정규식
+    let idJ = /^[a-z0-9][a-z0-9_\-]{4,19}$/;
+    // 이메일 검사 정규식
+    let mailJ =
+        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+    $("#mem_id").blur(function () {
+        if (idJ.test($("#mem_id").val())) {
+            $("#id_check").text("");
+        } else {
+            $("#id_check").text("아이디를 확인하세요.");
+            $("#id_check").css("color", "red");
+        }
+    });
+
+    $("#mem_email").blur(function () {
+        if (mailJ.test($(this).val())) {
+            $("#email_check").text("");
+        } else {
+            $("#email_check").text("이메일을 확인하세요.");
+            $("#email_check").css("color", "red");
+        }
+    });
+
+</script>
 </html>
