@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,6 +29,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.team3.model.Cal_Upload;
 import com.team3.model.CalendarDAO;
 import com.team3.model.CalendarDTO;
+import com.team3.model.Calendar_TypeDAO;
+import com.team3.model.Calendar_TypeDTO;
+import com.team3.model.member.MemberDTO;
 
 @Controller
 public class CalendarController {
@@ -34,9 +39,16 @@ public class CalendarController {
 	@Autowired
 	private CalendarDAO dao_cal;
 
+	@Autowired
+	private Calendar_TypeDAO dao_calType;
+	
 	@RequestMapping("calendar.do")
-	public String calendarMain(Model model) {
-
+	public String calendarMain(HttpServletRequest request, Model model) {
+		HttpSession session = request.getSession();
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		int mem_no = member.getMem_no();
+		List<Calendar_TypeDTO> list = this.dao_calType.getCalTypeList(mem_no);
+		model.addAttribute("CalTypeList", list);
 		return "cal_main";
 	}
 
@@ -143,11 +155,9 @@ public class CalendarController {
 		 int id = Integer.parseInt((String) param.get("id"));
 		 String start = (String)param.get("start");
 		 String end = (String)param.get("end");
-		 boolean allDay = (Boolean) param.get("allDay");
 		 //System.out.println("id : "+id);
 		 //System.out.println("start : "+start);
 		 //System.out.println("end : "+end);
-		 //System.out.println("allDay : "+allDay);
 		 
 		 SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 		 SimpleDateFormat output = new SimpleDateFormat("yyyy/MM/dd HH:mm");

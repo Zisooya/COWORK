@@ -23,7 +23,13 @@ public class CalendarDAOImpl implements CalendarDAO{
 
 	@Override
 	public int insertEvent(CalendarDTO dto) {
-		return this.sqlSession.insert("calAdd", dto);
+		int res = 0;
+		if(dto.getCal_repeat().equals("no_repeat")) {
+			res = this.sqlSession.insert("calAdd", dto);
+		}else if(dto.getCal_repeat().equals("cycle_d_1")) {
+			res = this.sqlSession.insert("calAdd_repeat_d_1", dto);
+		}
+		return res;
 	}
 
 	@Override
