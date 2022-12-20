@@ -69,7 +69,7 @@
 	
 	
 	<!-- 주소록 파일업로드 설정 -->
-	<servlet>
+	<!--<servlet>
 		<servlet-name>appServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
@@ -87,7 +87,7 @@
 			<max-file-size>20971520</max-file-size> 
 			<max-request-size>41943040</max-request-size> 
 			<file-size-threshold>20971520</file-size-threshold> 
-		</multipart-config> -->
-	</servlet>
+		</multipart-config> &ndash;&gt;
+	</servlet>-->
 	
 </web-app>

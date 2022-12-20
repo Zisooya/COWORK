@@ -29,12 +29,14 @@
 		<typeAlias type="com.team3.model.MessengerDAO" alias="messengerDao"/>
 		<typeAlias type="com.team3.model.Chat_RoomDTO" alias="chatRoomDto"/>
 		<typeAlias type="com.team3.model.Chat_MemberDTO" alias="chatMemberDto"/>
+
 		
 		
 	
 		<!-- *************** 현우 *************** -->
 		<typeAlias type="com.team3.model.CalendarDAO" alias="caldao"/>
 		<typeAlias type="com.team3.model.CalendarDTO" alias="caldto"/>
+		<typeAlias type="com.team3.model.Calendar_TypeDTO" alias="calTypeDto"/>
 	
 		<!-- *************** 세건 *************** -->
 		<typeAlias type="com.team3.model.ProjectsDAO" alias="projectsdao"/>

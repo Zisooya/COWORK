@@ -12,14 +12,19 @@
 		<result property="allDay" column="cal_allday"/>
 	</resultMap>
  	
- 	<!-- *******************현우**********************-->
  	<select id="calList" parameterType="int" resultMap="calMap">
-		<!-- select * from calendar where mem_no = #{mem_no} -->
-		select * from calendar c join member m
-		on c.mem_no = m.mem_no
-		where c.mem_no = #{mem_no}
+		select * from calendar where mem_no =
+		(select distinct c.mem_no from calendar c join member m on c.mem_no =
+		m.mem_no where m.mem_no = 3)
+	</select>
+ 	
+ 	<select id="calTypeList" parameterType="int" resultType="calTypeDto">
+		select * from calendar_type where mem_no =
+		(select distinct c.mem_no from calendar c join member m on c.mem_no =
+		m.mem_no where m.mem_no = 3)
 	</select>
 	
+	<!-- 반복 : 안 함 -->
 	<insert id="calAdd" parameterType="caldto">
 		<selectKey resultType="int" keyProperty="cal_no" order="BEFORE">
 			select max(cal_no) from calendar
@@ -29,7 +34,30 @@
 		on c.mem_no = m.mem_no
 		where m.mem_no = #{mem_no}), #{cal_mark}, #{title}, to_date(#{start},'yyyy.mm.dd hh24:mi'), to_date(#{end},'yyyy.mm.dd hh24:mi'),
 		#{allDay},#{cal_repeat},'','','','', default, '', #{cal_attendee1},'','','','','',#{cal_type_name},#{cal_place},#{cal_memo},#{cal_file},
-		#{cal_category},'',#{cal_status})
+		#{cal_category},'',#{cal_status},#{cal_type_no})
+	</insert>
+	
+	<!-- 반복 : 매일 -->
+	<insert id="calAdd_repeat_d_1" parameterType="caldto">
+		<selectKey resultType="int" keyProperty="cal_no" order="BEFORE">
+			select max(cal_no) from calendar
+		</selectKey>
+		declare
+			r_count number(3) := 0;
+		begin
+			loop
+				if(r_count >= 365) then
+					exit;
+				end if;
+				insert into calendar values(#{cal_no}+r_count+1,
+				(select distinct c.mem_no from calendar c join member m
+				on c.mem_no = m.mem_no
+				where m.mem_no = #{mem_no}), #{cal_mark}, #{title}, to_date(#{start},'yyyy.mm.dd hh24:mi')+r_count, to_date(#{end},'yyyy.mm.dd hh24:mi')+r_count,
+				#{allDay},#{cal_repeat},'','','','', default, '', #{cal_attendee1},'','','','','',#{cal_type_name},#{cal_place},#{cal_memo},#{cal_file},
+				#{cal_category},'',#{cal_status},#{cal_type_no});
+				r_count := r_count+1;
+			end loop;
+		end;
 	</insert>
 	
 	<update id="calUpdate_drag" parameterType="caldto">

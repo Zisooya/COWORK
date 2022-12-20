@@ -218,23 +218,33 @@
 								var eAllday;
 								var eMemo = element.cal_memo;
 								var ePlace = element.cal_place;
-								var eCalName = element.cal_type_name;
+								var eCalNo = element.cal_type_no;
 								var eColor;
 								var eMark = element.cal_mark;
+								
 								// category값 설정되어있으면 그 색을 우선 적용
-								if (element.cal_category != null) {
+								if (element.cal_category != "none") {
 									eColor = element.cal_category;
 								} else {
-									eColor = element.cal_type_color;
+									/* var list = '<c:out value="${CalTypeList}"/>';
+									for (var i = 0; i < list.length; i++){
+										if(list[i].cal_type_no == eCalNo) {
+											eColor = list[i].cal_type_color;
+										}
+									} */
+									/* <c:forEach items="${CalTypeList}" var="dto" varStatus="i" begin="0">
+										if(dto.getCal_type_no == eCalNo) {
+											eColor = dto.getCal_type_color;
+										}
+									</c:forEach> */
 								}
+								
 								if (element.allDay == "on") {
 									eAllday = true;
 								} else {
 									eAllday = false;
 								}
-								if (eEndDate == null) {
-									eEndDate = eStartDate;
-								}
+								
 								events.push({
 									color : eColor,
 									id : eId,
@@ -244,7 +254,7 @@
 									allDay : eAllday,
 									memo : eMemo,
 									place : ePlace,
-									cal_name : eCalName,
+									cal_no : eCalNo,
 									mark : eMark
 								}); // push() end
 							}); // each() end
@@ -276,8 +286,6 @@
                 obj.id = eventObj.id;
                 obj.start = eventObj.start;
                 obj.end = eventObj.end;
-                obj.allDay = eventObj.allDay;
-                console.log(obj);
                 
     			$.ajax({
     				url : 'cal_update_drag.do',
@@ -394,6 +402,7 @@
 		calendar.render();
 	});
 	$(function(){
+		$("#loading").css("visibility","hidden");
 		const save_btn = document.getElementById('save_btn');
 		function end_must_more() { // 시작일 > 종료일 이면 나오는 알림창, 저장 버튼도 비활성화
 			if(start_date_select > end_date_select) {
@@ -609,6 +618,9 @@ a {
 <link href="${path}/resources/css/include.css" rel="stylesheet" />
 </head>
 <body>
+	<div id="loading">
+        <img SRC="https://img1.daumcdn.net/thumb/R1920x0/?fname=http%3A%2F%2Fcfile1.uf.tistory.com%2Fimage%2F9950163C5AFE32810A7310">    
+    </div>
 	<div id="grid_container">
 		<jsp:include page="include.jsp" />
 		<nav id="side">
@@ -683,7 +695,54 @@ a {
 					</select>
 					<br>
 					캘린더
-					<select name="cal_type_name">
+					<select name="cal_type_no">
+						<c:forEach items="${CalTypeList}" var="dto" varStatus="i" begin="0" end="0">
+							<option value="${dto.getCal_type_no()}">
+							<c:choose>
+								<c:when test="${dto.getCal_type_color() eq 'red'}">
+									🔴
+								</c:when>
+								<c:when test="${dto.getCal_type_color() eq 'yellow'}">
+									🟡
+								</c:when>
+								<c:when test="${dto.getCal_type_color() eq 'green'}">
+									🟢
+								</c:when>
+								<c:when test="${dto.getCal_type_color() eq 'blue'}">
+									🔵
+								</c:when>
+								<c:when test="${dto.getCal_type_color() eq 'purple'}">
+									🟣
+								</c:when>
+								<c:otherwise>
+								</c:otherwise>
+							</c:choose>
+							[기본] ${dto.getCal_type_name()}</option>
+						</c:forEach>
+						<c:forEach items="${CalTypeList}" var="dto" varStatus="i" begin="1">
+							<option value="${dto.getCal_type_no()}">
+							<c:choose>
+								<c:when test="${dto.getCal_type_color() eq 'red'}">
+									🔴
+								</c:when>
+								<c:when test="${dto.getCal_type_color() eq 'yellow'}">
+									🟡
+								</c:when>
+								<c:when test="${dto.getCal_type_color() eq 'green'}">
+									🟢
+								</c:when>
+								<c:when test="${dto.getCal_type_color() eq 'blue'}">
+									🔵
+								</c:when>
+								<c:when test="${dto.getCal_type_color() eq 'purple'}">
+									🟣
+								</c:when>
+								<c:otherwise>
+								</c:otherwise>
+							</c:choose>
+							${dto.getCal_type_name()}</option>
+						</c:forEach>
+						<!--
 						<c:if test="${!empty member.mem_cal1}">
 							<option value="${member.mem_cal1}" value2="${member.mem_cal1_color}">
 							<c:choose>
@@ -753,6 +812,7 @@ a {
 							</c:choose>
 							${member.mem_cal3}</option>
 						</c:if>
+						-->
 					</select>
 					<br>
 					참석자
