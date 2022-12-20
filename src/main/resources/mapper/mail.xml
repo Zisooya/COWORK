@@ -75,7 +75,6 @@
    <resultMap id="empListResultSet" type="departmentDto">
 		<id property="dept_no" column="dept_no"/>
 		<result property="dept_naem" column="dept_name"/>
-		<result property="mem_name" column="mem_name"/>
 	</resultMap>
    
    <resultMap id="empResultSet" type="MemberDTO">
