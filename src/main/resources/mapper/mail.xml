@@ -11,7 +11,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-  <mapper namespace="EmailDAO">
+  <mapper namespace="emailDao">
   	<resultMap type="emailDto" id="mailResultSet">
 		<id column="eml_no" property="eml_no"/>
 		<result column="eml_from" property="eml_from"/>
@@ -78,19 +78,92 @@
 		<result property="mem_name" column="mem_name"/>
 	</resultMap>
    
+   <resultMap id="empResultSet" type="MemberDTO">
+		<id property="eml_from" column="eml_from"/>
+		<result property="mem_name" column="mem_name"/>
+	</resultMap>
+   
 	<!-- 메일 작성 -->
 	<insert id="insertMail" parameterType="EmailDto">
-		insert into mail
-		values(seq_mno.nextval, #{eml_from}, #{eml_to}, #{eml_title}, #{eml_content}, sysdate, default,
-				 default, #{importantFlag}, #{filename}, #{filepath}, default, default)
+		insert into email
+		values(seq_email.nextval, #{eml_from}, #{eml_to}, #{eml_title}, #{eml_content}, sysdate, default,
+				 default, #{importantFlag}, default, default, #{filename}, #{filepath})
 	</insert>
 	
+	<!-- 메일 작성자 -->
+	<select id="selectSendEmp" parameterType="_int" resultMap="empResultSet">
+		SELECT E.mem_id, E.mem_name
+		FROM MEMBER E
+		JOIN EMAIL M ON E.EMP_ID=M.eml_from
+		WHERE M.eml_NO=#{mno}
+	</select>
+	
+	<!-- 보낸 메일함 갯수 -->
+	<select id="selectSendMailListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM EMAIL
+		WHERE EML_From=#{eml_from}
+		AND WRITER_STATUS=1 
+	</select>
+	
+	<!-- 보낸메일함 리스트 받아오기 -->
+	<select id="selectSendMailList" resultMap="sendResultSet">
+		SELECT
+		    *
+		FROM EMAIL A
+		JOIN MEMBER B ON A.RECEIVER_status = B.MEM_ID
+		WHERE A.WRITER_STATUS=1
+		AND A.EML_From=#{eml_from}
+		ORDER BY A.EML_NO DESC
+	</select>
+	
+	<!-- 보낸메일보기 -->
+	<select id="selectSendMail" parameterType="_int" resultMap="sendResultSet">
+		SELECT
+		    *
+		FROM EMAIL A
+		JOIN MEMBER B ON A.RECEIVER_STATUS=B.MEM_ID
+		AND A.EML_NO=#{mno}
+	</select>
+	
+	<!-- 받은 메일함 갯수 -->
+	<select id="selectReceiveMailListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM EMAIL
+		WHERE eml_to=#{eml_from}
+		AND receiver_STATUS=1 
+	</select>
+	
+	<!-- 받은메일함 리스트 받아오기 -->
+	<select id="selectReceiveMailList" resultMap="receiveResultSet">
+		SELECT
+		    *
+		FROM EMAIL A
+		JOIN MEMBER B ON A.eml_from=B.MEM_ID
+		WHERE A.receiver_STATUS=1
+		AND A.EML_to=#{eml_from}
+		ORDER BY A.EML_NO DESC
+	</select>
+	
+	<!-- 받은 메일 조회수 증가 -->
+	<update id="increaseCount" parameterType="_int">
+		UPDATE EMAIL
+		SET READ_count=READ_count+1
+		WHERE EML_NO=${mno}
+	</update>
+	
+	<!-- 이름으로 아이디 불러오기 -->
+	<select id="getReceiver" resultMap="memberResultSet" parameterType="String">
+		SELECT * FROM MEMBER
+		WHERE MEM_NAME=#{EML_TO}
+	</select>
+	
 	<!-- 주소록  -->
-	<select id="selectEmployeeList" parameterType="String" resultMap="empListResultSet">
-		SELECT MEM_ID, MEM_NAME, m.DEPT_NAME, MEM_RANK
+	<select id="selectMemberDTOList" parameterType="String" resultMap="empListResultSet">
+		SELECT mem_no, MEM_NAME, mem_position, MEM_RANK
 		FROM MEMBER m join department d
-		on (m.dept_no = #{DeptNo})
-		where m.dept_no = #{DeptNo}
+		on (m.dept_no = #{dept_no})
+		where m.dept_no = #{dept_no}
 		ORDER BY 1
 	</select>
   </mapper>

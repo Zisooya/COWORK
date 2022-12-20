@@ -9,6 +9,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.team3.model.mail.CommException;
+
 import com.team3.model.member.MemberDTO;
 
 @Repository
@@ -74,14 +76,12 @@ public class EmailDAOImpl implements EmailDAO{
 
 	@Override
 	public int selectReceiveMailListCount(String mem_id) {
-		// TODO Auto-generated method stub
-		return 0;
+		return mailservice.selectReceiveMailListCount(sqlSession, mem_id);
 	}
 
 	@Override
 	public ArrayList<EmailDTO> selectReceiveMailList(PageDTO dto, String mem_name) {
-		// TODO Auto-generated method stub
-		return null;
+		return mailservice.selectReceiveMailList(sqlSession, dto, mem_name);
 	}
 
 	@Override
@@ -110,8 +110,17 @@ public class EmailDAOImpl implements EmailDAO{
 
 	@Override
 	public EmailDTO selectReceiveMail(int mno) {
-		// TODO Auto-generated method stub
-		return null;
+		EmailDTO m = null;
+		
+		int result = mailservice.increaseCount(sqlSession, mno);
+		
+		if(result < 0) {
+			throw new CommException("increaseCount 실패");
+		}else {
+			m = mailservice.selectReceiveMail(sqlSession, mno);
+		}
+		
+		return m;
 	}
 
 }

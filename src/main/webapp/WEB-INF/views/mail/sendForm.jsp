@@ -27,14 +27,13 @@ ul{
 	text-align: center;
 }
 
-#side_menu li a{
-	padding: 5px 0px;
-}
-
-
 a{
 	text-decoration-line: none;
 	padding: 10px 10px
+}
+
+.mailMap{
+	padding: 10px 80px;
 }
 
 .meun li a:hover{
@@ -43,6 +42,8 @@ a{
 	color: #555; 
 	background: #7BE66D;
 	background-size: auto;
+	text-decoration-line: none;
+	padding: 10px 10px
 }
 
 input:focus{
@@ -67,9 +68,9 @@ input{
  		<div align="center">
  			<label id="side_label">전자메일</label>
  		</div>
- 		<div id="side_menu" style="overflow-y: hide; height: 65%; width: 65%;">
+ 		<div id="side_menu" style="overflow-y: auto; height: 84%">
  			<hr>
- 			<input class="" type="button" value="메일쓰기" onclick="location.href='send.do'">
+ 			<input class="mailMap" type="button" value="메일쓰기" onclick="location.href='send.do'">
  			<hr>
  			<ul class="meun">
  				<li class="liany"><a href="mail_list.do">전체메일</a></li>
@@ -90,6 +91,6 @@ input{
 		<article id="content">
 			<jsp:include page="send.jsp"/>
 		</article>
-	</div>				
+	</div>			
 </body>
 </html>

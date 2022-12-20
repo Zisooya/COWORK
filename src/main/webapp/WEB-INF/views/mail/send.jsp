@@ -55,13 +55,13 @@ label {
 	<!-- 메일 폼 시작 -->
 	<div class="pd-20 card-box mb-30">
 	<form action="" method="post" enctype="multipart/form-data" id="insertMail">
-						<input type="hidden" readonly class="form-control-plaintext" name="empId" value="${sessionScope.loginUser.empId }">
+						<input type="hidden" readonly class="form-control-plaintext" name="mem_id" value="${sessionScope.loginUser.eml_from }">
 						
 						<div class="form-group">
 							<div class="mailReceiver">
 								<div class="form-group">
 									<input class="form-control" type="text" data-toggle="tooltip" title="주소록에서 선택해 주세요."
-										name="receiverName" readonly="readonly" required="required" placeholder="받는 사람">
+										name="receiverName" required="required" placeholder="받는 사람">
 									<input type="hidden" name="receiver">
 								</div>
 								<div class="form-group">
@@ -124,10 +124,10 @@ label {
 										<thead class="table-primary">
 											<tr>
 												<th></th>
-												<th>이름</th>
 												<th>사번</th>
+												<th>이름</th>
+												<th>직책</th>
 												<th>직급</th>
-												<th>권한</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -151,9 +151,9 @@ label {
  $(function(){
 	$("#searchEmp").click(function(){
 		
-		var deptCode = $("option:selected").val();
+		var dept_no = $("option:selected").val();
 		
-		if(deptCode == "부서 선택"){
+		if(dept_no == "부서 선택"){
 				
 			swal({
                   type: 'error',
@@ -165,21 +165,21 @@ label {
 		
 		$.ajax({
 			url:'<%=request.getContextPath()%>empList.do',
-			data:{deptCode:deptCode},
+			data:{dept_no:dept_no},
 			type:"get",
 			success:function(map){
 				
 				var $tableBody = $("#eList tbody");
 				$tableBody.html("");
 				
-				$.each(map["jrr"], function(i, emp){
+				$.each(map["jrr"], function(i, mem){
 					
 					var $tr = $("<tr>");
 					var $ckTd = $("<td><input type='checkBox' class='checkEmp' name='checkEmp'></td>");
-					var $nameTd = $("<td>").text(mem.getMem_name);
-					var $idTd = $("<td>").text(mem.getMem_id);
-					var $jobTd = $("<td>").text(mem.getDept_name);
-					var $rightTd = $("<td>").text(mem.getMem_rank);
+					var $nameTd = $("<td>").text(mem.mem_name);
+					var $idTd = $("<td>").text(mem.mem_position);
+					var $jobTd = $("<td>").text(mem.mem_rank);
+					var $rightTd = $("<td>").text(mem.mem_email);
 					
 					$tr.append($ckTd);
 					$tr.append($nameTd);
@@ -204,12 +204,12 @@ label {
 function selectReceiver(){
 	var tr = $("input[class=checkEmp]:checked").parent().parent().eq(0);
 	var td = tr.children();
-	var userName = td.eq(1).text();
-	var empId = td.eq(2).text();
+	var mem_name = td.eq(1).text();
+	var mem_id = td.eq(2).text();
 	
-	var deptCode = $("option:selected").val();
+	var dept_no = $("option:selected").val();
 	
-	if(deptCode == "부서 선택"){
+	if(dept_no == "부서 선택"){
 			
 		swal(
                {
@@ -231,8 +231,8 @@ function selectReceiver(){
 		return false;
 	}
 	
-	$("input[name=receiverName]").val(userName);
-	$("input[name=receiver]").val(empId);
+	$("input[name=receiverName]").val(mem_name);
+	$("input[name=receiver]").val(mem_id);
 	$("#bd-example-modal-lg").modal("hide");	
 }
 

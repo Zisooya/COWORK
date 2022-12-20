@@ -42,7 +42,7 @@ public class EmailController {
 	// 메일 작성하기
 	@RequestMapping("insert.do")
 	public String insertMail(EmailDTO dto, HttpServletRequest request, HttpSession session,
-			@RequestParam(defaultValue = "uploadFile", required = false) MultipartFile file) throws Exception {
+			@RequestParam(name = "uploadFile", required = false) MultipartFile file) throws Exception {
 
 		if (!file.getOriginalFilename().equals("")) {
 			String changeName = saveFile(file, request);
@@ -84,7 +84,7 @@ public class EmailController {
 	}
 	
 	// 보낸메일함
-	@RequestMapping("sendList.ml")
+	@RequestMapping("sendList.do")
 	public String selectSendMailList(
 			@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage, Model model,
 			HttpServletRequest request) {
@@ -104,7 +104,7 @@ public class EmailController {
 	}
 	
 	// 보낸 메일 보기
-	@RequestMapping("sendDetail.ml")
+	@RequestMapping("sendDetail.do")
 	public ModelAndView selectSendMail(int mno, ModelAndView mv) {
 
 		EmailDTO m = mailService.selectSendMail(mno);
@@ -115,7 +115,7 @@ public class EmailController {
 	}
 
 	// 받은 메일함
-	@RequestMapping("receiveList.ml")
+	@RequestMapping("receiveList.do")
 	public String selectReceiveMailList(
 			@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage, Model model,
 			HttpServletRequest request) {
@@ -135,7 +135,7 @@ public class EmailController {
 	}
 
 	// 받은 메일 보기
-	@RequestMapping("receiveDetail.ml")
+	@RequestMapping("receiveDetail.do")
 	public String selectReceiveMail(int mno, Model model, HttpServletRequest request) {
 
 		// 조회수 올려서 읽음처리하기
@@ -154,9 +154,9 @@ public class EmailController {
 	//주소록 - 부서코드로 사원리스트 출력
 	@ResponseBody
 	@RequestMapping(value = "empList.do", produces="application/json; charset=UTF-8")
-	public String selectList(String deptCode) {
+	public String selectList(String dept_no) {
 		
-		ArrayList<MemberDTO> list = mailService.selectMemberDTOList(deptCode);
+		ArrayList<MemberDTO> list = mailService.selectMemberDTOList(dept_no);
 		
 		JSONArray jrr = new JSONArray();
 		
@@ -166,10 +166,10 @@ public class EmailController {
 			for(MemberDTO mem : list) {
 				obj = new JSONObject();
 				
-				obj.put("userName", mem.getMem_name());
-				obj.put("empId", mem.getMem_id());
-				obj.put("jobName", mem.getDept_name());
-				obj.put("rightName", mem.getMem_rank());
+				obj.put("mem_name", mem.getMem_name());
+				obj.put("mem_position", mem.getMem_position());
+				obj.put("mem_rank", mem.getMem_rank());
+				obj.put("mem_email", mem.getMem_email());
 			 
 				jrr.put(obj);
 		 	}
@@ -177,11 +177,11 @@ public class EmailController {
 		
 		JSONObject jsonMap = null;
 		
-		if(deptCode != null && jrr != null) {
+		if(dept_no != null && jrr != null) {
 			jsonMap = new JSONObject();
 			
 			jsonMap.put("jrr", jrr);
-			jsonMap.put("deptCode", deptCode);
+			jsonMap.put("dept_no", dept_no);
 		}
 		
 		return jsonMap.toString();

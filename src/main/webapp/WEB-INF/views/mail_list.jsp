@@ -12,8 +12,8 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/pwe/css/deskhome_header_https_20220921.css">
 <title>Insert title here</title>
-<link href="${path}/resources/css/address.css" rel="stylesheet"/>
-<link href="${path}/resources/css/include.css" rel="stylesheet"/>
+<link href="${path}/resources/css/address.css?" rel="stylesheet"/>
+<link href="${path}/resources/css/include.css?" rel="stylesheet"/>
 <style type="text/css">
 
 ul{
@@ -27,6 +27,10 @@ ul{
 a{
 	text-decoration-line: none;
 	padding: 10px 0px
+}
+
+.mailMap{
+	padding: 10px 80px;
 }
 
 .meun li a:hover{
@@ -61,7 +65,7 @@ input{
  		</div>
  		<div id="side_menu" style="overflow-y: auto;">
  			<hr>
- 				<input class="" type="button" value="메일쓰기" onclick="location.href='send.do'">
+ 				<input class="mailMap" type="button" value="메일쓰기" onclick="location.href='send.do'">
  				<%-- <input class="" type="button" value="내게쓰기" onclick="#"> --%>
  			<hr>
  			<ul class="meun">
