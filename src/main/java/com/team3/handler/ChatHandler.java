@@ -35,7 +35,6 @@ public class ChatHandler {
 	public void onOpen(Session session) {
 		
 		// 사용자가 증가할 때마다 세션의 getId()는 1씩 증가
-
 		log.info("Open session id:" + session.getId());
 		
 		try {
@@ -44,7 +43,6 @@ public class ChatHandler {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-
 		// 세션 리스트에 연결된 세션 추가.
 		sessionList.add(session);
 	}
@@ -53,9 +51,9 @@ public class ChatHandler {
 	private void sendAllSessionToMessage(Session self, String sender, String message) {
 		
 		try {
-
 			// 모든 사용자의 수 만큼 반복.
-			for(Session session : ChatHandler.sessionList) {		
+			for(Session session : ChatHandler.sessionList) {
+				
 				if(!self.getId().equals(session.getId())) {
 					session.getBasicRemote().sendText(sender+" : "+message);
 				}
@@ -65,7 +63,6 @@ public class ChatHandler {
 		}
 		
 	}
-
 
 	
 	// 내가 입력하는 메세지

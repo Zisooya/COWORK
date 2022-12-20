@@ -29,7 +29,6 @@
 		<typeAlias type="com.team3.model.MessengerDAO" alias="messengerDao"/>
 		<typeAlias type="com.team3.model.Chat_RoomDTO" alias="chatRoomDto"/>
 		<typeAlias type="com.team3.model.Chat_MemberDTO" alias="chatMemberDto"/>
-
 		
 		
 	

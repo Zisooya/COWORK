@@ -19,5 +19,4 @@
 		on r.chat_room_no = m.chat_room_no
 		where m.mem_no = #{mem_no} and r.chat_kind='group'
 	</select>
-
 </mapper>

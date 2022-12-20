@@ -22,6 +22,5 @@ public class MessengerDAOImpl implements MessengerDAO {
 	public List<Chat_RoomDTO> getGroupChatRoomList(int mem_no) {
 		// TODO Auto-generated method stub
 		return this.sqlSession.selectList("messengerDao.groupChatRoomList",mem_no);
-
 	}
 }

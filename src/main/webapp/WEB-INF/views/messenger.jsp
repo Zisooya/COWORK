@@ -58,7 +58,6 @@
 		</nav>
 	
 		<article id="content">
-
 			<div id="chat_grid_container">
 				<div id="messages" style="overflow-y: scroll;">
 					<button type="button" onclick="closeSocket();" style="width:200px;">대화방 나가기</button>
@@ -73,7 +72,6 @@
 				<div id="right_chatRoomDetail">
 					사이드바
 				</div>		
-
 			</div>
 		</article>
 	
@@ -134,7 +132,6 @@ $(function(){
             writeResponse(event.data);
         };
         
-
       	//웹 소켓에서 메시지가 왔을 때 호출되는 이벤트
         ws.onmessage = function(event){
             console.log('writeResponse');
@@ -142,7 +139,6 @@ $(function(){
             writeResponse(event.data);
         };
         
-
       	//웹 소켓이 닫혔을 때 호출되는 이벤트
         ws.onclose = function(event){
             writeResponse("대화 종료");
@@ -168,17 +164,19 @@ $(function(){
     function closeSocket(){
         ws.close();
     }
-      
+    
+    
     function writeResponse(text){
         messages.innerHTML += "<br/>"+text;
     }
     
-
     function clearText(){
         console.log(messages.parentNode);
         messages.parentNode.removeChild(messages)
   	}    
+    
 
+    
 </script>	
 </body>
 </html>
