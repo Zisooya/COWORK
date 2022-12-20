@@ -16,6 +16,12 @@ import com.team3.model.MessengerDAO;
 import com.team3.model.member.MemberDTO;
 
 
+import com.team3.model.Chat_RoomDTO;
+import com.team3.model.MessengerDAO;
+import com.team3.model.member.MemberDTO;
+
+
+
 @Controller
 public class MessengerController {
 
@@ -44,7 +50,7 @@ public class MessengerController {
 		
 		model.addAttribute("oneToOneChatList", oneToOneChatList);
 		model.addAttribute("groupChatList", groupChatList);
-		
+
 		return "messenger";
 	}
 	
