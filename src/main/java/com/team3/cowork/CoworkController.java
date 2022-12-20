@@ -6,15 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.team3.model.member.Mem_Upload;
 import com.team3.model.member.MemberDTO;
 import com.team3.model.member.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -22,6 +21,9 @@ public class CoworkController {
 
 	@Autowired
 	private MemberService service;
+
+	@Autowired
+	private Mem_Upload mem_upload;
 
 	@RequestMapping("main.do")
 	public String main() {
@@ -77,9 +79,14 @@ public class CoworkController {
 		return "member/join";
 	}
 
-	@RequestMapping("member_join_ok.do")
-	public String joinOk(@ModelAttribute MemberDTO dto) {
+	@RequestMapping(value = "member_join_ok.do", method = RequestMethod.POST, headers = ("content-type=multipart/*"))
+	public String joinOk(@ModelAttribute MemberDTO dto, MultipartHttpServletRequest mRequest) {
+		String fileName = mem_upload.fileUpload(mRequest);
+		if (fileName != null) {
+			dto.setMem_image(fileName);
+		}
 		service.memberJoin(dto);
+
 		return "redirect:/";
 	}
 
