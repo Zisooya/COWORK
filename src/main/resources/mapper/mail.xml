@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--  
+	DTD(Document Type Definition)
+	- 작성한 문서가 어떤 문서인지에 대해서 정의해 놓은 것.
+	- 하나의 시스템 내에서 사용할 XML 데이터의 구조를 정의하여 유효성을 점검 시 사용하는 태그.
+-->
+
+<!-- 마이바티스 문서에서 복사해옴. -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="EmailDAO">
+  	<resultMap type="emailDto" id="mailResultSet">
+		<id column="eml_no" property="eml_no"/>
+		<result column="eml_from" property="eml_from"/>
+		<result column="eml_to" property="eml_to"/>
+		<result column="eml_title" property="eml_title"/>
+		<result column="eml_content" property="eml_content"/>
+		<result column="create_date" property="create_date"/>
+		<result column="read_date" property="read_date"/>
+		<result column="importantFlag" property="importantFlag"/>
+		<result column="filename" property="filename"/>
+		<result column="filepath" property="filepath"/>
+		<result column="status" property="status"/>
+		<result column="send_status" property="send_status"/>
+	</resultMap>
+	
+	<resultMap type="emailDto" id="sendResultSet">
+		<id column="eml_no" property="eml_no"/>
+		<result column="eml_from" property="eml_from"/>
+		<result column="mem_name" property="eml_to"/>
+		<result column="eml_title" property="eml_title"/>
+		<result column="eml_content" property="eml_content"/>
+		<result column="create_date" property="create_date"/>
+		<result column="read_date" property="read_date"/>
+		<result column="importantFlag" property="importantFlag"/>
+		<result column="filename" property="filename"/>
+		<result column="filepath" property="filepath"/>
+		<result column="status" property="status"/>
+		<result column="send_status" property="send_status"/>
+	</resultMap>
+	
+	<resultMap type="emailDto" id="receiveResultSet">
+		<id column="eml_no" property="eml_no"/>
+		<result column="mem_name" property="eml_from"/>
+		<result column="eml_to" property="eml_to"/>
+		<result column="eml_title" property="eml_title"/>
+		<result column="eml_content" property="eml_content"/>
+		<result column="create_date" property="create_date"/>
+		<result column="read_date" property="read_date"/>
+		<result column="importantFlag" property="importantFlag"/>
+		<result column="filename" property="filename"/>
+		<result column="filepath" property="filepath"/>
+		<result column="status" property="status"/>
+		<result column="send_status" property="send_status"/>
+	</resultMap>
+	
+	<resultMap id="memberResultSet" type="MemberDTO">
+      <id property="mem_no" column="mem_no"/>
+      <result property="mem_id" column="mem_id"/>
+      <result property="mem_pwd" column="mem_pwd"/>
+      <result property="mem_name" column="mem_name"/>
+      <result property="mem_rank" column="mem_rank"/>
+      <result property="mem_position" column="mem_position"/>
+      <result property="dept_no" column="dept_no"/>
+      <result property="dept_name" column="dept_name"/>
+      <result property="team_no" column="team_no"/>
+      <result property="mem_email" column="mem_email"/>
+      <result property="mem_phone" column="mem_phone"/>
+      <result property="mem_image" column="mem_image"/>
+   </resultMap>
+   
+   <resultMap id="empListResultSet" type="departmentDto">
+		<id property="dept_no" column="dept_no"/>
+		<result property="dept_naem" column="dept_name"/>
+		<result property="mem_name" column="mem_name"/>
+	</resultMap>
+   
+	<!-- 메일 작성 -->
+	<insert id="insertMail" parameterType="EmailDto">
+		insert into mail
+		values(seq_mno.nextval, #{eml_from}, #{eml_to}, #{eml_title}, #{eml_content}, sysdate, default,
+				 default, #{importantFlag}, #{filename}, #{filepath}, default, default)
+	</insert>
+	
+	<!-- 주소록  -->
+	<select id="selectEmployeeList" parameterType="String" resultMap="empListResultSet">
+		SELECT MEM_ID, MEM_NAME, m.DEPT_NAME, MEM_RANK
+		FROM MEMBER m join department d
+		on (m.dept_no = #{DeptNo})
+		where m.dept_no = #{DeptNo}
+		ORDER BY 1
+	</select>
+  </mapper>

@@ -16,6 +16,8 @@ public interface EmailDAO {
 	
 	void insertMail(EmailDTO m) throws Exception;
 	
+	EmailDTO selectSendMail(int mno);
+	
 	int selectSendMailListCount(String mem_name);
 	
 	ArrayList<EmailDTO> selectSendMailList(PageDTO dto, String mem_name);
@@ -27,6 +29,10 @@ public interface EmailDAO {
 	EmailDTO EmailCont(int no);
 	
 	int updateEmail(EmailDTO dto);
+	
+	MemberDTO selectSendEmp(int mno);
+	
+	EmailDTO selectReceiveMail(int mno);
 	
 	int selectReceiveMailListCount(String mem_id);
 

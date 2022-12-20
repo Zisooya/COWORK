@@ -122,6 +122,10 @@ public class PageDTO {
 			this.endBlock = this.allPage;
 		}
 		
+	}
+
+	public PageDTO(int page, int listCount, int startPage, int endPage, int maxPage, int pageLimit, int boardLimit) {
+		// TODO Auto-generated constructor stub
 	}  // 인자 생성자
 	
 	

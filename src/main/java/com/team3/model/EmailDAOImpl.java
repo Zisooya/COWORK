@@ -96,4 +96,22 @@ public class EmailDAOImpl implements EmailDAO{
 		return null;
 	}
 
+	@Override
+	public EmailDTO selectSendMail(int mno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MemberDTO selectSendEmp(int mno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EmailDTO selectReceiveMail(int mno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

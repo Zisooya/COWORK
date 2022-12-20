@@ -43,6 +43,10 @@
 		<typeAlias type="com.team3.model.Main_ProjectsDTO" alias="maindto"/>
 		<typeAlias type="com.team3.model.Projects_statusDTO" alias="statusdto"/>
 		<typeAlias type="com.team3.model.PageDTO" alias="pagedto"/>
+		
+		<!-- *************** 귀근 *************** -->
+		<typeAlias type="com.team3.model.EmailDAO" alias="emailDao"/>
+		<typeAlias type="com.team3.model.EmailDTO" alias="emailDto"/>
 	</typeAliases>
 
 </configuration>
