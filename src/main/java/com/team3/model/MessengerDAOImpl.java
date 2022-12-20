@@ -13,14 +13,15 @@ public class MessengerDAOImpl implements MessengerDAO {
 	 private SqlSessionTemplate sqlSession;
 
 	@Override
-	public List<Chat_RoomDTO> getOneToOneChatRoomList() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Chat_RoomDTO> getOneToOneChatRoomList(int mem_no) {
+		
+		return this.sqlSession.selectList("messengerDao.oneToOneChatRoomList",mem_no);
 	}
 
 	@Override
-	public List<Chat_RoomDTO> getGroupChatRoomList() {
+	public List<Chat_RoomDTO> getGroupChatRoomList(int mem_no) {
 		// TODO Auto-generated method stub
-		return null;
+		return this.sqlSession.selectList("messengerDao.groupChatRoomList",mem_no);
+
 	}
 }

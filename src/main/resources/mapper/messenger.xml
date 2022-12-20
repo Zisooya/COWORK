@@ -5,5 +5,19 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="messengerDao">
+
+	<select id="oneToOneChatRoomList" parameterType="int" resultType="chatRoomDto">
+		select r.chat_room_no, r.chat_room_name
+		from chat_room r join chat_member m
+		on r.chat_room_no = m.chat_room_no
+		where m.mem_no = #{mem_no} and r.chat_kind in 'one'
+	</select>
 	
+	<select id="groupChatRoomList" parameterType="int" resultType="chatRoomDto">
+		select *
+		from chat_room r join chat_member m
+		on r.chat_room_no = m.chat_room_no
+		where m.mem_no = #{mem_no} and r.chat_kind='group'
+	</select>
+
 </mapper>
