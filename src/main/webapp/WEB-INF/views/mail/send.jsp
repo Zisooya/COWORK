@@ -164,7 +164,7 @@ label {
 		}
 		
 		$.ajax({
-			url:'<%=request.getContextPath()%>empList.do',
+			url:"empList.do",
 			data:{dept_no:dept_no},
 			type:"get",
 			success:function(map){
@@ -176,10 +176,10 @@ label {
 					
 					var $tr = $("<tr>");
 					var $ckTd = $("<td><input type='checkBox' class='checkEmp' name='checkEmp'></td>");
-					var $nameTd = $("<td>").text(mem.mem_name);
-					var $idTd = $("<td>").text(mem.mem_position);
-					var $jobTd = $("<td>").text(mem.mem_rank);
-					var $rightTd = $("<td>").text(mem.mem_email);
+					var $nameTd = $("<td>").text(mem.mem_no);
+					var $idTd = $("<td>").text(mem.mem_name);
+					var $jobTd = $("<td>").text(mem.mem_position);
+					var $rightTd = $("<td>").text(mem.mem_rank);
 					
 					$tr.append($ckTd);
 					$tr.append($nameTd);
@@ -231,8 +231,8 @@ function selectReceiver(){
 		return false;
 	}
 	
-	$("input[name=receiverName]").val(mem_name);
-	$("input[name=receiver]").val(mem_id);
+	$("input[name=receiverName]").val(mem_no);
+	$("input[name=receiver]").val(mem_name);
 	$("#bd-example-modal-lg").modal("hide");	
 }
 

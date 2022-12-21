@@ -86,14 +86,14 @@ public class EmailController {
 	// 보낸메일함
 	@RequestMapping("sendList.do")
 	public String selectSendMailList(
-			@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage, Model model,
+			@RequestParam(value = "Page", required = false, defaultValue = "1") int Page, Model model,
 			HttpServletRequest request) {
 
 		MemberDTO mem = (MemberDTO) request.getSession().getAttribute("loginUser");
 
 		int listCount = mailService.selectSendMailListCount(mem.getMem_id());
 
-		PageDTO pi = PaginationMail.getPageInfo(listCount, currentPage, 10, 10);
+		PageDTO pi = PaginationMail.getPageInfo(listCount, Page, 10, 10);
 
 		ArrayList<EmailDTO> sendList = mailService.selectSendMailList(pi, mem.getMem_id());
 

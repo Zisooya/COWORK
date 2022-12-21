@@ -26,10 +26,6 @@ public interface EmailDAO {
 	
 	int insertEmail(EmailDTO dto);
 	
-	EmailDTO EmailCont(int no);
-	
-	int updateEmail(EmailDTO dto);
-	
 	MemberDTO selectSendEmp(int mno);
 	
 	EmailDTO selectReceiveMail(int mno);

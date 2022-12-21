@@ -16,7 +16,7 @@ public class EmailService {
 	}
 	
 	//주소록
-	public ArrayList<MemberDTO> selectEmployeeList(SqlSessionTemplate sqlSession, String deptCode) {
+	public ArrayList<MemberDTO> selectMemberDTOList(SqlSessionTemplate sqlSession, String deptCode) {
 		
 		return (ArrayList)sqlSession.selectList("emailDao.selectEmployeeList", deptCode);
 	}

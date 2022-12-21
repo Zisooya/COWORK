@@ -80,8 +80,7 @@ public class EmailDAOImpl implements EmailDAO{
 
 	@Override
 	public ArrayList<MemberDTO> selectMemberDTOList(String deptCode) {
-		// TODO Auto-generated method stub
-		return null;
+		return mailservice.selectMemberDTOList(sqlSession, deptCode);
 	}
 
 	@Override
