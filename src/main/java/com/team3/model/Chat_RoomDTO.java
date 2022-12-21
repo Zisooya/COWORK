@@ -15,7 +15,7 @@ public class Chat_RoomDTO {
 	private String chat_kind;
 	private String regdate;
 
-	private Set<WebSocketSession> sessions = new HashSet<>();
+	//private Set<WebSocketSession> sessions = new HashSet<>();
 
 
 	
