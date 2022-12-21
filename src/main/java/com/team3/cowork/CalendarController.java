@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.google.gson.Gson;
 import com.team3.model.Cal_Upload;
 import com.team3.model.CalendarDAO;
 import com.team3.model.CalendarDTO;
@@ -49,6 +50,11 @@ public class CalendarController {
 		int mem_no = member.getMem_no();
 		List<Calendar_TypeDTO> list = this.dao_calType.getCalTypeList(mem_no);
 		model.addAttribute("CalTypeList", list);
+		
+		Gson gson = new Gson();
+		String listJson = gson.toJson(list,List.class).toString();
+		model.addAttribute("CalTypeList_Json", listJson);
+		
 		return "cal_main";
 	}
 
