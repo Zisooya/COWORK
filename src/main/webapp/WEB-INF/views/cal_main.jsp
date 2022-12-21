@@ -57,8 +57,19 @@
 		/* ------------------------------------모달창 관련------------------------------------ */
 		const modal_detail = document.querySelector(".modal_detail");
 		const closeBtn_detail = document.querySelector(".close_detail");
+		const updateBtn_detail = document.querySelector("#update_btn");
+		const deleteBtn_detail = document.querySelector("#delete_btn");
 		const modal_add = document.querySelector(".modal_add");
 		const closeBtn_add = document.querySelector(".close_add");
+		
+		const title = document.querySelector(".title");
+		const startTime = document.querySelector(".startTime");
+		const endTime = document.querySelector(".endTime");
+		const memo = document.querySelector(".memo");
+		const place = document.querySelector(".place");
+		const cal_name = document.querySelector(".cal_name");
+		const mark = document.querySelector("#mark_detail");
+		const time_dash = document.querySelector("#time_dash");
 
 		/* const allDay_checkBox_add = document.querySelector(".add_allDay");
 		const startTime_add = document.querySelector(".add_startTime");
@@ -78,6 +89,46 @@
 		closeBtn_detail.onclick = function() {
 			modal_detail.style.display = "none";
 		}
+		updateBtn_detail.onclick = function() {
+			modal_detail.style.display = "none";
+			add();
+			$(".add_title").val(gTitle);
+			
+			if (gMark == "주요") {
+				document.getElementById("mark_check").checked = true;
+			}else {
+				document.getElementById("mark_check").checked = false;
+			}
+			
+			var startTime_to_input = moment(gStartTime).subtract(9, "h").format("YYYY-MM-DD HH:mm");
+			var endTime_to_input;
+			if (gAllDay == true) {
+				document.getElementById("allday_check").checked = true;
+				$(".datetimepicker").datetimepicker({ 
+					timepicker:false
+				});
+				endTime_to_input = moment(gEndTime).subtract(33, "h").format("YYYY-MM-DD HH:mm");
+			}else {
+				document.getElementById("allday_check").checked = false;
+				$(".datetimepicker").datetimepicker({ 
+					timepicker:true
+				});
+				endTime_to_input = moment(gEndTime).subtract(9, "h").format("YYYY-MM-DD HH:mm");
+			}
+			//$('#add_startTime').attr("value", startTime_to_input);
+			//$('#add_endTime').attr("value", endTime_to_input);
+			// 날짜 뒤에 요일 추가
+			start_date_select = new Date(startTime_to_input.substr(0, 16));
+			end_date_select = new Date(endTime_to_input.substr(0, 16));
+			$("#add_startTime").val(startTime_to_input + " ("+getDayOfWeek(start_date_select)+")");
+			$("#add_endTime").val(endTime_to_input + " ("+getDayOfWeek(end_date_select)+")");
+			
+			// 날짜 선택에 따른 라디오 텍스트 변경
+			const repeat_w = document.querySelector("#repeat_w");
+			repeat_w.innerText = '매주 ' + getDayOfWeek(start_date_select) + '요일';
+			repeat_m.innerText = '매월 ' + getWeekNo(start_date_select) + '번째 ' + getDayOfWeek(start_date_select) + '요일';
+			repeat_y.innerText = '매년 ' + moment(start_date_select).format("MM") + '월 ' + moment(start_date_select).format("DD") + '일';
+		}
 		closeBtn_add.onclick = function() {
 			modal_add.style.display = "none";
 		}
@@ -89,14 +140,6 @@
 		}
 		// 상세정보 모달창 오픈 함수
 		function detail() {
-			const title = document.querySelector(".title");
-			const startTime = document.querySelector(".startTime");
-			const endTime = document.querySelector(".endTime");
-			const memo = document.querySelector(".memo");
-			const place = document.querySelector(".place");
-			const cal_name = document.querySelector(".cal_name");
-			const mark = document.querySelector("#mark_detail");
-			const time_dash = document.querySelector("#time_dash");
 			title.innerText = gTitle;
 			if (gAllDay == true) {
 				startTime.innerText = moment(gStartTime).format("YYYY.MM.DD (ddd)");
@@ -108,12 +151,12 @@
 					time_dash.innerText = " - ";
 				}
 			} else {
-				startTime.innerText = moment(gStartTime).format("YYYY.MM.DD (ddd) HH:mm");
+				startTime.innerText = moment(gStartTime).subtract(9, "h").format("YYYY.MM.DD (ddd) HH:mm");
 				time_dash.innerText = " - ";
 				if (moment(gStartTime).format("YYYY.MM.DD") == moment(gEndTime).format("YYYY.MM.DD")) {
-					endTime.innerText = moment(gEndTime).format("HH:mm");
+					endTime.innerText = moment(gEndTime).subtract(9, "h").format("HH:mm");
 				} else {
-					endTime.innerText = moment(gEndTime).format("YYYY.MM.DD (ddd) HH:mm");
+					endTime.innerText = moment(gEndTime).subtract(9, "h").format("YYYY.MM.DD (ddd) HH:mm");
 				}
 			}
 			memo.innerText = gMemo;
@@ -168,6 +211,7 @@
 			select : function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
 				// 일정 추가 창 호출
 				add();
+				$(".add_title").val("");
 				// input태그에 선택한 날짜 넣기
 				const startTime_to_input = moment(arg.start).format("YYYY-MM-DD 00:00");
 				const endTime_to_input = moment(arg.end).subtract(1, "d").format("YYYY-MM-DD 00:00");
@@ -381,6 +425,7 @@
 					alert("파일 첨부 도중 에러 발생");
 				}
 			});
+			document.location.reload();
 		});
 		// 일정 추가 버튼 클릭 시
 		$("#eventAdd_btn").on("click", function() {
@@ -666,9 +711,13 @@ a {
 					장소 <span class="place"></span>
 					<br>
 					캘린더 <span class="cal_name"></span>
+					<br>
+					<br>
+					<input type="button" value="수정" id="update_btn">
+					<input type="button" value="삭제" id="delete_btn">
 				</article>
 			</section>
-
+			
 
 			<!-- Modal - Add -->
 			<section class="modal_add">
@@ -679,7 +728,7 @@ a {
 					<br>
 					<div class="modal_add_elements">
 						제목
-						<input type="checkbox" class="add_mark" name="cal_mark" value="주요">
+						<input type="checkbox" class="add_mark" name="cal_mark" id="mark_check" value="주요">
 						<input class="add_title" name="title" placeholder="제목을 입력하세요.">
 					</div>
 					<div class="modal_add_elements">
@@ -693,7 +742,7 @@ a {
 						<input id="add_endTime" type="text" class="timepicker" value="" maxlength="10"> -->
 					</div>
 					<div class="modal_add_elements">
-						<input type="checkbox" class="add_allDay" name="allDay" id="allday_check"> 종일 &nbsp;
+						<input type="checkbox" class="add_allDay" name="allDay" id="allday_check"> 종일
 						<select name="cal_repeat">
 							<option value="no_repeat">반복 안 함</option>
 							<option value="cycle_d_1">매일</option>
