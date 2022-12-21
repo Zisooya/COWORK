@@ -12,20 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.team3.model.Chat_MessageDTO;
 import com.team3.model.Chat_RoomDTO;
 import com.team3.model.MessengerDAO;
 import com.team3.model.member.MemberDTO;
-
-import com.team3.model.Chat_RoomDTO;
-import com.team3.model.MessengerDAO;
-import com.team3.model.member.MemberDTO;
-
-
-import com.team3.model.Chat_RoomDTO;
-import com.team3.model.MessengerDAO;
-import com.team3.model.member.MemberDTO;
-
-
 
 @Controller
 public class MessengerController {
@@ -34,12 +24,15 @@ public class MessengerController {
 	@Autowired
 	private MessengerDAO messengerDao;
 
-	// 테스트 후 지울 내용
-	@RequestMapping("stomp.do")
-	public @ResponseBody String stomp(int chat_room_no) {
-		System.out.println("여기까지 오나?");
+	@RequestMapping("openChatRoom.do")
+	public @ResponseBody List<Chat_MessageDTO> openChatRoom(int chat_room_no) {
 		System.out.println("넘어온 chat_room_no : " + chat_room_no);
-		return "stomp";
+
+		// 채팅방 번호에 해당하는 채팅방의 메세지들 불러오기.
+		List<Chat_MessageDTO> messageList = this.messengerDao.getMessageList(chat_room_no);
+		
+		System.out.println("List왔나요??" + messageList);
+		return messageList;
 	}
 	
 	@RequestMapping("messenger.do")
