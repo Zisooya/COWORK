@@ -8,13 +8,13 @@
 <body>
 <c:if test="${msg == null}">
     <script>
-        location.href='<c:out value="${path}"/>${url}';
+        location.href='<c:out value="${path}/"/>${url}';
     </script>
 </c:if>
 <c:if test="${msg != null}">
     <script>
     alert('${msg}');
-    location.href='<c:out value="${path}"/>${url}';
+    location.href='<c:out value="${path}/"/>${url}';
     </script>
 </c:if>
 </body>
