@@ -6,17 +6,18 @@
 <!DOCTYPE html>
 
 <meta charset="UTF-8">
-<!-- 
+
 	<header id="header">
-		<div id="header_container"> -->
-			<!-- <div id="header_left">
-				COWORK.
+		<div id="header_container">
+			<div id="header_left">
+				<img id="logo_home" src="resources/images/COWORK.png" style="width:70%; height:70%; margin: 20px 10px 5px 10px; "/>
+
 			</div>	
 			<div id="company">
 				(주)그린테크
-			</div> -->
+			</div>
 			<a href="<%=request.getContextPath() %>/">
-			<img id="logo_home" src="resources/images/COWORK.png" style="height: 60%; margin: 105px 0 0 40px;"/>
+			
 			</a>
 			<div id="header_center">
 				<ul>
@@ -25,7 +26,7 @@
 					<li> <a href=""> <img id="navi03"  src="resources/images/커뮤니티.png" width="45" height="45"/><label for="navi03" id="arrow_box03">커뮤니티</label></a> </li>
 					<li> <a href="<%=request.getContextPath()%>/address.do"> <img id="navi04" src="resources/images/주소록.png" width="45" height="45" /><label for="navi04" id="arrow_box04">주소록</label></a> </li>
 					<li> <a href=""> <img id="navi05" src="resources/images/메일.png" width="40" height="40" /><label for="navi05" id="arrow_box05">메일</label></a> </li>
-					<li> <a href="<%=request.getContextPath()%>/messenger.do"> <img id="navi06" src="resources/images/메신저.png"width="50" height="50" /><label for="navi06" id="arrow_box06">메신저</label></a> </li>
+					<li> <a href="<%=request.getContextPath()%>/messenger.do?mem_no=${member.mem_no}"> <img id="navi06" src="resources/images/메신저.png"width="50" height="50" /><label for="navi06" id="arrow_box06">메신저</label></a> </li>
 				</ul>	
 			</div>
 
@@ -37,13 +38,13 @@
 						<!-- <div id="alert_count"> <a href=""> 5 </a> </div> -->
 
 						<!-- 프로필 사진 클릭 시 마이페이지(회원정보 수정(비밀번호 변경 포함), 회원 탈퇴)로 이동 예정-->
-						<div id="profile_circle"> <a href="${ path }/myPage.do"> <img src="resources/mem_upload/${member.mem_image}" width="55" height="55" /> </a> </div>
+						<div id="profile_circle"> <a href="${ path }/myPage.do"> <img src="../resources/mem_upload/${member.mem_image}" width="55" height="55" /> </a> </div>
 						<div id="login"> <a href="${ path }/member_logout.do">로그아웃</a> </div>
 						<div id="hi"> <b>${member.mem_name}</b>님 안녕하세요!</div>
 				</div>
 			</div>	
-			
-
+		</div>	
+	</header>
 
 	
 
