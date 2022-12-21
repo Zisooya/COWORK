@@ -75,11 +75,10 @@
    <resultMap id="empListResultSet" type="departmentDto">
 		<id property="dept_no" column="dept_no"/>
 		<result property="dept_naem" column="dept_name"/>
-		<result property="mem_name" column="mem_name"/>
 	</resultMap>
    
    <resultMap id="empResultSet" type="MemberDTO">
-		<id property="eml_from" column="eml_from"/>
+		<id property="eml_id" column="mem_id"/>
 		<result property="mem_name" column="mem_name"/>
 	</resultMap>
    
@@ -162,8 +161,8 @@
 	<select id="selectMemberDTOList" parameterType="String" resultMap="empListResultSet">
 		SELECT mem_no, MEM_NAME, mem_position, MEM_RANK
 		FROM MEMBER m join department d
-		on (m.dept_no = #{dept_no})
-		where m.dept_no = #{dept_no}
+		on (m.dept_no = d.dept_no)
+		where m.dept_name = #{dept_no}
 		ORDER BY 1
 	</select>
   </mapper>

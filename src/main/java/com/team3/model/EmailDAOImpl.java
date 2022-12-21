@@ -63,18 +63,6 @@ public class EmailDAOImpl implements EmailDAO{
 	}
 
 	@Override
-	public EmailDTO EmailCont(int no) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int updateEmail(EmailDTO dto) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public int selectReceiveMailListCount(String mem_id) {
 		return mailservice.selectReceiveMailListCount(sqlSession, mem_id);
 	}
@@ -92,8 +80,7 @@ public class EmailDAOImpl implements EmailDAO{
 
 	@Override
 	public ArrayList<MemberDTO> selectMemberDTOList(String deptCode) {
-		// TODO Auto-generated method stub
-		return null;
+		return mailservice.selectMemberDTOList(sqlSession, deptCode);
 	}
 
 	@Override
@@ -104,8 +91,7 @@ public class EmailDAOImpl implements EmailDAO{
 
 	@Override
 	public MemberDTO selectSendEmp(int mno) {
-		// TODO Auto-generated method stub
-		return null;
+		return mailservice.selectSendEmp(sqlSession, mno);
 	}
 
 	@Override

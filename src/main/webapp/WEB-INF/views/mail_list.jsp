@@ -84,7 +84,7 @@ input{
  		</nav>
 		
 		<article id="content">
-			
+			<jsp:include page="mail/list.jsp" />
 		</article>
 	</div>
 </body>
