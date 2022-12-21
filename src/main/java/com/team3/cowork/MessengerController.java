@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team3.model.Chat_RoomDTO;
 import com.team3.model.MessengerDAO;
@@ -29,6 +30,14 @@ public class MessengerController {
 	@Autowired
 	private MessengerDAO messengerDao;
 
+	// 테스트 후 지울 내용
+	@RequestMapping("stomp.do")
+	public @ResponseBody String stomp(int chat_room_no) {
+		System.out.println("여기까지 오나?");
+		System.out.println("넘어온 chat_room_no : " + chat_room_no);
+		return "stomp";
+	}
+	
 	@RequestMapping("messenger.do")
 	public String messenger(HttpSession session,Model model){
 		

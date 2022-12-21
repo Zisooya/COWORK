@@ -32,7 +32,7 @@
 							<c:forEach items="${oneToOneChatList }" var="chatRoomDto" varStatus="vs">
 								<input type="checkbox" id="accordion_cb_o${vs.index }" 
 										name="accordion_cb_oneToOne" value="${chatRoomDto.getChat_room_no() }" 
-										onclick="openSocket(this.value);">
+										onclick="openChatRoom(this.value);">
 								<label class="chat_room" for="accordion_cb_o${vs.index }">${chatRoomDto.getChat_room_name() }</label>
 							</c:forEach>
 						</c:if>
@@ -46,7 +46,7 @@
 							<c:forEach items="${groupChatList }" var="chatRoomDto2" varStatus="vs">
 								<input type="checkbox" id="accordion_cb_g${vs.index }" 
 										name="accordion_cb_group" value="${chatRoomDto2.getChat_room_no() }"
-										onclick="openSocket(this.value);" >
+										 >
 								<label class="chat_room" for="accordion_cb_g${vs.index }">${chatRoomDto2.getChat_room_name() }</label>
 							</c:forEach>
 						</c:if>
@@ -61,7 +61,6 @@
 			<div id="chat_grid_container">
 				<div id="messages" style="overflow-y: scroll;">
 					<button type="button" onclick="closeSocket();" style="width:200px;">대화방 나가기</button>
-				
 				</div>				
 					<div id="bottom_input">
 					<input type="text" id="sender" value="${member.mem_id}" style="display: none;" >
@@ -96,8 +95,7 @@ $(function(){
 	
 	// 각 채팅방 클릭 시 이벤트
 	$("input[id *= 'accordion_cb_']").click(function() {
-		
-		
+		$('#content').load('chatRoom.html #test');
 	}); // 각 채팅방 클릭 시 이벤트 end
 	
 	
@@ -112,6 +110,7 @@ $(function(){
     function openSocket(chat_room_no){
     	
     	console.log("현재 채팅방 번호는 ? "+chat_room_no);
+    	
     	
     	
         if(ws !== undefined && ws.readyState !== WebSocket.CLOSED ){
@@ -159,7 +158,7 @@ $(function(){
         
         text = "";
     }
-    
+
     //웹소켓 종료 함수
     function closeSocket(){
         ws.close();
@@ -175,8 +174,23 @@ $(function(){
         messages.parentNode.removeChild(messages)
   	}    
     
+<%-- 
+    function openChatRoom(chat_room_no) {
+    	// 채팅방 별 jsp 불러오기
+    	$.ajax({
+    		url :"<%=request.getContextPath()%>/stomp.jsp",
+    		async : false,
+    		datatype:"html",
+    		data : {"chat_room_no": chat_room_no},
+    		success : function(data){
+    			alert(data);
+    			//$('#content').html(data);
+    		} 
+    	});   // 채팅방 별 jsp 불러오기 $.ajax() end	  	
+    	
+	}
 
-    
+ --%>    
 </script>	
 </body>
 </html>
