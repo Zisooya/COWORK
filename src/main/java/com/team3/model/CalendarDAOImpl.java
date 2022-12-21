@@ -30,6 +30,8 @@ public class CalendarDAOImpl implements CalendarDAO{
 			res = this.sqlSession.insert("calAdd_repeat_d_1", dto);
 		}else if(dto.getCal_repeat().equals("cycle_d_weekday")) {
 			res = this.sqlSession.insert("calAdd_repeat_d_weekday", dto);
+		}else if(dto.getCal_repeat().equals("cycle_w_1")) {
+			res = this.sqlSession.insert("calAdd_repeat_w_1", dto);
 		}
 		return res;
 	}
