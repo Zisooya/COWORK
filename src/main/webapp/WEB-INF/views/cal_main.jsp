@@ -178,7 +178,10 @@
 				$("#add_startTime").val(startTime_to_input + " ("+getDayOfWeek(start_date_select)+")");
 				end_date_select = new Date(endTime_to_input.substr(0, 16));
 				$("#add_endTime").val(endTime_to_input + " ("+getDayOfWeek(end_date_select)+")");
-				
+
+				$(".datetimepicker").datetimepicker({ 
+					timepicker:false
+				});
 				document.getElementById("allday_check").checked = true;
 				
 				// 날짜 선택에 따른 라디오 텍스트 변경
@@ -390,6 +393,9 @@
 			$("#add_startTime").val(startTime_to_input_btn + " ("+getDayOfWeek(start_date_select)+")");
 			$("#add_endTime").val(startTime_to_input_btn + " ("+getDayOfWeek(start_date_select)+")");
 			
+			$(".datetimepicker").datetimepicker({ 
+				timepicker:false
+			});
 			document.getElementById("allday_check").checked = true;
 			
 			// 날짜 선택에 따른 라디오 텍스트 변경
@@ -738,77 +744,6 @@ a {
 							</c:choose>
 							${dto.getCal_type_name()}</option>
 						</c:forEach>
-						<!--
-						<c:if test="${!empty member.mem_cal1}">
-							<option value="${member.mem_cal1}" value2="${member.mem_cal1_color}">
-							<c:choose>
-								<c:when test="${member.mem_cal1_color eq 'red'}">
-									🔴
-								</c:when>
-								<c:when test="${member.mem_cal1_color eq 'yellow'}">
-									🟡
-								</c:when>
-								<c:when test="${member.mem_cal1_color eq 'green'}">
-									🟢
-								</c:when>
-								<c:when test="${member.mem_cal1_color eq 'blue'}">
-									🔵
-								</c:when>
-								<c:when test="${member.mem_cal1_color eq 'purple'}">
-									🟣
-								</c:when>
-								<c:otherwise>
-								</c:otherwise>
-							</c:choose>
-							[기본] ${member.mem_cal1}</option>
-						</c:if>
-						<c:if test="${!empty member.mem_cal2}">
-							<option value="${member.mem_cal2}" value2="${member.mem_cal2_color}">
-							<c:choose>
-								<c:when test="${member.mem_cal2_color eq 'red'}">
-									🔴
-								</c:when>
-								<c:when test="${member.mem_cal2_color eq 'yellow'}">
-									🟡
-								</c:when>
-								<c:when test="${member.mem_cal2_color eq 'green'}">
-									🟢
-								</c:when>
-								<c:when test="${member.mem_cal2_color eq 'blue'}">
-									🔵
-								</c:when>
-								<c:when test="${member.mem_cal2_color eq 'purple'}">
-									🟣
-								</c:when>
-								<c:otherwise>
-								</c:otherwise>
-							</c:choose>
-							${member.mem_cal2}</option>
-						</c:if>
-						<c:if test="${!empty member.mem_cal3}">
-							<option value="${member.mem_cal3}" value2="${member.mem_cal3_color}">
-							<c:choose>
-								<c:when test="${member.mem_cal3_color eq 'red'}">
-									🔴
-								</c:when>
-								<c:when test="${member.mem_cal3_color eq 'yellow'}">
-									🟡
-								</c:when>
-								<c:when test="${member.mem_cal3_color eq 'green'}">
-									🟢
-								</c:when>
-								<c:when test="${member.mem_cal3_color eq 'blue'}">
-									🔵
-								</c:when>
-								<c:when test="${member.mem_cal3_color eq 'purple'}">
-									🟣
-								</c:when>
-								<c:otherwise>
-								</c:otherwise>
-							</c:choose>
-							${member.mem_cal3}</option>
-						</c:if>
-						-->
 					</select>
 					<br>
 					참석자
