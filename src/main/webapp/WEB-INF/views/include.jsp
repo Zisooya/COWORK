@@ -6,7 +6,6 @@
 <!DOCTYPE html>
 
 <meta charset="UTF-8">
-
    <header id="header">
       <div id="header_container">
          <div id="header_left">
@@ -44,5 +43,6 @@
          </div>   
       </div>   
    </header>
+
 
    
