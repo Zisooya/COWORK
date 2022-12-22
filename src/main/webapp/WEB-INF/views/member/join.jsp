@@ -225,16 +225,13 @@
 
             <div class="form-group text-center" id="btn_box">
                 <button type="submit" class="btn btn-primary">회원가입</button>
-                <button type="button" class="btn btn-primary" onclick="back();">취소</button>
+                <button type="button" class="btn btn-primary" onclick="history.go(-1);">취소</button>
             </div>
         </form>
     </div>
 </div>
 </body>
 <script type="text/javascript">
-    function back() {
-        location.href = "/";
-    }
     // 모든 공백 체크 정규식
     let memJ = /\s/g;
     // 아이디 정규식
@@ -290,6 +287,9 @@
                         }
                     }
                 },
+                error: function () {
+                    alert("데이터 통신 오류");
+                }
             });
         }
     });
