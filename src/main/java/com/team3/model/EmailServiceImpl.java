@@ -21,7 +21,7 @@ public class EmailServiceImpl implements EmailService{
 
 	@Override
 	public void insertMail(EmailDTO dto) {
-		
+
 		int result = emailDao.insertMail(sqlSession, dto);
 		
 		if(result < 0) {
