@@ -248,6 +248,7 @@ $(function(){
 				alert('ajax 응답 오류');
 			}
     	});   // 채팅방 별 jsp 불러오기 $.ajax() end
+
     	
 	}	// openChatRoom 함수 end
 
