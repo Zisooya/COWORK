@@ -233,4 +233,14 @@ input[name *= accordion_cb_] {
 	grid-row : 1/3;		
 }
 
+#messages_people {
+	background-color: pink;
+	width: 50%;
+}
+
+#messages_me {
+	background-color: skyblue;
+	width: 50%;
+	
+}
 

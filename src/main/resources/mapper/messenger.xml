@@ -19,4 +19,12 @@
 		on r.chat_room_no = m.chat_room_no
 		where m.mem_no = #{mem_no} and r.chat_kind='group'
 	</select>
+	
+	<select id="messageList" parameterType="int" resultType="chatMessageDto">
+		select * from chat_message where chat_room_no=#{chat_room_no} order by send_date 
+	</select>
+	
+	<insert id="messenger_insertMessage" parameterType="chatMessageDto">
+		insert into chat_message values(#{chat_room_no},#{sender},#{message},TO_DATE(#{send_date},'YYYY-MM-DD HH24:MI:SS'))
+	</insert>
 </mapper>

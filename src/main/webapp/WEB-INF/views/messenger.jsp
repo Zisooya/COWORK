@@ -46,7 +46,7 @@
 							<c:forEach items="${groupChatList }" var="chatRoomDto2" varStatus="vs">
 								<input type="checkbox" id="accordion_cb_g${vs.index }" 
 										name="accordion_cb_group" value="${chatRoomDto2.getChat_room_no() }"
-										 >
+										onclick="openChatRoom(this.value);">
 								<label class="chat_room" for="accordion_cb_g${vs.index }">${chatRoomDto2.getChat_room_name() }</label>
 							</c:forEach>
 						</c:if>
@@ -61,6 +61,13 @@
 			<div id="chat_grid_container">
 				<div id="messages" style="overflow-y: scroll;">
 					<button type="button" onclick="closeSocket();" style="width:200px;">대화방 나가기</button>
+					
+					<div id="messages_people">
+					</div>
+					
+					<div id="messages_me">
+					
+					</div>
 				</div>				
 					<div id="bottom_input">
 					<input type="text" id="sender" value="${member.mem_id}" style="display: none;" >
@@ -95,7 +102,7 @@ $(function(){
 	
 	// 각 채팅방 클릭 시 이벤트
 	$("input[id *= 'accordion_cb_']").click(function() {
-		$('#content').load('chatRoom.html #test');
+		
 	}); // 각 채팅방 클릭 시 이벤트 end
 	
 	
@@ -105,6 +112,7 @@ $(function(){
 	// 웹소켓 관련 내용
     var ws;
     var messages = document.getElementById("messages");
+    //var messages_people = document.getElementById("messages_people");
     
     // 웹소켓 연결 요청(핸드쉐이크) 시 실행 함수
     function openSocket(chat_room_no){
@@ -122,6 +130,7 @@ $(function(){
         //cowork는 프로젝트 이름
         //messanger.do 웹소켓 서버단 @ServerEndpoint에 적은 path
         ws = new WebSocket("ws://localhost:8282/cowork/messanger.do");
+        
         
       	//웹 소켓이 서버와 연결되었을 때 호출되는 이벤트
         ws.onopen = function(event){
@@ -151,10 +160,41 @@ $(function(){
     
     // 메세지 전송 버튼 클릭 시 실행되는 함수
     function send(){
-        var text = document.getElementById("messageinput").value+","+document.getElementById("sender").value;
+    	
+    	var today = new Date();
+
+    	var year = today.getFullYear();
+    	var month = ('0' + (today.getMonth() + 1)).slice(-2);
+    	var day = ('0' + today.getDate()).slice(-2);
+
+    	var dateString = year + '/' + month  + '/' + day;
+    	
+    	var today = new Date();   
+
+		var hours = ('0' + today.getHours()).slice(-2); 
+		var minutes = ('0' + today.getMinutes()).slice(-2);
+		var seconds = ('0' + today.getSeconds()).slice(-2); 
+		
+		var timeString = hours + ':' + minutes  + ':' + seconds;
+		
+		
+		let send_date = dateString + " " + timeString;
+		
+		console.log(send_date );	// 2022/12/21 15:47:29
+    	
+		let sender = document.getElementById("sender").value;
+		let message = document.getElementById("messageinput").value;
+		let chat_room_no = (document.getElementById("chat_room_no").value).toString();
+		
+		console.log('ajax에서 뿌려준 chat_room_no 값 : '+chat_room_no);
+		
+		
+        let text = message+","+sender+","+chat_room_no+","+send_date;
      	
         //웹소켓으로 textMessage객체의 값을 보낸다.
         ws.send(text);
+        
+        document.getElementById("messageinput").value="";
         
         text = "";
     }
@@ -174,23 +214,36 @@ $(function(){
         messages.parentNode.removeChild(messages)
   	}    
     
-<%-- 
+  
     function openChatRoom(chat_room_no) {
-    	// 채팅방 별 jsp 불러오기
+    	// 채팅방 별 데이터 불러오기
     	$.ajax({
-    		url :"<%=request.getContextPath()%>/stomp.jsp",
-    		async : false,
-    		datatype:"html",
+    		type: 'POST',
+    		url :"<%=request.getContextPath()%>/openChatRoom.do",
+    		//async : false,
+    		dataType:"json",
     		data : {"chat_room_no": chat_room_no},
     		success : function(data){
-    			alert(data);
-    			//$('#content').html(data);
-    		} 
-    	});   // 채팅방 별 jsp 불러오기 $.ajax() end	  	
+    			
+    			
+    			$('#messages').html("");
+    			$('#messages').append("<input id='chat_room_no' type='hidden' value='"+chat_room_no+"'>");
+	    		$.each(data, function(index, Chat_MessageDTO) {
+	    		$("#messages").append(Chat_MessageDTO.sender + ":" + Chat_MessageDTO.message+"("+Chat_MessageDTO.send_date+")<br>");
+	    		});	
+	    		
+	    		openSocket(chat_room_no);
+    		}, 
+    		error: function(res){ 
+				alert('ajax 응답 오류');
+			}
+    	});   // 채팅방 별 jsp 불러오기 $.ajax() end
+    	
+    	
     	
 	}
 
- --%>    
+ 
 </script>	
 </body>
 </html>
