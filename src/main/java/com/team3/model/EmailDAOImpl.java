@@ -28,6 +28,16 @@ public class EmailDAOImpl implements EmailDAO{
 	}
 
 	@Override
+	public EmailDTO EmailCont(int no) {
+		return null;
+	}
+
+	@Override
+	public int updateEmail(EmailDTO dto) {
+		return 0;
+	}
+
+	@Override
 	public Map<String, String> send(String email, String title, String body) {
 		// TODO Auto-generated method stub
 		return null;

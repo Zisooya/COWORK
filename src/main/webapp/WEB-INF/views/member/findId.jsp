@@ -4,27 +4,15 @@
 <html>
 <head>
     <title>아이디 찾기</title>
-    <script
-            src="https://code.jquery.com/jquery-3.6.1.js"
-            integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
-            crossorigin="anonymous"
-    ></script>
-    <link
-            href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap"
-            rel="stylesheet"
-    />
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
-            crossorigin="anonymous"
-    />
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"/>
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="data:;base64,=" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="icon" href="data:;base64,="/>
     <style>
         .btn {
-            width: 180px;
+            width: 150px;
         }
         .form-input {
             width: 300px;
@@ -40,7 +28,7 @@
             margin-top: 108px;
         }
 
-        .d-grid {
+        #btn_box {
             margin-top: 30px;
         }
     </style>
@@ -60,8 +48,9 @@
             <input type="email" class="form-control" id="mem_email" name="mem_email"/>
             <div class="check_font" id="email_check"></div>
         </div>
-        <div class="d-grid gap-2">
-            <button class="btn btn-primary btn-lg" type="submit">찾기</button>
+        <div class="form-group text-center" id="btn_box">
+            <button class="btn btn-primary" id="btn_confirm" type="submit">확인</button>
+            <button class="btn btn-primary" type="button" onclick="history.back();">취소</button>
         </div>
     </form>
 </div>
@@ -79,6 +68,37 @@
             $("#email_check").css("color", "red");
         }
     });
+
+    $(document).ready(function () {
+        $("#btn_confirm").click(function () {
+            let mem_name = $("#mem_name").val();
+            let mem_email = $("#mem_email").val();
+            if (mem_name === "") {
+                alert("이름을 입력하세요.");
+                $("#mem_name").focus();
+                return false;
+            }
+            if (mem_email === "") {
+                alert("이메일을 입력하세요.");
+                $("#mem_email").focus();
+                return false;
+            }
+        });
+    });
+    /*$(document).ready(function () {
+        $("#btn_confirm").click(function () {
+            this.$("body").style.overflow = "hidden";
+            $("#background_modal").show();
+        });
+        $("#close").on('click', function () {
+            $("#background_modal").hide();
+        });
+        $(window).on('click', function () {
+            if (event.target === $("#background_modal").get(0)) {
+                $("#background_modal").hide();
+            }
+        });
+    });*/
 
 </script>
 </html>

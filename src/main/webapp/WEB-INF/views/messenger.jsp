@@ -101,7 +101,9 @@ $(function(){
 	    }		
 	});	// 부서명 체크박스 하나만 선택되도록 하기.
 	
+
 	
+
 	
 	
 });
@@ -126,6 +128,7 @@ $(function(){
         //cowork는 프로젝트 이름
         //messanger.do 웹소켓 서버단 @ServerEndpoint에 적은 path
         ws = new WebSocket("ws://localhost:8282/cowork/chat");
+        
         
         
       	//웹 소켓이 서버와 연결되었을 때 호출되는 이벤트
@@ -158,6 +161,7 @@ $(function(){
     function send(){
     	
     	var today = new Date();
+
     	var year = today.getFullYear();
     	var month = ('0' + (today.getMonth() + 1)).slice(-2);
     	var day = ('0' + today.getDate()).slice(-2);
@@ -169,6 +173,7 @@ $(function(){
 		var seconds = ('0' + today.getSeconds()).slice(-2); 
 		var timeString = hours + ':' + minutes  + ':' + seconds;
 		
+
 		let send_date = dateString + " " + timeString;
 		
 		console.log(send_date );	// 2022/12/21 15:47:29
@@ -177,6 +182,7 @@ $(function(){
 		let message = document.getElementById("messageinput").value;
 		let chat_room_no = (document.getElementById("chat_room_no").value).toString();
 		
+
         let text = message+","+sender+","+chat_room_no+","+send_date;
      	
         //웹소켓으로 textMessage객체의 값을 보낸다.
@@ -216,10 +222,12 @@ $(function(){
         messages.parentNode.removeChild(messages)
   	}    
     
+
     function openChatRoom(chat_room_no) {
     	
     	let mem_id = document.getElementById("sender").value;
     	
+
     	// 채팅방 별 데이터 불러오기
     	$.ajax({
     		type: 'POST',
@@ -233,6 +241,7 @@ $(function(){
     			$('#messages').html("");
     			$('#messages').append("<input id='chat_room_no' type='hidden' value='"+chat_room_no+"'>");
 	    		$.each(data, function(index, Chat_MessageDTO) {
+
 	    			if(Chat_MessageDTO.sender===mem_id){
 	    				$("#messages").append("<나> : " + Chat_MessageDTO.message+"("+Chat_MessageDTO.send_date+")<br>");
 	    			}else{
@@ -242,13 +251,16 @@ $(function(){
 	    		});	// $.each() 함수 end
 	    		
 	    		openSocket();
+
     		}, 
     		error: function(res){ 
 				alert('ajax 응답 오류');
 			}
     	});   // 채팅방 별 jsp 불러오기 $.ajax() end
+
     	
 	}	// openChatRoom 함수 end
+
 
 	
     function insertChatMessage(chat_room_no, sender, message, send_date) {
@@ -271,6 +283,7 @@ $(function(){
 			}
 		});	// DB에 메세지 저장 $.ajax() end				
 	}
+
  
 </script>	
 </body>
