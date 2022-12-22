@@ -221,8 +221,8 @@
 		<dependency>
 		    <groupId>com.fasterxml.jackson.core</groupId>
 		    <artifactId>jackson-databind</artifactId>
-		    <version>2.9.4</version>
-		</dependency>
+		    <version>2.10.0</version>
+		</dependency>	
 		
 		<dependency>
 		    <groupId>com.fasterxml.jackson.dataformat</groupId>
@@ -282,19 +282,25 @@
 			<version>1.1</version>
 		</dependency>
 
-		<!-- SOCK-JS -->
-		<dependency>
-		    <groupId>org.webjars</groupId>
-		    <artifactId>sockjs-client</artifactId>
-		    <version>1.5.1</version>
-		</dependency>
-		
-      	<!-- stomp -->
-		<dependency>
-		    <groupId>org.webjars</groupId>
-		    <artifactId>stomp-websocket</artifactId>
-		    <version>2.3.4</version>
-		</dependency>	
+	<!-- json object[s] -->
+	<dependency>
+	    <groupId>net.sf.json-lib</groupId>
+	    <artifactId>json-lib</artifactId>
+	    <classifier>jdk15</classifier>
+	    <version>2.4</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.codehaus.jackson</groupId>
+	    <artifactId>jackson-mapper-asl</artifactId>
+	    <version>1.9.13</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.codehaus.jackson</groupId>
+	    <artifactId>jackson-core-asl</artifactId>
+	    <version>1.9.13</version>
+	</dependency>
+	<!-- json object[e] -->	
 
 		
 	</dependencies>

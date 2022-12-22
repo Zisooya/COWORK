@@ -9,7 +9,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team3.model.Chat_MessageDTO;
@@ -26,7 +28,6 @@ public class MessengerController {
 
 	@RequestMapping("openChatRoom.do")
 	public @ResponseBody List<Chat_MessageDTO> openChatRoom(int chat_room_no) {
-		System.out.println("넘어온 chat_room_no : " + chat_room_no);
 
 		// 채팅방 번호에 해당하는 채팅방의 메세지들 불러오기.
 		List<Chat_MessageDTO> messageList = this.messengerDao.getMessageList(chat_room_no);
@@ -58,6 +59,28 @@ public class MessengerController {
 		model.addAttribute("groupChatList", groupChatList);
 
 		return "messenger";
+	}
+	
+	@RequestMapping("messenger_insertMessage.do") 
+	public @ResponseBody int insertMessage(@RequestParam("chat_room_no") int chat_room_no,@RequestParam("sender") String sender,@RequestParam("message") String message,@RequestParam("send_date") String send_date){
+		
+		Chat_MessageDTO chatMessageDTO = new Chat_MessageDTO();
+		
+		chatMessageDTO.setChat_room_no(chat_room_no);
+		chatMessageDTO.setSender(sender);
+		chatMessageDTO.setMessage(message);
+		chatMessageDTO.setSend_date(send_date);
+		
+		// DB에 메세지 저장
+		int check = this.messengerDao.messenger_insertMessage(chatMessageDTO);
+
+		if(check>0) {
+			System.out.println("Chat_MessageDTO insert 성공!");
+		}else {
+			System.out.println("Chat_MessageDTO insert 실패");
+		}	
+		
+		return check;
 	}
 	
 
