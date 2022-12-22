@@ -53,6 +53,20 @@
 	let add_endTime_val;
 	let end_date_select;
 	
+	// Event 조회용 변수 : g(global variable:전역변수) + 변수명
+	var gTitle;
+	var gStartTime;
+	var gEndTime;
+	var gAllDay;
+	var gMemo;
+	var gPlace;
+	var gCalTypeNo;
+	var gCalName;
+	var gMark;
+	// Event 추가용 변수 : a(add) + 변수명
+	var aTitle;
+	var aAllday;
+	
 	document.addEventListener('DOMContentLoaded',function() {
 		/* ------------------------------------모달창 관련------------------------------------ */
 		const modal_detail = document.querySelector(".modal_detail");
@@ -70,7 +84,7 @@
 		const cal_name = document.querySelector(".cal_name");
 		const mark = document.querySelector("#mark_detail");
 		const time_dash = document.querySelector("#time_dash");
-
+		
 		/* const allDay_checkBox_add = document.querySelector(".add_allDay");
 		const startTime_add = document.querySelector(".add_startTime");
 		const endTime_add = document.querySelector(".add_endTime");
@@ -128,6 +142,14 @@
 			repeat_w.innerText = '매주 ' + getDayOfWeek(start_date_select) + '요일';
 			repeat_m.innerText = '매월 ' + getWeekNo(start_date_select) + '번째 ' + getDayOfWeek(start_date_select) + '요일';
 			repeat_y.innerText = '매년 ' + moment(start_date_select).format("MM") + '월 ' + moment(start_date_select).format("DD") + '일';
+			
+			var calTypeListJson = JSON.parse('${CalTypeList_Json}'); 
+			for (var i = 0; i < calTypeListJson.length; i++){
+				if(calTypeListJson[i].cal_type_no == gCalTypeNo) {
+					var calTypeNo_matched = calTypeListJson[i].cal_type_no;
+					$("#cal_type_no_select").val(calTypeNo_matched).prop("selected", true);
+				}
+			}
 		}
 		closeBtn_add.onclick = function() {
 			modal_add.style.display = "none";
@@ -175,18 +197,6 @@
 		}
 		/* ------------------------------------모달창 관련 끝------------------------------------ */
 		
-		// Event 조회용 변수 : g(global variable:전역변수) + 변수명
-		var gTitle;
-		var gStartTime;
-		var gEndTime;
-		var gAllDay;
-		var gMemo;
-		var gPlace;
-		var gCalName;
-		var gMark;
-		// Event 추가용 변수 : a(add) + 변수명
-		var aTitle;
-		var aAllday;
 		
 		var calendarEl = document.getElementById('calendar');
 		var calendar = new FullCalendar.Calendar(calendarEl,{
@@ -226,6 +236,7 @@
 				$(".datetimepicker").datetimepicker({ 
 					timepicker:false
 				});
+				document.getElementById("mark_check").checked = false;
 				document.getElementById("allday_check").checked = true;
 				
 				// 날짜 선택에 따른 라디오 텍스트 변경
@@ -265,7 +276,7 @@
 								var eAllday;
 								var eMemo = element.cal_memo;
 								var ePlace = element.cal_place;
-								var eCalNo = element.cal_type_no;
+								var eCalTypeNo = element.cal_type_no;
 								var eCalName;
 								var eColor;
 								var eMark = element.cal_mark;
@@ -274,13 +285,11 @@
 								if (element.cal_category != "none") {
 									eColor = element.cal_category;
 								} else {
-									var myVocaJson = JSON.parse('${CalTypeList_Json}'); 
-									for (var i = 0; i < myVocaJson.length; i++){
-										if(myVocaJson[i].cal_type_no == eCalNo) {
-											eColor = myVocaJson[i].cal_type_color;
-										}
-										if(myVocaJson[i].cal_type_no == eCalNo) {
-											eCalName = myVocaJson[i].cal_type_name;
+									var calTypeListJson = JSON.parse('${CalTypeList_Json}'); 
+									for (var i = 0; i < calTypeListJson.length; i++){
+										if(calTypeListJson[i].cal_type_no == eCalTypeNo) {
+											eColor = calTypeListJson[i].cal_type_color;
+											eCalName = calTypeListJson[i].cal_type_name;
 										}
 									}
 								}
@@ -300,7 +309,7 @@
 									allDay : eAllday,
 									memo : eMemo,
 									place : ePlace,
-									cal_no : eCalNo,
+									cal_type_no : eCalTypeNo,
 									cal_name : eCalName,
 									mark : eMark
 								}); // push() end
@@ -320,6 +329,7 @@
 				gAllDay = eventObj.allDay;
 				gMemo = eventObj.extendedProps.memo;
 				gPlace = eventObj.extendedProps.place;
+				gCalTypeNo = eventObj.extendedProps.cal_type_no;
 				gCalName = eventObj.extendedProps.cal_name;
 				gMark = eventObj.extendedProps.mark;
 				detail();
@@ -419,10 +429,10 @@
 				contentType : false, // 필수 
 				data : formData,
 				success : function(result) {
-					alert(result);
+					console.log(result);
 				},
 				error : function() {
-					alert("파일 첨부 도중 에러 발생");
+					console.log("파일 첨부 도중 에러 발생");
 				}
 			});
 			document.location.reload();
@@ -430,7 +440,13 @@
 		// 일정 추가 버튼 클릭 시
 		$("#eventAdd_btn").on("click", function() {
 			add();
-			const startTime_to_input_btn = moment().format("YYYY-MM-DD 00:00");
+			let startTime_to_input_btn;
+			if(gStartTime == new Date()) {
+				startTime_to_input_btn = moment().format("YYYY-MM-DD 00:00");
+			}else {
+				startTime_to_input_btn = moment(gStartTime).format("YYYY-MM-DD 00:00");
+			}
+			//const startTime_to_input_btn = moment(gStartTime).format("YYYY-MM-DD 00:00");
 			$('#add_startTime').attr("value", startTime_to_input_btn);
 			$('#add_endTime').attr("value", startTime_to_input_btn);
 			// 날짜 뒤에 요일 추가
@@ -441,6 +457,7 @@
 			$(".datetimepicker").datetimepicker({ 
 				timepicker:false
 			});
+			document.getElementById("mark_check").checked = false;
 			document.getElementById("allday_check").checked = true;
 			
 			// 날짜 선택에 따른 라디오 텍스트 변경
@@ -543,6 +560,7 @@
 		    scrollbar: true
 		}); */
 	});
+	
 </script>
 <style type="text/css">
 /* bootstrap fullcalendar에 적용안하기 */
@@ -665,6 +683,127 @@ a {
 	padding: 0.3%;
 }
 /* 일정 추가 창(modal) 관련 끝 */
+html, body {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.clearfix:after {
+  content: '';
+  display: block;
+  clear: both;
+  float: none;
+}
+
+/* ======== Calendar ======== */
+.my-calendar {
+  width: 96%;
+  margin: 5px;
+  padding: 10px 10px 10px;
+  text-align: center;
+  font-weight: 800;
+  border: 1px solid #ddd;
+  cursor: default;
+}
+/* .my-calendar .clicked-date {
+  border-radius: 25px;
+  margin-top: 36px;
+  float: left;
+  width: 20%;
+  padding: 20px 0 10px;
+  background: #ddd;
+} */
+.my-calendar .calendar-box {
+  /* float: right; */
+  width: 45%;
+  /* padding-left: 30px; */
+}
+
+/* .clicked-date .cal-day {
+  font-size: 15px;
+}
+.clicked-date .cal-date {
+  font-size: 15px;
+} */
+
+.ctr-box {
+  padding: 0 16px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.ctr-box .btn-cal {
+  position: relative;
+  float: left;
+  width: 25px;
+  height: 25px;
+  margin-top: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+.ctr-box .btn-cal:after {
+  content: '<';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  line-height: 25px;
+  font-weight: bold;
+  font-size: 15px;
+}
+.ctr-box .btn-cal.next {
+  float: right;
+}
+.ctr-box .btn-cal.next:after {
+  content: '>';
+}
+
+.cal-table {
+  width: 100%;
+}
+.cal-table th {
+  width: 14.2857%;
+  padding-bottom: 5px;
+  font-size: 14px;
+  font-weight: 900;
+}
+.cal-table td {
+  padding: 3px 0;
+  height: 27px;
+  font-size: 11px;
+  vertical-align: middle;
+}
+.cal-table td.day {
+  position: relative;
+  cursor: pointer;
+}
+.cal-table td.today {
+  background: #C2F347;
+  border-radius: 50%;
+  color: #fff;
+}
+.cal-table td.day-active {
+  background: #E4F7BA;
+  border-radius: 50%;
+  color: #fff;
+}
+.cal-table td.has-event:after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 4px;
+  background: #FFC107;
+}
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -674,10 +813,41 @@ a {
 	<div id="grid_container">
 		<jsp:include page="include.jsp" />
 		<nav id="side">
+			<input class="btn btn-success" type="button" id="eventAdd_btn" value="일정 추가">
 			<div id="side_menu" style="overflow-y: auto;">
-
-				<!-- <input type="button" value="일정쓰기"> -->
-				<input class="btn btn-success" type="button" id="eventAdd_btn" value="일정 추가">
+				<div class="container">
+					<div class="my-calendar clearfix">
+						<!-- <div class="clicked-date">
+							<div class="cal-day"></div>
+							<div class="cal-date"></div>
+						</div> -->
+						<!-- <div class="calendar-box"> -->
+							<div class="ctr-box clearfix">
+								<button type="button" title="prev" class="btn-cal prev">
+								</button>
+								<span class="cal-year"></span>
+								<span class="cal-month"></span>
+								<button type="button" title="next" class="btn-cal next">
+								</button>
+							</div>
+							<table class="cal-table">
+								<thead>
+									<tr>
+										<th>일</th>
+										<th>월</th>
+										<th>화</th>
+										<th>수</th>
+										<th>목</th>
+										<th>금</th>
+										<th>토</th>
+									</tr>
+								</thead>
+								<tbody class="cal-body"></tbody>
+							</table>
+						<!-- </div> -->
+					</div>
+					<!-- // .my-calendar -->
+				</div>
 			</div>
 		</nav>
 		<article id="content">
@@ -754,7 +924,7 @@ a {
 					</div>
 					<div class="modal_add_elements">
 						캘린더
-						<select name="cal_type_no">
+						<select name="cal_type_no" id="cal_type_no_select">
 							<c:forEach items="${CalTypeList}" var="dto" varStatus="i" begin="0" end="0">
 								<option value="${dto.getCal_type_no()}">
 								<c:choose>
@@ -845,5 +1015,140 @@ a {
 		</article>
 		<!-- 메인 기능 들어갈 부분 끝 -->
 	</div>
+	<script type="text/javascript">
+	//================================
+	//START YOUR APP HERE
+	//================================
+	const init = {
+	monList: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	dayList: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+	today: new Date(),
+	monForChange: new Date().getMonth(),
+	activeDate: new Date(),
+	getFirstDay: (yy, mm) => new Date(yy, mm, 1),
+	getLastDay: (yy, mm) => new Date(yy, mm + 1, 0),
+	nextMonth: function () {
+	 let d = new Date();
+	 d.setDate(1);
+	 d.setMonth(++this.monForChange);
+	 this.activeDate = d;
+	 return d;
+	},
+	prevMonth: function () {
+	 let d = new Date();
+	 d.setDate(1);
+	 d.setMonth(--this.monForChange);
+	 this.activeDate = d;
+	 return d;
+	},
+	addZero: (num) => (num < 10) ? '0' + num : num,
+	activeDTag: null,
+	getIndex: function (node) {
+	 let index = 0;
+	 while (node = node.previousElementSibling) {
+	   index++;
+	 }
+	 return index;
+	}
+	};
+	
+	const $calBody = document.querySelector('.cal-body');
+	const $btnNext = document.querySelector('.btn-cal.next');
+	const $btnPrev = document.querySelector('.btn-cal.prev');
+	
+	/**
+	* @param {number} date
+	* @param {number} dayIn
+	*/
+	function loadDate (date) {
+		gStartTime = date;
+	}
+	/**
+	* @param {date} fullDate
+	*/
+	function loadYYMM (fullDate) {
+	let yy = fullDate.getFullYear();
+	let mm = fullDate.getMonth();
+	let firstDay = init.getFirstDay(yy, mm);
+	let lastDay = init.getLastDay(yy, mm);
+	let markToday;  // for marking today date
+	
+	if (mm === init.today.getMonth() && yy === init.today.getFullYear()) {
+	 markToday = init.today.getDate();
+	}
+	
+	document.querySelector('.cal-month').textContent = init.monList[mm];
+	document.querySelector('.cal-year').textContent = yy+'년';
+	
+	let trtd = '';
+	let startCount;
+	let countDay = 0;
+	for (let i = 0; i < 6; i++) {
+	 trtd += '<tr>';
+	 for (let j = 0; j < 7; j++) {
+	   if (i === 0 && !startCount && j === firstDay.getDay()) {
+	     startCount = 1;
+	   }
+	   if (!startCount) {
+	     trtd += '<td>'
+	   } else {
+	     let fullDate = yy + '.' + init.addZero(mm + 1) + '.' + init.addZero(countDay + 1);
+	     trtd += '<td class="day';
+	     trtd += (markToday && markToday === countDay + 1) ? ' today" ' : '"';
+	     trtd += ` data-date="${countDay + 1}" data-fdate="${fullDate}">`;
+	   }
+	   trtd += (startCount) ? ++countDay : '';
+	   if (countDay === lastDay.getDate()) { 
+	     startCount = 0; 
+	   }
+	   trtd += '</td>';
+	 }
+	 trtd += '</tr>';
+	}
+	$calBody.innerHTML = trtd;
+	}
+	
+	/**
+	* @param {string} val
+	*/
+	function createNewList (val) {
+	let id = new Date().getTime() + '';
+	let yy = init.activeDate.getFullYear();
+	let mm = init.activeDate.getMonth() + 1;
+	let dd = init.activeDate.getDate();
+	const $target = $calBody.querySelector(`.day[data-date="${dd}"]`);
+	
+	let date = yy + '.' + init.addZero(mm) + '.' + init.addZero(dd);
+	
+	let eventData = {};
+	eventData['date'] = date;
+	eventData['memo'] = val;
+	eventData['complete'] = false;
+	eventData['id'] = id;
+	init.event.push(eventData);
+	$todoList.appendChild(createLi(id, val, date));
+	}
+	
+	loadYYMM(init.today);
+	//loadDate(init.today.getDate(), init.today.getDay());
+	
+	$btnNext.addEventListener('click', () => loadYYMM(init.nextMonth()));
+	$btnPrev.addEventListener('click', () => loadYYMM(init.prevMonth()));
+	
+	$calBody.addEventListener('click', (e) => {
+	if (e.target.classList.contains('day')) {
+	 if (init.activeDTag) {
+	   init.activeDTag.classList.remove('day-active');
+	 }
+	 let day = Number(e.target.textContent);
+	 e.target.classList.add('day-active');
+	 init.activeDTag = e.target;
+	 init.activeDate.setDate(day);
+	 loadDate(init.activeDate);
+	 //reloadTodo();
+	}
+	});
+	
+	</script>
 </body>
 </html>
