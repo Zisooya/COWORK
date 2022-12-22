@@ -20,7 +20,16 @@ public class MessengerDAOImpl implements MessengerDAO {
 
 	@Override
 	public List<Chat_RoomDTO> getGroupChatRoomList(int mem_no) {
-		// TODO Auto-generated method stub
 		return this.sqlSession.selectList("messengerDao.groupChatRoomList",mem_no);
+	}
+
+	@Override
+	public List<Chat_MessageDTO> getMessageList(int chat_room_no) {
+		return this.sqlSession.selectList("messengerDao.messageList",chat_room_no);
+	}
+
+	@Override
+	public int messenger_insertMessage(Chat_MessageDTO chatMessageDTO) {
+		return this.sqlSession.insert("messengerDao.messenger_insertMessage", chatMessageDTO);
 	}
 }
