@@ -21,6 +21,7 @@ ul{
 }
 
 .liany{
+	text-align: center;
   	float : left;	
 }
 
