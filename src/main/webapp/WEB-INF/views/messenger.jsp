@@ -103,8 +103,6 @@ $(function(){
 	
 
 	
-
-	
 	
 });
 
@@ -161,7 +159,6 @@ $(function(){
     function send(){
     	
     	var today = new Date();
-
     	var year = today.getFullYear();
     	var month = ('0' + (today.getMonth() + 1)).slice(-2);
     	var day = ('0' + today.getDate()).slice(-2);
@@ -221,13 +218,11 @@ $(function(){
         console.log(messages.parentNode);
         messages.parentNode.removeChild(messages)
   	}    
-    
 
     function openChatRoom(chat_room_no) {
     	
     	let mem_id = document.getElementById("sender").value;
     	
-
     	// 채팅방 별 데이터 불러오기
     	$.ajax({
     		type: 'POST',
@@ -262,6 +257,7 @@ $(function(){
 	}	// openChatRoom 함수 end
 
 
+
 	
     function insertChatMessage(chat_room_no, sender, message, send_date) {
 		
@@ -284,6 +280,28 @@ $(function(){
 		});	// DB에 메세지 저장 $.ajax() end				
 	}
 
+
+	
+    function insertChatMessage(chat_room_no, sender, message, send_date) {
+		
+		let sendData = {"chat_room_no":chat_room_no,"sender":sender,"message":message,"send_date":send_date};
+		
+		// DB에 메세지 저장 $.ajax()
+		$.ajax({
+			type: 'POST',
+			async : false,
+			url: '<%=request.getContextPath()%>/messenger_insertMessage.do',
+			data:sendData,
+			success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
+				if(data>0){
+					console.log('db에 메세지 저장 성공');
+				}					
+			},
+			error: function(res){ // 응답을 받지 못하였다거나 정상적인 응답이지만 데이터 형식을 확인할 수 없을 때 error 콜백이 호출.
+				alert('ajax 응답 오류');
+			}
+		});	// DB에 메세지 저장 $.ajax() end				
+	}
  
 </script>	
 </body>
