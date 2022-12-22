@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@ServerEndpoint(value="/messanger.do")
+@ServerEndpoint(value="/chat")
 public class ChatHandler {
 	
 	@Autowired
@@ -110,10 +110,6 @@ public class ChatHandler {
 		
 		log.info("Message From " + sender + ": " + message);
 		
-		
-		// 메세지 정보를 DB에 저장하는 메소드 호출.
-		insertMessage(chat_room_no,sender,message,send_date);
-		
 		try {
 			final Basic basic = session.getBasicRemote();
 			basic.sendText("<나> : " + message + " ("+send_date+")");
@@ -140,36 +136,6 @@ public class ChatHandler {
 		log.info("Session " + session.getId() + " has ended");
 		sessionList.remove(session);
 	}
-	
-	// DB에 메세지 저장하는 메소드
-	public void insertMessage(int chat_room_no,String sender,String message,String send_date) {
-		Chat_MessageDTO chatMessageDTO = new Chat_MessageDTO();
-		System.out.println("------------파라미터 쓰기--------------");
-		System.out.println(chat_room_no);
-		System.out.println(sender);
-		System.out.println(message);
-		System.out.println(send_date);
-		System.out.println("------------파라미터 쓰기 끝--------------");
-		chatMessageDTO.setChat_room_no(1);
-		chatMessageDTO.setSender("coya319");
-		chatMessageDTO.setMessage("디티오...");
-		chatMessageDTO.setSend_date("2022/12/22 00:51:15");
-		
-		System.out.println("------------getter메소드--------------");
-		System.out.println(chatMessageDTO.getChat_room_no());
-		System.out.println(chatMessageDTO.getSender());
-		System.out.println(chatMessageDTO.getMessage());
-		System.out.println(chatMessageDTO.getSend_date());
-		
-		int check = this.messengerDao.messenger_insertMessage(chatMessageDTO);
-		
-		if(check>0) {
-			System.out.println("Chat_MessageDTO insert 성공!");
-		}else {
-			System.out.println("Chat_MessageDTO insert 실패");
-		}		
-	}
-	
 	
 	
 }

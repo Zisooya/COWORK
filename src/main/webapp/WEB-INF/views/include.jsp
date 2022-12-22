@@ -13,7 +13,7 @@
             <img id="logo_home" src="resources/images/COWORK.png" style="width:70%; height:70%; margin: 20px 10px 5px 10px; "/>
          </div>   
          <div id="company">
-            (주)그린테크
+            
          </div>
          <a href="<%=request.getContextPath() %>/">
          
