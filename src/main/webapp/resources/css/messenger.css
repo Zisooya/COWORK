@@ -206,13 +206,16 @@ input[name *= accordion_cb_] {
 
 #messages {
 	width: 100%;
-	height: 90%;
+	height: 100%;
 	padding: 20px 10px;
 	grid-column : 1/2;
-	grid-row : 1/2;		
-	overflow-y: scroll;
+	grid-row : 1/2;	
+	overflow-x: hidden;
+	overflow-y: auto;
 	font-size : 1rem;
 	line-height: 2rem;
+	box-sizing: border-box;
+	
 }
 
 
@@ -235,16 +238,129 @@ input[name *= accordion_cb_] {
 	grid-row : 1/3;		
 }
 
-#messages_people {
-	background-color: pink;
-	width: 50%;
+
+.rightM{
+	display: grid;
+	grid-template-columns : auto 250px;
+	grid-template-rows : 50% 50%;	
+	width:auto;
+	height:auto;
+	margin: 20px;
 }
 
-#messages_me {
-	background-color: skyblue;
-	width: 50%;
-	
+.messages_me
+{
+	grid-column : 2/3;
+	grid-row : 1/3;	
+	margin: 5px 20px 0 0;
+	float:right;
+	position: relative;
+	width: 230px;
+	height: auto;
+	padding: 5px 10px;
+	background: #C2F347;
+	-webkit-border-radius: 9px;
+	-moz-border-radius: 9px;
+	border-radius: 9px;
+	box-sizing: border-box;
 }
+
+.messages_me:after
+{
+content: '';
+position: absolute;
+border-style: solid;
+border-width: 7px 0 7px 16px;
+border-color: transparent #C2F347;
+display: block;
+width: 0;
+z-index: 1;
+right: -16px;
+top: 13px;
+}
+
+.send_date_me {
+	grid-column : 1/2;
+	grid-row : 2/3;		
+	width: auto;
+	height: auto;
+	place-self: end end;
+	font-size: 0.8rem;
+	line-height: 1rem;
+	margin-right: 10px;
+}
+
+
+.leftM {
+	display: grid;
+	grid-template-columns : 60px 250px auto;
+	grid-template-rows : 1fr 1fr 1fr;	
+	width:auto;
+	height:auto;
+	margin: 20px;	
+}
+
+/* 추후에 사진 추가될 것.  */
+.sender_img {
+	grid-column : 1/2;
+	grid-row : 1/3;	
+	background: url(../images/로그인_전_프로필.png) 0 0 no-repeat;
+	background-size: 50px; 	
+}
+
+.sender_name {
+	grid-column : 2/4;
+	grid-row : 1/2;		
+}
+
+.send_date_people {
+	grid-column : 3/4;
+	grid-row : 3/4;
+	width: auto;
+	height: auto;
+	place-self: end start;
+	font-size: 0.8rem;
+	line-height: 1rem;
+	margin-left: 10px;			
+}
+
+
+
+.messages_people
+{
+grid-column : 2/3;
+grid-row : 2/4;		
+position: relative;
+width: 230px;
+height: auto;
+margin: 5px 0px 0px 20px;
+padding: 5px 10px;
+background: #E4F7BA;
+-webkit-border-radius: 9px;
+-moz-border-radius: 9px;
+border-radius: 9px;
+box-sizing: border-box;
+}
+
+.messages_people:after
+{
+content: '';
+position: absolute;
+border-style: solid;
+border-width: 7px 16px 7px 0;
+border-color: transparent #E4F7BA;
+display: block;
+width: 0;
+z-index: 1;
+left: -16px;
+top: 13px;
+}
+
+
+
+
+
+
 
 
 .side_btn {

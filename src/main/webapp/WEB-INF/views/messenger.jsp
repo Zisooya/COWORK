@@ -59,15 +59,9 @@
 	
 		<article id="content">
 			<div id="chat_grid_container">
-				<div id="messages" style="overflow-y: scroll;">
+				<div id="messages">
 					<button type="button" onclick="closeSocket();" style="width:200px;">대화방 나가기</button>
 					
-					<div id="messages_people">
-					</div>
-					
-					<div id="messages_me">
-					
-					</div>
 				</div>				
 					<div id="bottom_input">
 					<input type="hidden" id="sender" value="${member.mem_id}" >
@@ -172,7 +166,7 @@ $(function(){
 		
 		let send_date = dateString + " " + timeString;
 		
-		console.log(send_date );	// 2022/12/21 15:47:29
+		console.log(send_date);	// 2022/12/21 15:47:29
     	
 		let sender = document.getElementById("sender").value;
 		let message = document.getElementById("messageinput").value;
@@ -186,6 +180,10 @@ $(function(){
         document.getElementById("messageinput").value="";
         
         text = "";
+ 
+        // 자동 스크롤
+        let messages = document.getElementById("messages");
+        messages.scrollTop = messages.scrollHeight;
         
 		// ajax로 DB에 메세지 저장하는 함수 호출
 		insertChatMessage(chat_room_no, sender, message, send_date);
@@ -193,7 +191,7 @@ $(function(){
     } // send() 함수 end
     
     
-	// 메세지 입력창 엔터키 / 클릭 이벤트	
+	// 메세지 입력창 엔터키	
     function enterMessage(e){
         
         if(e.keyCode == 13){
@@ -207,7 +205,7 @@ $(function(){
         ws.close();
     }
     
-    
+    // 대화방에 연결 되었습니다 => 나중에 각 회원 입장 알림으로 수정하기
     function writeResponse(text){
         messages.innerHTML += "<br/>"+text;
     }
@@ -234,14 +232,18 @@ $(function(){
     			$('#messages').html("");
     			$('#messages').append("<input id='chat_room_no' type='hidden' value='"+chat_room_no+"'>");
 	    		$.each(data, function(index, Chat_MessageDTO) {
+	    			
 	    			if(Chat_MessageDTO.sender===mem_id){
-	    				$("#messages").append("<나> : " + Chat_MessageDTO.message+"("+Chat_MessageDTO.send_date+")<br>");
+	    				$("#messages").append("<div class='rightM'><div class='send_date_me'>"+Chat_MessageDTO.send_date+"</div><div class='messages_me'>" + Chat_MessageDTO.message+"</div></div>");
 	    			}else{
-	    				$("#messages").append(Chat_MessageDTO.sender + " : " + Chat_MessageDTO.message+"("+Chat_MessageDTO.send_date+")<br>");
+	    				$("#messages").append("<div class='leftM'><div class='send_date_people'>"+Chat_MessageDTO.send_date+"</div><div class='sender_img'></div><div class='sender_name'>"+Chat_MessageDTO.sender+"</div><div class='messages_people'>" + Chat_MessageDTO.message+"</div></div>");
 	    			}
 	    			
 	    		});	// $.each() 함수 end
 	    		
+	            let messages = document.getElementById("messages");
+	            messages.scrollTop = messages.scrollHeight;
+	            
 	    		openSocket();
     		}, 
     		error: function(res){ 
