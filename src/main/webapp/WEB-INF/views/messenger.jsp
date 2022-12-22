@@ -101,7 +101,7 @@ $(function(){
 	    }		
 	});	// 부서명 체크박스 하나만 선택되도록 하기.
 	
-	
+
 	
 	
 });
@@ -170,6 +170,7 @@ $(function(){
 		var seconds = ('0' + today.getSeconds()).slice(-2); 
 		var timeString = hours + ':' + minutes  + ':' + seconds;
 		
+
 		let send_date = dateString + " " + timeString;
 		
 		console.log(send_date );	// 2022/12/21 15:47:29
@@ -178,6 +179,7 @@ $(function(){
 		let message = document.getElementById("messageinput").value;
 		let chat_room_no = (document.getElementById("chat_room_no").value).toString();
 		
+
         let text = message+","+sender+","+chat_room_no+","+send_date;
      	
         //웹소켓으로 textMessage객체의 값을 보낸다.
@@ -216,7 +218,7 @@ $(function(){
         console.log(messages.parentNode);
         messages.parentNode.removeChild(messages)
   	}    
-    
+
     function openChatRoom(chat_room_no) {
     	
     	let mem_id = document.getElementById("sender").value;
@@ -234,6 +236,7 @@ $(function(){
     			$('#messages').html("");
     			$('#messages').append("<input id='chat_room_no' type='hidden' value='"+chat_room_no+"'>");
 	    		$.each(data, function(index, Chat_MessageDTO) {
+
 	    			if(Chat_MessageDTO.sender===mem_id){
 	    				$("#messages").append("<나> : " + Chat_MessageDTO.message+"("+Chat_MessageDTO.send_date+")<br>");
 	    			}else{
@@ -243,13 +246,40 @@ $(function(){
 	    		});	// $.each() 함수 end
 	    		
 	    		openSocket();
+
     		}, 
     		error: function(res){ 
 				alert('ajax 응답 오류');
 			}
     	});   // 채팅방 별 jsp 불러오기 $.ajax() end
+
     	
 	}	// openChatRoom 함수 end
+
+
+
+	
+    function insertChatMessage(chat_room_no, sender, message, send_date) {
+		
+		let sendData = {"chat_room_no":chat_room_no,"sender":sender,"message":message,"send_date":send_date};
+		
+		// DB에 메세지 저장 $.ajax()
+		$.ajax({
+			type: 'POST',
+			async : false,
+			url: '<%=request.getContextPath()%>/messenger_insertMessage.do',
+			data:sendData,
+			success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
+				if(data>0){
+					console.log('db에 메세지 저장 성공');
+				}					
+			},
+			error: function(res){ // 응답을 받지 못하였다거나 정상적인 응답이지만 데이터 형식을 확인할 수 없을 때 error 콜백이 호출.
+				alert('ajax 응답 오류');
+			}
+		});	// DB에 메세지 저장 $.ajax() end				
+	}
+
 
 	
     function insertChatMessage(chat_room_no, sender, message, send_date) {
