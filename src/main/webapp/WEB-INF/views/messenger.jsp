@@ -128,6 +128,7 @@ $(function(){
         ws = new WebSocket("ws://localhost:8282/cowork/chat");
         
         
+        
       	//웹 소켓이 서버와 연결되었을 때 호출되는 이벤트
         ws.onopen = function(event){
             if(event.data === undefined){

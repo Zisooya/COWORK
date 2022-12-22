@@ -110,6 +110,10 @@ public class ChatHandler {
 		
 		log.info("Message From " + sender + ": " + message);
 		
+		
+		// 메세지 정보를 DB에 저장하는 메소드 호출.
+		insertMessage(chat_room_no,sender,message,send_date);
+		
 		try {
 			final Basic basic = session.getBasicRemote();
 			basic.sendText("<나> : " + message + " ("+send_date+")");

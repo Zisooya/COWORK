@@ -61,7 +61,7 @@
 		end;
 	</insert>
 	
-	<!-- 반복 : 평일 매일 -->
+	<!-- 반복 : 주중 매일 -->
 	<insert id="calAdd_repeat_d_weekday" parameterType="caldto">
 		<selectKey resultType="int" keyProperty="cal_no" order="BEFORE">
 			select max(cal_no) from calendar
@@ -76,7 +76,37 @@
 		        end if;
 		        
 		        select TO_CHAR(to_date(#{start},'yyyy.mm.dd hh24:mi')+r_count, 'd') into res from dual;
-		        if res = '2' or res = '3' or res = '4' or res = '5' or res = '6' then
+		        if res != '1' and res != '7' then
+		            insert into calendar values(#{cal_no}+r_count+1,
+					(select distinct c.mem_no from calendar c join member m
+					on c.mem_no = m.mem_no
+					where m.mem_no = #{mem_no}), #{cal_mark}, #{title}, to_date(#{start},'yyyy.mm.dd hh24:mi')+r_count, to_date(#{end},'yyyy.mm.dd hh24:mi')+r_count,
+					#{allDay},#{cal_repeat},'','','','', default, '', #{cal_attendee1},'','','','','',#{cal_type_name},#{cal_place},#{cal_memo},#{cal_file},
+					#{cal_category},'',#{cal_status},#{cal_type_no});
+		        end if;
+	            r_count := r_count+1;
+		    end loop;
+		end;
+	</insert>
+	
+	<!-- 반복 : 매주 X요일 -->
+	<insert id="calAdd_repeat_w_1" parameterType="caldto">
+		<selectKey resultType="int" keyProperty="cal_no" order="BEFORE">
+			select max(cal_no) from calendar
+		</selectKey>
+		declare
+		    r_count number := 0;
+		    start_day number;
+		    res number;
+		begin
+		    loop
+		        if(r_count >= 14) then
+		            exit;
+		        end if;
+		        
+		        select TO_CHAR(to_date(#{start},'yyyy.mm.dd hh24:mi'), 'd') into start_day from dual;
+		        select TO_CHAR(to_date(#{start},'yyyy.mm.dd hh24:mi')+r_count, 'd') into res from dual;
+		        if res = start_day then
 		            insert into calendar values(#{cal_no}+r_count+1,
 					(select distinct c.mem_no from calendar c join member m
 					on c.mem_no = m.mem_no
