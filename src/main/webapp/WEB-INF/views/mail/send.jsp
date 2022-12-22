@@ -55,7 +55,7 @@ label {
 	<!-- 메일 폼 시작 -->
 	<div class="pd-20 card-box mb-30">
 	<form action="" method="post" enctype="multipart/form-data" id="insertMail">
-						<input type="hidden" readonly class="form-control-plaintext" name="mem_id" value="${sessionScope.loginUser.eml_from }">
+						<input type="hidden" readonly class="form-control-plaintext" name="mem_id" value="${sessionScope.loginUser.mem_no}">
 						
 						<div class="form-group">
 							<div class="mailReceiver">
@@ -109,10 +109,10 @@ label {
 									
 									<select id="selectDept" class="custom-select col-6">
 										<option>부서 선택</option>
-										<option value="D1">기획마케팅본부</option>
-										<option value="D2">경영지원본부</option>
-										<option value="D3">디자인본부</option>
-										<option value="D4">개발본부</option>
+										<option value="1">기획마케팅본부</option>
+										<option value="2">경영지원본부</option>
+										<option value="3">디자인본부</option>
+										<option value="4">개발본부</option>
 									</select>
 									
 						            <button class="btn btn-primary" id="searchEmp">조회</button>
@@ -151,9 +151,9 @@ label {
  $(function(){
 	$("#searchEmp").click(function(){
 		
-		var dept_no = $("option:selected").val();
+		var dept_code = $("option:selected").val();
 		
-		if(dept_no == "부서 선택"){
+		if(dept_code == "부서 선택"){
 				
 			swal({
                   type: 'error',
@@ -164,8 +164,8 @@ label {
 		}
 		
 		$.ajax({
-			url:"empList.do",
-			data:{dept_no:dept_no},
+			url: "empList.do",
+			data:{dept_code:dept_code},
 			type:"get",
 			success:function(map){
 				
@@ -176,8 +176,8 @@ label {
 					
 					var $tr = $("<tr>");
 					var $ckTd = $("<td><input type='checkBox' class='checkEmp' name='checkEmp'></td>");
-					var $nameTd = $("<td>").text(mem.mem_no);
-					var $idTd = $("<td>").text(mem.mem_name);
+					var $nameTd = $("<td>").text(mem.mem_name);
+					var $idTd = $("<td>").text(mem.mem_id);
 					var $jobTd = $("<td>").text(mem.mem_position);
 					var $rightTd = $("<td>").text(mem.mem_rank);
 					
@@ -194,11 +194,8 @@ label {
 			error:function(e){
 				console.log("사원 리스트 조회 ajax 통신 실패");
 			}
-		
 		})
-	
 	})
-	
 })
 
 function selectReceiver(){
@@ -207,9 +204,9 @@ function selectReceiver(){
 	var mem_name = td.eq(1).text();
 	var mem_id = td.eq(2).text();
 	
-	var dept_no = $("option:selected").val();
+	var dept_code = $("option:selected").val();
 	
-	if(dept_no == "부서 선택"){
+	if(dept_code == "부서 선택"){
 			
 		swal(
                {
@@ -231,8 +228,8 @@ function selectReceiver(){
 		return false;
 	}
 	
-	$("input[name=receiverName]").val(mem_no);
-	$("input[name=receiver]").val(mem_name);
+	$("input[name=receiverName]").val(mem_name);
+	$("input[name=receiver]").val(mem_id);
 	$("#bd-example-modal-lg").modal("hide");	
 }
 

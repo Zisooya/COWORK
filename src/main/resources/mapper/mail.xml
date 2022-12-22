@@ -86,22 +86,14 @@
 	<insert id="insertMail" parameterType="EmailDto">
 		insert into email
 		values(seq_email.nextval, #{eml_from}, #{eml_to}, #{eml_title}, #{eml_content}, sysdate, default,
-				 default, #{importantFlag}, default, default, #{filename}, #{filepath})
+				 default, default, default, default, default, default)
 	</insert>
-	
-	<!-- 메일 작성자 -->
-	<select id="selectSendEmp" parameterType="_int" resultMap="empResultSet">
-		SELECT E.mem_id, E.mem_name
-		FROM MEMBER E
-		JOIN EMAIL M ON E.EMP_ID=M.eml_from
-		WHERE M.eml_NO=#{mno}
-	</select>
-	
+    
 	<!-- 보낸 메일함 갯수 -->
 	<select id="selectSendMailListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM EMAIL
-		WHERE EML_From=#{eml_from}
+		WHERE EML_From=#{mem_id}
 		AND WRITER_STATUS=1 
 	</select>
 	
@@ -161,8 +153,30 @@
 	<select id="selectMemberDTOList" parameterType="String" resultMap="empListResultSet">
 		SELECT mem_no, MEM_NAME, mem_position, MEM_RANK
 		FROM MEMBER m join department d
-		on (m.dept_no = d.dept_no)
-		where m.dept_name = #{dept_no}
+		on (d.dept_no = m.dept_no)
+		where m.dept_no = #{dept_code}
 		ORDER BY 1
+	</select>
+	
+	<!-- 메일 작성자 -->
+	<select id="selectSendEmp" parameterType="_int" resultMap="empResultSet">
+		SELECT E.mem_id, E.mem_name
+		FROM MEMBER E
+		JOIN EMAIL M ON E.MEM_ID=M.EML_FROM
+		WHERE M.EML_NO=#{mno}
+	</select>
+	
+	<select id="selectMail" parameterType="_int" resultMap="mailResultSet">
+		SELECT *
+		FROM EMAIL
+		WHERE EML_NO=#{mno}
+	</select>
+	
+	<!-- 메일 수신자 -->
+	<select id="selectReceiveEmp" parameterType="_int" resultMap="empResultSet">
+		SELECT E.mem_ID, E.mem_NAME
+		FROM MEMBER E
+		JOIN EMAIL M ON E.MEM_ID=M.EML_TO
+		WHERE M.EML_NO=#{mno}
 	</select>
   </mapper>

@@ -20,18 +20,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.team3.model.EmailDAO;
 import com.team3.model.EmailDTO;
+import com.team3.model.EmailService;
 import com.team3.model.PageDTO;
 import com.team3.model.mail.CommException;
 import com.team3.model.mail.PaginationMail;
 import com.team3.model.member.MemberDTO;
 
+import lombok.AllArgsConstructor;
+
 @Controller
 public class EmailController {
 	
 	@Autowired
-	private EmailDAO mailService; 
+	private EmailService mailService; 
 
 	@RequestMapping("mail_list.do") public String list() { return "mail_list"; }
 	
@@ -154,9 +156,9 @@ public class EmailController {
 	//주소록 - 부서코드로 사원리스트 출력
 	@ResponseBody
 	@RequestMapping(value = "empList.do", produces="application/json; charset=UTF-8")
-	public String selectList(String dept_no) {
+	public String selectList(String dept_code) {
 		
-		ArrayList<MemberDTO> list = mailService.selectMemberDTOList(dept_no);
+		ArrayList<MemberDTO> list = this.mailService.selectMemberDTOList(dept_code);
 		
 		JSONArray jrr = new JSONArray();
 		
@@ -167,9 +169,9 @@ public class EmailController {
 				obj = new JSONObject();
 				
 				obj.put("mem_name", mem.getMem_name());
+				obj.put("mem_id", mem.getMem_id());
 				obj.put("mem_position", mem.getMem_position());
 				obj.put("mem_rank", mem.getMem_rank());
-				obj.put("mem_email", mem.getMem_email());
 			 
 				jrr.put(obj);
 		 	}
@@ -177,13 +179,13 @@ public class EmailController {
 		
 		JSONObject jsonMap = null;
 		
-		if(dept_no != null && jrr != null) {
+		if(dept_code != null && jrr != null) {
 			jsonMap = new JSONObject();
 			
 			jsonMap.put("jrr", jrr);
-			jsonMap.put("dept_no", dept_no);
+			jsonMap.put("dept_code", dept_code);
 		}
-		
+		System.out.println("dept_code >> " + dept_code);
 		return jsonMap.toString();
 	}
 }

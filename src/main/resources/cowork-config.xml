@@ -46,7 +46,7 @@
 		<typeAlias type="com.team3.model.PageDTO" alias="pagedto"/>
 		
 		<!-- *************** 귀근 *************** -->
-		<typeAlias type="com.team3.model.EmailDAO" alias="emailDao"/>
+		<typeAlias type="com.team3.model.EmailService" alias="emailDao"/>
 		<typeAlias type="com.team3.model.EmailDTO" alias="emailDto"/>
 	</typeAliases>
 
