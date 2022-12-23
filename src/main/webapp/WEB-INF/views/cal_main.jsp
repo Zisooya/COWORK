@@ -66,7 +66,7 @@
 	// Event 추가용 변수 : a(add) + 변수명
 	var aTitle;
 	var aAllday;
-	
+	var calendar;
 	document.addEventListener('DOMContentLoaded',function() {
 		/* ------------------------------------모달창 관련------------------------------------ */
 		const modal_detail = document.querySelector(".modal_detail");
@@ -153,6 +153,8 @@
 		}
 		closeBtn_add.onclick = function() {
 			modal_add.style.display = "none";
+			gStartTime = new Date();
+			$("#cal_type_no_select option:eq(0)").prop("selected",true);
 		}
 		//빈 여백 클릭 시 모달창 닫힘 함수
 		window.onclick = function() {
@@ -198,7 +200,7 @@
 		/* ------------------------------------모달창 관련 끝------------------------------------ */
 		
 		var calendarEl = document.getElementById('calendar');
-		var calendar = new FullCalendar.Calendar(calendarEl,{
+		calendar = new FullCalendar.Calendar(calendarEl,{
 			/* initialDate: '2022-12-01', */
 			locale : "ko",
 			timeZone: 'UTC',
@@ -211,7 +213,7 @@
 			},
 			*/
 			headerToolbar : {
-				left : 'myPrev,myNext myToday next',
+				left : 'myPrev,myNext myToday',
 				center : 'title',
 				right : 'dayGridMonth,timeGridWeek,timeGridDay'
 			},
@@ -220,21 +222,27 @@
 					text: '오늘',
 					click: function() {
 						calendar.today();
-						loadYYMM(init.today);
+						loadYYMM(calendar.getDate());
+						init.activeDate.setTime(calendar.getDate());
+						init.monForChange = calendar.getDate().getMonth();
 					}
 				},
 				myPrev: {
 					text: '◀',
 					click: function() {
 						calendar.prev();
-						loadYYMM(init.prevMonth());
+						loadYYMM(calendar.getDate());
+						init.activeDate.setTime(calendar.getDate());
+						init.monForChange = calendar.getDate().getMonth();
 					}
 				},
 				myNext: {
 					text: '▶',
 					click: function() {
 						calendar.next();
-						loadYYMM(init.nextMonth());
+						loadYYMM(calendar.getDate());
+						init.activeDate.setTime(calendar.getDate());
+						init.monForChange = calendar.getDate().getMonth();
 					}
 				}
 			},
@@ -459,10 +467,13 @@
 			});
 			document.location.reload();
 		});
+		
 		// 일정 추가 버튼 클릭 시
 		$("#eventAdd_btn").on("click", function() {
 			add();
+			$(".add_title").val("");
 			let startTime_to_input_btn;
+			
 			if(gStartTime == new Date()) {
 				startTime_to_input_btn = moment().format("YYYY-MM-DD 00:00");
 			}else {
@@ -490,6 +501,7 @@
 		});
 		
 		calendar.render();
+		
 	});
 	$(function(){
 		const save_btn = document.getElementById('save_btn');
@@ -581,10 +593,7 @@
 		    dropdown: true,
 		    scrollbar: true
 		}); */
-		$('button.fc-myNext-button').click(function(){
-			var date = $('#calendar').fullCalendar('getDate');
-		    console.log(ss);
-		});
+		
 	});
 	
 </script>
@@ -830,6 +839,25 @@ html, body {
   height: 4px;
   background: #FFC107;
 }
+#calendar {
+	height: 90%;
+}
+#eventAdd_btn {
+	text-align: center;
+	margin: 15px 0px 10px 0px;	
+	border: 0;	
+	border-radius: 5px;	
+	box-sizing: border-box;	
+	width: 86%;
+	height: 46px;
+	font-size: 0.9rem;
+	font-weight: bold;		
+	display: inline-block;
+	padding: 12px 3px;
+	background: #7BE66D;
+	color: #FFF;
+	cursor: pointer;
+}
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -839,8 +867,9 @@ html, body {
 	<div id="grid_container">
 		<jsp:include page="include.jsp" />
 		<nav id="side">
-			<input class="btn btn-success" type="button" id="eventAdd_btn" value="일정 추가">
+			<label id="side_label">캘린더</label>
 			<div id="side_menu" style="overflow-y: auto;">
+				<input type="button" id="eventAdd_btn" value="일정 추가">
 				<div class="container">
 					<div class="my-calendar clearfix">
 						<!-- <div class="clicked-date">
@@ -1165,15 +1194,17 @@ html, body {
 	
 	$calBody.addEventListener('click', (e) => {
 	if (e.target.classList.contains('day')) {
-	 if (init.activeDTag) {
-	   init.activeDTag.classList.remove('day-active');
-	 }
-	 let day = Number(e.target.textContent);
-	 e.target.classList.add('day-active');
-	 init.activeDTag = e.target;
-	 init.activeDate.setDate(day);
-	 loadDate(init.activeDate);
-	 //reloadTodo();
+		if (init.activeDTag) {
+		  init.activeDTag.classList.remove('day-active');
+		}
+		let day = Number(e.target.textContent);
+		e.target.classList.add('day-active');
+		init.activeDTag = e.target;
+		init.activeDate.setDate(day);
+		loadDate(init.activeDate);
+		
+		calendar.gotoDate(init.activeDate);
+		//reloadTodo();
 	}
 	});
 	
