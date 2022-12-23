@@ -24,7 +24,7 @@
     <link rel="icon" href="data:;base64,=" />
     <style>
         .btn {
-            width: 180px;
+            width: 150px;
         }
         .form-input {
             width: 300px;
@@ -40,7 +40,7 @@
             margin-top: 108px;
         }
 
-        .d-grid {
+        #btn_box {
             margin-top: 30px;
         }
     </style>
@@ -65,8 +65,9 @@
             <input type="email" class="form-control" id="mem_email" name="mem_email"/>
             <div class="check_font" id="email_check"></div>
         </div>
-        <div class="d-grid gap-2">
-            <button class="btn btn-primary btn-lg" type="submit">찾기</button>
+        <div class="form-group text-center" id="btn_box">
+            <button class="btn btn-primary" type="submit">확인</button>
+            <button class="btn btn-primary" type="button" onclick="history.back();">취소</button>
         </div>
     </form>
 </div>
