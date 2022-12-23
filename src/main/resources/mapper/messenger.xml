@@ -27,4 +27,8 @@
 	<insert id="messenger_insertMessage" parameterType="chatMessageDto">
 		insert into chat_message values(#{chat_room_no},#{sender},#{message},TO_DATE(#{send_date},'YYYY-MM-DD HH24:MI:SS'))
 	</insert>
+	
+	<select id="messenger_getChatRoomNoMax" parameterType="int" resultType="int">
+		select max(chat_room_no) from chat_member where mem_no=#{mem_no}
+	</select>
 </mapper>

@@ -72,7 +72,6 @@
 								</div>
 								
 								<div class="add_btn_div">
-									<button class="add_btn">취소</button>
 									<input id="add_customer" class="add_btn" type="button" value="저장">
 								</div>
 						</form>
@@ -204,6 +203,26 @@ $(function(){
 	        this.checked = false;
 	    }		
 	});
+
+	// 모달창 오픈 시 z-index 변경.
+	$('#popup01').on('change',function(){
+		if($('#popup01').is(':checked')){
+			$('#header').css('z-index','-1');
+			
+		}else{
+			$('#header').css('z-index','20');
+        }	
+	});	
+	
+	// 모달창 오픈 시 z-index 변경.
+	$('#popup02').on('change',function(){
+		if($('#popup02').is(':checked')){
+			$('#header').css('z-index','-1');
+			
+		}else{
+			$('#header').css('z-index','20');
+        }	
+	});		
 	
 	// 부서 별 주소록 클릭 시 이벤트
 	$("input[name = 'accordion_cb_dept']").click(function(){
