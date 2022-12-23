@@ -197,7 +197,6 @@
 		}
 		/* ------------------------------------모달창 관련 끝------------------------------------ */
 		
-		
 		var calendarEl = document.getElementById('calendar');
 		var calendar = new FullCalendar.Calendar(calendarEl,{
 			/* initialDate: '2022-12-01', */
@@ -212,9 +211,32 @@
 			},
 			*/
 			headerToolbar : {
-				left : 'prev,next today',
+				left : 'myPrev,myNext myToday next',
 				center : 'title',
 				right : 'dayGridMonth,timeGridWeek,timeGridDay'
+			},
+			customButtons: {
+				myToday: {
+					text: '오늘',
+					click: function() {
+						calendar.today();
+						loadYYMM(init.today);
+					}
+				},
+				myPrev: {
+					text: '◀',
+					click: function() {
+						calendar.prev();
+						loadYYMM(init.prevMonth());
+					}
+				},
+				myNext: {
+					text: '▶',
+					click: function() {
+						calendar.next();
+						loadYYMM(init.nextMonth());
+					}
+				}
 			},
 			selectable : true,
 			editable : true,
@@ -559,6 +581,10 @@
 		    dropdown: true,
 		    scrollbar: true
 		}); */
+		$('button.fc-myNext-button').click(function(){
+			var date = $('#calendar').fullCalendar('getDate');
+		    console.log(ss);
+		});
 	});
 	
 </script>
@@ -862,6 +888,7 @@ html, body {
 				</select>&nbsp;
 				<input name="keyword" class="form-control" type="text" placeholder="검색어를 입력하세요.">&nbsp;&nbsp;
 				<input type="button" value="검색" class="btn btn-primary" id="search_btn">
+				<!-- <input type="button" value=">" class="btn btn-primary" id="my-next-button"> -->
 			</form>
 
 			<br>
@@ -1060,6 +1087,7 @@ html, body {
 	* @param {number} date
 	* @param {number} dayIn
 	*/
+	// 미니캘린더에서 선택한 일자가 일정추가 창에서 시작일이 되게
 	function loadDate (date) {
 		gStartTime = date;
 	}
