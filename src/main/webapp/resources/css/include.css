@@ -14,7 +14,7 @@ body {
 	display: grid;
 	grid-template-columns : 19% 62% 19%;
 	/* grid-template-rows : 75px 110px 600px 200px ; */
-	grid-template-rows : 185px calc(95% - 185px) 5% ;
+	grid-template-rows : 120px calc(95% - 120px) 5% ;
 }
 
 
@@ -28,7 +28,7 @@ body {
  	background-color : #FFFFFF;
 	position: fixed;
 	width:100%;
-	height:185px;
+	height:100px;
 	z-index:20;
 		
 	
@@ -89,8 +89,8 @@ body {
 
 
 #header_right {
-	width: 80%;
-	height: 80%;	
+	width: auto;
+	height: auto;	
 	grid-column : 3/4;
 	grid-row : 1/2;	
 	place-self: start end;
@@ -133,6 +133,8 @@ body {
 	grid-row : 2/3;		
 	font-size: 0.8rem;
 	place-self: end end;
+	width: 150px;
+	text-align: right;
 }
 
 #notification {
@@ -182,10 +184,10 @@ body {
 	border-radius: 10px;
 	padding-top:20px;
 	width: 16%;
-	height: 70%;
+	height:79%;
 	box-sizing: border-box;
 	position: fixed;
-	top: 185px;
+	top: 120px;
 	left: 0;
 }
 

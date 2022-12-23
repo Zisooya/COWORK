@@ -10,7 +10,7 @@
    <header id="header">
       <div id="header_container">
          <div id="header_left">
-            <img id="logo_home" src="resources/images/COWORK.png" style="width:70%; height:70%; margin: 20px 10px 5px 10px; "/>
+            <a href="<%=request.getContextPath() %>/main.do"><img id="logo_home" src="resources/images/COWORK.png" style="width:70%; height:70%; margin: 20px 10px 5px 10px; "/></a>
          </div>   
          <div id="company">
             
@@ -38,7 +38,7 @@
 
                   <!-- 프로필 사진 클릭 시 마이페이지(회원정보 수정(비밀번호 변경 포함), 회원 탈퇴)로 이동 예정-->
 
-                  <div id="profile_circle"> <a href="${ path }/myPage.do"> <img src="${path}/resources/mem_upload/${member.mem_image}" width="55" height="55" /> </a> </div>
+                  <div id="profile_circle"> <a href="${ path }/myPage.do"> <img src="${path}/resources/mem_upload/${member.mem_image}" width="50" height="50" /> </a> </div>
 
                   <div id="login"> <a href="${ path }/member_logout.do">로그아웃</a> </div>
                   <div id="hi"> <b>${member.mem_name}</b>님 안녕하세요!</div>
