@@ -1,5 +1,6 @@
 package com.team3.model.member;
 
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,6 +16,11 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public MemberDTO memberLogin(MemberDTO dto) {
 		return this.sqlSession.selectOne("memberLogin", dto);
+	}
+
+	@Override
+	public MemberDTO selectMember(@Param("mem_id") String mem_id) {
+		return this.sqlSession.selectOne("selectMember", mem_id);
 	}
 
 	@Override
@@ -43,8 +49,8 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public String memberFindPwd(MemberDTO dto) {
-		return this.sqlSession.selectOne("memberFindPwd", dto);
+	public int memberFindPwd(@Param("mem_id") String mem_id, @Param("mem_email") String mem_email, @Param("key") String key) {
+		return this.sqlSession.update("memberFindPwd");
 	}
 
 	@Override

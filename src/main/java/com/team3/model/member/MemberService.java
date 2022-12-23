@@ -1,5 +1,7 @@
 package com.team3.model.member;
 
+import org.apache.ibatis.annotations.Param;
+
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -18,8 +20,6 @@ public interface MemberService {
     void memberLogout(HttpSession session);
 
     String memberFindId(MemberDTO dto);
-
-    String memberFindPwd(MemberDTO dto);
 
     int idCheck(String mem_id);
 }

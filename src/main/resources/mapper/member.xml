@@ -8,6 +8,9 @@
 	<select id="memberLogin" resultType="memberDTO" parameterType="memberDTO">
 		select * from member where mem_id = #{mem_id} and mem_pwd = #{mem_pwd}
 	</select>
+	<select id="selectMember" resultType="memberDTO" parameterType="String">
+		select * from member where mem_id = #{mem_id}
+	</select>
 	<insert id="memberJoin" parameterType="memberDTO">
 		<selectKey resultType="int" keyProperty="mem_no" order="BEFORE">
 			select max(mem_no) from member
@@ -27,9 +30,9 @@
 	<select id="memberFindId" resultType="String">
 		select mem_id from member where mem_name = #{mem_name} and mem_email = #{mem_email}
 	</select>
-	<select id="memberFindPwd" resultType="String">
-		select mem_pwd from member where mem_name = #{mem_name} and mem_id = #{mem_id} and mem_email = #{mem_email}
-	</select>
+	<update id="memberFindPwd" parameterType="Map">
+		update member set mem_pwd = #{key} where mem_id = #{mem_id} and mem_email = #{mem_email}
+	</update>
 	<select id="idCheck" parameterType="String" resultType="Integer">
 		select count(*) from member where mem_id = #{mem_id}
 	</select>
