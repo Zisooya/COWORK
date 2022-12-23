@@ -16,7 +16,7 @@
 <div class="container">
     <div class="login-content">
         <form class="form" name="login" method="post" action="${ path }/member_login_ok.do">
-            <img id="logo_home" src="resources/images/COWORK.png" style="width:60%; height:5%; margin: 5px 10px 50px; "/>
+            <img id="logo_home" src="resources/images/COWORK.png" style="width:60%; height:5%; margin: 5px 10px 50px;" alt="로고"/>
             <div class="input-div one">
                 <div class="i">
                     <i class="fas fa-user"></i>
@@ -63,21 +63,6 @@
                 $("#mem_pwd").focus();
                 return false;
             }
-            let loginData = {"mem_id" : mem_id, "mem_pwd" : mem_pwd};
-
-            /*$.ajax({
-                type : 'post',
-                data : JSON.stringify(loginData),
-                url : '${path}/member_loginCheck.do',
-                contentType: "application/json; charset=UTF-8",
-                success : function(data) {
-                    if (data === "false") {
-                        alert('잘못된 아이디이거나, 비밀번호가 일치하지 않습니다.');
-                        location.reload();
-                        return false;
-                    }
-                }
-            });*/
         });
 
         let key = getCookie("key");

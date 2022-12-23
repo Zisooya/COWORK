@@ -145,6 +145,7 @@ $(function(){
         }	
 	});
 	
+
 	// 모달창 오픈 시 z-index 변경.
 	$('#popup01').on('change',function(){
 		if($('#popup01').is(':checked')){
@@ -217,6 +218,7 @@ $(function(){
 	
 	
 	
+
 	
 });
 
@@ -334,7 +336,7 @@ $(function(){
         console.log(messages.parentNode);
         messages.parentNode.removeChild(messages)
   	}    
-    
+
     function openChatRoom(chat_room_no) {
     	
     	let mem_id = document.getElementById("sender").value;
@@ -395,6 +397,7 @@ $(function(){
 			}
 		});	// DB에 메세지 저장 $.ajax() end				
 	}
+
  
 </script>	
 </body>

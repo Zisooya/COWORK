@@ -4,24 +4,12 @@
 <html>
 <head>
     <title>비밀번호 찾기</title>
-    <script
-            src="https://code.jquery.com/jquery-3.6.1.js"
-            integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
-            crossorigin="anonymous"
-    ></script>
-    <link
-            href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap"
-            rel="stylesheet"
-    />
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
-            crossorigin="anonymous"
-    />
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"/>
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="data:;base64,=" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="icon" href="data:;base64,="/>
     <style>
         .btn {
             width: 150px;
@@ -50,11 +38,7 @@
     <div class="row align-items-center justify-content-between">
         <span class="text-dark h2 text-center">비밀번호 찾기</span>
     </div>
-    <form class="form-style" role="form" method="post" action="${path}/member_findPwd_ok.do">
-        <div class="form-group form-input">
-            <label for="mem_name" class="form-label mt-4">이름</label>
-            <input type="text" class="form-control" id="mem_name" name="mem_name" />
-        </div>
+    <form class="form-style" role="form">
         <div class="form-group form-input">
             <label class="form-label mt-4" for="mem_id">ID</label>
             <input type="text" class="form-control" id="mem_id" name="mem_id"/>
@@ -66,7 +50,7 @@
             <div class="check_font" id="email_check"></div>
         </div>
         <div class="form-group text-center" id="btn_box">
-            <button class="btn btn-primary" type="submit">확인</button>
+            <button class="btn btn-primary" type="button" id="pwdConfirm_btn">확인</button>
             <button class="btn btn-primary" type="button" onclick="history.back();">취소</button>
         </div>
     </form>
@@ -97,5 +81,21 @@
         }
     });
 
+    $("#pwdConfirm_btn").click(function () {
+        $.ajax({
+            url: "${ path }/member_findPwd_ok.do",
+            type: "post",
+            dataType: "text",
+            data: {mem_id : $("#mem_id").val(), mem_email : $("#mem_email").val()},
+            success: function () {
+                alert('메일 발송 완료');
+                location.replace("${path}/");
+            },
+            error: function () {
+                alert('입력정보가 일치하지 않습니다.');
+                location.replace("${path}/");
+            }
+        });
+    });
 </script>
 </html>
