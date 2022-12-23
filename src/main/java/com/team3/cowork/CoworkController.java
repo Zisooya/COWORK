@@ -9,7 +9,9 @@ import javax.servlet.http.HttpSession;
 import com.team3.model.member.Mem_Upload;
 import com.team3.model.member.MemberDTO;
 import com.team3.model.member.MemberService;
+import com.team3.model.member.UserMailSendService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,12 @@ public class CoworkController {
 	@Autowired
 	private Mem_Upload mem_upload;
 
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+
+	@Autowired
+	private UserMailSendService mailSender;
+
 	@RequestMapping("main.do")
 	public String main() {
 		return "main";
@@ -34,37 +42,22 @@ public class CoworkController {
 	public String loginOk(@ModelAttribute MemberDTO dto, HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
 
+		if (session.getAttribute("member") != null) {
+			session.removeAttribute("member");
+		}
+
 		MemberDTO result = service.memberLogin(dto);
 
 		if (result != null) {
 			session.setAttribute("member", result);
 			model.addAttribute("msg", null);
-			model.addAttribute("url", "main.do");
+			model.addAttribute("url", "/main.do");
 		} else {
 			model.addAttribute("msg", "아이디 또는 비밀번호가 올바르지 않습니다.");
 			model.addAttribute("url", "/");
 		}
 		return "member/msg";
 	}
-
-	/*@RequestMapping("member_loginCheck.do")
-	@ResponseBody
-	public void loginCheck(@ModelAttribute MemberDTO dto, HttpServletResponse response) throws IOException {
-		MemberDTO check = service.loginCheck(dto);
-
-		System.out.println("check는 >> " + check);
-		String str = "";
-
-		if (check != null) {
-			if (dto.getMem_pwd().equals(check.getMem_pwd())) {
-				str = "true";
-			} else {
-				str = "false";
-			}
-		}
-
-		response.getWriter().print(str);
-	}*/
 
 	@RequestMapping("member_logout.do")
 	public String logout(HttpSession session) {
@@ -85,6 +78,7 @@ public class CoworkController {
 		if (fileName != null) {
 			dto.setMem_image(fileName);
 		}
+
 		service.memberJoin(dto);
 
 		return "redirect:/";
@@ -153,15 +147,11 @@ public class CoworkController {
 	}
 
 	@RequestMapping("member_findPwd_ok.do")
-	public ModelAndView memberFindPwdOk(@ModelAttribute MemberDTO dto) {
-		ModelAndView mav = new ModelAndView();
+	@ResponseBody
+	public String memberFindPwdOk(@RequestParam("mem_id") String mem_id, @RequestParam("mem_email") String mem_email) {
+		mailSender.mailSendWithPassword(mem_id, mem_email);
 
-		String pwd = service.memberFindPwd(dto);
-
-		mav.setViewName("member/getPwd");
-		mav.addObject("memberFindPwd", pwd);
-
-		return mav;
+		return "메일 전송";
 	}
 
 	@RequestMapping("myPage.do")
