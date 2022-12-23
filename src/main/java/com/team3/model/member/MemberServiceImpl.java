@@ -1,5 +1,6 @@
 package com.team3.model.member;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,11 +47,6 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public String memberFindId(MemberDTO dto) {
         return dao.memberFindId(dto);
-    }
-
-    @Override
-    public String memberFindPwd(MemberDTO dto) {
-        return dao.memberFindPwd(dto);
     }
 
     @Override

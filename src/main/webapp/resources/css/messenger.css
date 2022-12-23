@@ -211,6 +211,8 @@ input[name *= accordion_cb_] {
 	grid-column : 1/2;
 	grid-row : 1/2;		
 	overflow-y: scroll;
+	font-size : 1rem;
+	line-height: 2rem;
 }
 
 
@@ -244,3 +246,7 @@ input[name *= accordion_cb_] {
 	
 }
 
+
+.side_btn {
+	
+}
