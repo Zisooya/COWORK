@@ -20,7 +20,41 @@
 		<nav id="side">
 			<label>메신저</label>
 			<div id="side_menu" style="overflow-y: auto;">
-				<input id="messenger_newChat" name="messenger_list" type="checkbox"><label for="messenger_newChat"><span></span>새로운 대화</label>
+				<input type="checkbox" id="popup01">
+				<label class="modal_label" for="popup01"><span></span>새로운 대화</label>
+				<div>
+					<div class="modal_content" style="overflow-y:auto; ">
+						<label class="modal_exit" for="popup01"></label>
+						<h2>새로운 대화 추가</h2>
+						<div id="addChatRoomDiv">
+						
+						<form action="action="<%=request.getContextPath()%>/messenger_addChatRoom.do">
+							
+							<div class="CRinput">
+								<label for="chat_room_name">채팅방 이름 </label><br>
+								<div class="input_div">
+									<input class="input_text" type="text" name='chat_room_name'>
+								</div>
+							</div>
+							
+							<div class="CRinput">
+								<label for="chat_kind">채팅 유형 </label><br>
+								<div class="input_div">
+									일대일 <input name="chat_kind" type="radio" value="one">&nbsp;&nbsp;&nbsp;
+									그룹 <input name="chat_kind" type="radio" value="group">
+								</div>
+							</div>
+								
+								<div class="add_btn_div">
+									<input id="add_customer" class="add_btn" type="button" value="추가">
+								</div>
+															
+						</form>
+						</div>
+					</div>
+					<label for="popup01"></label>
+				</div>			
+			
 				<hr>
 				<input id="messenger_chatList" name="messenger_list" type="checkbox"><label for="messenger_chatList"><span></span>대화 목록</label>
 				<div id="chatList_div">
@@ -69,9 +103,12 @@
 					<button type="button" id="message_send_btn" onclick="send();">메세지 전송</button>
 					<button type="button" onclick="javascript:clearText();">대화내용 지우기</button>	
 					</div>
+				<input type="checkbox" id="sideBar_btn">
+				<label for="sideBar_btn"><img id="sideBar_img" alt="사이드바 버튼" src="${path}/resources/images/사이드바화살표.png"> </label>	
 				<div id="right_chatRoomDetail">
-					<button class="side_btn"></button>
-					사이드바
+				
+					
+					
 				</div>		
 			</div>
 		</article>
@@ -94,6 +131,89 @@ $(function(){
 	        this.checked = false;
 	    }		
 	});	// 부서명 체크박스 하나만 선택되도록 하기.
+	
+	// 사이드바 숨기기/보이기
+	$('#sideBar_btn').on('change',function(){
+		if($('#sideBar_btn').is(':checked')){
+			$('#right_chatRoomDetail').css({"width":"0","display":"none","transition":"all 0.4s"});
+			$('#messages').css({"width":"133%","transition":"all 0.4s"});
+			$('#bottom_input').css({"width":"82%","transition":"all 0.4s"});
+		}else{
+			$('#right_chatRoomDetail').css({"width":"100%","display":"block","transition":"all 0.4s"});
+			$('#messages').css({"width":"100%","transition":"all 0.4s"});
+			$('#bottom_input').css({"width":"61%","transition":"all 0.4s"});
+        }	
+	});
+	
+	// 모달창 오픈 시 z-index 변경.
+	$('#popup01').on('change',function(){
+		if($('#popup01').is(':checked')){
+			$('#sideBar_img').css('z-index','-1');
+			$('#right_chatRoomDetail').css('z-index','-2');
+			$('#bottom_input').css('z-index','-1');
+			$('#header').css('z-index','-1');
+			
+		}else{
+			$('#sideBar_img').css('z-index','2');
+			$('#right_chatRoomDetail').css('z-index','1');
+			$('#bottom_input').css('z-index','1');
+			$('#header').css('z-index','20');
+        }	
+	});
+	
+	// 모달창 오픈 시 이벤트 - 'DB 채팅방 번호 최댓값'과 '회사 주소록' 가져오기
+	$('#popup01').on('change',function(){
+		
+		if($('#popup01').is(':checked')){
+			
+			let mem_no = $('#myNum').val();
+			
+			// DB 채팅방 번호 최댓값 가져오기
+			$.ajax({
+				type: 'POST',
+			//	async : false,
+				url: '<%=request.getContextPath()%>/messenger_getChatRoomNoMax.do',
+				dataType:'json',
+				data: {"mem_no" : mem_no},
+				success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
+					//chatRoomNoMax
+					let chatRoomNoMax = data;
+					let newChatRoomNo = data + 1;
+					$("#addChatRoomDiv").html("<input name='chat_room_no' type='hidden' value='"+newChatRoomNo+"'>");	
+				},
+				error: function(res){ // 응답을 받지 못하였다거나 정상적인 응답이지만 데이터 형식을 확인할 수 없을 때 error 콜백이 호출.
+					alert('ajax 응답 오류');
+				}
+			});	// DB 채팅방 번호 최댓값 조회 $.ajax() end	
+			
+			// 회사 주소록 가져오기
+			$.ajax({
+				type: 'POST',
+			//	async : false,
+				dataType:"json",
+				url: '<%=request.getContextPath()%>/messenger_getAllDeptList.do',
+				success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
+				// deptList
+					$('#addChatRoomDiv').append("<div class='modal_title'>대화상대 선택</div>");
+				$.each(data, function(index, DepartmentDTO) {
+					
+					$('#addChatRoomDiv').append("<input id='dept_no"+index+"' type='checkbox' ><label class='dept_lb' for='dept_no"+index+"'>"+DepartmentDTO.dept_name+"</label><div>연락처올자리</div>");
+					
+									
+					});
+				},
+				error: function(res){ // 응답을 받지 못하였다거나 정상적인 응답이지만 데이터 형식을 확인할 수 없을 때 error 콜백이 호출.
+					alert('ajax 응답 오류');
+				}
+			});	// 회사 주소록 조회 $.ajax() end		
+
+			
+			
+		
+			
+		}
+		
+	});	// 모달창 오픈 시 이벤트 end
 	
 	
 	

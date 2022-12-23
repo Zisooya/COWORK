@@ -11,4 +11,6 @@ public interface MessengerDAO {
 	List<Chat_MessageDTO> getMessageList(int chat_room_no);
 	
 	int messenger_insertMessage(Chat_MessageDTO chatMessageDTO);
+	
+	int getChatRoomNoMax(int mem_no);
 }

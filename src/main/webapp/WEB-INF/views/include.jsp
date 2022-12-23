@@ -33,8 +33,7 @@
          <div id="header_right">
             <div id="header_right_container">
                   <div id="notification"><a href=""><img id="noti_img" src="resources/images/종.png" width="20" height="20" /><span id="noti_num">13</span></a></div>
-                  <!-- <div id="bell"> <a href=""> <img src="resources/images/종.png" width="20" height="20" /><span></span> </a> </div> -->
-                  <!-- <div id="alert_count"> <a href=""> 5 </a> </div> -->
+                  <input id="myNum" type="hidden" value="${member.mem_no}">
 
                   <!-- 프로필 사진 클릭 시 마이페이지(회원정보 수정(비밀번호 변경 포함), 회원 탈퇴)로 이동 예정-->
 
