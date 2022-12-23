@@ -24,7 +24,7 @@
 		m.mem_no where m.mem_no = 3)
 	</select>
 	
-	<!-- 반복 : 안 함 -->
+	<!-- [INSERT] 반복 : 안 함 -->
 	<insert id="calAdd" parameterType="caldto">
 		<selectKey resultType="int" keyProperty="cal_no" order="BEFORE">
 			select max(cal_no) from calendar
@@ -33,9 +33,21 @@
 		(select distinct c.mem_no from calendar c join member m
 		on c.mem_no = m.mem_no
 		where m.mem_no = #{mem_no}), #{cal_mark}, #{title}, to_date(#{start},'yyyy.mm.dd hh24:mi'), to_date(#{end},'yyyy.mm.dd hh24:mi'),
-		#{allDay},#{cal_repeat},'','','','', default, '', #{cal_attendee1},'','','','','',#{cal_type_name},#{cal_place},#{cal_memo},#{cal_file},
+		#{allDay},#{cal_repeat},'','','','', default, '', #{cal_attendee1},'','','','',#{cal_place},#{cal_memo},#{cal_file},
 		#{cal_category},'',#{cal_status},#{cal_type_no})
 	</insert>
+	
+	<!-- [UPDATE] 반복 : 안 함 -->
+	<update id="calUpdate" parameterType="caldto">
+		update calendar set cal_mark = #{cal_mark}, cal_title = #{title}, cal_start_time = to_date(#{start},'yyyy.mm.dd hh24:mi'),
+		cal_end_time = to_date(#{end},'yyyy.mm.dd hh24:mi'), cal_allday = #{allDay}, cal_repeat = #{cal_repeat},
+		cal_repeat_cycle_d = #{cal_repeat_d}, cal_repeat_cycle_w = #{cal_repeat_w}, cal_repeat_cycle_m = #{cal_repeat_m}, cal_repeat_cycle_y = #{cal_repeat_y},
+		cal_repeat_detail = #{cal_repeat_detail}, cal_repeat_count = #{cal_repeat_count}, cal_attendee1 = #{cal_attendee1},
+		cal_attendee2 = #{cal_attendee2}, cal_attendee3 = #{cal_attendee3}, cal_attendee4 = #{cal_attendee4}, cal_attendee5 = #{cal_attendee5},
+		cal_place = #{cal_place}, cal_memo = #{cal_memo}, cal_file = #{cal_file}, cal_category = #{cal_category},
+		cal_status = #{cal_status}, cal_type_no = #{cal_type_no}
+		where cal_no = #{cal_no}
+	</update>
 	
 	<!-- 반복 : 매일 -->
 	<insert id="calAdd_repeat_d_1" parameterType="caldto">
@@ -54,7 +66,7 @@
 				(select distinct c.mem_no from calendar c join member m
 				on c.mem_no = m.mem_no
 				where m.mem_no = #{mem_no}), #{cal_mark}, #{title}, to_date(#{start},'yyyy.mm.dd hh24:mi')+r_count, to_date(#{end},'yyyy.mm.dd hh24:mi')+r_count,
-				#{allDay},#{cal_repeat},'','','','', default, '', #{cal_attendee1},'','','','','',#{cal_type_name},#{cal_place},#{cal_memo},#{cal_file},
+				#{allDay},#{cal_repeat},'','','','', default, '', #{cal_attendee1},'','','','',#{cal_place},#{cal_memo},#{cal_file},
 				#{cal_category},'',#{cal_status},#{cal_type_no});
 				r_count := r_count+1;
 			end loop;
@@ -81,7 +93,7 @@
 					(select distinct c.mem_no from calendar c join member m
 					on c.mem_no = m.mem_no
 					where m.mem_no = #{mem_no}), #{cal_mark}, #{title}, to_date(#{start},'yyyy.mm.dd hh24:mi')+r_count, to_date(#{end},'yyyy.mm.dd hh24:mi')+r_count,
-					#{allDay},#{cal_repeat},'','','','', default, '', #{cal_attendee1},'','','','','',#{cal_type_name},#{cal_place},#{cal_memo},#{cal_file},
+					#{allDay},#{cal_repeat},'','','','', default, '', #{cal_attendee1},'','','','',#{cal_place},#{cal_memo},#{cal_file},
 					#{cal_category},'',#{cal_status},#{cal_type_no});
 		        end if;
 	            r_count := r_count+1;
@@ -111,7 +123,7 @@
 					(select distinct c.mem_no from calendar c join member m
 					on c.mem_no = m.mem_no
 					where m.mem_no = #{mem_no}), #{cal_mark}, #{title}, to_date(#{start},'yyyy.mm.dd hh24:mi')+r_count, to_date(#{end},'yyyy.mm.dd hh24:mi')+r_count,
-					#{allDay},#{cal_repeat},'','','','', default, '', #{cal_attendee1},'','','','','',#{cal_type_name},#{cal_place},#{cal_memo},#{cal_file},
+					#{allDay},#{cal_repeat},'','','','', default, '', #{cal_attendee1},'','','','',#{cal_place},#{cal_memo},#{cal_file},
 					#{cal_category},'',#{cal_status},#{cal_type_no});
 		        end if;
 	            r_count := r_count+1;

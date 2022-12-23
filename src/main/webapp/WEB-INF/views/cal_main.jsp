@@ -54,6 +54,7 @@
 	let end_date_select;
 	
 	// Event 조회용 변수 : g(global variable:전역변수) + 변수명
+	var gId;
 	var gTitle;
 	var gStartTime;
 	var gEndTime;
@@ -150,11 +151,18 @@
 					$("#cal_type_no_select").val(calTypeNo_matched).prop("selected", true);
 				}
 			}
+			document.querySelector("#input_memo").innerText = gMemo;
+			$("#input_place").val(gPlace);
+			$("#cal_no_hidden").val(gId);
 		}
 		closeBtn_add.onclick = function() {
 			modal_add.style.display = "none";
 			gStartTime = new Date();
 			$("#cal_type_no_select option:eq(0)").prop("selected",true);
+			document.querySelector("#input_memo").innerText = null;
+			$("#input_place").val(null);
+			gId = null;
+			$("#cal_no_hidden").val(gId);
 		}
 		//빈 여백 클릭 시 모달창 닫힘 함수
 		window.onclick = function() {
@@ -353,6 +361,7 @@
 			/* ------------------------------------이벤트 클릭------------------------------------ */
 			eventClick : function(info) {
 				var eventObj = info.event;
+				gId = eventObj.id;
 				gTitle = eventObj.title;
 				gStartTime = eventObj.start;
 				gEndTime = eventObj.end;
@@ -450,22 +459,40 @@
 			} */
 			var form = $('#add_form')[0];
 	        var formData = new FormData(form);
-			$.ajax({
-				type : 'POST',
-				enctype: "multipart/form-data",
-				url : 'cal_insert.do',
-				cache: false, // 필수
-				processData : false, // 필수 
-				contentType : false, // 필수 
-				data : formData,
-				success : function(result) {
-					console.log(result);
-				},
-				error : function() {
-					console.log("파일 첨부 도중 에러 발생");
-				}
-			});
-			document.location.reload();
+	        if(gId == null) {
+				$.ajax({
+					type : 'POST',
+					enctype: "multipart/form-data",
+					url : 'cal_insert.do',
+					cache: false, // 필수
+					processData : false, // 필수 
+					contentType : false, // 필수 
+					data : formData,
+					success : function(result) {
+						console.log(result);
+					},
+					error : function() {
+						console.log("파일 첨부 도중 에러 발생");
+					}
+				});
+	        }else {
+				$.ajax({
+					type : 'POST',
+					enctype: "multipart/form-data",
+					url : 'cal_update.do',
+					cache: false, // 필수
+					processData : false, // 필수 
+					contentType : false, // 필수 
+					data : formData,
+					success : function(result) {
+						console.log(result);
+					},
+					error : function() {
+						console.log("파일 첨부 도중 에러 발생");
+					}
+				});
+	        }
+			//document.location.reload();
 		});
 		
 		// 일정 추가 버튼 클릭 시
@@ -951,6 +978,7 @@ html, body {
 				<!-- <article class="modal-content_add"> -->
 					<span class="close_add">&times;</span>
 					<input type="hidden" name="mem_no" value="${member.mem_no}">
+					<input type="hidden" name="cal_no" id="cal_no_hidden" value="0">
 					<br>
 					<div class="modal_add_elements">
 						제목
@@ -1036,11 +1064,11 @@ html, body {
 					</div>
 					<div class="modal_add_elements">
 						장소
-						<input class="add_place" name="cal_place" placeholder="장소를 입력하세요.">
+						<input class="add_place" name="cal_place" placeholder="장소를 입력하세요." id="input_place">
 					</div>
 					<div class="modal_add_elements">
 						메모
-						<textarea class="add_memo" name="cal_memo" placeholder="메모를 작성하세요"></textarea>
+						<textarea class="add_memo" name="cal_memo" placeholder="메모를 작성하세요" id="input_memo"></textarea>
 					</div>
 					<div class="modal_add_elements">
 						<span>파일첨부</span> <input class="form-control form-control-sm" id="formFileSm" type="file" name="file1">

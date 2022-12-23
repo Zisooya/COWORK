@@ -122,6 +122,7 @@ public class CalendarController {
 				MultipartHttpServletRequest mRequest) throws ParseException {
 		 String res = "";
 		 String filename = cal_upload.fileUpload(mRequest);
+		 System.out.println("dto.getMem_no() >> "+dto.getMem_no());
 		 /*
 		 SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		 SimpleDateFormat output = new SimpleDateFormat("yyyy/MM/dd HH:mm");
@@ -151,6 +152,40 @@ public class CalendarController {
 			 res = "파일 업로드 실패";
 		 }
 		 this.dao_cal.insertEvent(dto);
+		 return res;
+	 }
+	 
+	 @RequestMapping(value="cal_update.do", produces ="application/text; charset=utf8")
+	 @ResponseBody
+	 public String calUpdate(@ModelAttribute CalendarDTO dto,
+			 @RequestParam("startTime") String stTime,
+			 @RequestParam("endTime") String endTime,
+			 @RequestParam("cal_repeat") String repeat,
+			 MultipartHttpServletRequest mRequest) throws ParseException {
+		 String res = "";
+		 String filename = cal_upload.fileUpload(mRequest);
+		 
+		 if(dto.getAllDay() != null) {	// '종일'선택 시 DB에는 종료일+1일로 저장(그래야 캘린더 상에 제대로 나옴)
+			 SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			 Date endTime_date = output.parse(endTime.substring(0, 16));
+			 Calendar cal = Calendar.getInstance();
+			 cal.setTime(endTime_date);
+			 cal.add(Calendar.DATE, 1);
+			 String endDate = output.format(cal.getTime());
+			 
+			 dto.setStart(stTime.substring(0, 16));
+			 dto.setEnd(endDate);
+		 }else {
+			 dto.setStart(stTime.substring(0, 16));
+			 dto.setEnd(endTime.substring(0, 16));
+		 }
+		 if(filename != null) {
+			 dto.setCal_file(filename);
+			 res = "파일 업로드 성공";
+		 }else {
+			 res = "파일 업로드 실패";
+		 }
+		 this.dao_cal.updateEvent(dto);
 		 return res;
 	 }
 	 
@@ -185,7 +220,7 @@ public class CalendarController {
 		 dto.setStart(startDate);
 		 dto.setEnd(endDate);
 		 
-		 int check = this.dao_cal.updateEvent(dto);
+		 int check = this.dao_cal.updateEventDrag(dto);
 		 //System.out.println("update return값 : "+check);
 		 String result = "";
 		 if(check > 0) {
