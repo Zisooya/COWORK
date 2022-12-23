@@ -109,10 +109,10 @@ label {
 									
 									<select id="selectDept" class="custom-select col-6">
 										<option>부서 선택</option>
-										<option value="1">기획마케팅본부</option>
-										<option value="2">경영지원본부</option>
-										<option value="3">디자인본부</option>
-										<option value="4">개발본부</option>
+										<option value="1">경영지원본부</option>
+										<option value="2">개발본부</option>
+										<option value="3">기획마케팅본부</option>
+										<option value="4">디자인본부</option>
 									</select>
 									
 						            <button class="btn btn-primary" id="searchEmp">조회</button>

@@ -99,8 +99,7 @@ public class EmailServiceImpl implements EmailService{
 
 	@Override
 	public ArrayList<MemberDTO> selectMemberDTOList(String deptCode) {
-		// TODO Auto-generated method stub
-		return null;
+		return emailDao.selectMemberDTOList(sqlSession, deptCode);
 	}
 
 }
