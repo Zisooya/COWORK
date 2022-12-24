@@ -20,8 +20,8 @@ public class AddressDAOImpl implements AddressDAO {
 	}
 
 	@Override
-	public int getMyDeptNum() {
-		return this.sqlSession.selectOne("addressDao.address_myDeptNum");
+	public int getMyDeptNum(int mem_no) {
+		return this.sqlSession.selectOne("addressDao.address_myDeptNum", mem_no);
 	}
 
 	@Override
@@ -47,6 +47,11 @@ public class AddressDAOImpl implements AddressDAO {
 	@Override
 	public int insert_customer(CustomerDTO customerDTO) {
 		return this.sqlSession.insert("addressDao.insert_customer", customerDTO);
+	}
+
+	@Override
+	public MemberDTO getMemDetail(int addrMemNo) {
+		return this.sqlSession.selectOne("addressDao.address_getMemDetail", addrMemNo);
 	} 
 
 

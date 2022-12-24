@@ -295,6 +295,88 @@ input[id *= "popup"] + label + div > label {
 	list-style: none;
 }
 
+/* article */
+#chat_grid_container{
+	margin:0;
+	width: 100%;
+	height: 100%;
+	display: grid;
+	grid-template-columns : 75% 25%;
+	grid-template-rows : 90% 10%;
+}
+
+#addr_content {
+	width: 100%;
+	grid-column : 1/2;
+	grid-row : 1/3;		
+}
+
+#right_chatRoomDetail{
+	background-color: #E4F7BA;
+	width: 0%;
+	display: none;
+	height: 100%;
+	grid-column : 2/3;
+	grid-row : 1/3;	
+	z-index: 1;	
+	padding: 20px 20px 20px 50px;
+	box-sizing: border-box;
+}
+
+#sideBar_btn{
+	display: none;
+}
+
+#sideBar_img {
+	display: block;
+	width: 50px;
+	height:50px;
+	background-size: 50px; 	
+	cursor: pointer;
+	transition: all 0.4s;
+	position: fixed;
+	top: 50%;
+	left: 95%;
+	z-index: 2;		
+}
+
+#sideBar_btn:checked + label img{
+	transform: rotate(180deg);
+	position: fixed;
+	top: 50%;
+	left: 78%;
+	transition: all 0.4s;
+	z-index: 2;	
+}
+
+.detail_title{
+	color: grey;
+	font-size: 0.8rem;
+	margin-bottom: 5px;
+}
+
+.detail_div {
+	margin: 15px 0; 
+}
+
+.detail_div_c {
+	width: 100%;
+	margin: 20px 0; 
+	text-align: left;
+	border: none;
+}
+
+.detai_icon {
+	display: inline-block;
+	width: 40px;
+	text-align: left;
+	font-size: 0.8rem;
+	color: grey;
+	margin: 0 15px;
+}
+
+
+
 #search_box {
 	width: 30%;
 	height: 46px;
@@ -322,6 +404,9 @@ input[id *= "popup"] + label + div > label {
 	cursor: pointer;
 }
 
+.alph {
+	width: 100%;
+}
 
 .alph a{
 	width: auto;
@@ -330,7 +415,7 @@ input[id *= "popup"] + label + div > label {
 }
 
 #content hr{
-	width: 90%;
+	width: 98%;
 	height: 2px;
 	background-color: #EAEAEA;
 	border : 0;
@@ -361,6 +446,31 @@ input[id *= "popup"] + label + div > label {
 	font-weight: normal;
 	font-size: 1rem;
 } 
+
+input[id *= "addrMemNo_"] { /* 주소록 테이블에 회원 이름 체크박스 */
+	display: none;
+}
+
+input[id *= "addrMemNo_"] + label{ /* 주소록 테이블에 회원 이름 라벨*/
+	cursor: pointer;
+}
+
+input[id *= "addrMemNo_"]:checked + label{ /* 주소록 테이블에 회원 이름 라벨*/
+	color: #1266FF;
+}
+
+input[id *= "addrCusNo_"] { /* 주소록 테이블에 회원 이름 체크박스 */
+	display: none;
+}
+
+input[id *= "addrCusNo_"] + label{ /* 주소록 테이블에 회원 이름 라벨*/
+	cursor: pointer;
+}
+
+input[id *= "addrCusNo_"]:checked + label{ /* 주소록 테이블에 회원 이름 라벨*/
+	color: #1266FF;
+}
+
 
 
 input[id *= "addr_check"] {
@@ -393,7 +503,7 @@ input[id *= "addr_vip"]:checked + label span {
 	float: right;	
 }
 
- 
+/* 좌측 사이드바 아코디언 */
 .accordion label {
 	font-size: 0.9rem;
 	padding: 8px 25px;
