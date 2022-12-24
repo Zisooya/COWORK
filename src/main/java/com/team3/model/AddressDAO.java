@@ -8,7 +8,7 @@ public interface AddressDAO {
 
 	List<DepartmentDTO> getAllDeptList();
 	
-	int getMyDeptNum();
+	int getMyDeptNum(int mem_no);
 	
 	List<MemberDTO> getMyDeptMemberList(int dept_no);
 	
@@ -19,6 +19,8 @@ public interface AddressDAO {
 	List<CustomerDTO> getAddrList_customer(int mem_no);
 	
 	int insert_customer(CustomerDTO customerDTO);
+	
+	MemberDTO getMemDetail(int addrMemNo);
 	
 	
 }

@@ -28,7 +28,7 @@
 						<h2>새로운 대화 추가</h2>
 						<div id="addChatRoomDiv">
 						
-						<form action="action="<%=request.getContextPath()%>/messenger_addChatRoom.do">
+						<form action="<%=request.getContextPath()%>/messenger_addChatRoom.do">
 							
 							<div class="CRinput">
 								<label for="chat_room_name">채팅방 이름 </label><br>

@@ -13,6 +13,8 @@ import java.util.logging.Logger;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,13 +39,21 @@ public class AddressController {
 	private AddressDAO addressDao;
 
 	@RequestMapping("address.do")
-	public String address(Model model){
+	public String address(Model model, HttpServletRequest request){
 		
 		// 전체 부서 목록 조회
 		List<DepartmentDTO> deptList = this.addressDao.getAllDeptList();
 		
+		
+		HttpSession session = request.getSession();
+		
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
+		
+		int mem_no = memberDTO.getMem_no();
+		
+		
 		// 내 부서 번호 조회
-		int dept_no = this.addressDao.getMyDeptNum();
+		int dept_no = this.addressDao.getMyDeptNum(mem_no);
 		
 		// 나와 같은 부서 멤버 리스트 조회
 		List<MemberDTO> myDeptMemberList = this.addressDao.getMyDeptMemberList(dept_no);
@@ -133,5 +143,14 @@ public class AddressController {
 	return check;
 	
 	}	
-
+	
+	@RequestMapping("address_getMemDetail.do")
+	public @ResponseBody MemberDTO getMemDetail(@RequestParam ("addrMemNo") int addrMemNo) {
+		
+		MemberDTO memberDetail = this.addressDao.getMemDetail(addrMemNo);
+		
+		return memberDetail;
+	}
+	
+	
 }

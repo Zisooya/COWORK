@@ -68,7 +68,7 @@
 	</filter-mapping>
 	
 	
-	<!--&lt;!&ndash; 주소록 파일업로드 설정 &ndash;&gt;
+	<!--주소록 파일업로드 설정 -->
 	<servlet>
  	
 		<servlet-name>appServlet</servlet-name>
@@ -79,17 +79,17 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 		
-		&lt;!&ndash; 웹소켓을 위한 비동기 설정 &ndash;&gt;
+		<!--  웹소켓을 위한 비동기 설정 -->
 		<async-supported>true</async-supported>
  		
-		&lt;!&ndash; 파일 업로드 설정 &ndash;&gt;
+		<!-- 파일 업로드 설정 -->
 		 <multipart-config>
 			<location>C:/Users/user/Desktop/Github_desktop/COWORK/src/main/webapp/resources/address</location>
 			<max-file-size>20971520</max-file-size> 
 			<max-request-size>41943040</max-request-size> 
 			<file-size-threshold>20971520</file-size-threshold> 
 		</multipart-config> 
-		
-	</servlet>-->
+  	
+	</servlet>
 	
 </web-app>
