@@ -145,6 +145,7 @@ $(function(){
         }	
 	});
 	
+
 	// 모달창 오픈 시 z-index 변경.
 	$('#popup01').on('change',function(){
 		if($('#popup01').is(':checked')){
@@ -217,6 +218,7 @@ $(function(){
 	
 	
 	
+
 	
 });
 
