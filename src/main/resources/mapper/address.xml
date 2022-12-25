@@ -11,9 +11,8 @@
 		select * from department
 	</select> 	
 	
-	<!-- 추후에 로그인 사용자 회원 번호 받아와서 수정할 것. -->
-	<select id="address_myDeptNum" resultType="int">
-		select dept_no from member where mem_no = 1	
+	<select id="address_myDeptNum" parameterType="int" resultType="int">
+		select dept_no from member where mem_no = #{mem_no}	
 	</select>
 	
 	<select id="address_myDeptMemberList" parameterType="int" resultType="memberDTO">
@@ -39,5 +38,9 @@
  		</selectKey>
  		insert into customer values(#{customer_no} + 1,#{customer_name},#{customer_position},#{customer_rank},#{customer_dept}, #{customer_team},#{customer_email},#{customer_phone},#{mem_no},#{customer_image})
  	</insert>
+ 	
+ 	<select id="address_getMemDetail" parameterType="int" resultType="memberDTO">
+ 		select * from member where mem_no = #{addrMemNo}
+ 	</select>
 	
  </mapper>

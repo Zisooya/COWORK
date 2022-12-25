@@ -67,7 +67,8 @@ public class ChatHandler {
 			for(Session session : ChatHandler.sessionList) {
 				
 				if(!self.getId().equals(session.getId())) {
-					session.getBasicRemote().sendText(sender+" : "+message+ " ("+send_date+")");
+					session.getBasicRemote().sendText("<div class='leftM'><div class='send_date_people'>"+send_date+"</div><div class='sender_img'></div><div class='sender_name'>"+sender+"</div><div class='messages_people'>" + message+"</div></div>");
+					
 				}
 			}
 		} catch (Exception e) {
@@ -113,7 +114,7 @@ public class ChatHandler {
 		
 		try {
 			final Basic basic = session.getBasicRemote();
-			basic.sendText("<나> : " + message + " ("+send_date+")");
+			basic.sendText("<div class='rightM'><div class='send_date_me'>"+send_date+"</div><div class='messages_me'>" + message + "</div></div>");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

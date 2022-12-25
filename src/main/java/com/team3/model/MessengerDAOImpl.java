@@ -32,4 +32,9 @@ public class MessengerDAOImpl implements MessengerDAO {
 	public int messenger_insertMessage(Chat_MessageDTO chatMessageDTO) {
 		return this.sqlSession.insert("messengerDao.messenger_insertMessage", chatMessageDTO);
 	}
+
+	@Override
+	public int getChatRoomNoMax(int mem_no) {
+		return this.sqlSession.selectOne("messengerDao.messenger_getChatRoomNoMax", mem_no);
+	}
 }

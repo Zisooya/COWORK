@@ -32,6 +32,10 @@ public class CalendarDAOImpl implements CalendarDAO{
 			res = this.sqlSession.insert("calAdd_repeat_d_weekday", dto);
 		}else if(dto.getCal_repeat().equals("cycle_w_1")) {
 			res = this.sqlSession.insert("calAdd_repeat_w_1", dto);
+		}else if(dto.getCal_repeat().equals("cycle_m_1")) {
+			res = this.sqlSession.insert("calAdd_repeat_m_1", dto);
+		}else if(dto.getCal_repeat().equals("cycle_y_1")) {
+			res = this.sqlSession.insert("calAdd_repeat_y_1", dto);
 		}
 		return res;
 	}
@@ -44,6 +48,23 @@ public class CalendarDAOImpl implements CalendarDAO{
 
 	@Override
 	public int updateEvent(CalendarDTO dto) {
+		int res = 0;
+		if(dto.getCal_repeat().equals("no_repeat")) {
+			res = this.sqlSession.update("calUpdate", dto);
+		}else if(dto.getCal_repeat().equals("cycle_d_1")) {
+			res = this.sqlSession.update("calUpdate_repeat_d_1", dto);
+		}else if(dto.getCal_repeat().equals("cycle_d_weekday")) {
+			res = this.sqlSession.update("calUpdate_repeat_d_weekday", dto);
+		}else if(dto.getCal_repeat().equals("cycle_w_1")) {
+			res = this.sqlSession.update("calUpdate_repeat_w_1", dto);
+		}else if(dto.getCal_repeat().equals("cycle_m_1")) {
+			res = this.sqlSession.update("calUpdate_repeat_m_1", dto);
+		}
+		return res;
+	}
+	
+	@Override
+	public int updateEventDrag(CalendarDTO dto) {
 		return this.sqlSession.update("calUpdate_drag", dto);
 	}
 

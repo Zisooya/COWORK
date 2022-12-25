@@ -14,28 +14,36 @@
  	
  	<select id="calList" parameterType="int" resultMap="calMap">
 		select * from calendar where mem_no =
-		(select distinct c.mem_no from calendar c join member m on c.mem_no =
-		m.mem_no where m.mem_no = 3)
+		(select distinct mem_no from member where mem_no = #{mem_no})
 	</select>
  	
  	<select id="calTypeList" parameterType="int" resultType="calTypeDto">
 		select * from calendar_type where mem_no =
-		(select distinct c.mem_no from calendar c join member m on c.mem_no =
-		m.mem_no where m.mem_no = 3)
+		(select distinct mem_no from member where mem_no = #{mem_no})
 	</select>
 	
-	<!-- 반복 : 안 함 -->
+	<!-- [INSERT] 반복 : 안 함 -->
 	<insert id="calAdd" parameterType="caldto">
 		<selectKey resultType="int" keyProperty="cal_no" order="BEFORE">
 			select max(cal_no) from calendar
 		</selectKey>
 		insert into calendar values(#{cal_no}+1,
-		(select distinct c.mem_no from calendar c join member m
-		on c.mem_no = m.mem_no
-		where m.mem_no = #{mem_no}), #{cal_mark}, #{title}, to_date(#{start},'yyyy.mm.dd hh24:mi'), to_date(#{end},'yyyy.mm.dd hh24:mi'),
-		#{allDay},#{cal_repeat},'','','','', default, '', #{cal_attendee1},'','','','','',#{cal_type_name},#{cal_place},#{cal_memo},#{cal_file},
+		(select distinct mem_no from member where mem_no = #{mem_no}), #{cal_mark}, #{title}, to_date(#{start},'yyyy.mm.dd hh24:mi'), to_date(#{end},'yyyy.mm.dd hh24:mi'),
+		#{allDay},#{cal_repeat},'','','','', default, '', #{cal_attendee1},'','','','',#{cal_place},#{cal_memo},#{cal_file},
 		#{cal_category},'',#{cal_status},#{cal_type_no})
 	</insert>
+	
+	<!-- [UPDATE] 반복 : 안 함 -->
+	<update id="calUpdate" parameterType="caldto">
+		update calendar set cal_mark = #{cal_mark}, cal_title = #{title}, cal_start_time = to_date(#{start},'yyyy.mm.dd hh24:mi'),
+		cal_end_time = to_date(#{end},'yyyy.mm.dd hh24:mi'), cal_allday = #{allDay}, cal_repeat = #{cal_repeat},
+		cal_repeat_cycle_d = #{cal_repeat_d}, cal_repeat_cycle_w = #{cal_repeat_w}, cal_repeat_cycle_m = #{cal_repeat_m}, cal_repeat_cycle_y = #{cal_repeat_y},
+		cal_repeat_detail = #{cal_repeat_detail}, cal_repeat_count = #{cal_repeat_count}, cal_attendee1 = #{cal_attendee1},
+		cal_attendee2 = #{cal_attendee2}, cal_attendee3 = #{cal_attendee3}, cal_attendee4 = #{cal_attendee4}, cal_attendee5 = #{cal_attendee5},
+		cal_place = #{cal_place}, cal_memo = #{cal_memo}, cal_file = #{cal_file}, cal_category = #{cal_category},
+		cal_status = #{cal_status}, cal_type_no = #{cal_type_no}
+		where cal_no = #{cal_no}
+	</update>
 	
 	<!-- 반복 : 매일 -->
 	<insert id="calAdd_repeat_d_1" parameterType="caldto">
@@ -46,15 +54,13 @@
 			r_count number := 0;
 		begin
 			loop
-				if(r_count >= 14) then
+				if(r_count >= 365) then
 					exit;
 				end if;
 				
 				insert into calendar values(#{cal_no}+r_count+1,
-				(select distinct c.mem_no from calendar c join member m
-				on c.mem_no = m.mem_no
-				where m.mem_no = #{mem_no}), #{cal_mark}, #{title}, to_date(#{start},'yyyy.mm.dd hh24:mi')+r_count, to_date(#{end},'yyyy.mm.dd hh24:mi')+r_count,
-				#{allDay},#{cal_repeat},'','','','', default, '', #{cal_attendee1},'','','','','',#{cal_type_name},#{cal_place},#{cal_memo},#{cal_file},
+				(select distinct mem_no from member where mem_no = #{mem_no}), #{cal_mark}, #{title}, to_date(#{start},'yyyy.mm.dd hh24:mi')+r_count, to_date(#{end},'yyyy.mm.dd hh24:mi')+r_count,
+				#{allDay},#{cal_repeat},'','','','', default, '', #{cal_attendee1},'','','','',#{cal_place},#{cal_memo},#{cal_file},
 				#{cal_category},'',#{cal_status},#{cal_type_no});
 				r_count := r_count+1;
 			end loop;
@@ -71,17 +77,15 @@
 		    res number;
 		begin
 		    loop
-		        if(r_count >= 14) then
+		        if(r_count >= 365) then
 		            exit;
 		        end if;
 		        
 		        select TO_CHAR(to_date(#{start},'yyyy.mm.dd hh24:mi')+r_count, 'd') into res from dual;
 		        if res != '1' and res != '7' then
 		            insert into calendar values(#{cal_no}+r_count+1,
-					(select distinct c.mem_no from calendar c join member m
-					on c.mem_no = m.mem_no
-					where m.mem_no = #{mem_no}), #{cal_mark}, #{title}, to_date(#{start},'yyyy.mm.dd hh24:mi')+r_count, to_date(#{end},'yyyy.mm.dd hh24:mi')+r_count,
-					#{allDay},#{cal_repeat},'','','','', default, '', #{cal_attendee1},'','','','','',#{cal_type_name},#{cal_place},#{cal_memo},#{cal_file},
+					(select distinct mem_no from member where mem_no = #{mem_no}), #{cal_mark}, #{title}, to_date(#{start},'yyyy.mm.dd hh24:mi')+r_count, to_date(#{end},'yyyy.mm.dd hh24:mi')+r_count,
+					#{allDay},#{cal_repeat},'','','','', default, '', #{cal_attendee1},'','','','',#{cal_place},#{cal_memo},#{cal_file},
 					#{cal_category},'',#{cal_status},#{cal_type_no});
 		        end if;
 	            r_count := r_count+1;
@@ -100,7 +104,7 @@
 		    res number;
 		begin
 		    loop
-		        if(r_count >= 14) then
+		        if(r_count >= 365) then
 		            exit;
 		        end if;
 		        
@@ -108,10 +112,72 @@
 		        select TO_CHAR(to_date(#{start},'yyyy.mm.dd hh24:mi')+r_count, 'd') into res from dual;
 		        if res = start_day then
 		            insert into calendar values(#{cal_no}+r_count+1,
-					(select distinct c.mem_no from calendar c join member m
-					on c.mem_no = m.mem_no
-					where m.mem_no = #{mem_no}), #{cal_mark}, #{title}, to_date(#{start},'yyyy.mm.dd hh24:mi')+r_count, to_date(#{end},'yyyy.mm.dd hh24:mi')+r_count,
-					#{allDay},#{cal_repeat},'','','','', default, '', #{cal_attendee1},'','','','','',#{cal_type_name},#{cal_place},#{cal_memo},#{cal_file},
+					(select distinct mem_no from member where mem_no = #{mem_no}), #{cal_mark}, #{title}, to_date(#{start},'yyyy.mm.dd hh24:mi')+r_count, to_date(#{end},'yyyy.mm.dd hh24:mi')+r_count,
+					#{allDay},#{cal_repeat},'','','','', default, '', #{cal_attendee1},'','','','',#{cal_place},#{cal_memo},#{cal_file},
+					#{cal_category},'',#{cal_status},#{cal_type_no});
+		        end if;
+	            r_count := r_count+1;
+		    end loop;
+		end;
+	</insert>
+	
+	<!-- 반복 : 매주 X번째 X요일 -->
+	<insert id="calAdd_repeat_m_1" parameterType="caldto">
+		<selectKey resultType="int" keyProperty="cal_no" order="BEFORE">
+			select max(cal_no) from calendar
+		</selectKey>
+		declare
+		    r_count number := 0;
+		    start_day number;
+		    start_week number;
+		    res_day number;
+		    res_week number;
+		begin
+		    loop
+		        if(r_count >= 3650) then
+		            exit;
+		        end if;
+		        
+		        select TO_CHAR(to_date(#{start},'yyyy.mm.dd hh24:mi'), 'd') into start_day from dual;
+		        select TO_CHAR(to_date(#{start},'yyyy.mm.dd hh24:mi'), 'w') into start_week from dual;
+		        select TO_CHAR(to_date(#{start},'yyyy.mm.dd hh24:mi')+r_count, 'd') into res_day from dual;
+		        select TO_CHAR(to_date(#{start},'yyyy.mm.dd hh24:mi')+r_count, 'w') into res_week from dual;
+		        if res_day = start_day and res_week = start_week then
+		            insert into calendar values(#{cal_no}+r_count+1,
+					(select distinct mem_no from member where mem_no = #{mem_no}), #{cal_mark}, #{title}, to_date(#{start},'yyyy.mm.dd hh24:mi')+r_count, to_date(#{end},'yyyy.mm.dd hh24:mi')+r_count,
+					#{allDay},#{cal_repeat},'','','','', default, '', #{cal_attendee1},'','','','',#{cal_place},#{cal_memo},#{cal_file},
+					#{cal_category},'',#{cal_status},#{cal_type_no});
+		        end if;
+	            r_count := r_count+1;
+		    end loop;
+		end;
+	</insert>
+	
+	<!-- 반복 : 매년 X월 X일 -->
+	<insert id="calAdd_repeat_y_1" parameterType="caldto">
+		<selectKey resultType="int" keyProperty="cal_no" order="BEFORE">
+			select max(cal_no) from calendar
+		</selectKey>
+		declare
+		    r_count number := 0;
+		    start_date number;
+		    start_month number;
+		    res_date number;
+		    res_month number;
+		begin
+		    loop
+		        if(r_count >= 3650) then
+		            exit;
+		        end if;
+		        
+		        select TO_CHAR(to_date(#{start},'yyyy.mm.dd hh24:mi'), 'dd') into start_date from dual;
+		        select TO_CHAR(to_date(#{start},'yyyy.mm.dd hh24:mi'), 'mm') into start_month from dual;
+		        select TO_CHAR(to_date(#{start},'yyyy.mm.dd hh24:mi')+r_count, 'dd') into res_date from dual;
+		        select TO_CHAR(to_date(#{start},'yyyy.mm.dd hh24:mi')+r_count, 'mm') into res_month from dual;
+		        if res_date = start_date and res_month = start_month then
+		            insert into calendar values(#{cal_no}+r_count+1,
+					(select distinct mem_no from member where mem_no = #{mem_no}), #{cal_mark}, #{title}, to_date(#{start},'yyyy.mm.dd hh24:mi')+r_count, to_date(#{end},'yyyy.mm.dd hh24:mi')+r_count,
+					#{allDay},#{cal_repeat},'','','','', default, '', #{cal_attendee1},'','','','',#{cal_place},#{cal_memo},#{cal_file},
 					#{cal_category},'',#{cal_status},#{cal_type_no});
 		        end if;
 	            r_count := r_count+1;
