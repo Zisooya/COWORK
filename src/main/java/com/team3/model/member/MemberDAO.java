@@ -1,10 +1,14 @@
 package com.team3.model.member;
 
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface MemberDAO {
 
 	MemberDTO memberLogin(MemberDTO dto);
+
+	MemberDTO selectMember(@Param("mem_id") String mem_id);
 
 	void memberJoin(MemberDTO dto);
 
@@ -16,7 +20,7 @@ public interface MemberDAO {
 
 	String memberFindId(MemberDTO dto);
 
-	String memberFindPwd(MemberDTO dto);
+	int memberFindPwd(@Param("mem_id") String mem_id, @Param("mem_email") String mem_email, @Param("key") String key);
 
 	int idCheck(String mem_id);
 
