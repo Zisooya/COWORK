@@ -24,8 +24,6 @@ public class CalendarDTO {
 	private String cal_attendee3;
 	private String cal_attendee4;
 	private String cal_attendee5;
-	private String cal_type_color;
-	private String cal_type_name;
 	private String cal_place;
 	private String cal_memo;
 	private String cal_file;

@@ -16,7 +16,8 @@
 <div class="container">
     <div class="login-content">
         <form class="form" name="login" method="post" action="${ path }/member_login_ok.do">
-            <img id="logo_home" src="resources/images/COWORK.png" style="width:60%; height:5%; margin: 5px 10px 50px;" alt="로고"/>
+
+            <img id="logo_home" src="resources/images/COWORK.png" style="width:200px; height:45px; margin: 5px 10px 50px;" alt="로고"/>
             <div class="input-div one">
                 <div class="i">
                     <i class="fas fa-user"></i>

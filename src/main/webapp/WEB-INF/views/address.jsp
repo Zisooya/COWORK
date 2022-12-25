@@ -130,59 +130,72 @@
 		</nav>
 	
 		<article id="content">
+		
+		<div id="chat_grid_container">
+		
+			<div id="addr_content">
 				<input id="search_box" type="text" name="keyword" placeholder="이름으로 검색">
 				<input id="search_btn" type="button" value="검색" >
-			<br>
-			<br>
-			<button>삭제</button><button>이동</button><button>메일</button><button>메시지</button>
-			<br>
-			<br>
-			<div class="alph">
-				<a>전체</a>
-				<a>ㄱ</a>
-				<a>ㄴ</a>
-				<a>ㄷ</a>
-				<a>ㄹ</a>
-				<a>ㅁ</a>
-				<a>ㅂ</a>
-				<a>ㅅ</a>
-				<a>ㅇ</a>
-				<a>ㅈ</a>
-				<a>ㅊ</a>
-				<a>ㅋ</a>
-				<a>ㅌ</a>
-				<a>ㅍ</a>
-				<a>ㅎ</a>
-				<a>A~Z</a>
-				<a>기타</a>
-			</div>
-			
-			<hr width="90%" align="left">
-			
-			<div class="subject">
-				<table id="addr_table">
-					<tr>
-						<th><th>이름</th> <th>직책</th> <th>직급</th>
-						<th>부서</th> <th>소속팀</th> <th>이메일</th>
-						<th>전화번호</th>			
-					</tr>	
+					<br>
+					<br>
+					<button>삭제</button><button>이동</button><button>메일</button><button>메시지</button>
+					<br>
+					<br>
+					<div class="alph">
+						<a>전체</a>
+						<a>ㄱ</a>
+						<a>ㄴ</a>
+						<a>ㄷ</a>
+						<a>ㄹ</a>
+						<a>ㅁ</a>
+						<a>ㅂ</a>
+						<a>ㅅ</a>
+						<a>ㅇ</a>
+						<a>ㅈ</a>
+						<a>ㅊ</a>
+						<a>ㅋ</a>
+						<a>ㅌ</a>
+						<a>ㅍ</a>
+						<a>ㅎ</a>
+						<a>A~Z</a>
+						<a>기타</a>
+					</div>
 					
-					<c:set var="myMemList" value="${myDeptMemberList}" />
-					<c:if test="${!empty myMemList }">
-						<c:forEach items="${myMemList }" var="myMemDto" varStatus="vs">
+					<hr  align="left">
+					
+					<div class="subject">
+						<table id="addr_table">
 							<tr>
-								<td><input id="addr_check_${vs.index }" type="checkbox" ><input id="addr_vip_${vs.index }" type="checkbox"><label for="addr_vip_${vs.index }"><span></span></label></td>
-								<td><b>${myMemDto.getMem_name() }</b></td> <td>${myMemDto.getMem_position() }</td> <td>${myMemDto.getMem_rank() }</td>
-								<td>${myMemDto.getDept_name() }</td> <td>${myMemDto.getTeam_name() }</td> <td>${myMemDto.getMem_email() }</td>
-								<td>${myMemDto.getMem_phone() }</td>
-							</tr>
-						</c:forEach>
-					</c:if>
+								<th></th><th>이름</th> <th>직책</th> <th>직급</th>
+								<th>부서</th> <th>소속팀</th> <th>이메일</th>
+								<th>전화번호</th>			
+							</tr>	
+							
+							<c:set var="myMemList" value="${myDeptMemberList}" />
+							<c:if test="${!empty myMemList }">
+								<c:forEach items="${myMemList }" var="myMemDto" varStatus="vs">
+									<tr>
+										<td><input id="addr_check_${vs.index }" type="checkbox" ><input id="addr_vip_${vs.index }" type="checkbox"><label for="addr_vip_${vs.index }"><span></span></label></td>
+										<td><input id="addrMemNo_${vs.index }" type="checkbox" value="${myMemDto.getMem_no() }" onclick="openDetail(this.value);"><label for="addrMemNo_${vs.index }"><b>${myMemDto.getMem_name() }</b></label></td> <td>${myMemDto.getMem_position() }</td> <td>${myMemDto.getMem_rank() }</td>
+										<td>${myMemDto.getDept_name() }</td> <td>${myMemDto.getTeam_name() }</td> <td>${myMemDto.getMem_email() }</td>
+										<td>${myMemDto.getMem_phone() }</td>
+									</tr>
+								</c:forEach>
+							</c:if>
+							
+						</table>
+				
+					</div>
+				</div>	
+				
+				<input type="checkbox" id="sideBar_btn" >
+				<label for="sideBar_btn"><img id="sideBar_img" alt="사이드바 버튼" src="${path}/resources/images/사이드바화살표.png"> </label>	
+				<div id="right_chatRoomDetail">
+				
 					
-				</table>
-		
-			</div>	
-			
+				</div>
+						
+			</div>
 		</article>
 	
 	</div>
@@ -239,10 +252,10 @@ $(function(){
 			data: {"dept_name" : dept_name},
 			success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
 				//addrList_dept
-				$("#addr_table").html("<tr><th>이름</th> <th>직책</th> <th>직급</th><th>부서</th> <th>소속팀</th> <th>이메일</th><th>전화번호</th></tr>");	
+				$("#addr_table").html("<tr><th></th><th>이름</th> <th>직책</th> <th>직급</th><th>부서</th> <th>소속팀</th> <th>이메일</th><th>전화번호</th></tr>");	
 				
 			$.each(data, function(index, MemberDTO) {
-				$("#addr_table").append("<tr><td><input id='addr_check_"+index+"' type='checkbox' ><input id='addr_vip_"+index+"' type='checkbox'><label for='addr_vip_"+index+"'><span></span></label></td><td><b>"+MemberDTO.mem_name+"</b></td><td>"+MemberDTO.mem_position+"</td><td>"+MemberDTO.mem_rank+"</td><td>"+MemberDTO.dept_name+"</td><td>"+MemberDTO.team_name+"</td><td>"+MemberDTO.mem_email+"</td><td>"+MemberDTO.mem_phone+"</td></tr>");
+				$("#addr_table").append("<tr><td><input id='addr_check_"+index+"' type='checkbox' ><input id='addr_vip_"+index+"' type='checkbox'><label for='addr_vip_"+index+"'><span></span></label></td><td><input id='addrMemNo_"+index+"' type='checkbox' value='"+MemberDTO.mem_no+"' onclick='openDetail(this.value);'><label for='addrMemNo_"+index+"'><b>"+MemberDTO.mem_name+"</b></label></td><td>"+MemberDTO.mem_position+"</td><td>"+MemberDTO.mem_rank+"</td><td>"+MemberDTO.dept_name+"</td><td>"+MemberDTO.team_name+"</td><td>"+MemberDTO.mem_email+"</td><td>"+MemberDTO.mem_phone+"</td></tr>");
 				});	
 								
 			},
@@ -258,7 +271,7 @@ $(function(){
 	$('#accordion_cb_customer').click(function(){
 		
 		// 로그인 기능 완성 시 세션 값으로 변경 할 예정.
-		let mem_no = 1;
+		let mem_no = $('#myNum').val();
 		
 		$.ajax({
 			type: 'POST',
@@ -268,10 +281,11 @@ $(function(){
 			data: {"mem_no" : mem_no},
 			success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
 				//addrList_customer
-				$("#addr_table").html("<tr><th>이름</th> <th>직책</th> <th>직급</th><th>부서</th> <th>소속팀</th> <th>이메일</th><th>전화번호</th></tr>");	
+				$("#addr_table").html("<tr><th></th><th>이름</th> <th>직급</th> <th>회사</th><th>부서</th> <th>소속팀</th> <th>이메일</th><th>전화번호</th></tr>");	
 				
 			$.each(data, function(index, CustomerDTO) {
-				$("#addr_table").append("<tr><td><input id='addr_check_"+index+"' type='checkbox' ><input id='addr_vip_"+index+"' type='checkbox'><label for='addr_vip_"+index+"'><span></span></label></td><td><b>"+CustomerDTO.customer_name+"</b></td><td>"+CustomerDTO.customer_position+"</td><td>"+CustomerDTO.customer_rank+"</td><td>"+CustomerDTO.customer_dept+"</td><td>"+CustomerDTO.customer_team+"</td><td>"+CustomerDTO.customer_email+"</td><td>"+CustomerDTO.customer_phone+"</td></tr>");
+				
+				$("#addr_table").append("<tr><td><input id='addr_check_"+index+"' type='checkbox' ><input id='addr_vip_"+index+"' type='checkbox'><label for='addr_vip_"+index+"'><span></span></label></td><td><input id='addrCusNo_"+index+"' type='checkbox' value='"+CustomerDTO.customer_no+"' onclick='openDetailC(this.value);'><label for='addrCusNo_"+index+"'><b>"+CustomerDTO.customer_name+"</b></label></td><td>"+CustomerDTO.customer_rank+"</td><td>"+CustomerDTO.customer_dept+"</td><td>"+CustomerDTO.customer_company+"</td><td>"+CustomerDTO.customer_team+"</td><td>"+CustomerDTO.customer_email+"</td><td>"+CustomerDTO.customer_phone+"</td></tr>");
 				});	
 								
 			},
@@ -303,7 +317,7 @@ $(function(){
 			data: {"keyword" : keyword},
 			success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
 				//addrList_search	
-				$("#addr_table").html("<tr><th>이름</th> <th>직책</th> <th>직급</th><th>부서</th> <th>소속팀</th> <th>이메일</th><th>전화번호</th></tr>");	
+				$("#addr_table").html("<tr><th></th><th>이름</th> <th>직책</th> <th>직급</th><th>부서</th> <th>소속팀</th> <th>이메일</th><th>전화번호</th></tr>");	
 				
 				$.each(data, function(index, MemberDTO) {
 					$("#addr_table").append("<tr><td><input id='addr_check_"+index+"' type='checkbox' ><input id='addr_vip_"+index+"' type='checkbox'><label for='addr_vip_"+index+"'><span></span></label></td><td><b>"+MemberDTO.mem_name+"</b></td><td>"+MemberDTO.mem_position+"</td><td>"+MemberDTO.mem_rank+"</td><td>"+MemberDTO.dept_name+"</td><td>"+MemberDTO.team_name+"</td><td>"+MemberDTO.mem_email+"</td><td>"+MemberDTO.mem_phone+"</td></tr>");
@@ -350,15 +364,41 @@ $(function(){
 		
 	});	// 연락처 추가 모달창 폼페이지 입력 시 이벤트 end
 
-/* 	
-	// 각 연락처 클릭 시 상세 정보 모달창 띄우기
-	$('#addr_table tr').click(function(){
+	// 사이드바 숨기기/보이기
+	$('#sideBar_btn').on('change',function(){
+		if($('#sideBar_btn').is(':checked')){
+			$('#right_chatRoomDetail').css({"width":"100%","display":"block","transition":"all 0.4s"});
+			$('#addr_table').css({"width":"100%","transition":"all 0.4s"});
+		}else{
+			$('#right_chatRoomDetail').css({"width":"0","display":"none","transition":"all 0.4s"});
+			$('#addr_table').css({"width":"130%","transition":"all 0.4s"});
 
-	});
+	    }	
+	}); // 사이드바 숨기기/보이기 end
+	
+	// 연락처 이름 체크박스 하나만 선택되도록 하기.
+	$("input[id *= 'addrMemNo_']").click(function(){
+		
+	    if(this.checked) {
+	        const checkboxes = $("input[id *= 'addrMemNo_']");
+	        for(let i = 0; i < checkboxes.length; i++){
+	            checkboxes[i].checked = false;
+	        }
+	        this.checked = true;
+	    } else {
+	        this.checked = false;
+	    }		
+	});	// 연락처 이름 체크박스 하나만 선택되도록 하기.	
+	
+	
 
- */
+	
+	
+	
 	
 });
+
+
 
 
 
@@ -386,7 +426,42 @@ function handleImgFileSelect(e) {
     });
 }	// 이미지 미리보기 변경 함수 end
 
+function openDetail(addrMemNo){
 
+	let detail = document.getElementById("right_chatRoomDetail");
+	let addrTable = document.getElementById("addr_table");
+	
+	// 연락처 상세 정보 조회 $.ajax()
+	$.ajax({
+		type: 'POST',
+	//	async : false,
+		url: '<%=request.getContextPath()%>/address_getMemDetail.do',
+		dataType:'json',
+		data: {"addrMemNo" : addrMemNo},
+		success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
+			//memberDetail
+			
+			// 우측 사이드 바에 연락처 상세 정보 넣기
+			$('#right_chatRoomDetail').html("<img src='${path}/resources/mem_upload/"+data.mem_image+"' width='100' height='100'><div class='detail_div_c'><div class='detai_icon'><a href='${path}/messenger.do'><img src='resources/images/메신저.png' width='40' height='40'></a>메신저</div>  <div class='detai_icon'><a href='${path}/'> <img src='resources/images/메일.png' width='35' height='35'></a>메일</div> <div class='detai_icon'><a href='${path}/calendar.do'> <img src='resources/images/캘린더.png' width='35' height='35'></a>캘린더</div> </div><div class='detail_div'><div class='detail_title'>이름</div>" + data.mem_name + "</div><div class='detail_div'><div class='detail_title'>직급</div>" + data.mem_rank + "</div><div class='detail_div'><div class='detail_title'>소속팀</div>" +data.team_name + "</div><div class='detail_div'><div class='detail_title'>연락처</div>" + data.mem_phone + "</div><div class='detail_div'><div class='detail_title'>이메일</div>" + data.mem_email + "</div><div class='detail_div'><div class='detail_title'>아이디</div>" + data.mem_id +"</div>");
+			
+		},
+		error: function(res){ // 응답을 받지 못하였다거나 정상적인 응답이지만 데이터 형식을 확인할 수 없을 때 error 콜백이 호출.
+			alert('ajax 응답 오류');
+		}
+	});	// 연락처 상세 정보 조회 $.ajax() end			
+	
+	
+	// 우측 사이드 바 체크 하기(버튼 CSS 걸어둔 것 실행)
+	document.getElementById("sideBar_btn").checked = true;
+	
+	// 우측 사이드바 보이게 하기 
+	detail.style.width = "100%";
+	detail.style.display = "block";
+	detail.style.transition = "all 0.4s";
+	addrTable.style.width = "100%";
+	addrTable.style.transition = "all 0.4s";
+	
+} // openDetail() 함수 end
 
 
 </script>
