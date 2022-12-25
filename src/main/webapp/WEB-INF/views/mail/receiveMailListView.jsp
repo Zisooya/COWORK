@@ -1,22 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page pageEncoding="UTF-8"  %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% 
 	response.setHeader("Cache-Control","no-store"); 
 	response.setHeader("Pragma","no-cache"); 
 	response.setDateHeader("Expires",0); 
 	if (request.getProtocol().equals("HTTP/1.1")) 
 		response.setHeader("Cache-Control", "no-cache"); 
-%>    
-<!DOCTYPE html>
+%> 
+<c:set var="path" value="${pageContext.request.contextPath}"/>
+<!DOCTYPE HTML>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>X-Normal GroupWare Solution</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>받은메일함</title>
+<link href="${path}/resources/css/include.css" rel="stylesheet"/>
 <style type="text/css">
 #pagingArea{width:fit-content;margin:auto;}
 #mailList>tbody>tr:hover {
@@ -25,21 +22,24 @@
 #star{
 	color: blue;
 }
-
 </style>
-
 </head>
 <body>
-
-<jsp:include page="../include.jsp" />
-
-<c:if test="${ !empty msg }">
-	<script>
-		swal("${msg}")
-	</script>
+	<div id="grid_container">
+	
+		<jsp:include page="../include.jsp" />
+	
+		<nav id="side">
+			<jsp:include page="Topmenubar.jsp" />
+		</nav>
+	
+		<article id="content">
+	<c:if test="${ !empty msg }">
+		<script>
+			swal("${msg}")
+		</script>
 	<c:remove var="msg" scope="session"/>
-</c:if>
-
+	</c:if>
 <div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="min-height-200px">
@@ -119,18 +119,18 @@
 				 <div id="pagingArea">
                 <ul class="pagination">
                 	<c:choose>
-                		<c:when test="${ pi.currentPage ne 1 }">
-                			<li class="page-item"><a class="page-link" href="receiveList.ml?currentPage=${ pi.currentPage-1 }">이전</a></li>
+                		<c:when test="${ pi.page ne 1 }">
+                			<li class="page-item"><a class="page-link" href="receiveList.do?page=${ pi.page-1 }">이전</a></li>
                 		</c:when>
                 		<c:otherwise>
                 			<li class="page-item disabled"><a class="page-link" href="">이전</a></li>
                 		</c:otherwise>
                 	</c:choose>
                 	
-                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+                    <c:forEach begin="${ pi.startNo }" end="${ pi.endNo }" var="p">
                     	<c:choose>
-	                		<c:when test="${ pi.currentPage ne p }">
-                    			<li class="page-item"><a class="page-link" href="receiveList.ml?currentPage=${ p }">${ p }</a></li>
+	                		<c:when test="${ pi.page ne p }">
+                    			<li class="page-item"><a class="page-link" href="receiveList.do?page=${ p }">${ p }</a></li>
 	                		</c:when>
 	                		<c:otherwise>
 	                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -140,8 +140,8 @@
                     
                     
                     <c:choose>
-                		<c:when test="${ pi.currentPage ne pi.maxPage }">
-                			<li class="page-item"><a class="page-link" href="receiveList.ml?currentPage=${ pi.currentPage+1 }">다음</a></li>
+                		<c:when test="${ pi.page ne pi.allPage }">
+                			<li class="page-item"><a class="page-link" href="receiveList.do?page=${ pi.page+1 }">다음</a></li>
                 		</c:when>
                 		<c:otherwise>
                 			<li class="page-item disabled"><a class="page-link" href="">다음</a></li>
@@ -154,22 +154,16 @@
 			</div>
 		</div>
 		</div>
-				
-				
-			
-
-<script>
-	
-	$(function(){
-		$(".mailList tbody tr").click(function(){
-			console.log($(".mailList tbody tr").children().eq(0).text());
-			location.href="receiveDetail.ml?mno=" + $(this).children().eq(0).text();
-			
-		});
-	});
-	
-</script>
-<script src="${ pageContext.servletContext.contextPath }/resources/plugins/sweetalert2/sweetalert2.all.js"></script>
-			
+		<script>
+			$(function(){
+				$(".mailList tbody tr").click(function(){
+					console.log($(".mailList tbody tr").children().eq(0).text());
+					location.href="receiveDetail.do?mno=" + $(this).children().eq(0).text();	
+				});
+			});
+		</script>
+		</article>
+	</div>
+<script src="${ pageContext.servletContext.contextPath }/resources/plugins/sweetalert2/sweetalert2.all.js"></script>		
 </body>
 </html>

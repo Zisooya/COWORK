@@ -4,9 +4,19 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>보낸메일함</title>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>Home</title>
 <link href="${path}/resources/css/include.css" rel="stylesheet"/>
+<style type="text/css">
+#pagingArea{width:fit-content;margin:auto;}
+#mailList>tbody>tr:hover {
+	cursor: pointer;
+}
+#star{
+	color: blue;
+}
+</style>
 </head>
 <body>
 	<div id="grid_container">
@@ -14,12 +24,11 @@
 		<jsp:include page="../include.jsp" />
 	
 		<nav id="side">
-			<jsp:include page="Topmenubar.jsp" />
+			
 		</nav>
 	
 		<article id="content">
-			
-<c:if test="${ !empty msg }">
+			<c:if test="${ !empty msg }">
 	<script>
 		swal("${msg}")
 	</script>
@@ -33,12 +42,12 @@
 					<div class="row">
 						<div class="col-md-6 col-sm-12">
 							<div class="title">
-								<h4>보낸 메일함</h4>
+								<h4>휴지통</h4>
 							</div>
 							<nav aria-label="breadcrumb" role="navigation">
 								<ol class="breadcrumb">
 									<li class="breadcrumb-item"><a href="">홈</a></li>
-									<li class="breadcrumb-item active" aria-current="page">보낸 메일함</li>
+									<li class="breadcrumb-item active" aria-current="page">휴지통</li>
 								</ol>
 							</nav>
 						</div>
@@ -52,6 +61,7 @@
 							
 						</div>
 						<div class="pull-right">
+					
 						</div>
 					</div>
 					<div id="mailList">
@@ -61,15 +71,15 @@
 								<th scope="col"></th>
 								<th scope="col"><i class="icon-copy ion-star" id="star"></i></th>
 								<th scope="col"><i class="icon-copy ion-ios-email"></i></th>
-								<th scope="col">받는 사람</th>
+								<th scope="col">받는사람</th>
 								<th scope="col">제목</th>
 								<th scope="col">날짜</th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${ sendList }" var="s">
+							<c:forEach items="${ wasteList }" var="s">
 								<tr>
-									<td scope="row">${ s.eml_no }</td>
+									<td scope="row">${ s.mailNo }</td>
 									
 									<c:choose>
 										<c:when test="${s.importantFlag == '1'}">
@@ -81,7 +91,7 @@
 									</c:choose>
 									
 									<c:choose>
-										<c:when test="${s.read_count == '0'}">
+										<c:when test="${s.readCount == '0'}">
 											<td><i class="icon-copy ion-ios-email"></i></td>
 										</c:when>
 										<c:otherwise>
@@ -89,34 +99,44 @@
 										</c:otherwise>
 									</c:choose>
 									
-									<td>${s.eml_to }</td>
-									<td>${s.eml_title }</td>
-									<td>${s.read_count }</td>
+									<td>${s.receiver }</td>
+									
+									<c:choose>
+										<c:when test="${s.empId == sessionScope.loginUser.empId}">
+											<td><i class="icon-copy ion-android-hand"></i>   ${s.title }</td>
+										</c:when>
+										<c:otherwise>
+											<td>${s.title }</td>
+										</c:otherwise>
+									</c:choose>
+									
+									<td>${s.date }</td>
 								</tr>
 							</c:forEach>
 							 
 							
 						</tbody>
 					</table>
-					
 					</div>
-								
-				<!-- 페이징 시작 -->						
+					
+					
+										
+				<!-- 페이징 시작 -->							
 				 <div id="pagingArea">
                 <ul class="pagination">
                 	<c:choose>
-                		<c:when test="${ pi.page ne 1 }">
-                			<li class="page-item"><a class="page-link" href="sendList.do?page=${ pi.page-1 }">이전</a></li>
+                		<c:when test="${ pi.currentPage ne 1 }">
+                			<li class="page-item"><a class="page-link" href="waste.ml?currentPage=${ pi.currentPage-1 }">이전</a></li>
                 		</c:when>
                 		<c:otherwise>
                 			<li class="page-item disabled"><a class="page-link" href="">이전</a></li>
                 		</c:otherwise>
                 	</c:choose>
                 	
-                    <c:forEach begin="${ pi.startNo }" end="${ pi.endNo }" var="p">
+                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
                     	<c:choose>
-	                		<c:when test="${ pi.page ne p }">
-                    			<li class="page-item"><a class="page-link" href="sendList.do?page=${ p }">${ p }</a></li>
+	                		<c:when test="${ pi.currentPage ne p }">
+                    			<li class="page-item"><a class="page-link" href="waste.ml?currentPage=${ p }">${ p }</a></li>
 	                		</c:when>
 	                		<c:otherwise>
 	                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -126,32 +146,33 @@
                     
                     
                     <c:choose>
-                		<c:when test="${ pi.page ne pi.allPage }">
-                			<li class="page-item"><a class="page-link" href="sendList.do?page=${ pi.page+1 }">다음</a></li>
+                		<c:when test="${ pi.currentPage ne pi.maxPage }">
+                			<li class="page-item"><a class="page-link" href="waste.ml?currentPage=${ pi.currentPage+1 }">다음</a></li>
                 		</c:when>
                 		<c:otherwise>
-                			<li class="page-item disabled"><a class="page-link" href="sendList.do?page=${ pi.page+1 }">다음</a></li>
+                			<li class="page-item disabled"><a class="page-link" href="waste.ml?currentPage=${ pi.currentPage+1 }">다음</a></li>
                 		</c:otherwise>
                 	</c:choose>
-                </ul>    
-            <!-- 페이징끝 --> 
+                </ul>
+            <!-- 페이징끝 -->
+            
             </div>
 			</div>
-							
-		<!-- basic table  End -->
-		
-		</div>
-		</div>
-		</div>
-		<script>
-		$(function(){
-			$(".mailList tbody tr").click(function(){
-				location.href="sendDetail.do?mno=" + $(this).children().eq(0).text();
-			});
-		});
-		</script>
+									
+									
+				<!-- basic table  End -->
+				
+				</div>
+				</div>
+				</div>
 		</article>
+		<script>
+				$(function(){
+					$(".mailList tbody tr").click(function(){
+						location.href="wasteDetail.ml?mno=" + $(this).children().eq(0).text();
+					});
+				});
+		</script>
 	</div>
-	<%--  <jsp:include page="menubar.jsp" /> --%>
 </body>
 </html>

@@ -85,8 +85,9 @@ input{
  		</nav>
 		
 		<article id="content">
-			<jsp:include page="mail/list.jsp" />
+			<%-- <jsp:include page="mail/list.jsp" /> --%>
 		</article>
 	</div>
+	<jsp:include page="mail/menubar.jsp" />
 </body>
 </html>

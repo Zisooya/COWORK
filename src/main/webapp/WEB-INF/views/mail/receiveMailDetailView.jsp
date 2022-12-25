@@ -1,20 +1,25 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page pageEncoding="UTF-8"  %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>     
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
-<!DOCTYPE html>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
+<c:set var="path" value="${pageContext.request.contextPath}"/>
+<!DOCTYPE HTML>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>X-Normal GroupWare Solution</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>Home</title>
+<link href="${path}/resources/css/include.css" rel="stylesheet"/>
 </head>
 <body>
-
-<jsp:include page="../include.jsp" />
-
-<div class="main-container">
+	<div id="grid_container">
+	
+		<jsp:include page="../include.jsp" />
+	
+		<nav id="side">
+			<jsp:include page="Topmenubar.jsp" />
+		</nav>
+	
+		<article id="content">
+			<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="min-height-200px">
 				<div class="page-header">
@@ -40,7 +45,7 @@
 		            <div class="card-header">
 		               <h3 class="mailbox-read-info">${m.title }</h3>
 			            <br>
-			            <h4 class="card-title">to : ${loginUser.mem_name }
+			            <h4 class="card-title">to : ${member.mem_name }
 			            <br>
 			            from : ${sendEmp.mem_name }
                   		<span class="mailbox-read-time float-right">${m.create_date }</span>
@@ -85,10 +90,6 @@
 				<!-- 중간내용 끝 -->
 				
 				</div>
-				
-			
-			
-			
 						<div class="modal fade" id="mailDeleteConfirm" tabindex="-1" role="dialog" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered" role="document">
 								<div class="modal-content">
@@ -112,11 +113,9 @@
 				</div>
 			</div>
 			</div>
-				
-				
-				
-				
-				
+		</article>
+	
+	</div>
 <script>
 function reply() {
 	$("#receiveMail").attr("action", "sendReply.ml");
@@ -142,10 +141,6 @@ function list(){
 }
 
 </script>
-
 <script src="${ pageContext.servletContext.contextPath }/resources/plugins/sweetalert2/sweetalert2.all.js"></script>
-				
-
-
 </body>
 </html>

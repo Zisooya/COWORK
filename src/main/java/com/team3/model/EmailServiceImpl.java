@@ -102,4 +102,94 @@ public class EmailServiceImpl implements EmailService{
 		return emailDao.selectMemberDTOList(sqlSession, deptCode);
 	}
 
+	@Override
+	public MemberDTO getReceiver(String receiver) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void insertReply(EmailDTO m) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resendMail(EmailDTO m) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insertSendDelivery(EmailDTO m) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void wasteSendMail(int mno) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int selectWasteMailListCount(String empId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public ArrayList<EmailDTO> selectWasteMailList(PageDTO pi, String empId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void wasteReceiveMail(int mno) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public MemberDTO selectReceiveEmp(int mno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EmailDTO selectMail(int mno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void returnSendMail(int mno) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void returnReceiveMail(int mno) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void wasteMail(int mno) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateWriter(int mno) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateReceiver(int mno) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
