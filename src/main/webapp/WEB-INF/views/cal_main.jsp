@@ -492,7 +492,7 @@
 					}
 				});
 	        }
-			//document.location.reload();
+			document.location.reload();
 		});
 		
 		// 일정 추가 버튼 클릭 시
@@ -867,7 +867,7 @@ html, body {
   background: #FFC107;
 }
 #calendar {
-	height: 90%;
+	height: 150%;
 }
 #eventAdd_btn {
 	text-align: center;
