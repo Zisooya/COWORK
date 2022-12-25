@@ -54,7 +54,9 @@ public class UserMailSendService {
 
         key = passwordEncoder.encode(key);
 
-        dao.memberFindPwd(mem_id, mem_email, key);
+        int check = dao.updatePwd(mem_id, mem_email, key);
+
+        System.out.println("check >> " + check);
     }
 
     private String init() {
