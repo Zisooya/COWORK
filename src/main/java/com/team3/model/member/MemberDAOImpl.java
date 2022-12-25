@@ -49,8 +49,11 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public int memberFindPwd(@Param("mem_id") String mem_id, @Param("mem_email") String mem_email, @Param("key") String key) {
-		return this.sqlSession.update("memberFindPwd");
+	public int updatePwd(@Param("mem_id") String mem_id, @Param("mem_email") String mem_email, @Param("key") String key) {
+		System.out.println("mem_id >> " + mem_id);
+		System.out.println("mem_email >> " + mem_email);
+		System.out.println("key >> " + key);
+		return this.sqlSession.update("updatePwd");
 	}
 
 	@Override

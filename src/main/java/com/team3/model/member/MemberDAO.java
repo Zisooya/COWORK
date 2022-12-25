@@ -20,7 +20,7 @@ public interface MemberDAO {
 
 	String memberFindId(MemberDTO dto);
 
-	int memberFindPwd(@Param("mem_id") String mem_id, @Param("mem_email") String mem_email, @Param("key") String key);
+	int updatePwd(@Param("mem_id") String mem_id, @Param("mem_email") String mem_email, @Param("key") String key);
 
 	int idCheck(String mem_id);
 
