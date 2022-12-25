@@ -168,56 +168,42 @@ $(function(){
 		if($('#popup01').is(':checked')){
 			
 			let mem_no = $('#myNum').val();
-			
 			// DB 채팅방 번호 최댓값 가져오기
 			$.ajax({
 				type: 'POST',
-			//	async : false,
+				async : false,
 				url: '<%=request.getContextPath()%>/messenger_getChatRoomNoMax.do',
 				dataType:'json',
 				data: {"mem_no" : mem_no},
 				success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
 					//chatRoomNoMax
-					let chatRoomNoMax = data;
-					let newChatRoomNo = data + 1;
-					$("#addChatRoomDiv").html("<input name='chat_room_no' type='hidden' value='"+newChatRoomNo+"'>");	
+					let chatRoomNoMaxPlus = data + 1;
+					$("#addChatRoomDiv").html("<input id='newChatRoomNo' name='chat_room_no' type='hidden' value='"+chatRoomNoMaxPlus+"'>");	
 				},
 				error: function(res){ // 응답을 받지 못하였다거나 정상적인 응답이지만 데이터 형식을 확인할 수 없을 때 error 콜백이 호출.
 					alert('ajax 응답 오류');
 				}
 			});	// DB 채팅방 번호 최댓값 조회 $.ajax() end	
 			
-			// 회사 주소록 가져오기
+			let newChatRoomNo = $('#newChatRoomNo').val();
+			
+			// 회사 주소록은 컨트롤러에서 넘겨줌.
 			$.ajax({
-				type: 'POST',
-			//	async : false,
-				dataType:"json",
-				url: '<%=request.getContextPath()%>/messenger_getAllDeptList.do',
-				success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
-				// deptList
-					$('#addChatRoomDiv').append("<div class='modal_title'>대화상대 선택</div>");
-				$.each(data, function(index, DepartmentDTO) {
-					
-					$('#addChatRoomDiv').append("<input id='dept_no"+index+"' type='checkbox' ><label class='dept_lb' for='dept_no"+index+"'>"+DepartmentDTO.dept_name+"</label><div>연락처올자리</div>");
-					
-									
-					});
-				},
-				error: function(res){ // 응답을 받지 못하였다거나 정상적인 응답이지만 데이터 형식을 확인할 수 없을 때 error 콜백이 호출.
-					alert('ajax 응답 오류');
-				}
-			});	// 회사 주소록 조회 $.ajax() end		
-
-			
-			
-		
+				url:"http://"+location.host+"/cowork/newChat.do",
+				type:"post",
+				async : false,
+				datatype:"html",
+				data: {"newChatRoomNo" : newChatRoomNo},
+				success:function(data){
+					$("#addChatRoomDiv").append(data);
+				}	
+			});		
 			
 		}
 		
 	});	// 모달창 오픈 시 이벤트 end
 	
-	
-	
+
 
 	
 });
@@ -241,7 +227,8 @@ $(function(){
         //웹소켓 객체 만드는 코드
         //cowork는 프로젝트 이름
         //messanger.do 웹소켓 서버단 @ServerEndpoint에 적은 path
-        ws = new WebSocket("ws://localhost:8282/cowork/chat");
+        // location.host => localhost:8282 (현재 내 pc에서)
+        ws = new WebSocket("ws://"+location.host+"/cowork/chat");
         
         
         

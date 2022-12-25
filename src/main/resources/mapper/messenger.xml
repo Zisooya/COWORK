@@ -31,4 +31,29 @@
 	<select id="messenger_getChatRoomNoMax" parameterType="int" resultType="int">
 		select max(chat_room_no) from chat_member where mem_no=#{mem_no}
 	</select>
+	
+	<select id="messenger_getAllMemList" resultType="memberDto">
+		select * from member order by mem_name
+	</select>
+	
+	<select id="messenger_searchMemList" parameterType="String" resultType="memberDto" >
+		select * from member where mem_name like '%' || #{keyword} || '%' order by mem_name
+	</select>
+	
+	<select id="messenger_getMemName" parameterType="int" resultType="String">
+		select mem_name from member where mem_no = #{mem_no}
+	</select>
+	
+	<insert id="messenger_insertChatRoom" parameterType="chatRoomDto">
+		 <!-- max(chat_room_no)값이 chat_room_no에 저장됨.-->
+ 		<selectKey resultType="int" keyProperty="chat_room_no" order="BEFORE">
+ 			select max(chat_room_no) from chat_room
+ 		</selectKey>
+		insert into chat_room values(#{chat_room_no} + 1, #{chat_room_name}, #{chat_kind}, TO_DATE(#{regdate},'YYYY-MM-DD HH24:MI:SS'))
+	</insert>
+	
+	<insert id="messenger_insertMemToChatRoom" parameterType="int">
+		insert into chat_member values((select max(chat_room_no) from chat_room), #{mem_no} )
+	</insert>
+	
 </mapper>

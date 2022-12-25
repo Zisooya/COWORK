@@ -1,7 +1,9 @@
 package com.team3.cowork;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -91,7 +94,6 @@ public class MessengerController {
 	@RequestMapping("messenger_getChatRoomNoMax.do")
 	public @ResponseBody int getChatRoomNoMax(@RequestParam("mem_no")int mem_no) {
 
-		// 채팅방 번호에 해당하는 채팅방의 메세지들 불러오기.
 		int chatRoomNoMax = this.messengerDao.getChatRoomNoMax(mem_no);
 		
 		System.out.println("채팅방 최댓값은???"+chatRoomNoMax);
@@ -102,11 +104,115 @@ public class MessengerController {
 	@RequestMapping("messenger_getAllDeptList.do")
 	public @ResponseBody List<DepartmentDTO> getAllDeptList() {
 
-		// 채팅방 번호에 해당하는 채팅방의 메세지들 불러오기.
 		List<DepartmentDTO> deptList = this.addressDao.getAllDeptList();
 		
 		System.out.println("deptList왔나요??" + deptList);
 		return deptList;
+	}		
+	
+	@RequestMapping("newChat.do")
+	public String newChat(Model model) {
+		
+		// member 전체 연락처 불러오는 메소드 호출
+		List<MemberDTO> memList = this.messengerDao.getAllMemList();
+		model.addAttribute("memList", memList);
+		
+		return "newChat";
+	}
+	
+	@RequestMapping("messenger_searchMem.do")
+	public @ResponseBody List<MemberDTO> searchMem(@RequestParam ("keyword") String keyword) {
+		
+		System.out.println("넘어온 keyword : " + keyword);
+		
+		List<MemberDTO> searchMemList = this.messengerDao.searchMemList(keyword);
+		
+		return searchMemList;
+	}
+	
+	@RequestMapping(value="/messenger_insertNewChatRoom", method = RequestMethod.POST, produces = "application/text; charset=UTF-8;")
+	public @ResponseBody String insertNewChatRoom
+	(@RequestParam (value="checkedMemArr[]") List<String> checkedMemArr, 
+			@RequestParam (value="chat_room_no") int chat_room_no,
+			@RequestParam (value="chat_kind") String chat_kind,
+			@RequestParam(value="regdate") String regdate,
+			@RequestParam (value="myNum") int myNum) {
+		
+		String chatRoomName = "";
+		
+		String memName = "";
+		
+		for(int i =0; i<checkedMemArr.size(); i++){
+
+			int mem_no = Integer.parseInt(checkedMemArr.get(i));
+			
+			// 회원번호로 해당 회원의 이름 가져오는 메소드 호출.
+			
+			memName = this.messengerDao.getMemName(mem_no);
+			if(i==0) {
+				chatRoomName += memName;
+			}else {
+				chatRoomName += "," + memName;
+			}
+
+		}
+		System.out.println("현재 chatRoomName >>> "+chatRoomName);
+		
+		// DB에 채팅방 insert하는 메소드 호출
+		Chat_RoomDTO chatRoomDTO = new Chat_RoomDTO();
+		
+		chatRoomDTO.setChat_room_no(chat_room_no);
+		chatRoomDTO.setChat_room_name(chatRoomName);
+		chatRoomDTO.setChat_kind(chat_kind);
+		chatRoomDTO.setRegdate(regdate);
+		
+		int check = this.messengerDao.messenger_insertChatRoom(chatRoomDTO);
+		
+		if(check>0) {
+			System.out.println("채팅방 생성 성공");
+		}else {
+			System.out.println("채팅방 생성 실패");
+		}		
+		
+		// 현재 사용자 포함, 체크된 모든 회원 해당 채팅방의 참여자로 DB의 chat_member 테이블에 insert.
+		
+		// 현재 사용자 채팅방에 추가
+		int check2 = this.messengerDao.insertMemToChatRoom(myNum);
+		
+		if(check2>0) {
+			System.out.println("현재 사용자 채팅방 참가 성공");
+		}else {
+			System.out.println("현재 사용자 채팅방 참가 실패");
+		}
+		
+		int check3 = 0;
+		
+		// 체크된 사용자 채팅방에 추가
+		for(int i =0; i<checkedMemArr.size(); i++){
+			int mem_no = Integer.parseInt(checkedMemArr.get(i));
+			//map.put("mem_no", mem_no);
+			check3 = this.messengerDao.insertMemToChatRoom(mem_no);
+			
+			if(check3>0) {
+				System.out.println(i + "번 째 체크된 사용자 채팅방 참가 성공");
+			}else {
+				System.out.println(i + "체크된 사용자 채팅방 참가 실패");
+			}			
+		}
+		
+		String result = "";
+		
+		if(check>0 && check2>0) {
+			
+			if(check3 > 0) {
+				result = "새로운 대화 생성 성공";
+			}
+			
+		}else {
+			result = "새로운 대화 생성 실패";
+		}
+		
+		return result;
 	}		
 	
 
