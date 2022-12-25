@@ -867,7 +867,7 @@ html, body {
   background: #FFC107;
 }
 #calendar {
-	height: 150%;
+	height: 100%;
 }
 #eventAdd_btn {
 	text-align: center;
@@ -932,10 +932,12 @@ html, body {
 				</div>
 			</div>
 		</nav>
-		<article id="content">
+		<article id="content" style="margin: 0px 15px;">
 			<!-- 메인 기능 들어갈 부분 -->
 
 			<!-- 일정 검색 -->
+			
+			<%-- 
 			<form method="post" action="<%=request.getContextPath()%>/calendar_search.do" class="search-form" id="search_form">
 				<select name="field" class="form-select">
 					<option value="title">제목</option>
@@ -944,8 +946,8 @@ html, body {
 				</select>&nbsp;
 				<input name="keyword" class="form-control" type="text" placeholder="검색어를 입력하세요.">&nbsp;&nbsp;
 				<input type="button" value="검색" class="btn btn-primary" id="search_btn">
-				<!-- <input type="button" value=">" class="btn btn-primary" id="my-next-button"> -->
 			</form>
+			 --%>
 
 			<br>
 			<!-- Calendar -->
@@ -959,9 +961,9 @@ html, body {
 					<img id="mark_detail" src="https://cdn-icons-png.flaticon.com/512/148/148839.png"><span class="title"></span><br>
 					일시 <span class="startTime"></span><span id="time_dash"></span><span class="endTime"></span>
 					<br>
-					메모 <span class="memo"></span>
-					<br>
 					장소 <span class="place"></span>
+					<br>
+					메모 <span class="memo"></span>
 					<br>
 					캘린더 <span class="cal_name"></span>
 					<br>
