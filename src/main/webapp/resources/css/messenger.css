@@ -1,12 +1,200 @@
 @charset "UTF-8";
 
-
-/* 사이드바 주소록 버튼 */
-#messenger_newChat {
-	display: none;	
+/* 새로운 대화 모달창 */
+input[id *= "popup"] {
+	display: none;
 }
 
-#messenger_newChat + label span{
+input[id *= "popup"] + label + div {
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.4s;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+}
+
+input[id *= "popup"]:checked + label + div {
+	opacity: 1;
+	visibility: visible;
+}
+
+input[id *= "popup"] + label + div > div { /* 모달창 */
+	position: absolute;
+	top:56%;
+	left: 50%;
+	transform:translate(-50%,-50%);
+	width: 30%;
+	min-width : 300px;
+	height: 50%;
+	background: #fff;
+	z-index: 200 !important;
+	padding: 30px;
+}
+
+input[id *= "popup"] + label + div > div > label { /* 모달창 X버튼 */
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	top: 0%;
+	right: 0%;
+	padding: 20px;
+	background: url(../images/close.png) no-repeat center center/15px ;
+	border-radius: 100%;
+	z-index:100 !important;
+	cursor: pointer;
+}
+
+input[id *= "popup"] + label + div > label { /* 모달창 오픈 시 바탕 */
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0, 0.4);
+	z-index: 100 !important;
+	border-radius: 0;
+}
+
+.modal_label {
+
+	text-align: center;
+	margin: 15px 0px 10px 0px;	
+	border: 0;	
+	border-radius: 5px;	
+	box-sizing: border-box;	
+	width: 90%;
+	height: 46px;
+	font-size: 1rem;
+	font-weight: bold;		
+	display: inline-block;
+	padding: 5px 9px 0 0;
+	background: #7BE66D;
+	color: #FFF;
+	cursor: pointer;
+}
+
+/* 모달창 콘텐츠 */
+.CRinput label {
+	width: auto;
+	height: auto;
+	text-align: left;
+	background: none;
+	font-size: 1rem;
+	font-weight: bold;
+}
+
+.CRinput {
+	display: block;
+	width: 100%;
+	height: 100%;
+	text-align: left;
+}
+
+.input_div {
+	margin: 0 0 20px 20px;
+}
+
+.input_text {
+	width: 70%;
+	height: 35px;
+    box-sizing: border-box;
+    border: 0.5px solid #989898;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    padding-left: 8px;	
+}
+
+.add_btn_div{
+	width: auto;
+	height: auto;
+	float: right;	
+	margin-right: 30px;
+}
+
+.add_btn {
+	width: 100px;
+	height: 35px;	
+	background-color: #7BE66D;
+	border: none;
+	border-radius: 5px;
+	margin: 40px 5px 30px 5px;
+	color: #FFF;
+	color: #FFF;
+	font-weight: bold;	
+}
+
+
+/* 이 위에 삭제할 수도?? */
+
+#addChatRoomDiv {
+	text-align: left;
+}
+
+.modal_title {
+	font-weight: bold;
+	font-size: 1.1rem;
+	margin: 10px 0 5px 0;
+}
+
+.dept_lb {
+	padding: 10px;
+}
+
+input[id *= "dept_no"] {
+	display: none;
+}
+
+input[id *= "dept_no"] + label {
+	width: auto;
+	height: auto;
+	text-align: left;
+	background: none;
+	font-size: 1rem;
+	font-weight: bold;	
+}
+
+input[id *= "dept_no"] + label::before {
+  content:"";
+  background-image: url(../images/오른쪽화살표.png);
+  background-size: 1.1rem; 
+  width: 1.1rem;
+  height:1.1rem;
+  display:inline-block;  
+}
+
+input[id *= "dept_no"]:checked + label {
+	color:red;
+}
+
+input[id *= "dept_no"]:checked + label::before {
+  content:"";
+  background-image: url(../images/아래쪽화살표.png);
+  background-size: 1.1rem; 
+  width: 1.1rem;
+  height:1.1rem;
+  display:inline-block;  
+}
+
+input[id *= "dept_no"] + label + div {
+	margin-left: 40px;
+	width:auto;
+	max-height: 0;
+	overflow: hidden;
+}
+
+input[id *= "dept_no"]:checked + label + div {
+	max-height: 100%;
+}
+
+
+
+
+/* 사이드바 버튼 */
+#popup01 + label span{
 	vertical-align: middle;
 	display: inline-block;
 	background: url(../images/추가.png) 0 0 no-repeat;
@@ -18,24 +206,8 @@
 	margin: 5px 0 5px 0;
 	box-sizing: border-box;
 	cursor: pointer;
-}
+} 
 
-#messenger_newChat + label {
-	text-align: center;
-    margin: 15px 0px 10px 0px;
-    border: 0;
-    border-radius: 5px;
-    box-sizing: border-box;
-    width: 90%;
-    height: 46px;
-    font-size: 1rem;
-    font-weight: bold;
-    display: inline-block;
-    padding: 5px 9px 0 0;
-    background: #7BE66D;
-    color: #FFF;
-    cursor: pointer;
-}
 
 #side hr{
 	width: 90%;
@@ -171,7 +343,7 @@ input[name *= accordion_cb_] {
 /* 채팅방(article 부분) CSS  */
 
 #bottom_input {
-	width: 58.5%;
+	width: 61%;
 	position: fixed;
     top: 91%; 
 }
@@ -200,19 +372,19 @@ input[name *= accordion_cb_] {
 	cursor: pointer;
 }
 
-#content {
-	position: relative;
-}
-
 #messages {
 	width: 100%;
-	height: 90%;
+	height: 100%;
 	padding: 20px 10px;
 	grid-column : 1/2;
-	grid-row : 1/2;		
-	overflow-y: scroll;
+	grid-row : 1/2;	
+	overflow-x: hidden;
+	overflow-y: auto;
 	font-size : 1rem;
 	line-height: 2rem;
+	box-sizing: border-box;
+	transition: all 0.4s;
+	
 }
 
 
@@ -230,23 +402,162 @@ input[name *= accordion_cb_] {
 	background-color: #E4F7BA;
 	width: 100%;
 	height: 100%;
-
 	grid-column : 2/3;
-	grid-row : 1/3;		
-}
-
-#messages_people {
-	background-color: pink;
-	width: 50%;
-}
-
-#messages_me {
-	background-color: skyblue;
-	width: 50%;
-	
+	grid-row : 1/3;	
+	z-index: -1;	
 }
 
 
-.side_btn {
-	
+.rightM{
+	display: grid;
+	grid-template-columns : auto 250px;
+	grid-template-rows : 50% 50%;	
+	width:auto;
+	height:auto;
+	margin: 20px;
+}
+
+.messages_me
+{
+	grid-column : 2/3;
+	grid-row : 1/3;	
+	margin: 5px 20px 0 0;
+	float:right;
+	position: relative;
+	width: 230px;
+	height: auto;
+	min-height: 32px;
+	padding: 5px 10px;
+	background: #C2F347;
+	-webkit-border-radius: 9px;
+	-moz-border-radius: 9px;
+	border-radius: 9px;
+	box-sizing: border-box;
+	z-index: -1;
+}
+
+.messages_me:after
+{
+	content: '';
+	position: absolute;
+	border-style: solid;
+	border-width: 7px 0 7px 16px;
+	border-color: transparent #C2F347;
+	display: block;
+	width: 0;
+	right: -16px;
+	top: 13px;
+	z-index: -1;
+}
+
+.send_date_me {
+	grid-column : 1/2;
+	grid-row : 2/3;		
+	width: auto;
+	height: auto;
+	place-self: end end;
+	font-size: 0.8rem;
+	line-height: 1rem;
+	margin-right: 10px;
+	z-index: -1;
+}
+
+
+.leftM {
+	display: grid;
+	grid-template-columns : 60px 250px auto;
+	grid-template-rows : 1fr 1fr 1fr;	
+	width:auto;
+	height:auto;
+	margin: 20px;
+}
+
+/* 추후에 사진 추가될 것.  */
+.sender_img {
+	grid-column : 1/2;
+	grid-row : 1/3;	
+	background: url(../images/로그인_전_프로필.png) 0 0 no-repeat;
+	background-size: 50px; 	
+	z-index: -1;
+}
+
+.sender_name {
+	grid-column : 2/4;
+	grid-row : 1/2;		
+	z-index: -1;
+}
+
+.send_date_people {
+	grid-column : 3/4;
+	grid-row : 3/4;
+	width: auto;
+	height: auto;
+	place-self: end start;
+	font-size: 0.8rem;
+	line-height: 1rem;
+	margin-left: 10px;	
+	z-index: -1;		
+}
+
+
+
+.messages_people
+{
+	grid-column : 2/3;
+	grid-row : 2/4;		
+	position: relative;
+	width: 230px;
+	height: auto;
+	min-height: 32px;
+	margin: 5px 0px 0px 20px;
+	padding: 5px 10px;
+	background: #E4F7BA;
+	-webkit-border-radius: 9px;
+	-moz-border-radius: 9px;
+	border-radius: 9px;
+	box-sizing: border-box;
+	z-index: -1;
+}
+
+.messages_people:after
+{
+	content: '';
+	position: absolute;
+	border-style: solid;
+	border-width: 7px 16px 7px 0;
+	border-color: transparent #E4F7BA;
+	display: block;
+	width: 0;
+	left: -16px;
+	top: 13px;
+	z-index: -1;
+}
+
+
+
+
+
+
+#sideBar_btn{
+	display: none;
+}
+
+#sideBar_img {
+	display: block;
+	width: 50px;
+	height:50px;
+	background-size: 50px; 	
+	position: fixed;
+	top: 50%;
+	left: 78%;
+	cursor: pointer;
+	transition: all 0.4s;
+}
+
+#sideBar_btn:checked + label img{
+	transform: rotate(180deg);
+	position: fixed;
+	top: 50%;
+	left: 95%;	
+	transition: all 0.4s;
 }

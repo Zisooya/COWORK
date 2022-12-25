@@ -11,7 +11,7 @@ public class CustomerDTO {
     private int mem_no;
     private int customer_no;
     private String customer_name;
-    private String customer_position;
+    private String customer_company;
     private String customer_rank;
     private String customer_dept;
     private String customer_team;
