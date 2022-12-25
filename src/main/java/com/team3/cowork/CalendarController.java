@@ -122,7 +122,6 @@ public class CalendarController {
 				MultipartHttpServletRequest mRequest) throws ParseException {
 		 String res = "";
 		 String filename = cal_upload.fileUpload(mRequest);
-		 System.out.println("dto.getMem_no() >> "+dto.getMem_no());
 		 /*
 		 SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		 SimpleDateFormat output = new SimpleDateFormat("yyyy/MM/dd HH:mm");
