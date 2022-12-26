@@ -155,6 +155,20 @@
 		WHERE EML_NO = #{mno}
 	</update>
 	
+	<!-- 보낸메일 재전송 -->
+	<insert id="resendMail" parameterType="emailDto">
+		insert into email
+		values(seq_email.nextval, #{eml_from}, #{eml_to}, #{eml_title}, #{eml_content}, sysdate, default,
+				 #{importantFlag}, default, default, #{filename}, #{filepath})
+	</insert>
+	
+	<!-- 받은메일에서 휴지통 -->
+	<update id="wasteReceiveMail" parameterType="_int">
+		UPDATE EMAIL
+		SET RECEIVER_STATUS=2
+		WHERE EML_NO=${mno}
+	</update>
+	
 	<!-- 이름으로 아이디 불러오기 -->
 	<select id="getReceiver" resultMap="memberResultSet" parameterType="String">
 		SELECT * FROM MEMBER
@@ -192,6 +206,20 @@
 		WHERE M.EML_NO=#{mno}
 	</select>
 	
+	<!-- 보낸메일 전달 -->
+	<insert id="insertSendDelivery" parameterType="emailDto">
+	insert into email
+		values(seq_email.nextval, #{eml_from}, #{eml_to}, #{eml_title}, #{eml_content}, sysdate, default,
+				 #{importantFlag}, default, default, #{filename}, #{filepath})
+	</insert>
+	
+	<!-- 보낸 메일 휴지통으로 이동 -->
+	<update id="wasteSendMail" parameterType="_int">
+		UPDATE EMAIL
+		SET WRITER_STATUS=0
+		WHERE EMl_NO=${mno}
+	</update>
+	
 	<!-- 휴지통개수 -->
 	<select id="selectWasteMailListCount" resultType="_int">
 		SELECT COUNT(*)
@@ -206,12 +234,11 @@
 		</where>
 	</select>
 	
-	
 	<!-- 휴지통 리스트 -->
 	<select id="selectWasteMailList" resultMap="sendResultSet">
 		SELECT *
 		FROM EMAIL A
-		JOIN MEMBER B ON A.MAIL_RECEIVER=0
+		JOIN MEMBER B ON A.eml_no= b.mem_no
 		<where>
 			<if test="eml_to == empId">
 				A.RECEIVER_STATUS=0
@@ -222,4 +249,46 @@
 		</where>
 		ORDER BY A.create_DATE DESC
 	</select>
+	
+	<!-- 받은메일 답장 -->
+	<insert id="insertReply" parameterType="emailDto">
+		insert into email
+		values(seq_email.nextval, #{eml_from}, #{eml_to}, #{eml_title}, #{eml_content}, sysdate, default,
+				 #{importantFlag}, default, default, #{filename}, #{filepath})
+	</insert>
+	
+	<!-- 보낸메일복구 -->
+	<update id="returnSendMail" parameterType="_int">
+		UPDATE EMAIL
+		SET WRITER_STATUS=1
+		WHERE EML_NO=${mno}
+	</update>
+	
+	<!-- 받은 메일 복구 -->
+	<update id="returnReceiveMail" parameterType="_int">
+		UPDATE MAIL
+		SET RECEIVER_STATUS=1
+		WHERE EML_NO=${mno}
+	</update>
+	
+	<!-- 진짜영구삭제 -->
+	<delete id="wasteMail" parameterType="_int">
+		DELETE EMAIL
+		WHERE EML_NO=${mno}
+	</delete>
+	
+	<!-- 보낸 메일 영구삭제 -->
+	<update id="updateWriter" parameterType="_int">
+		UPDATE EMAIL
+		SET WRITER_STATUS=3
+		WHERE EML_NO=${mno}
+	</update>
+	
+	<!-- 받은 메일 영구삭제 -->
+	<update id="updateReceiver" parameterType="_int">
+		UPDATE EMAIL
+		SET RECEIVER_STATUS=3
+		WHERE EML_NO=${mno}
+	</update>
+	
   </mapper>
