@@ -14,7 +14,7 @@
 <link href="${path}/resources/css/project/project_board.css" rel="stylesheet"/>
 
 </head>
-<body>
+<body id="background_board">
 	<c:set var="list" value="${list }"/>
 	<c:set var="main" value="${main }"/>
 	<c:set var="status" value="${status }"/>
