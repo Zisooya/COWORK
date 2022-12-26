@@ -118,24 +118,24 @@
 	</div>
 <script>
 function reply() {
-	$("#receiveMail").attr("action", "sendReply.ml");
+	$("#receiveMail").attr("action", "sendReply.do");
 	$("#receiveMail").submit();
 	return true;
 }
 function delivery(){
-	$("#receiveMail").attr("action", "receiveDelivery.ml");
+	$("#receiveMail").attr("action", "receiveDelivery.do");
 	$("#receiveMail").submit();
 	return true; 
 }
 function waste(){
 	
-	$("#receiveMail").attr("action", "wasteReceiveMail.ml");
+	$("#receiveMail").attr("action", "wasteReceiveMail.do");
 	$("#receiveMail").submit();
 	return true;
 
 }
 function list(){
-	$("#receiveMail").attr("action", "receiveList.ml");
+	$("#receiveMail").attr("action", "receiveList.do");
 	$("#receiveMail").submit();
 	return true; 
 }

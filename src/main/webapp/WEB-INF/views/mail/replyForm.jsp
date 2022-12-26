@@ -76,7 +76,7 @@ label {
 							<div class="mailReceiver">
 								<div class="form-group">
 									<input class="form-control" type="text" data-toggle="tooltip" title="주소록에서 선택해 주세요."
-										name="receiverName" readonly="readonly" value="${ sendEmp.userName }">
+										name="receiverName" readonly="readonly" value="${ sendEmp.mem_name }">
 									<input type="hidden" name="eml_to" value="${ sendEmp.eml_to}">
 								</div>
 								<div class="form-group">
@@ -274,8 +274,8 @@ function selectReceiver(){
 		return false;
 	}
 	
-	console.log("userName : " + mem_name);
-	console.log("empId : " + mem_id);
+	console.log("mem_name : " + mem_name);
+	console.log("eml_to : " + mem_id);
 	
 	$("input[name=receiverName]").val(mem_name);
 	$("input[name=eml_to]").val(mem_id);

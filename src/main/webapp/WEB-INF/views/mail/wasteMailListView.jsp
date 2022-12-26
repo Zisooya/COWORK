@@ -91,7 +91,7 @@
 									</c:choose>
 									
 									<c:choose>
-										<c:when test="${s.readCount == '0'}">
+										<c:when test="${s.read_count == '0'}">
 											<td><i class="icon-copy ion-ios-email"></i></td>
 										</c:when>
 										<c:otherwise>
@@ -99,7 +99,7 @@
 										</c:otherwise>
 									</c:choose>
 									
-									<td>${s.eml_to }</td>
+									<td>${s.eml_from }</td>
 									
 									<c:choose>
 										<c:when test="${s.eml_from == member.mem_name}">

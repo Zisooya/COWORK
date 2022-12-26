@@ -46,8 +46,8 @@
 		            <div class="card-header">
 		              <h3 class="mailbox-read-info">${m.eml_title }</h3>
 		              <br>
-		              <h4 class="card-title">from : ${ sendEmp.userName}
-		              <br>to : ${receiveEmp.userName }
+		              <h4 class="card-title">from : ${ sendEmp.mem_name}
+		              <br>to : ${receiveEmp.mem_name }
                   		<span class="mailbox-read-time float-right">${m.create_date }</span>
                   	  </h4>
 		            </div>
