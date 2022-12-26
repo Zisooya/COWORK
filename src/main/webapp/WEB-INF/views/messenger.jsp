@@ -104,12 +104,33 @@
 					<button type="button" onclick="javascript:clearText();">대화내용 지우기</button>	
 					</div>
 				<input type="checkbox" id="sideBar_btn">
-				<label for="sideBar_btn"><img id="sideBar_img" alt="사이드바 버튼" src="${path}/resources/images/사이드바화살표.png"> </label>	
+				<label for="sideBar_btn"><img id="sideBar_img" alt="사이드바 버튼" src="${path}/resources/images/M사이드바화살표.png"> </label>	
 				<div id="right_chatRoomDetail">
 				
+					<div class="detail_div">
+						<div id="detailTitle">
+						채팅방 이름 <button class="detail_btn" id="edit_btn"><img alt="exit" src="${path}/resources/images/수정.png" style="width:25px; height:25px; "></button>
+						</div>
+					</div>	
 					
+					<div class="detail_div">
+						<div id="detailTitle">
+							채팅 참여자<button class="detail_btn" id="addParticipant_btn"><img alt="addParticipant" src="${path}/resources/images/추가.png" style="width:28px; height:28px; "></button>						
+						</div>
+						
+						<div class="detailCont">
+							<div class="detailMemImg">사진</div><div class="detailMemName">(나)박지수</div>
+						</div>
+						
+						<div class="detailCont">
+							<div class="detailMemImg">사진</div><div class="detailMemName">홍길동(hong)<div class="detailRank">마케팅부서 과장</div></div>
+						</div>
+					</div>
+				
+					<button id="exit_btn"><img alt="exit" src="${path}/resources/images/나가기.png"></button>
 					
-				</div>		
+				</div>	
+					
 			</div>
 		</article>
 	
@@ -332,11 +353,10 @@ $(function(){
     	$.ajax({
     		type: 'POST',
     		url :"<%=request.getContextPath()%>/openChatRoom.do",
-    		//async : false,
+    		async : false,
     		dataType:"json",
     		data : {"chat_room_no": chat_room_no},
     		success : function(data){
-    			
     			
     			$('#messages').html("");
     			$('#messages').append("<input id='chat_room_no' type='hidden' value='"+chat_room_no+"'>");
@@ -359,6 +379,71 @@ $(function(){
 				alert('ajax 응답 오류');
 			}
     	});   // 채팅방 별 jsp 불러오기 $.ajax() end
+    	
+    	// 우측 사이드바 채팅방 상세 정보 불러오기
+    	// 1. 채팅방 이름 불러오기  	
+    	$.ajax({
+    		type: 'POST',
+    		url :"<%=request.getContextPath()%>/messenger_getChatRoomName.do",
+    		async : false,
+    		dataType:"text",
+    		data : {"chat_room_no": chat_room_no},
+    		success : function(data){
+    			// chatRoomName
+    			let chatRoomName = data;
+    			$('#right_chatRoomDetail').html("");
+    			$('#right_chatRoomDetail').append("<div class='detail_div'><div id='detailTitle'>채팅방 이름<button class='detail_btn' id='edit_btn'><img alt='exit' src='${path}/resources/images/수정.png' style='width:25px; height:25px; '></button></div><div class='detailChatRoomName'>"+chatRoomName+"</div></div>");
+    			
+    		}, 
+    		error: function(res){ 
+				alert('ajax 응답 오류');
+			}
+    	});   // 1. 채팅방 이름 불러오기 $.ajax() end 
+
+    	// 2. 내 정보 불러오기
+    	let myNum = $('#myNum').val(); 
+    	
+    	$.ajax({
+    		type: 'POST',
+    		url :"<%=request.getContextPath()%>/messenger_getMyDTO.do",
+    		async : false,
+    		dataType:"json",
+    		data : {"mem_no": myNum},
+    		success : function(data){
+    			// myDTO
+    			let myDTO = data;
+    			$('#right_chatRoomDetail').append("<div class='detail_div'><div id='detailTitle'>채팅 참여자<button class='detail_btn' id='addParticipant_btn'><img alt='addParticipant' src='${path}/resources/images/추가.png' style='width:28px; height:28px; '></button></div><div class='detailCont'><img class='detailMemImg' src='${path}/resources/mem_upload/"+myDTO.mem_image+"'><div class='detailMemName'>(나) "+myDTO.mem_name+"</div></div>");
+	            
+    		}, 
+    		error: function(res){ 
+				alert('ajax 응답 오류');
+			}
+    	});   // 2. 내 정보 불러오기 $.ajax() end     	
+
+    	// 3. 참여자 정보 불러오기
+    	$.ajax({
+    		type: 'POST',
+    		url :"<%=request.getContextPath()%>/messenger_getParticipantList.do",
+    		async : false,
+    		dataType:"json",
+    		data : {
+    			"chat_room_no" : chat_room_no,
+    			"myNum" : myNum
+    			},
+    		success : function(data){
+    			// participantList
+    			
+	    		$.each(data, function(index, MemberDTO) {
+	    			
+	    			$('#right_chatRoomDetail').append("<div class='detailCont'><img class='detailMemImg' src='${path}/resources/mem_upload/"+MemberDTO.mem_image+"'><div class='detailMemName'>"+MemberDTO.mem_name+"("+MemberDTO.mem_id+")<div class='detailRank'>"+MemberDTO.dept_name+" "+MemberDTO.mem_rank+"</div></div></div></div><button id='exit_btn'><img alt='exit' src='${path}/resources/images/나가기.png'></button>");
+	    			
+	    		});	// $.each() 함수 end
+	            
+    		}, 
+    		error: function(res){ 
+				alert('ajax 응답 오류');
+			}
+    	});   // 3. 참여자 정보 불러오기 $.ajax() end         	
 
     	
 	}	// openChatRoom 함수 end

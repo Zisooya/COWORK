@@ -56,4 +56,23 @@
 		insert into chat_member values((select max(chat_room_no) from chat_room), #{mem_no} )
 	</insert>
 	
+	<select id="messenger_getNewChatRoomNo" resultType="int">
+		select max(chat_room_no) from chat_room
+	</select>
+	
+	<select id="messenger_getChatRoomName" parameterType="int" resultType="String">
+		select chat_room_name from chat_room where chat_room_no = #{chat_room_no}
+	</select>
+	
+	<select id="messenger_getMemDTO" parameterType="int" resultType="memberDto">
+		select * from member where mem_no = #{mem_no}
+	</select>
+	
+	<select id="messenger_getParticipantList" parameterType="Map" resultType="memberDto">
+		select *
+		from member m join chat_member c
+		on m.mem_no = c.mem_no
+		where c.chat_room_no=#{chat_room_no} and m.mem_no not in #{myNum}	
+	</select>
+	
 </mapper>

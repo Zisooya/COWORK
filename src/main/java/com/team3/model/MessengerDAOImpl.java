@@ -65,4 +65,24 @@ public class MessengerDAOImpl implements MessengerDAO {
 	public int insertMemToChatRoom(int mem_no) {
 		return this.sqlSession.insert("messengerDao.messenger_insertMemToChatRoom",mem_no);
 	}
+
+	@Override
+	public int messenger_getNewChatRoomNo() {
+		return this.sqlSession.selectOne("messengerDao.messenger_getNewChatRoomNo");
+	}
+
+	@Override
+	public String getChatRoomName(int chat_room_no) {
+		return this.sqlSession.selectOne("messengerDao.messenger_getChatRoomName", chat_room_no);
+	}
+
+	@Override
+	public MemberDTO getMemDTO(int mem_no) {
+		return this.sqlSession.selectOne("messengerDao.messenger_getMemDTO", mem_no);
+	}
+
+	@Override
+	public List<MemberDTO> getParticipantList(Map<String,Object> map) {
+		return this.sqlSession.selectList("messengerDao.messenger_getParticipantList", map);
+	}
 }

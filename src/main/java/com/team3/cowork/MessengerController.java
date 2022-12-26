@@ -43,6 +43,41 @@ public class MessengerController {
 		System.out.println("List왔나요??" + messageList);
 		return messageList;
 	}
+		
+	@RequestMapping(value="/messenger_getChatRoomName.do", method = RequestMethod.POST, produces = "application/text; charset=UTF-8;")
+	public @ResponseBody String getChatRoomName(int chat_room_no) {
+		
+		// 채팅방 번호에 해당하는 채팅방의 이름 불러오기.
+		String chatRoomName = this.messengerDao.getChatRoomName(chat_room_no);
+		
+		System.out.println("chatRoomName은???" + chatRoomName);
+		
+		return chatRoomName;
+	}	
+	
+	@RequestMapping("messenger_getMyDTO.do")
+	public @ResponseBody MemberDTO searchMem(@RequestParam ("mem_no") int mem_no) {
+		
+		MemberDTO myDTO = this.messengerDao.getMemDTO(mem_no);
+		
+		return myDTO;
+	}		
+
+	@RequestMapping("messenger_getParticipantList.do")
+	public @ResponseBody List<MemberDTO> getParticipantDTO
+	(@RequestParam ("chat_room_no") int chat_room_no,
+	@RequestParam ("myNum") int myNum) {
+		
+		Map<String,Object>map = new HashMap<String,Object>();
+		
+		map.put("chat_room_no", chat_room_no);
+		map.put("myNum", myNum);
+		
+		List<MemberDTO> participantList = this.messengerDao.getParticipantList(map);
+		
+		return participantList;
+	}	
+	
 	
 	@RequestMapping("messenger.do")
 	public String messenger(HttpSession session,Model model){
@@ -58,10 +93,10 @@ public class MessengerController {
 		// 일대일 대화 목록 조회
 		List<Chat_RoomDTO> oneToOneChatList = this.messengerDao.getOneToOneChatRoomList(mem_no);
 		
-		System.out.println("일대일 대화 목록"+oneToOneChatList);
+		//System.out.println("일대일 대화 목록"+oneToOneChatList);
 		// 그룹 대화 목록 조회
 		List<Chat_RoomDTO> groupChatList = this.messengerDao.getGroupChatRoomList(mem_no);
-		System.out.println("그룹 대화 목록"+ groupChatList);
+		//System.out.println("그룹 대화 목록"+ groupChatList);
 		
 		model.addAttribute("oneToOneChatList", oneToOneChatList);
 		model.addAttribute("groupChatList", groupChatList);
@@ -131,7 +166,7 @@ public class MessengerController {
 	}
 	
 	@RequestMapping(value="/messenger_insertNewChatRoom", method = RequestMethod.POST, produces = "application/text; charset=UTF-8;")
-	public @ResponseBody String insertNewChatRoom
+	public @ResponseBody int insertNewChatRoom
 	(@RequestParam (value="checkedMemArr[]") List<String> checkedMemArr, 
 			@RequestParam (value="chat_room_no") int chat_room_no,
 			@RequestParam (value="chat_kind") String chat_kind,
@@ -190,7 +225,7 @@ public class MessengerController {
 		// 체크된 사용자 채팅방에 추가
 		for(int i =0; i<checkedMemArr.size(); i++){
 			int mem_no = Integer.parseInt(checkedMemArr.get(i));
-			//map.put("mem_no", mem_no);
+			
 			check3 = this.messengerDao.insertMemToChatRoom(mem_no);
 			
 			if(check3>0) {
@@ -200,19 +235,10 @@ public class MessengerController {
 			}			
 		}
 		
-		String result = "";
+		// 채팅방 열어주기 위해 방금 생성된 채팅방 번호 넘겨주기.
+		int newChatRoomNo = this.messengerDao.messenger_getNewChatRoomNo();
 		
-		if(check>0 && check2>0) {
-			
-			if(check3 > 0) {
-				result = "새로운 대화 생성 성공";
-			}
-			
-		}else {
-			result = "새로운 대화 생성 실패";
-		}
-		
-		return result;
+		return newChatRoomNo;
 	}		
 	
 

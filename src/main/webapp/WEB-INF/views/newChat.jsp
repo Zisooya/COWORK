@@ -164,12 +164,12 @@ $(function(){
         $.ajax({
             url:"<%=request.getContextPath()%>/messenger_insertNewChatRoom.do",
             async:false,
-            dataType:"text",
+            dataType:"json",
             type:"post",
             data:objParams,
             success:function(data){
-					// result
-					alert(data);
+					// newChatRoomNo
+					alert("새로운 채팅방"+data);
             },
             error:function(request, status, error){
                 console.log("AJAX 에러");

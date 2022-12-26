@@ -27,4 +27,12 @@ public interface MessengerDAO {
 	
 	int insertMemToChatRoom(int mem_no);
 	
+	int messenger_getNewChatRoomNo();
+	
+	String getChatRoomName(int chat_room_no);
+	
+	MemberDTO getMemDTO(int mem_no);
+	
+	List<MemberDTO> getParticipantList(Map<String,Object> map);
+	
 }
