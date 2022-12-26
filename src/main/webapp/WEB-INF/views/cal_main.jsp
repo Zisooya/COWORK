@@ -18,6 +18,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/ko.min.js"></script>
 <script>
+
+	/* 귀근 깃헙 테스트 */
 	jQuery.datetimepicker.setLocale('kr');	// datetimepicker 한글 설정
 	
 	const Toast = Swal.mixin({	// toast창 설정(시작일 > 종료일 선택 시)
