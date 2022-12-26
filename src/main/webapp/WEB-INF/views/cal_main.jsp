@@ -61,6 +61,8 @@
 	var gAllDay;
 	var gMemo;
 	var gPlace;
+	var gColor;
+	var gCategory;
 	var gCalTypeNo;
 	var gCalName;
 	var gMark;
@@ -103,6 +105,12 @@
 		//close 버튼 클릭 시 모달창 닫힘 함수
 		closeBtn_detail.onclick = function() {
 			modal_detail.style.display = "none";
+			gStartTime = new Date();
+			$("#cal_type_no_select option:eq(0)").prop("selected",true);
+			document.querySelector("#input_memo").innerText = null;
+			$("#input_place").val(null);
+			gId = null;
+			$("#cal_no_hidden").val(gId);
 		}
 		updateBtn_detail.onclick = function() {
 			modal_detail.style.display = "none";
@@ -138,7 +146,7 @@
 			$("#add_startTime").val(startTime_to_input + " ("+getDayOfWeek(start_date_select)+")");
 			$("#add_endTime").val(endTime_to_input + " ("+getDayOfWeek(end_date_select)+")");
 			
-			// 날짜 선택에 따른 라디오 텍스트 변경
+			// 날짜 선택에 따른 셀렉트-옵션 텍스트 변경
 			const repeat_w = document.querySelector("#repeat_w");
 			repeat_w.innerText = '매주 ' + getDayOfWeek(start_date_select) + '요일';
 			repeat_m.innerText = '매월 ' + getWeekNo(start_date_select) + '번째 ' + getDayOfWeek(start_date_select) + '요일';
@@ -154,6 +162,9 @@
 			document.querySelector("#input_memo").innerText = gMemo;
 			$("#input_place").val(gPlace);
 			$("#cal_no_hidden").val(gId);
+			
+			// db에 저장된 카테고리 selected로 해주기
+			$("#cal_category_select").val(gCategory).prop("selected", true);
 		}
 		closeBtn_add.onclick = function() {
 			modal_add.style.display = "none";
@@ -199,6 +210,11 @@
 			}else {
 				mark.style.display = "none";
 			}
+			
+			// 상세 모달창 배경색 동적 변경(1.카테고리색 2.cal_type_color)
+			const modal_content_detail = document.querySelector(".modal-content_detail");
+			modal_content_detail.style.backgroundColor = gColor;
+			
 			modal_detail.style.display = "block";
 		}
 		// 일정 추가 모달창 오픈 함수
@@ -277,7 +293,7 @@
 				document.getElementById("mark_check").checked = false;
 				document.getElementById("allday_check").checked = true;
 				
-				// 날짜 선택에 따른 라디오 텍스트 변경
+				// 날짜 선택에 따른 셀렉트-옵션 텍스트 변경
 				const repeat_w = document.querySelector("#repeat_w");
 				repeat_w.innerText = '매주 ' + getDayOfWeek(arg.start) + '요일';
 				repeat_m.innerText = '매월 ' + getWeekNo(arg.start) + '번째 ' + getDayOfWeek(arg.start) + '요일';
@@ -314,14 +330,21 @@
 								var eAllday;
 								var eMemo = element.cal_memo;
 								var ePlace = element.cal_place;
+								var eCategory = element.cal_category;
 								var eCalTypeNo = element.cal_type_no;
 								var eCalName;
 								var eColor;
 								var eMark = element.cal_mark;
 								
 								// category값 설정되어있으면 그 색을 우선 적용
-								if (element.cal_category != "none") {
-									eColor = element.cal_category;
+								if (eCategory != "none") {
+									eColor = eCategory;
+									var calTypeListJson = JSON.parse('${CalTypeList_Json}'); 
+									for (var i = 0; i < calTypeListJson.length; i++){
+										if(calTypeListJson[i].cal_type_no == eCalTypeNo) {
+											eCalName = calTypeListJson[i].cal_type_name;
+										}
+									}
 								} else {
 									var calTypeListJson = JSON.parse('${CalTypeList_Json}'); 
 									for (var i = 0; i < calTypeListJson.length; i++){
@@ -337,9 +360,8 @@
 								} else {
 									eAllday = false;
 								}
-								
+								console.log('eColor >> '+eColor);
 								events.push({
-									color : eColor,
 									id : eId,
 									title : eTitle,
 									start : eStartDate,
@@ -347,6 +369,9 @@
 									allDay : eAllday,
 									memo : eMemo,
 									place : ePlace,
+									color : eColor,
+									cal_color : eColor,
+									cal_category : eCategory,
 									cal_type_no : eCalTypeNo,
 									cal_name : eCalName,
 									mark : eMark
@@ -359,6 +384,21 @@
 			}, // events : function end
 			/* dateClick: function() {}, */
 			/* ------------------------------------이벤트 클릭------------------------------------ */
+			eventDidMount: function(arg) {
+				var cal_type_checkbox = document.querySelectorAll('.cal_type_checkbox');
+				cal_type_checkbox.forEach(function(v) {
+					var checkedVal = parseInt(v.value);
+					if(v.checked){
+					    if(arg.event.extendedProps.cal_type_no === checkedVal) {
+					    	arg.el.style.display = 'block';
+					    }
+					} else {
+						if(arg.event.extendedProps.cal_type_no === checkedVal) {
+							arg.el.style.display = 'none';
+						}
+					}
+				});
+			},
 			eventClick : function(info) {
 				var eventObj = info.event;
 				gId = eventObj.id;
@@ -368,6 +408,8 @@
 				gAllDay = eventObj.allDay;
 				gMemo = eventObj.extendedProps.memo;
 				gPlace = eventObj.extendedProps.place;
+				gColor = eventObj.extendedProps.cal_color;
+				gCategory = eventObj.extendedProps.cal_category;
 				gCalTypeNo = eventObj.extendedProps.cal_type_no;
 				gCalName = eventObj.extendedProps.cal_name;
 				gMark = eventObj.extendedProps.mark;
@@ -520,7 +562,7 @@
 			document.getElementById("mark_check").checked = false;
 			document.getElementById("allday_check").checked = true;
 			
-			// 날짜 선택에 따른 라디오 텍스트 변경
+			// 날짜 선택에 따른 셀렉트-옵션 텍스트 변경
 			const repeat_w = document.querySelector("#repeat_w");
 			repeat_w.innerText = '매주 ' + getDayOfWeek(start_date_select) + '요일';
 			repeat_m.innerText = '매월 ' + getWeekNo(start_date_select) + '번째 ' + getDayOfWeek(start_date_select) + '요일';
@@ -529,6 +571,12 @@
 		
 		calendar.render();
 		
+		var cal_type_checkbox = document.querySelectorAll('.cal_type_checkbox');
+		cal_type_checkbox.forEach(function (el) {
+			el.addEventListener("change", function () {
+				calendar.refetchEvents();
+			});
+		});
 	});
 	$(function(){
 		const save_btn = document.getElementById('save_btn');
@@ -550,7 +598,7 @@
 			start_date_select = new Date(add_startTime_val.substr(0, 16));
 			$("#add_startTime").val(add_startTime_val + " ("+getDayOfWeek(start_date_select)+")");
 			
-			// 날짜 선택에 따른 라디오 텍스트 변경
+			// 날짜 선택에 따른 셀렉트-옵션 텍스트 변경
 			const repeat_w = document.querySelector("#repeat_w");
 			repeat_w.innerText = '매주 ' + getDayOfWeek(start_date_select) + '요일';
 			repeat_m.innerText = '매월 ' + getWeekNo(start_date_select) + '번째 ' + getDayOfWeek(start_date_select) + '요일';
@@ -665,7 +713,7 @@ a {
 
 .modal_detail .modal-content_detail {
 	/* 실제 모달창 부분 */
-	background-color: #3f51b5;
+	background-color: #999999;
 	padding: 2%;
 	border: 1px solid #fff;
 	width: 60%;
@@ -885,6 +933,13 @@ html, body {
 	color: #FFF;
 	cursor: pointer;
 }
+.cal_type_label {
+	font-size: 14px;
+	background-color: #FFF;
+	text-align: left;
+	padding: 0px 3px 10px;
+	font-weight: normal;
+}
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -930,13 +985,67 @@ html, body {
 					</div>
 					<!-- // .my-calendar -->
 				</div>
+				<br>
+				<c:forEach items="${CalTypeList}" var="dto" varStatus="i" begin="0" end="0">
+					<input class="cal_type_checkbox" type="checkbox" value="${dto.getCal_type_no()}" id="cal_type${i.index }" style="accent-color:
+					<c:choose>
+							<c:when test="${dto.getCal_type_color() eq 'red'}">
+								red
+							</c:when>
+							<c:when test="${dto.getCal_type_color() eq 'yellow'}">
+								yellow
+							</c:when>
+							<c:when test="${dto.getCal_type_color() eq 'green'}">
+								green
+							</c:when>
+							<c:when test="${dto.getCal_type_color() eq 'blue'}">
+								blue
+							</c:when>
+							<c:when test="${dto.getCal_type_color() eq 'purple'}">
+								purple
+							</c:when>
+							<c:otherwise>
+							</c:otherwise>
+						</c:choose>
+					;" checked>
+					<label class="cal_type_label" for="cal_type${i.index }">
+						[기본] ${dto.getCal_type_name()}
+					</label>
+					<br>
+				</c:forEach>
+				<c:forEach items="${CalTypeList}" var="dto" varStatus="i" begin="1">
+					<input class="cal_type_checkbox" type="checkbox" value="${dto.getCal_type_no()}" id="cal_type${i.index }" style="accent-color:
+					<c:choose>
+							<c:when test="${dto.getCal_type_color() eq 'red'}">
+								red
+							</c:when>
+							<c:when test="${dto.getCal_type_color() eq 'yellow'}">
+								yellow
+							</c:when>
+							<c:when test="${dto.getCal_type_color() eq 'green'}">
+								green
+							</c:when>
+							<c:when test="${dto.getCal_type_color() eq 'blue'}">
+								blue
+							</c:when>
+							<c:when test="${dto.getCal_type_color() eq 'purple'}">
+								purple
+							</c:when>
+							<c:otherwise>
+							</c:otherwise>
+						</c:choose>
+					;" checked>
+					<label class="cal_type_label" for="cal_type${i.index }">
+						${dto.getCal_type_name()}
+					</label>
+					<br>
+				</c:forEach>
 			</div>
 		</nav>
 		<article id="content" style="margin: 0px 15px;">
 			<!-- 메인 기능 들어갈 부분 -->
 
 			<!-- 일정 검색 -->
-			
 			<%-- 
 			<form method="post" action="<%=request.getContextPath()%>/calendar_search.do" class="search-form" id="search_form">
 				<select name="field" class="form-select">
@@ -952,7 +1061,6 @@ html, body {
 			<br>
 			<!-- Calendar -->
 			<div id='calendar'></div>
-
 
 			<!-- Modal - Detail -->
 			<section class="modal_detail">
@@ -1079,10 +1187,9 @@ html, body {
 					<span id="my_setting">내 설정</span>
 					<div class="modal_add_elements">
 						범주
-						<select name="cal_category">
+						<select name="cal_category" id="cal_category_select">
 							<option value="none">없음</option>
 							<option value="red">🟥</option>
-							<option value="orange">🟧</option>
 							<option value="yellow">🟨</option>
 							<option value="green">🟩</option>
 							<option value="blue">🟦</option>
