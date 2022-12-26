@@ -66,6 +66,7 @@
 	var gCalTypeNo;
 	var gCalName;
 	var gMark;
+	var gStatus;
 	// Event 추가용 변수 : a(add) + 변수명
 	var aTitle;
 	var aAllday;
@@ -159,12 +160,22 @@
 					$("#cal_type_no_select").val(calTypeNo_matched).prop("selected", true);
 				}
 			}
+			// db에 저장된 메모 정보 넣어주기
 			document.querySelector("#input_memo").innerText = gMemo;
 			$("#input_place").val(gPlace);
-			$("#cal_no_hidden").val(gId);
 			
-			// db에 저장된 카테고리 selected로 해주기
+			// db에 저장된 카테고리로 checkbox 항목 선택 해주기
 			$("#cal_category_select").val(gCategory).prop("selected", true);
+			
+			// db에 저장된 상태로 radioBtn 항목 선택 해주기
+			if(gStatus == "바쁨") {
+				$("#busy_status_radio").prop("checked",true);
+			}else if(gStatus == "한가함") {
+				$("#free_status_radio").prop("checked",true);
+			}
+			
+			// 캘린더 번호 부여(번호있으면 '수정', 없으면 '추가')
+			$("#cal_no_hidden").val(gId);
 		}
 		closeBtn_add.onclick = function() {
 			modal_add.style.display = "none";
@@ -174,6 +185,10 @@
 			$("#input_place").val(null);
 			gId = null;
 			$("#cal_no_hidden").val(gId);
+			
+			$("#cal_category_select option:eq(0)").prop("selected", true);
+			
+			$("#busy_status_radio").prop("checked",true);
 		}
 		//빈 여백 클릭 시 모달창 닫힘 함수
 		window.onclick = function() {
@@ -335,6 +350,7 @@
 								var eCalName;
 								var eColor;
 								var eMark = element.cal_mark;
+								var eStatus = element.cal_status;
 								
 								// category값 설정되어있으면 그 색을 우선 적용
 								if (eCategory != "none") {
@@ -373,7 +389,8 @@
 									cal_category : eCategory,
 									cal_type_no : eCalTypeNo,
 									cal_name : eCalName,
-									mark : eMark
+									mark : eMark,
+									status : eStatus
 								}); // push() end
 							}); // each() end
 						} // if() end 
@@ -412,6 +429,7 @@
 				gCalTypeNo = eventObj.extendedProps.cal_type_no;
 				gCalName = eventObj.extendedProps.cal_name;
 				gMark = eventObj.extendedProps.mark;
+				gStatus = eventObj.extendedProps.status;
 				detail();
 			},
 			/* ------------------------------------이벤트 클릭 끝------------------------------------ */
@@ -831,8 +849,8 @@ html, body {
 
 /* ======== Calendar ======== */
 .my-calendar {
-  width: 96%;
-  margin: 5px;
+  width: 98%;
+  margin: 2px;
   padding: 10px 10px 10px;
   text-align: center;
   font-weight: 800;
@@ -861,7 +879,7 @@ html, body {
 } */
 
 .ctr-box {
-  padding: 0 16px;
+  padding: 0 3px;
   margin-bottom: 10px;
   font-size: 14px;
 }
@@ -959,6 +977,9 @@ html, body {
 	padding: 0px 3px 10px;
 	font-weight: normal;
 }
+#search_form {
+	margin: 0px 14px 10px;
+}
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -971,6 +992,16 @@ html, body {
 			<label id="side_label">캘린더</label>
 			<div id="side_menu" style="overflow-y: auto;">
 				<input type="button" id="eventAdd_btn" value="일정 추가">
+				<!-- 일정 검색 -->
+				<form method="post" action="<%=request.getContextPath()%>/calendar_search.do" class="search-form" id="search_form">
+					<select name="field" class="form-select">
+						<option value="title">제목</option>
+						<option value="cont">내용</option>
+						<option value="writer">작성자</option>
+					</select>&nbsp;
+					<input name="keyword" class="form-control" type="text" placeholder="검색어를 입력하세요.">&nbsp;&nbsp;
+					<!-- <input type="button" value="검색" class="btn btn-primary" id="search_btn"> -->
+				</form>
 				<div class="container">
 					<div class="my-calendar clearfix">
 						<!-- <div class="clicked-date">
@@ -1059,23 +1090,11 @@ html, body {
 					</label>
 					<br>
 				</c:forEach>
+				
 			</div>
 		</nav>
 		<article id="content" style="margin: 0px 15px;">
 			<!-- 메인 기능 들어갈 부분 -->
-
-			<!-- 일정 검색 -->
-			<%-- 
-			<form method="post" action="<%=request.getContextPath()%>/calendar_search.do" class="search-form" id="search_form">
-				<select name="field" class="form-select">
-					<option value="title">제목</option>
-					<option value="cont">내용</option>
-					<option value="writer">작성자</option>
-				</select>&nbsp;
-				<input name="keyword" class="form-control" type="text" placeholder="검색어를 입력하세요.">&nbsp;&nbsp;
-				<input type="button" value="검색" class="btn btn-primary" id="search_btn">
-			</form>
-			 --%>
 
 			<br>
 			<!-- Calendar -->
@@ -1217,7 +1236,7 @@ html, body {
 					</div>
 					<div class="modal_add_elements">
 						상태
-						<input type="radio" name="cal_status" value="바쁨" checked>바쁨 <input type="radio" name="cal_status" value="한가함">한가함
+						<input id="busy_status_radio" type="radio" name="cal_status" value="바쁨" checked>바쁨 <input id="free_status_radio" type="radio" name="cal_status" value="한가함">한가함
 					</div>
 					<br> <input type="button" value="저장" id="save_btn">
 				<!-- </article> -->
