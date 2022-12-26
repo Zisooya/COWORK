@@ -360,7 +360,6 @@
 								} else {
 									eAllday = false;
 								}
-								console.log('eColor >> '+eColor);
 								events.push({
 									id : eId,
 									title : eTitle,
@@ -535,6 +534,26 @@
 				});
 	        }
 			document.location.reload();
+		});
+		
+		$("#delete_btn").click( function() {
+			if (window.confirm("일정을 삭제하시겠습니까?")) {
+				$.ajax({
+					type : 'POST',
+					url : 'cal_delete.do',
+					data : {param : gId},
+					datatype : "text",
+					success : function(result) {
+						console.log(result);
+					},
+					error : function(result) {
+						console.log(result);
+					}
+				});
+					
+				document.location.reload();
+			} else {
+			}
 		});
 		
 		// 일정 추가 버튼 클릭 시

@@ -14,7 +14,7 @@ public interface CalendarDAO {
 	
 	int updateEventDrag(CalendarDTO dto);
 	
-	int deleteEvent(int mem_no, int cal_no);
+	int deleteEvent(int cal_no);
 	
 	List<CalendarDTO> searchCalList(String field, String keyword);
 }

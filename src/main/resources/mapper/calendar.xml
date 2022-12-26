@@ -185,6 +185,10 @@
 		end;
 	</insert>
 	
+	<delete id="calDelete" parameterType="int">
+		delete from calendar where cal_no = #{cal_no}
+	</delete>
+	
 	<update id="calUpdate_drag" parameterType="caldto">
 		update calendar set cal_start_time = to_date(#{start},'yyyy.mm.dd hh24:mi'), cal_end_time = to_date(#{end},'yyyy.mm.dd hh24:mi')
 		where cal_no = #{cal_no}
