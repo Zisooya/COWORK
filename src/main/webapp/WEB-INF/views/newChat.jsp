@@ -170,6 +170,7 @@ $(function(){
             success:function(data){
 					// newChatRoomNo
 					alert("새로운 채팅방"+data);
+
             },
             error:function(request, status, error){
                 console.log("AJAX 에러");

@@ -231,7 +231,7 @@ $(function(){
         //messanger.do 웹소켓 서버단 @ServerEndpoint에 적은 path
         // location.host => localhost:8282 (현재 내 pc에서)
         ws = new WebSocket("ws://"+location.host+"/cowork/chat");
-        
+
         
       	//웹 소켓이 서버와 연결되었을 때 호출되는 이벤트
         ws.onopen = function(event){

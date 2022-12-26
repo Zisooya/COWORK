@@ -16,13 +16,24 @@ public class PageDTO {
 	private int startBlock;      // 해당 페이지의 시작 블럭
 	private int endBlock;        // 해당 페이지의 끝 블럭
 	private int allPage;         // 전체 페이지 수
-	private int block = 3;       // 아래에 보여질 최대 페이지 수
+	private int block = 5;       // 아래에 보여질 최대 페이지 수
 	
 	// 검색 관련 멤버 선언
 	private String field;
 	private String keyword;
 	private int status_no;
 	
+	
+	// 메일 관련 페이지
+	private int currentPage;
+	private int listCount;
+
+	private int startPage;
+	private int endPage;
+	private int maxPage;
+	private int pageLimit;
+
+	private int boardLimit;
 	
 	public PageDTO() {    }     // 기본 생성자
 	
@@ -124,14 +135,39 @@ public class PageDTO {
 		
 	}
 
-	public PageDTO(int page, int listCount, int startPage, int endPage, int maxPage, int pageLimit, int boardLimit) {
-		// TODO Auto-generated constructor stub
+	public PageDTO(int page, int rowsize, int startNo, int endNo, int allPage, int pageLimit, int totalRecord) { 
+		super();
+		this.page = page;
+		this.rowsize =rowsize;
+		this.startNo = startNo;
+		this.endNo= endNo;
+		this.allPage = allPage;
+		this.totalRecord = totalRecord;
+		
+		// 해당 페이지에서 시작 글 번호
+		this.startNo = (this.page * this.rowsize) 
+								- (this.rowsize - 1);
+		
+		// 해당 페이지에서 끝 글 번호
+		this.endNo = (this.page * this.rowsize);
+		
+		// 해당 페이지에서 시작 블럭
+		this.startBlock = 
+			(((this.page - 1) / this.block) * this.block) + 1;
+		
+		// 해당 페이지에서 끝 블럭
+		this.endBlock = 
+			(((this.page - 1) / this.block) * this.block) 
+					+ this.block;	
+		
+		// 전체 페이지 수 얻어오는 과정
+		this.allPage = 
+				(int)Math.ceil(this.totalRecord / 
+								(double)this.rowsize);
+		
+		if(this.endBlock > this.allPage) {
+			this.endBlock = this.allPage;
+		}
+		
 	}  // 인자 생성자
-	
-	
-	
-	
-	
-	
-	
 }

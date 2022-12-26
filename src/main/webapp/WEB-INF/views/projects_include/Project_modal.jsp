@@ -529,6 +529,67 @@ $(function(){
  	        clickedAway = true
  	    }
  	});
+ 	
+ 	/* 댓글 달기 */
+ 	$("#child2").click(function(){
+ 		let project_no = $(".project_no").val();
+ 		let comment = $("#comment2").val();
+ 		let mem_name = $("#img_mem_name").val();
+ 		let session_name = $(".mem_name").val();
+ 		let no = $(".comment_no").val();
+ 		let comment_no = parseInt(no)+1;
+ 		$("#comment2").val('');
+ 		$.ajax({
+			type : "post",
+			url : "project_CommentPlus.do",
+			data : {comment_comment : comment,
+					mem_name : mem_name,
+					project_no : project_no
+					},
+			datatype : "text",
+			success : function(dto){
+	         table = "";
+				table += "<div class='project_comments' id="+comment_no+">";
+	         	table += "<div class='asdasd'> <div class='comment_header'>";
+		        table += "<b>"+mem_name+"님 &nbsp;&nbsp; 방금 </b></div>";
+		        table += "<div class='comment_body'> <p class='comment_comment'>"+comment+"</p> </div>";
+				table += "<div class='comment_edit'> <a href='#'>수정하기</a> &nbsp; <a class='comment_remove' href='#' id="+comment_no+" >삭제하기</a>";
+				table += "<br> </div>";
+				$(".project_comments").prepend(table);
+			},
+			error : function(dto){
+				alert('데이터 통신 오류');
+			}
+		})
+ 	})
+ 	
+ 	/* 댓글 삭제 */
+ 	$(document).on("click",".comment_remove",function(){
+ 		let comment_no = $(this).attr("id");
+ 		let div_no1 = $(this).parents(".asdasd");
+ 		$.ajax({
+			type : "post",
+			url : "project_Commentdelete.do",
+			data : {comment_no : comment_no
+					},
+			datatype : "text",
+			success : function(){
+				alert("삭제되었습니다.")
+				div_no1.remove();
+			},
+			error : function(){
+				alert('데이터 통신 에러');
+			}
+		})
+ 	})
+ 	
+ 	/* 댓글 수정 */
+ 	$(document).on("click",".comment_edit",function(){
+ 		let comment_no = $(this).attr("id");
+ 		let comment_comment = $(this).parents(".asdasd").attr("id");
+ 		alert(comment_comment);
+ 		
+ 	})
 })
 
 </script>
@@ -580,6 +641,24 @@ $(function(){
 	 	border-style: none;
 	 	border:1px solid white !important;
 	 }
+	 .comment_header{
+	 	background-color: lightgray;
+	 	border-radius: 5px;
+	 	margin: 5px;
+	 	padding: 10px;
+	 }
+	 .comment_comment{
+	 	margin-top: 10px;
+	 	margin-bottom: 10px;
+	 	margin-left: 10px;
+	 }
+	 .comment_edit{
+	 	font-size: 11px;
+	 	margin-left: 10px;
+	 }
+	 .comment_edit a{
+	 	color: var(--ds-text-subtle,#5e6c84);
+	 }
 </style>
 </head>
 <body>
@@ -587,9 +666,13 @@ $(function(){
 	<c:set var="main" value="${main }"/>
 	<c:set var="mlist" value="${mlist }"/>
 	<c:set var="status" value="${status }"/>
+	<c:set var="clist" value="${clist }"/>
+	<c:set var="max" value="${max }"/>
 	  <div class="modal-dialog modal-lg">
 	    <div class="modal-content">
 		<input type="hidden" class="project_no" value="${dto.getProject_no() }">
+		<input type="hidden" class="mem_name" value="${member.mem_name }">
+		<input type="hidden" class="comment_no" value="${max }">
 	      <div class="modal-header">
 	      <!-- 모달창 헤더 -->
       	  <h5 class="modal-title"><img src="resources/image/project_title.png" width="20" height="20">&nbsp;${dto.getProject_name() }
@@ -764,12 +847,38 @@ $(function(){
 				         <button id="delete" type="button" class="btn btn-primary" onclick="if(confirm('정말로 프로젝트를 삭제하시겠습니까??')){
 																											location.href='<%=request.getContextPath()%>/project_delete.do?num=${dto.getProject_no() }'
 																											}else{ruturn;}">프로젝트 삭제</button>
-	         <img class="img" src="resources/image/project_man.png" width="35" height="30"><p>${memlist.getMem_name() }님</p>
+	         <img class="img" src="resources/image/project_man.png" class="img_mem_name" width="35" height="30">${member.mem_name}님
+	         <input type="hidden" id="img_mem_name" value="${member.mem_name}">
 			  <!-- 댓글 -->
+			  <br>
          <div id="control2">
 	         <textarea class="textarea" id="comment2"  cols="80%" rows="2" onkeydown="resize(this)" onkeyup="resize(this)"></textarea><br>
 	         <input id="child2" type="button" class="btn btn-primary" value="저장">
+	         <br>
 	     </div>
+         <div class="project_comments" id="${cdto.getComment_no() }">
+         	<c:forEach items="${clist }" var="cdto">
+         		<c:if test="${dto.getProject_no() == cdto.getProject_no() }">
+         		<div class="asdasd" id="${cdto.getComment_comment() }">
+         			<div class="comment_header">
+	         			<b>${cdto.getMem_name() }님 &nbsp;&nbsp; ${cdto.getComment_date().substring(0,10) }</b>
+	         		</div>
+	         		<div class="comment_body">
+	         			<p class="comment_comment">${cdto.getComment_comment() }</p>	
+					</div>
+					<c:if test="${cdto.getMem_name() == member.mem_name }">
+					<div class="comment_edit">
+						<a href="#" class="comment_edit" id="${cdto.getComment_no() }">수정하기</a>
+						 
+						&nbsp; 
+						<a class="comment_remove" href="#" id="${cdto.getComment_no() }" >삭제하기</a>
+					</div>
+					</c:if>
+				</div>
+         		</c:if>      	
+         	</c:forEach>
+         	<br>
+         </div>
 	     	
 	      </div>
 	    </div>

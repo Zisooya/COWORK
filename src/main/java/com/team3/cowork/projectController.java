@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.reflection.SystemMetaObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import com.team3.model.Main_ProjectsDTO;
 import com.team3.model.member.MemberDAO;
 import com.team3.model.member.MemberDTO;
 import com.team3.model.PageDTO;
+import com.team3.model.Project_CommentDTO;
 import com.team3.model.ProjectsDAO;
 import com.team3.model.ProjectsDTO;
 import com.team3.model.Projects_statusDTO;
@@ -36,7 +38,6 @@ public class projectController {
 	// MemeberDAO 변수 생성
 		@Autowired
 		private MemberDAO dao;
-	
 	
 	private final int rowsize = 15;
 	private int totalRecord = 0;
@@ -124,15 +125,20 @@ public class projectController {
 
 	// 프로젝트 상세보기 모달창 띄우기 _ 세건
 	@RequestMapping("content.do")
-	public String ProjectModal(Model model, @RequestParam int num) throws IOException {
+	public String ProjectModal(Model model, @RequestParam int num, HttpSession session) throws IOException {
+		System.out.println(num);
 		ProjectsDTO cont = this.dao_projects.getprojects(num);
 		List<Main_ProjectsDTO> main = this.dao_projects.getMainList();
 		List<MemberDTO> mlist = this.dao.getMemberList();
 		List<Projects_statusDTO> status = this.dao_projects.getStatusList();
+		List<Project_CommentDTO> clist = this.dao_projects.getProject_CommentList(num);
+		int max = this.dao_projects.project_comment_max();
+		model.addAttribute("max", max);
 		model.addAttribute("mlist", mlist);
 		model.addAttribute("cont", cont);
 		model.addAttribute("main", main);
 		model.addAttribute("status", status);
+		model.addAttribute("clist", clist);
 		return "projects_include/Project_modal";
 	}
 
@@ -300,6 +306,22 @@ public class projectController {
 		model.addAttribute("list", list);
 		model.addAttribute("Paging",pdto);
 		return "projects_include/project_status";
+	 }
+	 
+	 // 모달찰 댓글 달기 _ 세건
+	 @RequestMapping("project_CommentPlus.do")
+	 public void projectCommentPlus(Project_CommentDTO cdto, Model model,HttpServletResponse response) throws IOException {
+		int check = this.dao_projects.project_Comment_plus(cdto);
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+	 }
+	 
+	 // 모달창 댓글 삭제 _ 세건
+	 @RequestMapping("project_Commentdelete.do")
+	 public void projectCommentDelete(Project_CommentDTO cdto,HttpServletResponse response) throws IOException {
+		 int check = this.dao_projects.project_Comment_delete(cdto);
+		 response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
 	 }
 
 }
