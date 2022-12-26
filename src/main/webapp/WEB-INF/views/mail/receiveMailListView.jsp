@@ -97,7 +97,7 @@
 									</c:choose>
 									
 									<c:choose>
-										<c:when test="${s.read_date == '0'}">
+										<c:when test="${s.read_count == '0'}">
 											<td><i class="icon-copy ion-ios-email" id="notRead"></i></td>
 										</c:when>
 										<c:otherwise>
@@ -105,7 +105,7 @@
 										</c:otherwise>
 									</c:choose>
 									
-									<td>${s.eml_to }</td>
+									<td>${s.eml_from }</td>
 									<td id="title">${s.eml_title }</td>
 									<td>${s.create_date }</td>
 								</tr>
@@ -119,18 +119,18 @@
 				 <div id="pagingArea">
                 <ul class="pagination">
                 	<c:choose>
-                		<c:when test="${ pi.page ne 1 }">
-                			<li class="page-item"><a class="page-link" href="receiveList.do?page=${ pi.page-1 }">이전</a></li>
+                		<c:when test="${ pi.currentPage ne 1 }">
+                			<li class="page-item"><a class="page-link" href="receiveList.do?currentPage=${ pi.currentPage-1 }">이전</a></li>
                 		</c:when>
                 		<c:otherwise>
                 			<li class="page-item disabled"><a class="page-link" href="">이전</a></li>
                 		</c:otherwise>
                 	</c:choose>
                 	
-                    <c:forEach begin="${ pi.startNo }" end="${ pi.endNo }" var="p">
+                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
                     	<c:choose>
-	                		<c:when test="${ pi.page ne p }">
-                    			<li class="page-item"><a class="page-link" href="receiveList.do?page=${ p }">${ p }</a></li>
+	                		<c:when test="${ pi.currentPage ne p }">
+                    			<li class="page-item"><a class="page-link" href="receiveList.do?currentPage=${ p }">${ p }</a></li>
 	                		</c:when>
 	                		<c:otherwise>
 	                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -140,8 +140,8 @@
                     
                     
                     <c:choose>
-                		<c:when test="${ pi.page ne pi.allPage }">
-                			<li class="page-item"><a class="page-link" href="receiveList.do?page=${ pi.page+1 }">다음</a></li>
+                		<c:when test="${ pi.currentPage ne pi.maxPage }">
+                			<li class="page-item"><a class="page-link" href="receiveList.do?currentPage=${ pi.currentPage+1 }">다음</a></li>
                 		</c:when>
                 		<c:otherwise>
                 			<li class="page-item disabled"><a class="page-link" href="">다음</a></li>

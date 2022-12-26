@@ -70,7 +70,7 @@ public class EmailController {
 	private String saveFile(MultipartFile file, HttpServletRequest request) {
 
 		String resources = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = resources + "\\mail_files\\";
+		String savePath = resources + "//mail_files//";
 
 		String filename = file.getOriginalFilename();
 		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
@@ -101,11 +101,11 @@ public class EmailController {
 
 		System.out.println("로그인한 회원 번호 : " + mem_no);
 
-		int listCount = mailService.selectSendMailListCount(mem.getMem_id());
+		int listCount = mailService.selectSendMailListCount(mem.getMem_name());
 
 		PageDTO pi = PaginationMail.getPageInfo(listCount, Page, 10, 10);
 
-		ArrayList<EmailDTO> sendList = mailService.selectSendMailList(pi, mem.getMem_id());
+		ArrayList<EmailDTO> sendList = mailService.selectSendMailList(pi, mem.getMem_name());
 
 		model.addAttribute("sendList", sendList);
 		model.addAttribute("pi", pi);
@@ -136,11 +136,11 @@ public class EmailController {
 
 		System.out.println("로그인한 회원 번호 : " + mem_no);
 
-		int listCount = mailService.selectReceiveMailListCount(mem.getMem_id());
+		int listCount = mailService.selectReceiveMailListCount(mem.getMem_name());
 
 		PageDTO pi = PaginationMail.getPageInfo(listCount, Page, 10, 10);
 
-		ArrayList<EmailDTO> receiveList = mailService.selectReceiveMailList(pi, mem.getMem_id());
+		ArrayList<EmailDTO> receiveList = mailService.selectReceiveMailList(pi, mem.getMem_name());
 
 		model.addAttribute("receiveList", receiveList);
 		model.addAttribute("pi", pi);
@@ -165,7 +165,7 @@ public class EmailController {
 	}
 	
 	// 보낸메일보기->메일다시보내기
-	@RequestMapping("resend.ml")
+	@RequestMapping("resend.do")
 	public String resendMail(@RequestParam(name = "mno") int mno) {
 
 		// 보낸메일 가져오기
@@ -179,11 +179,11 @@ public class EmailController {
 
 		mailService.resendMail(m);
 
-		return "redirect:sendList.ml";
+		return "redirect:sendList.do";
 	}
 
 	// 보낸메일 전달 화면
-	@RequestMapping("sendDelivery.ml")
+	@RequestMapping("sendDelivery.do")
 	public ModelAndView sendDelivery(EmailDTO m, HttpServletRequest request,
 			@RequestParam(name = "mno", required = false) int mno, ModelAndView mv) {
 
@@ -195,7 +195,7 @@ public class EmailController {
 	}
 	
 	// 받은메일 전달 화면
-	@RequestMapping("receiveDelivery.ml")
+	@RequestMapping("receiveDelivery.do")
 	public String receiveDelivery(EmailDTO m, HttpServletRequest request,
 			@RequestParam(name = "mno", required = false) int mno, Model model) {
 
@@ -212,7 +212,7 @@ public class EmailController {
 	
 
 	// 받은,보낸메일 전달
-	@RequestMapping("insertDelivery.ml")
+	@RequestMapping("insertDelivery.do")
 	public String insertSendDelivery(EmailDTO m, HttpServletRequest request, HttpSession session,
 			@RequestParam(name = "reUploadFile", required = false) MultipartFile file) {
 
@@ -230,7 +230,7 @@ public class EmailController {
 		
 		session.setAttribute("msg","메일을 성공적으로 전달했습니다.");
 
-		return "redirect:sendList.ml";
+		return "redirect:sendList.do";
 	}
 
 	// 파일 지우기
@@ -245,29 +245,34 @@ public class EmailController {
 	}
 
 	// 보낸메일 휴지통으로 이동
-	@RequestMapping("wasteSendMail.ml")
+	@RequestMapping("wasteSendMail.do")
 	public String wasteSendMail(@RequestParam(name = "mno") int mno, HttpSession session) {
 
 		mailService.wasteSendMail(mno);
 		
 		session.setAttribute("msg","메일을 휴지통으로 이동했습니다.");
 		
-		return "redirect:sendList.ml";
+		return "redirect:sendList.do";
 
 	}
 	
 	// 휴지통 리스트
-	@RequestMapping("waste.ml")
-	public String selectWasteMailList(@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage, Model model,
+	@RequestMapping("waste.do")
+	public String selectWasteMailList(@RequestParam(value = "page", required = false, defaultValue = "1") int page, Model model,
 										HttpServletRequest request) {
 		
-		MemberDTO mem = (MemberDTO) request.getSession().getAttribute("loginUser");
+		MemberDTO mem = (MemberDTO) request.getSession().getAttribute("member");
+		
+		// 현재 로그인 된 회원 번호
+		int mem_no = mem.getMem_no();
 
-		int listCount = mailService.selectWasteMailListCount(mem.getMem_id());
+		System.out.println("로그인한 회원 번호 : " + mem_no);
 
-		PageDTO pi = PaginationMail.getPageInfo(listCount, currentPage, 10, 10);
+		int listCount = mailService.selectWasteMailListCount(mem.getMem_name());
 
-		ArrayList<EmailDTO> wasteList = mailService.selectWasteMailList(pi, mem.getMem_id());
+		PageDTO pi = PaginationMail.getPageInfo(listCount, page, 10, 10);
+
+		ArrayList<EmailDTO> wasteList = mailService.selectWasteMailList(pi, mem.getMem_name());
 
 		model.addAttribute("wasteList", wasteList);
 		model.addAttribute("pi", pi);
@@ -276,7 +281,7 @@ public class EmailController {
 	}
 	
 	// 받은메일에 답장폼
-	@RequestMapping("sendReply.ml")
+	@RequestMapping("sendReply.do")
 	public String sendReply(EmailDTO m, HttpServletRequest request,
 			@RequestParam(name = "mno", required = false) int mno, Model model) {
 
@@ -292,7 +297,7 @@ public class EmailController {
 	}
 
 	// 받은 메일 답장보내기
-	@RequestMapping("insertReply.ml")
+	@RequestMapping("insertReply.do")
 	public String insertReply(EmailDTO m, HttpServletRequest request, HttpSession session,
 			@RequestParam(name = "reUploadFile", required = false) MultipartFile file) {
 
@@ -310,23 +315,23 @@ public class EmailController {
 
 		session.setAttribute("msg", "답장을 성공적으로 전송했습니다.");
 
-		return "redirect:sendList.ml";
+		return "redirect:sendList.do";
 	}
 
 	// 받은메일보기에서 휴지통으로 이동
-	@RequestMapping("wasteReceiveMail.ml")
+	@RequestMapping("wasteReceiveMail.do")
 	public String wasteReceiveMail(@RequestParam(name = "mno") int mno, HttpSession session) {
 
 		mailService.wasteReceiveMail(mno);
 
 		session.setAttribute("msg", "메일을 휴지통으로 이동했습니다.");
 
-		return "redirect:receiveList.ml";
+		return "redirect:receiveList.do";
 
 	}
 
 	// 휴지통메일 보기
-	@RequestMapping("wasteDetail.ml")
+	@RequestMapping("wasteDetail.do")
 	public String selectWasteMail(int mno, Model model) {
 
 		EmailDTO m = mailService.selectSendMail(mno);
@@ -343,7 +348,7 @@ public class EmailController {
 	}
 
 	// 휴지통에서 복구
-	@RequestMapping("returnMail.ml")
+	@RequestMapping("returnMail.do")
 	public String returnMail(int mno, String empId, HttpSession session) {
 
 		EmailDTO m = mailService.selectMail(mno);
@@ -355,7 +360,7 @@ public class EmailController {
 
 			session.setAttribute("msg", "메일을 휴지통에서 복구했습니다.");
 
-			return "redirect:sendList.ml";
+			return "redirect:sendList.do";
 
 			// 수신자인경우
 		} else {
@@ -364,13 +369,13 @@ public class EmailController {
 
 			session.setAttribute("msg", "메일을 휴지통에서 복구했습니다.");
 
-			return "redirect:receiveList.ml";
+			return "redirect:receiveList.do";
 
 		}
 	}
 
 	// 휴지통에서 영구삭제
-	@RequestMapping("wasteMail.ml")
+	@RequestMapping("wasteMail.do")
 	public String wasteMail(int mno, String empId, HttpSession session) {
 
 		EmailDTO m = mailService.selectSendMail(mno);
@@ -404,7 +409,7 @@ public class EmailController {
 			}
 		}
 
-		return "redirect:waste.ml";
+		return "redirect:waste.do";
 
 	}
 

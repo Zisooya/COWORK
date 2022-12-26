@@ -79,7 +79,7 @@ input{
  			</ul>
  			<ul class="meun">
  				<li class="liany"><a href="#">스펨메일함</a></li>
- 				<li class="liany"><a href="#">휴지통</a></li>
+ 				<li class="liany"><a href="waste.do">휴지통</a></li>
  			</ul>
  		</div>
  		</nav>

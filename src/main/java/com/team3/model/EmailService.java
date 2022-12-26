@@ -28,7 +28,7 @@ public interface EmailService {
 	
 	int selectReceiveMailListCount(String mem_id);
 
-	ArrayList<EmailDTO> selectReceiveMailList(PageDTO dto, String mem_name);
+	ArrayList<EmailDTO> selectReceiveMailList(PageDTO pi, String mem_name);
 	
 	ArrayList<MemberDTO> selectMemberDTOList(String dept_code);
 	

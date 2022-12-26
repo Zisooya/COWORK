@@ -87,14 +87,12 @@ public class EmailServiceImpl implements EmailService{
 
 	@Override
 	public int selectReceiveMailListCount(String mem_id) {
-		// TODO Auto-generated method stub
-		return 0;
+		return emailDao.selectReceiveMailListCount(sqlSession, mem_id);
 	}
 
 	@Override
-	public ArrayList<EmailDTO> selectReceiveMailList(PageDTO dto, String mem_name) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<EmailDTO> selectReceiveMailList(PageDTO pi, String mem_name) {
+		return emailDao.selectReceiveMailList(sqlSession, pi, mem_name);
 	}
 
 	@Override
@@ -104,92 +102,116 @@ public class EmailServiceImpl implements EmailService{
 
 	@Override
 	public MemberDTO getReceiver(String receiver) {
-		// TODO Auto-generated method stub
-		return null;
+		return emailDao.getReceiver(sqlSession, receiver);
 	}
 
 	@Override
 	public void insertReply(EmailDTO m) {
-		// TODO Auto-generated method stub
+		int result = emailDao.insertReply(sqlSession, m);
 		
+		if(result < 0) {
+			throw new CommException("메일 답장 실패");
+		}
 	}
 
 	@Override
 	public void resendMail(EmailDTO m) {
-		// TODO Auto-generated method stub
+		int result = emailDao.resendMail(sqlSession, m);
 		
+		if(result < 0) {
+			throw new CommException("메일 재전송 실패");
+		}
 	}
 
 	@Override
 	public void insertSendDelivery(EmailDTO m) {
-		// TODO Auto-generated method stub
+		int result = emailDao.insertSendDelivery(sqlSession, m);
 		
+		if(result < 0) {
+			throw new CommException("메일 전달 실패");
+		}
 	}
 
 	@Override
 	public void wasteSendMail(int mno) {
-		// TODO Auto-generated method stub
+		int result = emailDao.wasteSendMail(sqlSession, mno);
 		
+		if(result < 0) {
+			throw new CommException("메일 휴지통 이동 실패");
+		}
 	}
 
 	@Override
 	public int selectWasteMailListCount(String empId) {
-		// TODO Auto-generated method stub
-		return 0;
+		return emailDao.selectWasteMailListCount(sqlSession, empId);
 	}
 
 	@Override
 	public ArrayList<EmailDTO> selectWasteMailList(PageDTO pi, String empId) {
-		// TODO Auto-generated method stub
-		return null;
+		return emailDao.selectWasteMailList(sqlSession, pi, empId);
 	}
 
 	@Override
 	public void wasteReceiveMail(int mno) {
-		// TODO Auto-generated method stub
+		int result = emailDao.wasteReceiveMail(sqlSession, mno);
 		
+		if(result < 0) {
+			throw new CommException("wasteReceiveMail 실패");
+		}
 	}
 
 	@Override
 	public MemberDTO selectReceiveEmp(int mno) {
-		// TODO Auto-generated method stub
-		return null;
+		return emailDao.selectReceiveEmp(sqlSession, mno);
 	}
 
 	@Override
 	public EmailDTO selectMail(int mno) {
-		// TODO Auto-generated method stub
-		return null;
+		return emailDao.selectMail(sqlSession, mno);
 	}
 
 	@Override
 	public void returnSendMail(int mno) {
-		// TODO Auto-generated method stub
+		int result = emailDao.returnSendMail(sqlSession, mno);
 		
+		if(result < 0) {
+			throw new CommException("returnSendMail 실패");
+		}
 	}
 
 	@Override
 	public void returnReceiveMail(int mno) {
-		// TODO Auto-generated method stub
+		int result = emailDao.returnReceiveMail(sqlSession, mno);
 		
+		if(result < 0) {
+			throw new CommException("returnReceiveMail 실패");
+		}
 	}
 
 	@Override
 	public void wasteMail(int mno) {
-		// TODO Auto-generated method stub
+		int result = emailDao.wasteMail(sqlSession, mno);
 		
+		if(result < 0) {
+			throw new CommException("wasteMail 실패");
+		}
 	}
 
 	@Override
 	public void updateWriter(int mno) {
-		// TODO Auto-generated method stub
+		int result = emailDao.updateWriter(sqlSession, mno);
 		
+		if(result < 0) {
+			throw new CommException("updateWriter 실패");
+		}
 	}
 
 	@Override
 	public void updateReceiver(int mno) {
-		// TODO Auto-generated method stub
+		int result = emailDao.updateReceiver(sqlSession, mno);
 		
+		if(result < 0) {
+			throw new CommException("updateReceiver 실패");
+		}	
 	}
-
 }

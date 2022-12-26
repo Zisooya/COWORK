@@ -44,11 +44,11 @@
 				<div class="pd-20 card-box mb-30">
 					<div class="clearfix mb-20">
 		            <div class="card-header">
-		              <h3 class="mailbox-read-info">${m.title }</h3>
+		              <h3 class="mailbox-read-info">${m.eml_title }</h3>
 		              <br>
 		              <h4 class="card-title">from : ${ sendEmp.userName}
 		              <br>to : ${receiveEmp.userName }
-                  		<span class="mailbox-read-time float-right">${m.date }</span>
+                  		<span class="mailbox-read-time float-right">${m.create_date }</span>
                   	  </h4>
 		            </div>
 				
@@ -62,19 +62,19 @@
               <!-- /.mailbox-controls -->
               <div class="mailbox-read-message">
               	<br>
-                <P>${m.content }</P>
+                <P>${m.eml_content }</P>
               </div>
               <!-- /.mailbox-read-message -->
             </div>
             
             <!-- 첨부파일 부분 -->
             <c:choose>
-            	<c:when test="${empty m.originName}">
+            	<c:when test="${empty m.fileName}">
             		
             	</c:when>
             	<c:otherwise>
             		<div class="card-footer bg-white">
-            			<a href="${ pageContext.servletContext.contextPath }/resources/mail_files/${m.changeName}" download="${ m.originName }">${ m.originName }</a>
+            			<a href="${ pageContext.servletContext.contextPath }/resources/mail_files/${m.filepath}" download="${ m.fileName }">${ m.originName }</a>
             		</div>
             	</c:otherwise>
             </c:choose>
@@ -82,8 +82,8 @@
             
             <!-- 버튼들 -->
             <form id="sendMail" action="" method="post">
-            	<input type="hidden" name="empId" value="${ loginUser.empId }">
-            	<input type="hidden" name="mno" value="${m.mailNo }">
+            	<input type="hidden" name="empId" value="${ member.mem_name }">
+            	<input type="hidden" name="mno" value="${m.eml_no }">
             	
 	            <div class="card-footer">
 	              <div class="float-right">
@@ -150,19 +150,19 @@
 <script >
 //메일 다시 보내기
 function returnMail(){
-	$("#sendMail").attr("action", "returnMail.ml");
+	$("#sendMail").attr("action", "returnMail.do");
 	$("#sendMail").submit();
 	return true; 
 }
 
 //영구삭제
 function waste(){
-	$("#sendMail").attr("action", "wasteMail.ml");
+	$("#sendMail").attr("action", "wasteMail.do");
 	$("#sendMail").submit();
 	return true; 
 }
 function list() {
-	$("#sendMail").attr("action", "waste.ml");
+	$("#sendMail").attr("action", "waste.do");
 	$("#sendMail").submit();
 	return true; 
 }

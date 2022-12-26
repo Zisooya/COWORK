@@ -46,6 +46,75 @@ public class EmailDAO {
 		return sqlSession.selectOne("emailDao.selectSendEmp", mno);
 	}
 	
+	//유저이름으로 유저아이디 가져오기
+	public MemberDTO getReceiver(SqlSessionTemplate sqlSession, String receiver) {
+		
+		return sqlSession.selectOne("emailDao.getReceiver", receiver);
+	}
+	
+	//보낸메일 전달
+	public int insertSendDelivery(SqlSessionTemplate sqlSession, EmailDTO m) {
+		
+		return sqlSession.insert("emailDao.insertSendDelivery", m);
+	}
+	
+	//보낸메일 뷰에서 휴지통으로
+	public int wasteSendMail(SqlSessionTemplate sqlSession, int mno) {
+		
+		return sqlSession.update("emailDao.wasteSendMail", mno);
+	}
+	
+	//휴지통수
+	public int selectWasteMailListCount(SqlSessionTemplate sqlSession, String empId) {
+		
+		return sqlSession.selectOne("emailDao.selectWasteMailListCount", empId);
+	}
+
+	//휴지통 리스트
+	public ArrayList<EmailDTO> selectWasteMailList(SqlSessionTemplate sqlSession, PageDTO pi, String empId) {
+		
+		int offset = (pi.getPage()-1)*pi.getBlock();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBlock()); 
+		
+		return (ArrayList)sqlSession.selectList("emailDao.selectWasteMailList", empId, rowBounds);
+	}
+	
+	//받은메일 답장
+	public int insertReply(SqlSessionTemplate sqlSession, EmailDTO m) {
+		
+		return sqlSession.insert("emailDao.insertReply", m);
+	}
+	
+	//보낸메일 복구
+	public int returnSendMail(SqlSessionTemplate sqlSession, int mno) {
+	
+		return sqlSession.update("emailDao.returnSendMail", mno);
+	}
+	
+	//받은메일 복구
+	public int returnReceiveMail(SqlSessionTemplate sqlSession, int mno) {
+	
+		return sqlSession.update("emailDao.returnReceiveMail", mno);
+	}
+	
+	//메일 영구삭제
+	public int wasteMail(SqlSessionTemplate sqlSession, int mno) {
+	
+		return sqlSession.delete("emailDao.wasteMail", mno);
+	}
+	
+	//발신자상태3
+	public int updateWriter(SqlSessionTemplate sqlSession, int mno) {
+	
+		return sqlSession.update("emailDao.updateWriter", mno);
+	}
+
+	//수신자상태3
+	public int updateReceiver(SqlSessionTemplate sqlSession, int mno) {
+	 
+		return sqlSession.update("emailDao.updateReceiver", mno);
+	}
+	
 	//메일번호로 메일 선택
 	public EmailDTO selectMail(SqlSessionTemplate sqlSession, int mno) {
 		
@@ -72,14 +141,28 @@ public class EmailDAO {
 		
 		return (ArrayList)sqlSession.selectList("emailDao.selectReceiveMailList", mem_to, rowBounds);
 	}
+	
 	//받은메일보기
 	public EmailDTO selectReceiveMail(SqlSessionTemplate sqlSession, int mno) {
 		
 		return sqlSession.selectOne("emailDao.selectReceiveMail", mno);
 	}
+	
 	//받은메일 확인 시 조회수 증가
 	public int increaseCount(SqlSessionTemplate sqlSession, int mno) {
 		
 		return sqlSession.update("emailDao.increaseCount", mno);
+	}
+	
+	//받은메일 휴지통
+	public int wasteReceiveMail(SqlSessionTemplate sqlSession, int mno) {
+		
+		return sqlSession.update("emailDao.wasteReceiveMail", mno);
+	}
+	
+	//보낸메일 다시 보내기
+	public int resendMail(SqlSessionTemplate sqlSession, EmailDTO m) {
+		
+		return sqlSession.insert("emailDao.resendMail", m);
 	}
 }

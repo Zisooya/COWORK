@@ -7,6 +7,15 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 	<title>보낸메일함</title>
 <link href="${path}/resources/css/include.css" rel="stylesheet"/>
+<style type="text/css">
+#pagingArea{width:fit-content;margin:auto;}
+#mailList>tbody>tr:hover {
+	cursor: pointer;
+}
+#star{
+	color: blue;
+}
+</style>
 </head>
 <body>
 	<div id="grid_container">
@@ -91,7 +100,7 @@
 									
 									<td>${s.eml_to }</td>
 									<td>${s.eml_title }</td>
-									<td>${s.read_count }</td>
+									<td>${s.create_date }</td>
 								</tr>
 							</c:forEach>
 							 
@@ -101,22 +110,22 @@
 					
 					</div>
 								
-				<!-- 페이징 시작 -->						
+				<!-- 페이징 시작 -->							
 				 <div id="pagingArea">
                 <ul class="pagination">
                 	<c:choose>
-                		<c:when test="${ pi.page ne 1 }">
-                			<li class="page-item"><a class="page-link" href="sendList.do?page=${ pi.page-1 }">이전</a></li>
+                		<c:when test="${ pi.currentPage ne 1 }">
+                			<li class="page-item"><a class="page-link" href="sendList.do?currentPage=${ pi.currentPage-1 }">이전</a></li>
                 		</c:when>
                 		<c:otherwise>
                 			<li class="page-item disabled"><a class="page-link" href="">이전</a></li>
                 		</c:otherwise>
                 	</c:choose>
                 	
-                    <c:forEach begin="${ pi.startNo }" end="${ pi.endNo }" var="p">
+                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
                     	<c:choose>
-	                		<c:when test="${ pi.page ne p }">
-                    			<li class="page-item"><a class="page-link" href="sendList.do?page=${ p }">${ p }</a></li>
+	                		<c:when test="${ pi.currentPage ne p }">
+                    			<li class="page-item"><a class="page-link" href="sendList.do?currentPage=${ p }">${ p }</a></li>
 	                		</c:when>
 	                		<c:otherwise>
 	                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -126,14 +135,14 @@
                     
                     
                     <c:choose>
-                		<c:when test="${ pi.page ne pi.allPage }">
-                			<li class="page-item"><a class="page-link" href="sendList.do?page=${ pi.page+1 }">다음</a></li>
+                		<c:when test="${ pi.currentPage ne pi.maxPage }">
+                			<li class="page-item"><a class="page-link" href="sendList.do?currentPage=${ pi.currentPage+1 }">다음</a></li>
                 		</c:when>
                 		<c:otherwise>
-                			<li class="page-item disabled"><a class="page-link" href="sendList.do?page=${ pi.page+1 }">다음</a></li>
+                			<li class="page-item disabled"><a class="page-link" href="sendList.do?currentPage=${ pi.currentPage+1 }">다음</a></li>
                 		</c:otherwise>
                 	</c:choose>
-                </ul>    
+                </ul>
             <!-- 페이징끝 --> 
             </div>
 			</div>

@@ -79,7 +79,7 @@
 						<tbody>
 							<c:forEach items="${ wasteList }" var="s">
 								<tr>
-									<td scope="row">${ s.mailNo }</td>
+									<td scope="row">${ s.eml_from }</td>
 									
 									<c:choose>
 										<c:when test="${s.importantFlag == '1'}">
@@ -99,18 +99,18 @@
 										</c:otherwise>
 									</c:choose>
 									
-									<td>${s.receiver }</td>
+									<td>${s.eml_to }</td>
 									
 									<c:choose>
-										<c:when test="${s.empId == sessionScope.loginUser.empId}">
-											<td><i class="icon-copy ion-android-hand"></i>   ${s.title }</td>
+										<c:when test="${s.eml_from == member.mem_name}">
+											<td><i class="icon-copy ion-android-hand"></i>   ${s.eml_title }</td>
 										</c:when>
 										<c:otherwise>
-											<td>${s.title }</td>
+											<td>${s.eml_title }</td>
 										</c:otherwise>
 									</c:choose>
 									
-									<td>${s.date }</td>
+									<td>${s.create_date }</td>
 								</tr>
 							</c:forEach>
 							 
@@ -126,7 +126,7 @@
                 <ul class="pagination">
                 	<c:choose>
                 		<c:when test="${ pi.currentPage ne 1 }">
-                			<li class="page-item"><a class="page-link" href="waste.ml?currentPage=${ pi.currentPage-1 }">이전</a></li>
+                			<li class="page-item"><a class="page-link" href="waste.do?currentPage=${ pi.currentPage-1 }">이전</a></li>
                 		</c:when>
                 		<c:otherwise>
                 			<li class="page-item disabled"><a class="page-link" href="">이전</a></li>
@@ -136,7 +136,7 @@
                     <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
                     	<c:choose>
 	                		<c:when test="${ pi.currentPage ne p }">
-                    			<li class="page-item"><a class="page-link" href="waste.ml?currentPage=${ p }">${ p }</a></li>
+                    			<li class="page-item"><a class="page-link" href="waste.do?currentPage=${ p }">${ p }</a></li>
 	                		</c:when>
 	                		<c:otherwise>
 	                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -147,10 +147,10 @@
                     
                     <c:choose>
                 		<c:when test="${ pi.currentPage ne pi.maxPage }">
-                			<li class="page-item"><a class="page-link" href="waste.ml?currentPage=${ pi.currentPage+1 }">다음</a></li>
+                			<li class="page-item"><a class="page-link" href="waste.do?currentPage=${ pi.currentPage+1 }">다음</a></li>
                 		</c:when>
                 		<c:otherwise>
-                			<li class="page-item disabled"><a class="page-link" href="waste.ml?currentPage=${ pi.currentPage+1 }">다음</a></li>
+                			<li class="page-item disabled"><a class="page-link" href="waste.do?currentPage=${ pi.currentPage+1 }">다음</a></li>
                 		</c:otherwise>
                 	</c:choose>
                 </ul>
@@ -169,7 +169,7 @@
 		<script>
 				$(function(){
 					$(".mailList tbody tr").click(function(){
-						location.href="wasteDetail.ml?mno=" + $(this).children().eq(0).text();
+						location.href="wasteDetail.do?mno=" + $(this).children().eq(0).text();
 					});
 				});
 		</script>

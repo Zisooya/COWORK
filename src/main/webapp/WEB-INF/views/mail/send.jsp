@@ -80,7 +80,7 @@ label {
 						
 						<div class="clearfix">
 							<div class="pull-right">
-								<button type="button" class="btn btn-primary" onclick="sendMail();">메일 전송</button>
+								<button type="button" class="btn btn-primary" onclick="sendMail()">메일 전송</button>
 							</div>
 						</div>
 					</form>
@@ -129,7 +129,7 @@ label {
 							</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-							<button type="button" class="btn btn-primary" onclick="selectReceiver();">선택</button>
+							<button type="button" class="btn btn-primary" onclick="selectReceiver()">선택</button>
 						</div>
 					 </div>
 				  </div>

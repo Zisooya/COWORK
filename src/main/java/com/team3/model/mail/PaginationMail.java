@@ -4,23 +4,23 @@ import com.team3.model.PageDTO;
 
 public class PaginationMail {
 	
-	public static PageDTO getPageInfo(int listCount, int page, int pageLimit, int boardLimit) {
+	public static PageDTO getPageInfo(int listCount, int currentPage, int pageLimit, int boardLimit) {
 		
-		// * allPage : 총 페이지 수
+		// * maxPage : 총 페이지 수
 		
-		int allPage = (int)Math.ceil((double)listCount/boardLimit);
+		int maxPage = (int)Math.ceil((double)listCount/boardLimit);
 		
-		// * startNo : 현재 페이지에 보여지는 페이징 바의 시작 수
-		int startNo = (page - 1) / pageLimit * pageLimit + 1;
+		// * startPage : 현재 페이지에 보여지는 페이징 바의 시작 수
+		int startPage = (currentPage - 1) / pageLimit * pageLimit + 1;
 		
-		// * endNo : 현재 페이지에 보여지는 페이징 바의 끝 수
-		int endNo = startNo + pageLimit - 1;
+		// * endPage : 현재 페이지에 보여지는 페이징 바의 끝 수
+		int endPage = startPage + pageLimit - 1;
 		
-		if(allPage < endNo) {
-			endNo = allPage;
+		if(maxPage < endPage) {
+			endPage = maxPage;
 		}
 		
-		PageDTO pi = new PageDTO(page,listCount, startNo, endNo, allPage, pageLimit, boardLimit);
+		PageDTO pi = new PageDTO( currentPage,listCount, startPage, endPage, maxPage, pageLimit, boardLimit);
 		return pi;
 		
 	}

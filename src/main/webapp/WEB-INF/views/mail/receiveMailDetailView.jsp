@@ -43,7 +43,7 @@
 				<div class="pd-20 card-box mb-30">
 					<div class="clearfix mb-20">
 		            <div class="card-header">
-		               <h3 class="mailbox-read-info">${m.title }</h3>
+		               <h3 class="mailbox-read-info">${m.eml_title }</h3>
 			            <br>
 			            <h4 class="card-title">to : ${member.mem_name }
 			            <br>

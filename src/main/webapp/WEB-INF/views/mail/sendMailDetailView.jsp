@@ -76,7 +76,7 @@
             
             <!-- 버튼들 -->
             <form id="sendMail" action="" method="post">
-            	<input type="hidden" name="empId" value="${ member.mem_id }">
+            	<input type="hidden" name="empId" value="${ member.mem_name }">
             	<input type="hidden" name="mno" value="${m.eml_no }">
             
 	            <div class="card-footer">
@@ -139,26 +139,26 @@
 <script >
 //메일 다시 보내기
 function resend(){
-	$("#sendMail").attr("action", "resend.ml");
+	$("#sendMail").attr("action", "resend.do");
 	$("#sendMail").submit();
 	return true;
 }
 //전달
 function delivery(){
-	$("#sendMail").attr("action", "sendDelivery.ml");
+	$("#sendMail").attr("action", "sendDelivery.do");
 	$("#sendMail").submit();
 	return true;
 }
 //휴지통으로
 function waste(){
-	$("#sendMail").attr("action", "wasteSendMail.ml");
+	$("#sendMail").attr("action", "wasteSendMail.do");
 	$("#sendMail").submit();
 	return true;
 
 }
 //목록으로
 function goList() {
-	$("#sendMail").attr("action", "sendList.ml");
+	$("#sendMail").attr("action", "sendList.do");
 	$("#sendMail").submit();
 	return true;
 }
