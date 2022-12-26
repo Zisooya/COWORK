@@ -398,16 +398,100 @@ input[name *= accordion_cb_] {
 	grid-template-rows : 90% 10%;
 }
 
+/* 우측 채팅방 상세 정보 */
 #right_chatRoomDetail{
-	background-color: #E4F7BA;
+	background-color: rgba(228, 247, 186, 0.6);
+	border: 1px solid #EAEAEA;
+	border-radius: 10px;
 	width: 100%;
 	height: 100%;
 	grid-column : 2/3;
 	grid-row : 1/3;	
-	z-index: -1;	
+	padding: 20px 20px 20px 40px;
+	box-sizing: border-box;
+	z-index: 1;	
+}
+
+.detail_div {
+	margin-bottom: 30px;
+}
+
+#detailTitle {
+	width: 100%;
+	height: auto;
+	margin: 10px 0;
+	font-size: 1.1rem;
+	line-height: 1.5rem;
+	vertical-align: center;
+	font-weight: 600;
+}
+
+.detail_btn {
+	width: 30px;
+	height: auto;
+	background: none;
+	border: none;
+	float: right;
+	vertical-align: center;
+}
+
+.detail_btn img {
+	cursor: pointer;
+}
+
+#exit_btn {
+	background: none;
+	border: none;
+	float: right;
+	vertical-align: center;	
+	
+}
+
+#exit_btn img {
+	width: 30px;
+	height: 30px;
+	cursor: pointer;	
+	position: fixed;
+	top: 92%;
+	left: 95%;
+}
+
+.detailChatRoomName{
+	margin-left: 10px;
+	width: 100%;	
+}
+
+.detailCont {
+	width: 100%;
+	height: auto;
+}
+
+.detailMemImg {
+	width: 40px;
+	height: 40px;
+	display: inline-block;
+	margin: 10px 10px 0 10px;
+	border: 1px solid #000;	
+}
+
+.detailMemName {
+	width: auto;
+	height: auto;
+	display: inline-block;
+	font-size: 1rem;
+	vertical-align: bottom;
+}
+
+.detailRank {
+	display:block;
+	color: grey;
+	font-size: 0.8rem;
 }
 
 
+
+
+/* 채팅방 */
 .rightM{
 	display: grid;
 	grid-template-columns : auto 250px;
@@ -499,8 +583,6 @@ input[name *= accordion_cb_] {
 	z-index: -1;		
 }
 
-
-
 .messages_people
 {
 	grid-column : 2/3;
@@ -533,11 +615,6 @@ input[name *= accordion_cb_] {
 	z-index: -1;
 }
 
-
-
-
-
-
 #sideBar_btn{
 	display: none;
 }
@@ -552,6 +629,7 @@ input[name *= accordion_cb_] {
 	left: 78%;
 	cursor: pointer;
 	transition: all 0.4s;
+	z-index: 2;
 }
 
 #sideBar_btn:checked + label img{
@@ -561,3 +639,5 @@ input[name *= accordion_cb_] {
 	left: 95%;	
 	transition: all 0.4s;
 }
+
+

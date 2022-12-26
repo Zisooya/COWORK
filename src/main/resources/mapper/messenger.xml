@@ -25,8 +25,16 @@
 	</select>
 	
 	<insert id="messenger_insertMessage" parameterType="chatMessageDto">
-		insert into chat_message values(#{chat_room_no},#{sender},#{message},TO_DATE(#{send_date},'YYYY-MM-DD HH24:MI:SS'))
+ 		<!-- max(customer_no)값이 customer_no에 저장됨.-->
+ 		<selectKey resultType="int" keyProperty="message_no" order="BEFORE">
+ 			select max(message_no) from chat_message
+ 		</selectKey>
+		insert into chat_message values(#{chat_room_no},#{sender},#{message},TO_DATE(#{send_date},'YYYY-MM-DD HH24:MI:SS'),#{message_no}+1)
 	</insert>
+	
+	<select id="messenger_getMessageNoMax" resultType="int">
+		select max(message_no) from chat_message
+	</select>
 	
 	<select id="messenger_getChatRoomNoMax" parameterType="int" resultType="int">
 		select max(chat_room_no) from chat_member where mem_no=#{mem_no}
@@ -56,4 +64,34 @@
 		insert into chat_member values((select max(chat_room_no) from chat_room), #{mem_no} )
 	</insert>
 	
+	<select id="messenger_getNewChatRoomNo" resultType="int">
+		select max(chat_room_no) from chat_room
+	</select>
+	
+	<select id="messenger_getChatRoomName" parameterType="int" resultType="String">
+		select chat_room_name from chat_room where chat_room_no = #{chat_room_no}
+	</select>
+	
+	<select id="messenger_getMemDTO" parameterType="int" resultType="memberDto">
+		select * from member where mem_no = #{mem_no}
+	</select>
+	
+	<select id="messenger_getParticipantList" parameterType="Map" resultType="memberDto">
+		select *
+		from member m join chat_member c
+		on m.mem_no = c.mem_no
+		where c.chat_room_no=#{chat_room_no} and m.mem_no not in #{myNum}	
+	</select>
+	
+	<insert id="messenger_insertNoti" parameterType="messengerNotiDto">
+		insert into messenger_noti values(#{mem_no}, #{chat_room_no}, #{message_no}, #{message_status}, #{noti_cont}, TO_DATE(#{regdate},'YYYY-MM-DD HH24:MI:SS') )
+	</insert>
+	
+	<update id="messenger_readNoti" parameterType="messengerNotiDto">
+		UPDATE messenger_noti
+		SET message_status = 'read'
+		WHERE mem_no=#{mem_no} and chat_room_no=#{chat_room_no}		
+	</update>
+	
+
 </mapper>
