@@ -13,10 +13,12 @@ public interface ProjectsDAO {
 	List<ProjectsDTO> getProjectsListByProjects(PageDTO dto);	// 프로젝트 프로젝트명으로 검색 _ 테이블
 	List<ProjectsDTO> getProjectsListByname(PageDTO dto);		// 프로젝트 이름으로 검색 _ 테이블
 	List<ProjectsDTO> getProjectsListByStatus(PageDTO pdto);	// 프로젝트 스테이터스로 필터링 _ 테이블
+	List<Project_CommentDTO> getProject_CommentList(int num);	// 프로젝트 댓글 리스트 _ 모달
 	
 	void insertProject(ProjectsDTO dto);						// 프로젝트 추가 _ 테이블
 	int board_insertProject(ProjectsDTO dto);					// 프로젝트 추가 _ 보드
 	int insertStatus(Projects_statusDTO dto);					// 스테이터스 추가 _보드
+	int project_Comment_plus(Project_CommentDTO dto);			// 프로젝트 댓글 추가 _ 모달
 	
 	ProjectsDTO getprojects(int num);							// 프로젝트 상세보기 _보드 & 테이블
 	
@@ -27,11 +29,13 @@ public interface ProjectsDAO {
 	int updatecomment(ProjectsDTO dto);							// 프로젝트 상세내용 추가 및 변경 _ 모달
 	
 	int deleteProjects(int num);								// 프로젝트 삭제 _ 모달
+	int project_Comment_delete(Project_CommentDTO cdto);		// 프로젝트 댓글 삭제 _ 모달
 	
 	int getListCount();											// 프로젝트 카운트 _ 테이블
 	int getListCountByname(PageDTO dto);						// 프로젝트 이름으로 카운트 _ 테이블
 	int getListCountByproject(PageDTO dto);						// 프로젝트 프로젝트명으로 카운트 _ 테이블
 	int getListCountByStatus(int status_no);					// 프로젝트 스테이터스로 카운트 _ 테이블
+	int project_comment_max();			// 프로젝트 댓글 갯수 카운트 _ 모달
 	
 	int selectStatus_no(Projects_statusDTO sdto);				// 프로젝트 스테이터스로 필터링 _ 테이블 
 	
@@ -47,5 +51,7 @@ public interface ProjectsDAO {
 	int deletetaker3(ProjectsDTO dto);
 	int deletetaker4(ProjectsDTO dto);
 	int deletetaker5(ProjectsDTO dto);
+	
+	
 	
 }
