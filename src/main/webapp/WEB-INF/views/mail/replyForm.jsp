@@ -1,12 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<!DOCTYPE html>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
+<!DOCTYPE HTML>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>메일발송</title>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>Home</title>
 <style type="text/css">
 .mailReceiver {
 	display: flex;
@@ -15,7 +16,12 @@
 	width: 100%;
 	margin-bottom: 0;
 }
+
 label {
+	font-weight: bold;
+}
+
+#title {
 	font-weight: bold;
 }
 .selectReceiver{
@@ -23,82 +29,127 @@ label {
 	min-height:500px;
 }
 </style>
+<link href="${path}/resources/css/include.css" rel="stylesheet"/>
 </head>
 <body>
-	<div class="main-container">
+	<div id="grid_container">
+	
+		<jsp:include page="../include.jsp" />
+	
+		<nav id="side">
+			<jsp:include page="Topmenubar.jsp" />
+		</nav>
+	
+		<article id="content">
+			<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="min-height-200px">
 				<div class="page-header">
 					<div class="row">
 						<div class="col-md-6 col-sm-12">
 							<div class="title">
-								<h4>메일전송</h4>
+								<h4>전자 메일</h4>
 							</div>
 							<nav aria-label="breadcrumb" role="navigation">
 								<ol class="breadcrumb">
-									<li class="breadcrumb-item"><a href="#">홈</a></li>
-									<li class="breadcrumb-item active" aria-current="page">메일 작성</li>
+									<li class="breadcrumb-item"><a href="">홈</a></li>
+									<li class="breadcrumb-item active" aria-current="page">메일 답장</li>
 								</ol>
 							</nav>
 						</div>
 					</div>
 				</div>
-	<!-- 메일 폼 시작 -->
-	<div class="pd-20 card-box mb-30">
-	<form action="" method="post" enctype="multipart/form-data" id="insertMail">
-						<input type="hidden" readonly class="form-control-plaintext" name="eml_from" value="${member.mem_name}">
+
+
+				<!-- 메일 폼 시작 -->
+				<div class="pd-20 card-box mb-30">
+					
+					<form action="" method="post"
+						enctype="multipart/form-data" id="sendDelivery">
 						
+								<input type="hidden" readonly
+								class="form-control-plaintext" name="eml_from"
+								value="${ member.mem_name }">
+						
+
 						<div class="form-group">
 							<div class="mailReceiver">
 								<div class="form-group">
 									<input class="form-control" type="text" data-toggle="tooltip" title="주소록에서 선택해 주세요."
-										name="receiverName" readonly="readonly" required="required" placeholder="받는 사람">
-									<input type="hidden" name="eml_to">
+										name="receiverName" readonly="readonly" value="${ sendEmp.userName }">
+									<input type="hidden" name="eml_to" value="${ sendEmp.eml_to}">
 								</div>
 								<div class="form-group">
 									<button type="button" class="btn btn-primary" data-backdrop="static" data-toggle="modal" data-target="#bd-example-modal-lg"><i class="icon-copy dw dw-agenda"></i> 주소록</button>
 								</div>
-								<div>
+								<div class="">
 									<div class="custom-control custom-checkbox mb-5">
-										<input type="checkbox" class="custom-control-input" id="customCheck1" name="importantFlag" value="1"> 
+										
+										<input type="checkbox" class="custom-control-input" id="customCheck1" name="importantFlag"> 
 										<label class="custom-control-label" for="customCheck1">중요 메일</label>
+										
 									</div>
 								</div>
 								<br>
-								<input class="form-control" type="text" name="eml_title" required="required" placeholder="메일 제목을 입력해주세요.">
+									<input class="form-control" value="RE: ${receiveMail.eml_title }" type="text" name="eml_title" required="required" placeholder="메일 제목을 입력해주세요.">
 								<br>
 								<br>
+								
+								
 							</div>
+							
 						</div>
 						<div class="form-group">
-							<input type="file" class="form-control-file form-control height-auto" name="uploadFile">
-						</div>
+							<input type="file" class="form-control-file form-control height-auto" name="reUploadFile">
+							<c:if test="${!empty receiveMail.filename }">
+								현재 첨부된 파일 : ${receiveMail.filename } <br>
+	                            <input type="hidden" name="filepath" value="${ receiveMail.filepath }">
+	                            <input type="hidden" name="filename" value="${ receiveMail.filename }">
+							</c:if>
+							</div>
 
+						
 						<div class="form-group">
-							<textarea class="textarea_editor form-control border-radius-0" name="eml_content" required="required" placeholder="메일 내용을 입력해주세요."></textarea>
+							<textarea class="textarea_editor form-control border-radius-0" name="eml_content" required="required">
+								-----Original Message-----<br>
+								From : ${ sendEmp.mem_name }<br>
+								To : ${ member.mem_name }<br>
+								Sent : ${receiveMail.create_date}<br>
+								Title : ${receiveMail.eml_title }<br>
+								<br>
+								${receiveMail.content }
+							
+							</textarea>
 						</div>
 						
+					
 						<div class="clearfix">
 							<div class="pull-right">
-								<button type="button" class="btn btn-primary" onclick="sendMail()">메일 전송</button>
+								<button type="button" class="btn btn-outline-danger" onclick="history.go(-1)">취소</button>
+								<button type="button" onclick="sendDelivery();" class="btn btn-primary">메일 전송</button>
 							</div>
 						</div>
 					</form>
 				</div>
-			<!-- 메일 폼 끝 -->
-			<div class="modal fade bs-example-modal-lg" id="bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+				<!-- 메일 폼 끝 -->
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade bs-example-modal-lg" id="bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 				<div class="modal-dialog modal-lg">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h4 class="modal-title" id="myLargeModalLabel">받는 사람 선택</h4>
 							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-						</div>			
+						</div>
+										
 						<div class="modal-body">
 							<div class="selectReceiver">
 								<div class="form-group" id="deptList">
-			
 									
 									<select id="selectDept" class="custom-select col-6">
+										<option>부서 선택</option>
 										<option>부서 선택</option>
 										<option value="1">경영지원본부</option>
 										<option value="2">개발본부</option>
@@ -126,20 +177,24 @@ label {
 										</tbody>
 									</table>
 								</div>
+							
 							</div>
+						</div>
+										
+										
+										
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-							<button type="button" class="btn btn-primary" onclick="selectReceiver()">선택</button>
+							<button type="button" class="btn btn-primary" onclick="selectReceiver();">선텍</button>
 						</div>
-					 </div>
-				  </div>
-			   </div>
-			</div>	
-		</div>
-	 </div>	
-   </div>
+					</div>
+				</div>
+			</div>
+		</article>
+	
+	</div>
 <script>
- $(function(){
+$(function(){
 	$("#searchEmp").click(function(){
 		
 		var dept_code = $("option:selected").val();
@@ -219,16 +274,18 @@ function selectReceiver(){
 		return false;
 	}
 	
+	console.log("userName : " + mem_name);
+	console.log("empId : " + mem_id);
+	
 	$("input[name=receiverName]").val(mem_name);
 	$("input[name=eml_to]").val(mem_id);
 	$("#bd-example-modal-lg").modal("hide");	
 }
-
-function sendMail(){
-	var receiver = $("#insertMail input[name=receiverName]");
-	var title = $("#insertMail input[name=eml_title]");
-	var content = $("#insertMail textarea[name=eml_content]");
-	
+function sendDelivery(){
+	var receiver = $("#sendDelivery input[name=receiverName]");
+	var title = $("#sendDelivery input[name=eml_title]");
+	var content = $("#sendDelivery textarea[name=eml_content]");
+	console.log(receiver);
 	if(receiver.val()=="" || receiver.val()==null){
 		
 	 swal(
@@ -261,15 +318,14 @@ function sendMail(){
 	               }
 	           )
 			return false;
-		
-	
 	}else{
-		$("#insertMail").attr("action", "insert.do");
-		$("#insertMail").submit();
+		$("#sendDelivery").attr("action", "insertReply.do");
+		$("#sendDelivery").submit();
 		return true;
 	}
 }
-</script>
-<jsp:include page="menubar.jsp" />
+
+</script>	
+<script src="${ pageContext.servletContext.contextPath }/resources/plugins/sweetalert2/sweetalert2.all.js"></script>
 </body>
 </html>

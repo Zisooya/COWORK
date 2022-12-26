@@ -21,10 +21,10 @@
 		<result column="create_date" property="create_date"/>
 		<result column="read_date" property="read_date"/>
 		<result column="importantFlag" property="importantFlag"/>
+		<result column="writer_status" property="writer_status"/>
+		<result column="receiver_status" property="receiver_status"/>
 		<result column="filename" property="filename"/>
 		<result column="filepath" property="filepath"/>
-		<result column="status" property="status"/>
-		<result column="send_status" property="send_status"/>
 	</resultMap>
 	
 	<resultMap type="emailDto" id="sendResultSet">
@@ -36,10 +36,11 @@
 		<result column="create_date" property="create_date"/>
 		<result column="read_date" property="read_date"/>
 		<result column="importantFlag" property="importantFlag"/>
+		<result column="writer_status" property="writer_status"/>
+		<result column="receiver_status" property="receiver_status"/>
 		<result column="filename" property="filename"/>
 		<result column="filepath" property="filepath"/>
-		<result column="status" property="status"/>
-		<result column="send_status" property="send_status"/>
+		
 	</resultMap>
 	
 	<resultMap type="emailDto" id="receiveResultSet">
@@ -51,13 +52,13 @@
 		<result column="create_date" property="create_date"/>
 		<result column="read_date" property="read_date"/>
 		<result column="importantFlag" property="importantFlag"/>
+		<result column="writer_status" property="writer_status"/>
+		<result column="receiver_status" property="receiver_status"/>
 		<result column="filename" property="filename"/>
 		<result column="filepath" property="filepath"/>
-		<result column="status" property="status"/>
-		<result column="send_status" property="send_status"/>
 	</resultMap>
 	
-	<resultMap id="memberResultSet" type="MemberDTO">
+	<resultMap id="memberResultSet" type="memberDTO">
       <id property="mem_no" column="mem_no"/>
       <result property="mem_id" column="mem_id"/>
       <result property="mem_pwd" column="mem_pwd"/>
@@ -72,47 +73,40 @@
       <result property="mem_image" column="mem_image"/>
    </resultMap>
    
-   <resultMap id="empListResultSet" type="departmentDto">
-		<id property="dept_no" column="dept_no"/>
-		<result property="dept_naem" column="dept_name"/>
+   <resultMap id="empListResultSet" type="com.team3.model.member.MemberDTO">
+		<id property="mem_no" column="mem_no"/>
+		<result property="mem_name" column="mem_name"/>
+		<result property="mem_position" column="mem_position"/>
+		<result property="mem_rank" column="mem_rank"/>
 	</resultMap>
    
-   <resultMap id="empResultSet" type="MemberDTO">
-		<id property="eml_from" column="eml_from"/>
+   <resultMap id="empResultSet" type="com.team3.model.member.MemberDTO">
+		<id property="mem_no" column="mem_no"/>
 		<result property="mem_name" column="mem_name"/>
 	</resultMap>
    
 	<!-- 메일 작성 -->
-	<insert id="insertMail" parameterType="EmailDto">
+	<insert id="insertMail" parameterType="emailDto">
 		insert into email
 		values(seq_email.nextval, #{eml_from}, #{eml_to}, #{eml_title}, #{eml_content}, sysdate, default,
-				 default, #{importantFlag}, default, default, #{filename}, #{filepath})
+				 #{importantFlag}, default, default, #{filename}, #{filepath})
 	</insert>
-	
-	<!-- 메일 작성자 -->
-	<select id="selectSendEmp" parameterType="_int" resultMap="empResultSet">
-		SELECT E.mem_id, E.mem_name
-		FROM MEMBER E
-		JOIN EMAIL M ON E.EMP_ID=M.eml_from
-		WHERE M.eml_NO=#{mno}
-	</select>
-	
+    
 	<!-- 보낸 메일함 갯수 -->
 	<select id="selectSendMailListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM EMAIL
-		WHERE EML_From=#{eml_from}
-		AND WRITER_STATUS=1 
+		WHERE EML_from=#{mem_id}
+		AND WRITER_STATUS=0
 	</select>
 	
 	<!-- 보낸메일함 리스트 받아오기 -->
 	<select id="selectSendMailList" resultMap="sendResultSet">
-		SELECT
-		    *
+		 SELECT *
 		FROM EMAIL A
-		JOIN MEMBER B ON A.RECEIVER_status = B.MEM_ID
-		WHERE A.WRITER_STATUS=1
-		AND A.EML_From=#{eml_from}
+		JOIN MEMBER B ON a.eml_to = b.mem_name
+		WHERE A.WRITER_STATUS=0
+		AND A.EML_from= #{mem_name}
 		ORDER BY A.EML_NO DESC
 	</select>
 	
@@ -121,7 +115,7 @@
 		SELECT
 		    *
 		FROM EMAIL A
-		JOIN MEMBER B ON A.RECEIVER_STATUS=B.MEM_ID
+		JOIN MEMBER B ON a.eml_from = b.mem_name
 		AND A.EML_NO=#{mno}
 	</select>
 	
@@ -129,40 +123,103 @@
 	<select id="selectReceiveMailListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM EMAIL
-		WHERE eml_to=#{eml_from}
-		AND receiver_STATUS=1 
+		WHERE eml_to=#{mem_id}
+		AND receiver_STATUS=0
 	</select>
 	
 	<!-- 받은메일함 리스트 받아오기 -->
 	<select id="selectReceiveMailList" resultMap="receiveResultSet">
+		SELECT 
+            *
+		FROM EMAIL A
+		JOIN MEMBER B ON A.eml_from = b.mem_name 
+		WHERE A.WRITER_STATUS=0
+		AND A.EML_to=#{mem_name}
+		ORDER BY A.EML_NO DESC
+	</select>
+	
+	<!-- 받은메일보기 -->
+	<select id="selectReceiveMail" parameterType="_int" resultMap="receiveResultSet">
 		SELECT
 		    *
 		FROM EMAIL A
-		JOIN MEMBER B ON A.eml_from=B.MEM_ID
-		WHERE A.receiver_STATUS=1
-		AND A.EML_to=#{eml_from}
-		ORDER BY A.EML_NO DESC
+		JOIN MEMBER B ON A.eml_to=B.mem_name
+		WHERE A.RECEIVER_STATUS=0
+		AND A.EML_NO=#{mno}
 	</select>
 	
 	<!-- 받은 메일 조회수 증가 -->
 	<update id="increaseCount" parameterType="_int">
 		UPDATE EMAIL
 		SET READ_count=READ_count+1
-		WHERE EML_NO=${mno}
+		WHERE EML_NO = #{mno}
 	</update>
 	
 	<!-- 이름으로 아이디 불러오기 -->
 	<select id="getReceiver" resultMap="memberResultSet" parameterType="String">
 		SELECT * FROM MEMBER
-		WHERE MEM_NAME=#{EML_TO}
+		WHERE MEM_NAME=#{receiver}
 	</select>
 	
 	<!-- 주소록  -->
 	<select id="selectMemberDTOList" parameterType="String" resultMap="empListResultSet">
-		SELECT mem_no, MEM_NAME, mem_position, MEM_RANK
+		SELECT mem_no, mem_name, mem_position, mem_rank
 		FROM MEMBER m join department d
-		on (m.dept_no = #{dept_no})
-		where m.dept_no = #{dept_no}
+		on (d.dept_no = m.dept_no)
+		where m.dept_no = #{dept_code}
 		ORDER BY 1
+	</select>
+	
+	<!-- 메일 작성자 -->
+	<select id="selectSendEmp" parameterType="_int" resultMap="empResultSet">
+		SELECT E.mem_id, E.mem_name
+		FROM MEMBER E
+		JOIN EMAIL M ON E.MEM_name=M.EML_FROM
+		WHERE M.EML_NO=#{mno}
+	</select>
+	
+	<select id="selectMail" parameterType="_int" resultMap="mailResultSet">
+		SELECT *
+		FROM EMAIL
+		WHERE EML_NO=#{mno}
+	</select>
+	
+	<!-- 메일 수신자 -->
+	<select id="selectReceiveEmp" parameterType="_int" resultMap="empResultSet">
+		SELECT E.mem_ID, E.mem_NAME
+		FROM MEMBER E
+		JOIN EMAIL M ON E.MEM_name=M.EML_TO
+		WHERE M.EML_NO=#{mno}
+	</select>
+	
+	<!-- 휴지통개수 -->
+	<select id="selectWasteMailListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM EMAIL
+		<where>
+			<if test="eml_to == eml_to">
+				RECEIVER_STATUS=0
+			</if>
+			<if test="eml_from == mel_from">
+				OR WRITER_STATUS=0
+			</if>
+		</where>
+	</select>
+	
+	
+	<!-- 휴지통 리스트 -->
+	<select id="selectWasteMailList" resultMap="sendResultSet">
+		SELECT *
+		FROM EMAIL A
+		JOIN MEMBER B ON A.MAIL_RECEIVER=0
+		<where>
+			<if test="eml_to == empId">
+				A.RECEIVER_STATUS=0
+			</if>
+			<if test="eml_from == empId">
+				OR A.WRITER_STATUS=0
+			</if>
+		</where>
+		ORDER BY A.create_DATE DESC
 	</select>
   </mapper>
