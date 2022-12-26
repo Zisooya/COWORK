@@ -174,6 +174,26 @@ public class ProjectsDAOImpl implements ProjectsDAO{
 		return this.sqlSession.selectOne("countByStatus",status_no);
 	}
 
+	@Override
+	public int project_Comment_plus(Project_CommentDTO dto) {
+		return this.sqlSession.insert("plus_comment", dto);
+	}
+
+	@Override
+	public List<Project_CommentDTO> getProject_CommentList(int num) {
+		return this.sqlSession.selectList("comment_list", num);
+	}
+
+	@Override
+	public int project_Comment_delete(Project_CommentDTO cdto) {
+		return this.sqlSession.delete("comment_delete", cdto);
+	}
+
+	@Override
+	public int project_comment_max() {
+		return this.sqlSession.selectOne("Comment_max");
+	}
+
 
 
 }
