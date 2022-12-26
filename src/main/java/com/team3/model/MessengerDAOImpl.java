@@ -85,4 +85,19 @@ public class MessengerDAOImpl implements MessengerDAO {
 	public List<MemberDTO> getParticipantList(Map<String,Object> map) {
 		return this.sqlSession.selectList("messengerDao.messenger_getParticipantList", map);
 	}
+
+	@Override
+	public int getMessageNoMax() {
+		return this.sqlSession.selectOne("messengerDao.messenger_getMessageNoMax");
+	}
+
+	@Override
+	public int insertNoti(Messenger_NotiDTO notiDTO) {
+		return this.sqlSession.insert("messengerDao.messenger_insertNoti", notiDTO);
+	}
+
+	@Override
+	public int readNoti(Messenger_NotiDTO notiDTO) {
+		return this.sqlSession.update("messengerDao.messenger_readNoti", notiDTO);
+	}
 }

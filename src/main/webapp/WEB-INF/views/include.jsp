@@ -32,7 +32,7 @@
          <!-- 이 부분 추후에 로그인 기능 완성 되면 로그인 전/ 후로 나눌 것 -->
          <div id="header_right">
             <div id="header_right_container">
-                  <div id="notification"><a href=""><img id="noti_img" src="resources/images/종.png" width="20" height="20" /><span id="noti_num">13</span></a></div>
+                  <div id="notification"><a href=""><img id="noti_img" src="resources/images/종.png" width="20" height="20" /><span id="noti_num">${notiCount }</span></a></div>
                   <input id="myNum" type="hidden" value="${member.mem_no}">
 
                   <!-- 프로필 사진 클릭 시 마이페이지(회원정보 수정(비밀번호 변경 포함), 회원 탈퇴)로 이동 예정-->
@@ -45,5 +45,34 @@
          </div>   
       </div>   
    </header>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.js"></script>   
+<script type="text/javascript">
+
+// 1초마다 알림 숫자 영역에 새로운 값 주기
+$(document).ready(function(){
+	setInterval(updateNotiNum, 1000);
+});
+
+function updateNotiNum() {
+    // 알림 숫자 영역에 새로운 값 주기
+    let myNum = $('#myNum').val();
+    
+	$.ajax({
+		type: 'POST',
+		url :"<%=request.getContextPath()%>/messenger_getNotiCount.do",
+		async : false,
+		dataType:"json",
+		data : {"myNum": myNum},
+		success : function(data){
+			// notiCount
+			//$('#noti_num').html("${notiCount }");
+			$('#noti_num').html(data);
+		}, 
+		error: function(res){ 
+			alert('ajax 응답 오류');
+		}
+	});   // 알림 숫자 영역 새로고침 $.ajax() end  			
+}
+</script>
 
    

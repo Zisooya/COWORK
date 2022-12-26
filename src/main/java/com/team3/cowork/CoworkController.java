@@ -1,11 +1,13 @@
 package com.team3.cowork;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.team3.model.Messenger_NotiDTO;
 import com.team3.model.member.Mem_Upload;
 import com.team3.model.member.MemberDTO;
 import com.team3.model.member.MemberService;
@@ -47,8 +49,18 @@ public class CoworkController {
 		}
 
 		MemberDTO result = service.memberLogin(dto);
-
+		
+		// 로그인 시 메신저 알림 세션에 저장하기_Jisoo
+		String mem_id = dto.getMem_id();
+		int mem_no = this.service.getMemNo(mem_id);
+		List<Messenger_NotiDTO> notiDtoList = this.service.getMemNotiDTO(mem_no);
+		int notiCount = this.service.getNotiCount(mem_no);
+		
 		if (result != null) {
+			// 로그인 시 메신저 알림 세션에 저장하기_Jisoo
+			session.setAttribute("noti", notiDtoList);
+			session.setAttribute("notiCount", notiCount);
+			
 			session.setAttribute("member", result);
 			model.addAttribute("msg", null);
 			model.addAttribute("url", "/main.do");

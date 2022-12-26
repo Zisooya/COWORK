@@ -35,4 +35,9 @@ public interface MessengerDAO {
 	
 	List<MemberDTO> getParticipantList(Map<String,Object> map);
 	
+	int getMessageNoMax();
+	
+	int insertNoti(Messenger_NotiDTO notiDTO);
+	int readNoti(Messenger_NotiDTO notiDTO);
+	
 }

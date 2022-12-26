@@ -22,11 +22,15 @@ import com.team3.model.Chat_MessageDTO;
 import com.team3.model.Chat_RoomDTO;
 import com.team3.model.DepartmentDTO;
 import com.team3.model.MessengerDAO;
+import com.team3.model.Messenger_NotiDTO;
 import com.team3.model.member.MemberDTO;
+import com.team3.model.member.MemberService;
 
 @Controller
 public class MessengerController {
 
+	@Autowired
+	private MemberService service;	
 	
 	@Autowired
 	private MessengerDAO messengerDao;
@@ -123,8 +127,49 @@ public class MessengerController {
 			System.out.println("Chat_MessageDTO insert 실패");
 		}	
 		
-		return check;
+		// DB에 저장된 메세지의 message_no 컬럼값 리턴
+		int message_no = this.messengerDao.getMessageNoMax();
+		
+		return message_no;
 	}
+	
+	@RequestMapping(value="/messenger_insertNoti.do", method = RequestMethod.POST)
+	public @ResponseBody int insertNoti(@RequestBody Messenger_NotiDTO notiDTO) {
+		
+		// DB의 messenger_noti테이블에 데이터 저장. 
+		int check = this.messengerDao.insertNoti(notiDTO);
+		
+		if(check>0) {
+			System.out.println("현재 사용자의 noti table insert 성공");
+		}		
+		
+		// 같은 채팅방에 참여 중인 회원을 구하는 메소드 호출
+		int myNum = notiDTO.getMem_no();
+		int chat_room_no = notiDTO.getChat_room_no();
+		
+		Map<String,Object>map = new HashMap<String,Object>();
+		
+		map.put("chat_room_no", chat_room_no);
+		map.put("myNum", myNum);
+		
+		List<MemberDTO> participantList = this.messengerDao.getParticipantList(map);
+		
+		// 참여중인 모든 회원 번호 - messenger_noti테이블에 데이터 저장.
+		for(int i =0; i<participantList.size(); i++){
+
+			//System.out.println("참여자: "+participantList.get(i));
+			notiDTO.setMem_no(participantList.get(i).getMem_no());
+			
+			check = this.messengerDao.insertNoti(notiDTO);
+			
+			if(check>0) {
+				// System.out.println((i+1)+"번 째 참여자 noti table insert 성공");
+			}
+
+		}
+		
+		return check;
+	}			
 	
 	@RequestMapping("messenger_getChatRoomNoMax.do")
 	public @ResponseBody int getChatRoomNoMax(@RequestParam("mem_no")int mem_no) {
@@ -241,5 +286,22 @@ public class MessengerController {
 		return newChatRoomNo;
 	}		
 	
+	@RequestMapping("messenger_getNotiCount.do")
+	public @ResponseBody int getNotiCount(@RequestParam ("myNum") int myNum) {
+		
+	int notiCount = this.service.getNotiCount(myNum);
+		
+		return notiCount;
+	}	
+	
+	@RequestMapping(value="/messenger_readNoti.do", method = RequestMethod.POST)
+	public @ResponseBody int readNoti(@RequestBody Messenger_NotiDTO notiDTO) {
+		
+		int check = this.messengerDao.readNoti(notiDTO);
+		
+		return check;
+	}	
+		
+		
 
 }

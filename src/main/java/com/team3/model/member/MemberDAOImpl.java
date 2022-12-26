@@ -5,6 +5,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.team3.model.Messenger_NotiDTO;
+
 import java.util.List;
 
 @Repository
@@ -65,5 +67,21 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public List<MemberDTO> getMemberList() {
 		return this.sqlSession.selectList("allMem");
+	}
+
+	// 로그인 시 메신저 알림 세션에 저장하기_Jisoo
+	@Override
+	public List<Messenger_NotiDTO> getMemNotiDTO(int mem_no) {
+		return this.sqlSession.selectList("getMemNotiDTO",mem_no);
+	}
+
+	@Override
+	public int getMemNo(String mem_id) {
+		return this.sqlSession.selectOne("getMemNo", mem_id);
+	}
+
+	@Override
+	public int getNotiCount(int mem_no) {
+		return this.sqlSession.selectOne("getNotiCount", mem_no);
 	}
 }
