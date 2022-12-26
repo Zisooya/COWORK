@@ -1,84 +1,64 @@
 package com.team3.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.ibatis.session.RowBounds;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.team3.model.member.MemberDTO;
 
 @Repository
-public class EmailService {
-	// 메일 작성
-	public int insertMail(SqlSessionTemplate sqlSession, EmailDTO dto) {
-		return sqlSession.insert("emailDao.insertMail", dto);
-	}
+public interface EmailService {
 	
-	//주소록
-	public ArrayList<MemberDTO> selectEmployeeList(SqlSessionTemplate sqlSession, String deptCode) {
-		
-		return (ArrayList)sqlSession.selectList("emailDao.selectEmployeeList", deptCode);
-	}
+	void insertMail(EmailDTO dto);
 	
-	// 보낸 메일 리스트 
-	public int selectSendMailListCount(SqlSessionTemplate sqlSession, String mem_id) {
-		return sqlSession.selectOne("emailDao.selectSendMailListCount", mem_id);
-	}
-   
-	public ArrayList<EmailDTO> selectSendMailList(SqlSessionTemplate sqlSession, PageDTO pi, String mem_id){
-		
-		int offset = (pi.getPage()-1)*pi.getAllPage();
-		RowBounds rowBounds = new RowBounds(offset, pi.getAllPage()); 
-		
-		return (ArrayList)sqlSession.selectList("emailDao.selectSendMailList", mem_id, rowBounds);
-	} 
+	EmailDTO selectSendMail(int mno);
 	
-	//보낸메일 보기
-	public EmailDTO selectSendMail(SqlSessionTemplate sqlSession, int mno) {
-		return sqlSession.selectOne("emailDao.selectSendMail", mno);
-	}
+	int selectSendMailListCount(String mem_id);
 	
-	//보낸사람
-	public MemberDTO selectSendEmp(SqlSessionTemplate sqlSession, int mno) {
+	ArrayList<EmailDTO> selectSendMailList(PageDTO dto, String mem_name);
 	
-		return sqlSession.selectOne("emailDao.selectSendEmp", mno);
-	}
+	List<EmailDTO> getEmailList(PageDTO dto);
 	
-	//메일번호로 메일 선택
-	public EmailDTO selectMail(SqlSessionTemplate sqlSession, int mno) {
-		
-		return sqlSession.selectOne("emailDao.selectMail", mno);
-	}
+	int insertEmail(EmailDTO dto);
 	
-	//받는사람
-	public MemberDTO selectReceiveEmp(SqlSessionTemplate sqlSession, int mno) {
+	MemberDTO selectSendEmp(int mno);
 	
-		return sqlSession.selectOne("emailDao.selectReceiveEmp", mno);
-	}
+	EmailDTO selectReceiveMail(int mno);
 	
-	//받은 메일함 리스트 수
-	public int selectReceiveMailListCount(SqlSessionTemplate sqlSession, String empId) {
-		
-		return sqlSession.selectOne("emailDao.selectReceiveMailListCount", empId);
-	}
+	int selectReceiveMailListCount(String mem_id);
+
+	ArrayList<EmailDTO> selectReceiveMailList(PageDTO pi, String mem_name);
 	
-	//받은 메일 리스트
-	public ArrayList<EmailDTO> selectReceiveMailList(SqlSessionTemplate sqlSession, PageDTO pi, String mem_to) {
-		
-		int offset = (pi.getPage()-1)*pi.getStartBlock();
-		RowBounds rowBounds = new RowBounds(offset, pi.getStartBlock()); 
-		
-		return (ArrayList)sqlSession.selectList("emailDao.selectReceiveMailList", mem_to, rowBounds);
-	}
-	//받은메일보기
-	public EmailDTO selectReceiveMail(SqlSessionTemplate sqlSession, int mno) {
-		
-		return sqlSession.selectOne("emailDao.selectReceiveMail", mno);
-	}
-	//받은메일 확인 시 조회수 증가
-	public int increaseCount(SqlSessionTemplate sqlSession, int mno) {
-		
-		return sqlSession.update("emailDao.increaseCount", mno);
-	}
+	ArrayList<MemberDTO> selectMemberDTOList(String dept_code);
+	
+	MemberDTO getReceiver(String receiver);
+	
+	void insertReply(EmailDTO m);
+	
+	void resendMail(EmailDTO m);
+	
+	void insertSendDelivery(EmailDTO m);
+	
+	void wasteSendMail(int mno);
+	
+	int selectWasteMailListCount(String empId);
+	
+	ArrayList<EmailDTO> selectWasteMailList(PageDTO pi, String empId);
+	
+	void wasteReceiveMail(int mno);
+	
+	MemberDTO selectReceiveEmp(int mno);
+	
+	EmailDTO selectMail(int mno);
+	
+	void returnSendMail(int mno);
+	
+	void returnReceiveMail(int mno);
+	
+	void wasteMail(int mno);
+
+	void updateWriter(int mno);
+
+	void updateReceiver(int mno);
 }

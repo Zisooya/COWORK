@@ -36,7 +36,7 @@ public class MessengerController {
 	private MessengerDAO messengerDao;
 
 	@Autowired
-	private AddressDAO addressDao;	
+	private AddressDAO addressDao;
 
 	@RequestMapping("openChatRoom.do")
 	public @ResponseBody List<Chat_MessageDTO> openChatRoom(int chat_room_no) {

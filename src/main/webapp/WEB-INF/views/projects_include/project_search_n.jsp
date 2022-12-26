@@ -10,7 +10,7 @@
 <jsp:include page="link.jsp"/>
 <script src="resources/script/project/project_table.js"></script>
 <link href="${path}/resources/css/project/project_ss.css" rel="stylesheet"/>
-<link href="${path}/resources/css/bootstrap_include.css" rel="stylesheet"/>
+<link href="${path}/resources/css/include.css" rel="stylesheet"/>
 
 </head>
 <body>
