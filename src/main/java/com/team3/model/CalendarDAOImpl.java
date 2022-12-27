@@ -41,6 +41,11 @@ public class CalendarDAOImpl implements CalendarDAO{
 	}
 
 	@Override
+	public int deleteEvent(int cal_no) {
+		return this.sqlSession.delete("calDelete", cal_no);
+	}
+	
+	@Override
 	public CalendarDTO getEvent(int mem_no) {
 		// TODO Auto-generated method stub
 		return null;
@@ -66,12 +71,6 @@ public class CalendarDAOImpl implements CalendarDAO{
 	@Override
 	public int updateEventDrag(CalendarDTO dto) {
 		return this.sqlSession.update("calUpdate_drag", dto);
-	}
-
-	@Override
-	public int deleteEvent(int mem_no, int cal_no) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override

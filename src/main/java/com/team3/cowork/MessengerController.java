@@ -211,6 +211,7 @@ public class MessengerController {
 	}
 	
 	@RequestMapping(value="/messenger_insertNewChatRoom", method = RequestMethod.POST, produces = "application/text; charset=UTF-8;")
+
 	public @ResponseBody int insertNewChatRoom
 	(@RequestParam (value="checkedMemArr[]") List<String> checkedMemArr, 
 			@RequestParam (value="chat_room_no") int chat_room_no,
@@ -270,7 +271,7 @@ public class MessengerController {
 		// 체크된 사용자 채팅방에 추가
 		for(int i =0; i<checkedMemArr.size(); i++){
 			int mem_no = Integer.parseInt(checkedMemArr.get(i));
-			
+
 			check3 = this.messengerDao.insertMemToChatRoom(mem_no);
 			
 			if(check3>0) {
@@ -302,6 +303,6 @@ public class MessengerController {
 		return check;
 	}	
 		
-		
+	
 
 }

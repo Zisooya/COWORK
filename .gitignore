@@ -23,13 +23,22 @@
 hs_err_pid*
 
 .idea
-/target/cowork-1.0.0-BUILD-SNAPSHOT/
 /target/generated-sources/
 .settings
-/target/
 .classpath
 .project
 .springBeans
 /src/test/
 /src/main/webapp/WEB-INF/spring/
 
+/target/classes/
+/target/cowork-1.0.0-BUILD-SNAPSHOT/META-INF/
+/target/cowork-1.0.0-BUILD-SNAPSHOT/WEB-INF/
+/target/cowork-1.0.0-BUILD-SNAPSHOT/resources/address/
+/target/cowork-1.0.0-BUILD-SNAPSHOT/resources/cal_upload/
+/target/cowork-1.0.0-BUILD-SNAPSHOT/resources/css/
+/target/cowork-1.0.0-BUILD-SNAPSHOT/resources/image/
+/target/cowork-1.0.0-BUILD-SNAPSHOT/resources/images/
+/target/cowork-1.0.0-BUILD-SNAPSHOT/resources/mail_css_js/
+/target/cowork-1.0.0-BUILD-SNAPSHOT/resources/script/
+/target/cowork-1.0.0-BUILD-SNAPSHOT/resources/upload/
