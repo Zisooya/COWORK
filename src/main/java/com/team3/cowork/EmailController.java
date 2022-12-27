@@ -118,7 +118,7 @@ public class EmailController {
 	public ModelAndView selectSendMail(int mno, ModelAndView mv) {
 
 		EmailDTO m = mailService.selectSendMail(mno);
-
+		
 		mv.addObject("m", m).setViewName("mail/sendMailDetailView");
 
 		return mv;
@@ -186,7 +186,16 @@ public class EmailController {
 	@RequestMapping("sendDelivery.do")
 	public ModelAndView sendDelivery(EmailDTO m, HttpServletRequest request,
 			@RequestParam(name = "mno", required = false) int mno, ModelAndView mv) {
+		
+		MemberDTO mem = (MemberDTO) request.getSession().getAttribute("member");
 
+		// 현재 로그인 된 회원 번호
+		int mem_no = mem.getMem_no();
+
+		System.out.println("로그인한 회원 번호 : " + mem_no);
+
+		int listCount = mailService.selectReceiveMailListCount(mem.getMem_name());
+		
 		EmailDTO sendMail = mailService.selectSendMail(mno);
 
 		mv.addObject("sendMail", sendMail).setViewName("mail/sendDeliveryForm");
@@ -198,14 +207,7 @@ public class EmailController {
 	@RequestMapping("receiveDelivery.do")
 	public String receiveDelivery(EmailDTO m, HttpServletRequest request,
 			@RequestParam(name = "mno", required = false) int mno, Model model) {
-		
-		MemberDTO mem = (MemberDTO) request.getSession().getAttribute("member");
 
-		// 현재 로그인 된 회원 번호
-		int mem_no = mem.getMem_no();
-
-		System.out.println("로그인한 회원 번호 : " + mem_no);
-		
 		EmailDTO receiveMail = mailService.selectSendMail(mno);
 		
 		//보낸사람
@@ -265,7 +267,7 @@ public class EmailController {
 	
 	// 휴지통 리스트
 	@RequestMapping("waste.do")
-	public String selectWasteMailList(@RequestParam(value = "page", required = false, defaultValue = "1") int page, Model model,
+	public String selectWasteMailList(@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage, Model model,
 										HttpServletRequest request) {
 		
 		MemberDTO mem = (MemberDTO) request.getSession().getAttribute("member");
@@ -277,7 +279,7 @@ public class EmailController {
 
 		int listCount = mailService.selectWasteMailListCount(mem.getMem_name());
 
-		PageDTO pi = PaginationMail.getPageInfo(listCount, page, 10, 10);
+		PageDTO pi = PaginationMail.getPageInfo(listCount, currentPage, 10, 10);
 
 		ArrayList<EmailDTO> wasteList = mailService.selectWasteMailList(pi, mem.getMem_name());
 
@@ -339,14 +341,22 @@ public class EmailController {
 
 	// 휴지통메일 보기
 	@RequestMapping("wasteDetail.do")
-	public String selectWasteMail(int mno, Model model) {
+	public String selectWasteMail(HttpSession session, int mno, Model model) {
+		
+		// 로그인된 세션 불러오기
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		
+		// 현재 로그인 된 회원 번호
+		int mem_no = member.getMem_no();
+		
+		System.out.println("로그인한 회원 번호 : "+mem_no);
 
 		EmailDTO m = mailService.selectSendMail(mno);
 
 		// 보낸사람
 		MemberDTO sendEmp = mailService.selectSendEmp(mno);
 		MemberDTO receiveEmp = mailService.selectReceiveEmp(mno);
-
+		
 		model.addAttribute("m", m);
 		model.addAttribute("sendEmp", sendEmp);
 		model.addAttribute("receiveEmp", receiveEmp);

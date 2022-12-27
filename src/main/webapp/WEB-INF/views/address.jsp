@@ -40,7 +40,7 @@
 							
 								<div class="add_title">회사 / 소속</div> 
 								<div class="input_box">
-									<input name="customer_position" type="text" placeholder="직급"> <input name="customer_rank" type="text" placeholder="직책"> 
+									<input name="customer_company" type="text" placeholder="직급"> <input name="customer_rank" type="text" placeholder="직책"> 
 									<input name="customer_dept" type="text" placeholder="부서"> <input name="customer_team" type="text" placeholder="소속"> 
 								</div>
 							
@@ -138,7 +138,7 @@
 				<input id="search_btn" type="button" value="검색" >
 					<br>
 					<br>
-					<button>삭제</button><button>이동</button><button>메일</button><button>메시지</button>
+					<!-- <button>삭제</button><button>이동</button><button>메일</button><button>메시지</button> -->
 					<br>
 					<br>
 					<div class="alph">

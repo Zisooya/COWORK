@@ -61,4 +61,10 @@ public interface EmailService {
 	void updateWriter(int mno);
 
 	void updateReceiver(int mno);
+	
+	ArrayList<EmailDTO> mainSendMailList(String empId);
+
+	ArrayList<EmailDTO> mainReceiveMailList(String empId);
+
+	int selectCountNoRead(String empId);
 }

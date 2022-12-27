@@ -76,7 +76,7 @@
             
             <!-- 버튼들 -->
             <form id="sendMail" action="" method="post">
-            	<input type="hidden" name="empId" value="${ member.mem_name }">
+            	<input type="hidden" name="mem_name" value="${ member.mem_id }">
             	<input type="hidden" name="mno" value="${m.eml_no }">
             
 	            <div class="card-footer">
