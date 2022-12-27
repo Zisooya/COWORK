@@ -5,9 +5,6 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
  <mapper namespace="memberDAO">
-	<select id="memberLogin" resultType="memberDTO" parameterType="memberDTO">
-		select * from member where mem_id = #{mem_id} and mem_pwd = #{mem_pwd}
-	</select>
 	<select id="selectMember" resultType="memberDTO" parameterType="String">
 		select * from member where mem_id = #{mem_id}
 	</select>
@@ -16,25 +13,31 @@
 			select max(mem_no) from member
 		</selectKey>
 		insert into member (mem_no, mem_name, mem_id, mem_pwd, mem_position, mem_rank, dept_no, dept_name, team_no, team_name, mem_email, mem_phone, mem_image)
-		values (#{mem_no} + 1, #{mem_name}, #{mem_id}, #{mem_pwd}, #{mem_position}, #{mem_rank}, (SELECT dept_no FROM DEPARTMENT WHERE dept_name = #{dept_name}) , #{dept_name}, (SELECT team_no FROM team WHERE team_name = #{team_name}) , #{team_name}, #{mem_email}, #{mem_phone}, #{mem_image})
+		values (#{mem_no} + 1, #{mem_name}, #{mem_id}, #{mem_pwd}, #{mem_position}, #{mem_rank}, (select dept_no from department where dept_name = #{dept_name}), #{dept_name}, (select team_no from team where team_name = #{team_name}) , #{team_name}, #{mem_email}, #{mem_phone}, #{mem_image})
 	</insert>
 	<select id="memberDetail" resultType="memberDTO">
 		select * from member where mem_id = #{mem_id}
 	</select>
 	<update id="memberEdit">
-		update member set mem_pwd = #{mem_pwd}, mem_position = #{mem_position}, mem_rank = #{mem_rank}, dept_name = #{dept_name}, team_name = #{team_name}, mem_email = #{mem_email}, mem_phone = #{mem_phone}, mem_image = #{mem_image}
+		update member set mem_pwd = #{mem_pwd}, mem_position = #{mem_position}, mem_rank = #{mem_rank}, dept_no = (select dept_no from department where dept_name = #{dept_name}), dept_name = #{dept_name}, team_no = (select team_no from team where team_name = #{team_name}), team_name = #{team_name}, mem_email = #{mem_email}, mem_phone = #{mem_phone}, mem_image = #{mem_image} where mem_id = #{mem_id}
 	</update>
 	<delete id="memberDelete">
-		delete from member where mem_id = #{mem_id}
+		delete from member where mem_id = #{mem_id} and mem_pwd = #{mem_pwd}
 	</delete>
 	<select id="memberFindId" resultType="String">
 		select mem_id from member where mem_name = #{mem_name} and mem_email = #{mem_email}
 	</select>
-	<update id="updatePwd" parameterType="Map">
-		update member set mem_pwd = '1234' where mem_id = #{mem_id} and mem_email = 'dekadm@naver.com'
+	<update id="updatePwd" parameterType="map">
+		update member set mem_pwd = #{key} where mem_id = #{mem_id} and mem_email = #{mem_email}
 	</update>
 	<select id="idCheck" parameterType="String" resultType="Integer">
 		select count(*) from member where mem_id = #{mem_id}
+	</select>
+	<select id="deptList" resultType="departmentDto">
+		select * from department order by dept_no
+	</select>
+	<select id="teamList" resultType="teamDTO">
+		select * from team order by team_no
 	</select>
 	
 	<select id="getMemNotiDTO" parameterType="int" resultType="messengerNotiDto">

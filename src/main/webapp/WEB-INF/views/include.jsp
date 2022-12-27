@@ -35,8 +35,14 @@
                   <input id="myNum" type="hidden" value="${member.mem_no}">
 
                   <!-- 프로필 사진 클릭 시 마이페이지(회원정보 수정(비밀번호 변경 포함), 회원 탈퇴)로 이동 예정-->
-
-                  <div id="profile_circle"> <a href="${ path }/myPage.do"> <img src="${path}/resources/mem_upload/${member.mem_image}" width="50" height="50" /> </a> </div>
+               <c:choose>
+                  <c:when test="${member.mem_image == null}">
+                     <div id="profile_circle"> <a href="${ path }/myPage.do"> <img src="${path}/resources/images/로그인_전_프로필.png" width="50" height="50" /> </a> </div>
+                  </c:when>
+                  <c:otherwise>
+                     <div id="profile_circle"> <a href="${ path }/myPage.do"> <img src="${path}/resources/mem_upload/${member.mem_image}" width="50" height="50" /> </a> </div>
+                  </c:otherwise>
+               </c:choose>
 
                   <div id="login"> <a href="${ path }/member_logout.do">로그아웃</a> </div>
                   <div id="hi"> <b>${member.mem_name}</b>님 안녕하세요!</div>
