@@ -40,5 +40,4 @@ public interface MessengerDAO {
 	int insertNoti(Messenger_NotiDTO notiDTO);
 	int readNoti(Messenger_NotiDTO notiDTO);
 	
-
 }

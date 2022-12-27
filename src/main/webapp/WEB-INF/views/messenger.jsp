@@ -208,8 +208,7 @@ $(function(){
 		// 클릭한 input의 value
 		var click_value = $(this).attr('value');
 		
-		openSocket();
-		
+
     	// 1초마다 채팅방 데이터 불러오기
     	setInterval(openChatRoom(click_value), 1000); 
 	});
@@ -363,7 +362,7 @@ $(function(){
 	            messages.scrollTop = messages.scrollHeight;
 	            
 
-	    		// openSocket();
+	    		 openSocket();
 
 	    		
     		}, 
