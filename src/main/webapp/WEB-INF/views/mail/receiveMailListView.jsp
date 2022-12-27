@@ -84,7 +84,6 @@
 						<tbody>
 							<c:forEach items="${ receiveList }" var="s">
 								<tr>
-									
 									<td scope="row">${ s.eml_no }</td>
 									
 									<c:choose>
