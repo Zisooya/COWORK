@@ -208,6 +208,7 @@ $(function(){
 		// 클릭한 input의 value
 		var click_value = $(this).attr('value');
 		
+
     	// 1초마다 채팅방 데이터 불러오기
     	setInterval(openChatRoom(click_value), 1000); 
 	});
@@ -243,8 +244,7 @@ $(function(){
         //messanger.do 웹소켓 서버단 @ServerEndpoint에 적은 path
         // location.host => localhost:8282 (현재 내 pc에서)
         ws = new WebSocket("ws://"+location.host+"/cowork/chat");
-        
-        
+
       	//웹 소켓이 서버와 연결되었을 때 호출되는 이벤트
         ws.onopen = function(event){
             if(event.data === undefined){
@@ -305,6 +305,7 @@ $(function(){
         // 1초 후에 자동스크롤
         setTimeout(autoScroll, 1000);
  
+
     } // send() 함수 end
     
     
@@ -360,7 +361,9 @@ $(function(){
 	            let messages = document.getElementById("messages");
 	            messages.scrollTop = messages.scrollHeight;
 	            
+
 	    		 openSocket();
+
 	    		
     		}, 
     		error: function(res){ 
