@@ -77,9 +77,9 @@
 								<th scope="col">날짜</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody>  
 							<c:forEach items="${ wasteList }" var="s">
-							<c:if test="${member.mem_name == s.getEml_to() }">
+							<c:if test="${member.mem_name == s.getEml_from()}">
 								<tr>
 									<td scope="row">${ s.eml_no }</td>
 									

@@ -70,7 +70,7 @@ public class EmailController {
 	private String saveFile(MultipartFile file, HttpServletRequest request) {
 
 		String resources = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = resources + "//mail_files//";
+		String savePath = resources + "\\mail_files\\";
 
 		String filename = file.getOriginalFilename();
 		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
