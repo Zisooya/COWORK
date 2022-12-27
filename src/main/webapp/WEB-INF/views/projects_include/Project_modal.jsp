@@ -584,16 +584,38 @@ $(function(){
 		})
  	})
  	
- 	/* 댓글 수정 */
+ 	/* 댓글 수정창 활성화 */
  	$(document).on("click",".comment_edit",function(){
  		let comment_no = $(this).attr("id");
- 		let comment_comment = $(this).parents(".asdasd").attr("id");
- 		let comment_comment1 = $(this).parents(".asdasd").find(".control2");
- 		comment_comment1.css({'border':'1px solid gray'});
-		$(".comment3").css({'border-style':'none'});
-		$(".comment3").show();
-		$(".child3").show(100);
- 		
+ 		let control3 = $(this).parents(".asdasd").find(".control3");
+ 		let comment3 = $(this).parents(".asdasd").find(".comment3");
+ 		let child3 = $(this).parents(".asdasd").find(".child3");
+ 		let comment_comment = $(this).parents(".asdasd").find(".comment_comment");
+ 		control3.css({'border':'1px solid gray'});
+		comment3.css({'border-style':'none'});
+		comment3.show();
+		child3.show(100);
+		comment_comment.hide();
+		/* $(".control3").css({'border':'1px solid gray'}); */
+ 	})
+ 	
+ 	/* 댓글 수정창 비활성화  */
+	$(document).mouseup(function (e){
+	    var container = $(".control3")
+	    if(container.has(e.target).length == 0){ 
+	    	$(".comment3").css({'border':'1px solid gray'});
+			$(".comment3").css({'border-style':'none'});
+	    	$(".control3").css({'border-color':'lightgray'})
+			$(".control3").css({'border-style':'none'});
+			$(".child3").hide(100); 
+			$(".comment3").hide();
+			$(".comment_comment").show();
+	    }
+	});
+ 	
+ 	/* 댓글 수정 */
+ 	$(document).on("click",".child3",function(){
+ 		alert("asdasd");
  	})
 })
 
@@ -612,7 +634,7 @@ $(function(){
 	.btn-primary:hover{
 		background-color:#C2F347;
 	}
-	 #control1,#control2,#control1_1{
+	 #control1,#control2,#control1_1,.control3{
 	 	border-style: none;
 	 	width:81%;
 	 	border-radius: 5px;
@@ -649,8 +671,11 @@ $(function(){
 	 .comment_header{
 	 	background-color: lightgray;
 	 	border-radius: 5px;
-	 	margin: 5px;
 	 	padding: 10px;
+	 	margin-top: 5px;
+	 }
+	 .contorl3{
+	 	margin-top: 5px;
 	 }
 	 .comment_comment{
 	 	margin-top: 10px;
@@ -878,7 +903,6 @@ $(function(){
 					<c:if test="${cdto.getMem_name() == member.mem_name }">
 					<div class="comment_edit">
 						<a href="#" class="comment_edit" id="${cdto.getComment_no() }">수정하기</a>
-						
 						&nbsp; 
 						<a class="comment_remove" href="#" id="${cdto.getComment_no() }" >삭제하기</a>
 					</div>
