@@ -77,7 +77,7 @@ label {
 								<div class="form-group">
 									<input class="form-control" type="text" data-toggle="tooltip" title="주소록에서 선택해 주세요."
 										name="receiverName" readonly="readonly" value="${ sendEmp.mem_name }">
-									<input type="hidden" name="eml_to" value="${ sendEmp.eml_to}">
+									<input type="hidden" name="eml_to" value="${ sendEmp.mem_name}">
 								</div>
 								<div class="form-group">
 									<button type="button" class="btn btn-primary" data-backdrop="static" data-toggle="modal" data-target="#bd-example-modal-lg"><i class="icon-copy dw dw-agenda"></i> 주소록</button>
@@ -117,7 +117,7 @@ label {
 								Sent : ${receiveMail.create_date}<br>
 								Title : ${receiveMail.eml_title }<br>
 								<br>
-								${receiveMail.content }
+								${receiveMail.eml_content }
 							
 							</textarea>
 						</div>

@@ -270,7 +270,6 @@ public class MessengerController {
 		// 체크된 사용자 채팅방에 추가
 		for(int i =0; i<checkedMemArr.size(); i++){
 			int mem_no = Integer.parseInt(checkedMemArr.get(i));
-			
 			check3 = this.messengerDao.insertMemToChatRoom(mem_no);
 			
 			if(check3>0) {
