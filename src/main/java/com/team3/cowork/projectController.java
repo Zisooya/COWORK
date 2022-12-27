@@ -167,6 +167,8 @@ public class projectController {
 		}
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("taker", taker);
+		map.put("고양이", "cat");
+		System.out.println(taker);
 		return map;
 	}
 
@@ -320,6 +322,15 @@ public class projectController {
 	 @RequestMapping("project_Commentdelete.do")
 	 public void projectCommentDelete(Project_CommentDTO cdto,HttpServletResponse response) throws IOException {
 		 int check = this.dao_projects.project_Comment_delete(cdto);
+		 response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+	 }
+	 
+	 // 모달창 댓글 수정 _ 세건
+	 @RequestMapping("project_CommentUpdate.do")
+	 public void projectCommentUpdate(Project_CommentDTO cdto,HttpServletResponse response) throws IOException {
+		 
+		 int check = this.dao_projects.project_Comment_Update(cdto);
 		 response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
 	 }

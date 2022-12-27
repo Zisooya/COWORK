@@ -47,10 +47,10 @@
                   <div id="login"> <a href="${ path }/member_logout.do">로그아웃</a> </div>
                   <div id="hi"> <b>${member.mem_name}</b>님 안녕하세요!</div>
             </div>
-         </div>   
-      </div>   
+         </div>
+      </div>
    </header>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.js"></script>   
+<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.js"></script> -->
 <script type="text/javascript">
 
 // 1초마다 알림 숫자 영역에 새로운 값 주기

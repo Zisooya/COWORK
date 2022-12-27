@@ -194,6 +194,11 @@ public class ProjectsDAOImpl implements ProjectsDAO{
 		return this.sqlSession.selectOne("Comment_max");
 	}
 
+	@Override
+	public int project_Comment_Update(Project_CommentDTO cdto) {
+		return this.sqlSession.update("comment_update", cdto);
+	}
+
 
 
 }

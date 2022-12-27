@@ -107,3 +107,10 @@
 	.status_div:hover > a{
 		color:white;
 	}
+	.paging_div{
+	 	text-align: center;
+	 }
+	 .paging{
+	 	display: inline-block;
+	 	margin-right: 12vw;
+	 }
