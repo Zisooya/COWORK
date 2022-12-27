@@ -79,6 +79,7 @@
 		const deleteBtn_detail = document.querySelector("#delete_btn");
 		const modal_add = document.querySelector(".modal_add");
 		const closeBtn_add = document.querySelector(".close_add");
+		const moreBtn_search = document.querySelector("#search_more_btn");
 		
 		const title = document.querySelector(".title");
 		const startTime = document.querySelector(".startTime");
@@ -102,6 +103,9 @@
 				endTime_add.style.display = 'inline';
 			}
 		} */
+		moreBtn_search.onclick = function() {
+			
+		}
 		
 		//close 버튼 클릭 시 모달창 닫힘 함수
 		closeBtn_detail.onclick = function() {
@@ -794,9 +798,6 @@ a {
 .form-select {
 	width: 7%;
 }
-.form-control{
-	width: 15%;
-}
 .search-form {
 	display: flex;
 }
@@ -980,6 +981,9 @@ html, body {
 #search_form {
 	margin: 0px 14px 10px;
 }
+#search_input {
+	width: 90%;
+}
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -994,13 +998,12 @@ html, body {
 				<input type="button" id="eventAdd_btn" value="일정 추가">
 				<!-- 일정 검색 -->
 				<form method="post" action="<%=request.getContextPath()%>/calendar_search.do" class="search-form" id="search_form">
-					<select name="field" class="form-select">
-						<option value="title">제목</option>
-						<option value="cont">내용</option>
-						<option value="writer">작성자</option>
-					</select>&nbsp;
-					<input name="keyword" class="form-control" type="text" placeholder="검색어를 입력하세요.">&nbsp;&nbsp;
-					<!-- <input type="button" value="검색" class="btn btn-primary" id="search_btn"> -->
+					<input id="search_input" name="keyword" class="form-control" type="text" placeholder="검색어를 입력하세요.">
+					<button type="button" class="btn btn-outline-dark" id="search_more_btn">▼</button>
+					<br>
+					<div>
+						ss
+					</div>
 				</form>
 				<div class="container">
 					<div class="my-calendar clearfix">
