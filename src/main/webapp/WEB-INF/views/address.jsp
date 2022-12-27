@@ -138,7 +138,7 @@
 				<input id="search_btn" type="button" value="검색" >
 					<br>
 					<br>
-					<button>삭제</button><button>이동</button><button>메일</button><button>메시지</button>
+					<!-- <button>삭제</button><button>이동</button><button>메일</button><button>메시지</button> -->
 					<br>
 					<br>
 					<div class="alph">

@@ -66,7 +66,7 @@
 							<c:forEach items="${oneToOneChatList }" var="chatRoomDto" varStatus="vs">
 								<input type="checkbox" id="accordion_cb_o${vs.index }" 
 										name="accordion_cb_oneToOne" value="${chatRoomDto.getChat_room_no() }" 
-										onclick="openChatRoom(this.value);">
+										>
 								<label class="chat_room" for="accordion_cb_o${vs.index }">${chatRoomDto.getChat_room_name() }</label>
 							</c:forEach>
 						</c:if>
@@ -101,7 +101,7 @@
 					<input type="hidden" id="sender" value="${member.mem_id}" >
 					<input type="text" id="messageinput" onkeyup="javascript:enterMessage(event);">
 					<button type="button" id="message_send_btn" onclick="send();">메세지 전송</button>
-					<button type="button" onclick="javascript:clearText();">대화내용 지우기</button>	
+					<!-- <button type="button" onclick="javascript:clearText();">대화내용 지우기</button>	 -->
 					</div>
 				<input type="checkbox" id="sideBar_btn">
 				<label for="sideBar_btn"><img id="sideBar_img" alt="사이드바 버튼" src="${path}/resources/images/M사이드바화살표.png"> </label>	
@@ -202,6 +202,20 @@ $(function(){
 		
 	});	// 모달창 오픈 시 이벤트 end
 	
+	// 각 채팅방 클릭 시 이벤트
+	$("input[name *= 'accordion_cb_oneToOne']").click(function(){
+		
+		// 클릭한 input의 value
+		var click_value = $(this).attr('value');
+		
+		openSocket();
+		
+    	// 1초마다 채팅방 데이터 불러오기
+    	setInterval(openChatRoom(click_value), 1000); 
+	});
+	
+	
+	
 
 
 	
@@ -289,11 +303,10 @@ $(function(){
         document.getElementById("messageinput").value="";
         
         text = "";
- 
-        // 자동 스크롤
-        let messages = document.getElementById("messages");
-        messages.scrollTop = messages.scrollHeight;
         
+        // 1초 후에 자동스크롤
+        setTimeout(autoScroll, 1000);
+ 
     } // send() 함수 end
     
     
@@ -349,7 +362,7 @@ $(function(){
 	            let messages = document.getElementById("messages");
 	            messages.scrollTop = messages.scrollHeight;
 	            
-	    		openSocket();
+	    		// openSocket();
 	    		
     		}, 
     		error: function(res){ 
@@ -531,6 +544,12 @@ $(function(){
 			}
     	});   // 알림 숫자 영역 새로고침 $.ajax() end 
 	} // readNoti() 함수 end	
+	
+ 	// 자동 스크롤
+    function autoScroll() {
+        let messages = document.getElementById("messages");
+        messages.scrollTop = messages.scrollHeight;		
+	}	
 
 
 
