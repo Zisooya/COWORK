@@ -19,7 +19,7 @@ public interface MemberDAO {
 
 	void memberEdit(MemberDTO dto);
 
-	void memberDelete(MemberDTO dto);
+	void memberDelete(String mem_id);
 
 	String memberFindId(MemberDTO dto);
 

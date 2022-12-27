@@ -54,9 +54,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void memberDelete(MemberDTO dto, HttpSession session) {
-        dao.memberDelete(dto);
-        session.invalidate();
+    public void memberDelete(String mem_id) {
+        dao.memberDelete(mem_id);
     }
 
     @Override

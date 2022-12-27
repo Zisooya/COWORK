@@ -22,7 +22,7 @@
 		update member set mem_pwd = #{mem_pwd}, mem_position = #{mem_position}, mem_rank = #{mem_rank}, dept_no = (select dept_no from department where dept_name = #{dept_name}), dept_name = #{dept_name}, team_no = (select team_no from team where team_name = #{team_name}), team_name = #{team_name}, mem_email = #{mem_email}, mem_phone = #{mem_phone}, mem_image = #{mem_image} where mem_id = #{mem_id}
 	</update>
 	<delete id="memberDelete">
-		delete from member where mem_id = #{mem_id} and mem_pwd = #{mem_pwd}
+		delete from member where mem_id = #{mem_id}
 	</delete>
 	<select id="memberFindId" resultType="String">
 		select mem_id from member where mem_name = #{mem_name} and mem_email = #{mem_email}

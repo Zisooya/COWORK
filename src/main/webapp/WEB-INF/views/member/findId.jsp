@@ -50,7 +50,7 @@
         </div>
         <div class="form-group text-center" id="btn_box">
             <button class="btn btn-primary" id="btn_confirm" type="submit">확인</button>
-            <button class="btn btn-primary" type="button" onclick="history.back();">취소</button>
+            <button class="btn btn-primary" type="button" onclick="location.href='${path}/'">취소</button>
         </div>
     </form>
 </div>

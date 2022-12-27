@@ -11,6 +11,7 @@ import com.team3.model.Messenger_NotiDTO;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
@@ -39,8 +40,8 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public void memberDelete(MemberDTO dto) {
-		this.sqlSession.delete("memberDelete", dto);
+	public void memberDelete(String mem_id) {
+		this.sqlSession.delete("memberDelete", mem_id);
 	}
 
 	@Override
