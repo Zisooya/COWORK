@@ -19,7 +19,7 @@ public interface MemberService {
 
     void memberEdit(MemberDTO dto);
 
-    void memberDelete(MemberDTO dto, HttpSession session);
+    void memberDelete(String mem_id);
 
     void memberLogout(HttpSession session);
 

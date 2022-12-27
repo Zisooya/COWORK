@@ -34,6 +34,9 @@ public class CoworkController {
 	@Autowired
 	private UserMailSendService mailSender;
 
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+
 	@RequestMapping("main.do")
 	public String main() {
 		return "main";
@@ -128,8 +131,14 @@ public class CoworkController {
 
 		String id = service.memberFindId(dto);
 
-		mav.setViewName("member/getId");
-		mav.addObject("memberFindId", id);
+		if (id != null) {
+			mav.setViewName("member/getId");
+			mav.addObject("memberFindId", id);
+		} else {
+			mav.setViewName("member/msg");
+			mav.addObject("msg", "등록되지 않은 회원정보입니다.");
+			mav.addObject("url", "/member_findId.do");
+		}
 
 		return mav;
 	}
@@ -141,10 +150,14 @@ public class CoworkController {
 
 	@RequestMapping("member_findPwd_ok.do")
 	@ResponseBody
-	public String memberFindPwdOk(@RequestParam("mem_id") String mem_id, @RequestParam("mem_email") String mem_email) {
-		mailSender.mailSendWithPassword(mem_id, mem_email);
+	public void memberFindPwdOk(@RequestParam("mem_id") String mem_id, @RequestParam("mem_email") String mem_email, HttpServletResponse response) throws IOException {
+		int result = 0;
 
-		return "메일 전송";
+		if (mailSender.mailSendWithPassword(mem_id, mem_email) != 0) {
+			result = 1;
+		}
+
+		response.getWriter().print(result);
 	}
 
 	@RequestMapping("myPage.do")
@@ -185,16 +198,23 @@ public class CoworkController {
 	}
 
 	@RequestMapping("myPage_delete_ok.do")
-	public String myPageDeleteOk(@ModelAttribute MemberDTO dto, HttpSession session) {
-		MemberDTO member = (MemberDTO) session.getAttribute("member");
-		String sessionPwd = member.getMem_pwd();
+	public String myPageDeleteOk(@ModelAttribute MemberDTO dto, HttpSession session, Model model) {
+		String mem_id = ((MemberDTO)session.getAttribute("member")).getMem_id();
+
+		String sessionPwd = ((MemberDTO)session.getAttribute("member")).getMem_pwd();
 		String dtoPwd = dto.getMem_pwd();
 
-		if (!(sessionPwd.equals(dtoPwd))) {
-			System.out.println("비밀번호가 일치하지 않습니다.");
-		}
-		service.memberDelete(dto, session);
+		if (passwordEncoder.matches(dtoPwd, sessionPwd)) {
+			service.memberDelete(mem_id);
+			session.invalidate();
 
-		return "redirect:/";
+			model.addAttribute("msg", "회원이 정상적으로 탈퇴되었습니다.");
+			model.addAttribute("url", "/");
+			return "member/msg";
+		} else {
+			model.addAttribute("msg", "비밀번호가 일치하지 않습니다.");
+			model.addAttribute("url", "/myPage_delete.do");
+			return "member/msg";
+		}
 	}
 }

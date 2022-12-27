@@ -5,6 +5,7 @@
 <head>
     <title>Title</title>
     <link href="${path}/resources/css/include.css" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
     <link rel="icon" href="data:;base64,=">
     <style>
         .side_menu_body{
@@ -38,7 +39,10 @@
             font-style: normal;
         }
 
-        h1 { font-family: 'Poppins'; font-size: 45px; }
+        h1 {
+            font-family: 'Poppins';
+            font-size: 45px;
+        }
 
         .withDrawal {
             margin-top: 3%;
@@ -48,7 +52,11 @@
             padding-left: 200px;
         }
 
-        #header1 { color: red; font-family: 'Poppins'; font-size: 25px; }
+        #header1 {
+            color: gray;
+            font-family: 'Poppins';
+            font-size: 25px;
+        }
 
         #header1_side {
             font-family: 'Poppins';
@@ -56,7 +64,9 @@
             color: gray;
         }
 
-        .content { border: 1px solid #D5D4D4; }
+        .content {
+            border: 1px solid #D5D4D4;
+        }
 
         #contentOne  {
             font-family: 'Poppins';
@@ -67,7 +77,12 @@
             letter-spacing: -0.03em;
         }
 
-        #header_2 { color: gray; font-family: 'Poppins'; font-size: 25px; height: 25px; }
+        #header_2 {
+            color: gray;
+            font-family: 'Poppins';
+            font-size: 25px;
+            height: 25px;
+        }
 
         #contentTwo {
             font-family: 'Poppins';
@@ -78,7 +93,11 @@
             letter-spacing: -0.03em;
         }
 
-        #chkment{ font-size: 16px; font-family: 'Poppins'; }
+        #checkPwd {
+            color: gray;
+            font-size: 20px;
+            font-family: 'Poppins';
+        }
 
         #byeBtn {
             font-family: 'Poppins';
@@ -91,6 +110,7 @@
             width: 130px;
             height: 53px;
         }
+
         #byeBtn:hover {
             border: 1px solid #C2F347;
             background: linear-gradient(to right, #7BE66D, #C2F347);
@@ -108,11 +128,15 @@
             width: 130px;
             height: 53px;
         }
+
         #notByeBtn:hover {
             border: 1px solid #7BE66D;
             color: #7BE66D;
         }
-        #byeBtnArea { margin: 30px;}
+
+        #byeBtnArea {
+            margin: 30px;
+        }
     </style>
 </head>
 <body>
@@ -137,7 +161,7 @@
     </nav>
 
     <article id="content">
-        <form method="post" action="${path}/myPage_delete_ok.do">
+        <form name="deleteForm" method="post" action="${path}/myPage_delete_ok.do">
         <div class="withDrawal">
             <table>
                 <tr>
@@ -179,13 +203,14 @@
                 </tr>
                 <tr>
                     <td><br>
-                        <input type="checkbox" name="agree"><span id="chkment"> 해당 내용을 모두 확인했으며, 회원 탈퇴에 동의합니다.</span>
+                        <span id="checkPwd">현재 비밀번호</span>&nbsp;&nbsp;<input type="password" name="mem_pwd" id="mem_pwd">
+                        <div class="check_font" id="pwd_check"></div>
                     </td>
                 </tr>
                 <tr>
                     <th>
                         <div id="byeBtnArea">
-                            <input type="submit" id="byeBtn" value="확인">
+                            <input type="submit" id="byeBtn" value="확인" onclick="confirm('정말로 회원을 탈퇴하시겠습니까?');">
                             <input type="button" id="notByeBtn" onclick="location.href='${path}/myPage.do'" value="취소">
                         </div>
                     </th>
@@ -194,7 +219,16 @@
         </div>
         </form>
     </article>
-
 </div>
 </body>
+<script type="text/javascript">
+    $("#mem_pwd").blur(function () {
+        if ($("#mem_pwd").val() === "") {
+            $("#pwd_check").text("비밀번호를 입력하세요.");
+            $("#pwd_check").css("color", "red");
+        } else {
+            $("#pwd_check").text("");
+        }
+    });
+</script>
 </html>

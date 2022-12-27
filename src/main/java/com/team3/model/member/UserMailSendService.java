@@ -27,7 +27,7 @@ public class UserMailSendService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    public void mailSendWithPassword(String mem_id, String mem_email) {
+    public int mailSendWithPassword(String mem_id, String mem_email) {
         String key = getKey(false, 8);
 
         MemberDTO getMemInfo = dao.selectMember(mem_id);
@@ -65,6 +65,8 @@ public class UserMailSendService {
         int check = dao.updatePwd(map);
 
         System.out.println("check >> " + check);
+
+        return check;
     }
 
     private String init() {
