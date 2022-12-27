@@ -186,7 +186,16 @@ public class EmailController {
 	@RequestMapping("sendDelivery.do")
 	public ModelAndView sendDelivery(EmailDTO m, HttpServletRequest request,
 			@RequestParam(name = "mno", required = false) int mno, ModelAndView mv) {
+		
+		MemberDTO mem = (MemberDTO) request.getSession().getAttribute("member");
 
+		// 현재 로그인 된 회원 번호
+		int mem_no = mem.getMem_no();
+
+		System.out.println("로그인한 회원 번호 : " + mem_no);
+
+		int listCount = mailService.selectReceiveMailListCount(mem.getMem_name());
+		
 		EmailDTO sendMail = mailService.selectSendMail(mno);
 
 		mv.addObject("sendMail", sendMail).setViewName("mail/sendDeliveryForm");

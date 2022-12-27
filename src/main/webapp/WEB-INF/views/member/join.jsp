@@ -4,18 +4,9 @@
 <html>
 <head>
     <title>회원가입</title>
-    <script
-            src="https://code.jquery.com/jquery-3.6.1.js"
-            integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
-            crossorigin="anonymous"
-    ></script>
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
-            crossorigin="anonymous"
-    />
-
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"/>
+    <link rel="icon" href="data:;base64,=">
     <style>
         .container {
             min-width: 960px;
@@ -193,23 +184,25 @@
                 </select>
             </div>
 
+            <c:set var="dList" value="${deptList}"/>
             <div class="form-group">
                 <label for="dept_name">부서 선택</label>
                 <select class="form-select" id="dept_name" name="dept_name">
                     <option selected>-</option>
-                    <option>경영지원본부</option>
-                    <option>개발본부</option>
-                    <option>기획마케팅본부</option>
-                    <option>디자인본부</option>
+                    <c:forEach var="dept" items="${dList}">
+                        <option value="${dept.dept_name}">${dept.dept_name}</option>
+                    </c:forEach>
                 </select>
             </div>
 
+            <c:set var="tList" value="${teamList}"/>
             <div class="form-group">
                 <label for="team_name">소속 선택</label>
                 <select class="form-select" id="team_name" name="team_name">
                     <option selected>-</option>
-                    <option>한화큐셀팀</option>
-                    <option>sk행복나래팀</option>
+                    <c:forEach var="team" items="${tList}">
+                    <option value="${team.team_name}">${team.team_name}</option>
+                    </c:forEach>
                 </select>
             </div>
 

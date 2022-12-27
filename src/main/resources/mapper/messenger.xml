@@ -93,5 +93,4 @@
 		WHERE mem_no=#{mem_no} and chat_room_no=#{chat_room_no}		
 	</update>
 	
-
 </mapper>

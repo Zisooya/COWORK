@@ -88,7 +88,7 @@
             dataType: "text",
             data: {mem_id : $("#mem_id").val(), mem_email : $("#mem_email").val()},
             success: function () {
-                alert('메일 발송 완료');
+                alert('임시 비밀번호가 발급되었습니다. 등록된 이메일을 확인해주세요.');
                 location.replace("${path}/");
             },
             error: function () {

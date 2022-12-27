@@ -100,5 +100,4 @@ public class MessengerDAOImpl implements MessengerDAO {
 	public int readNoti(Messenger_NotiDTO notiDTO) {
 		return this.sqlSession.update("messengerDao.messenger_readNoti", notiDTO);
 	}
-
 }

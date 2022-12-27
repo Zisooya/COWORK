@@ -15,6 +15,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.PageContext;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,7 +103,7 @@ public class AddressController {
 	
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/add_customer.do")
-	public @ResponseBody int addCustomer( CustomerDTO customerDTO, Model model) throws IOException {
+	public @ResponseBody int addCustomer(CustomerDTO customerDTO, Model model, HttpServletRequest request) throws IOException {
 		  // 배열 타입으로 선언하여 여러 개의 파일 저장
 	
 	System.out.println("받아온 데이터 : "+ customerDTO);
@@ -116,7 +117,10 @@ public class AddressController {
 	DateTimeFormatter dtf = DateTimeFormatter.ofPattern(FORMAT_YYYYMMDD);
 	
 	// 2) DateTimeFormatter 를 이용하여 현재 날짜를 포맷에 맞게 파싱해준다. ex) 2021/06/25
-    String basePath = "C:/Users/user/Desktop/Github_desktop/COWORK/src/main/webapp/resources/address";				 
+	String contextPath = request.getContextPath();
+	System.out.println("contextPath >> "+contextPath);
+	// 상대 경로 설정 수정 더 해야함
+    String basePath = "C:\\upload";
     String todayPath = LocalDateTime.now().format(dtf);
     
     // 3) BasePath 와 현재 날짜를 합친 Path 객체 생성
@@ -132,7 +136,7 @@ public class AddressController {
     Path targetPath = Paths.get(pathToday.toString(), multi.getOriginalFilename());
     
     // 7) file 을 outputStream 으로 내보내준다 (save)
-    multi.transferTo(targetPath.toFile()); 	
+    multi.transferTo(targetPath.toFile());
     
     System.out.println("이미지 폴더에 저장 완료");
 	

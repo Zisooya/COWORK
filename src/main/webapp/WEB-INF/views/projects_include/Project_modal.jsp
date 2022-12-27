@@ -173,6 +173,7 @@ $(function(){
 		$(".hide").hide();
 		$(".hide_1").hide();
 		let member = ($(this).val());
+		console.log(member);
 		let project_no = $(".project_no").val();
 		$.ajax({
 			type : "post",
@@ -190,36 +191,37 @@ $(function(){
 				var isVisible = false;
 			 	var clickedAway = false;
 				console.log("text: "+$("#taker1").text());
-				console.log(dto.taker);
+				console.log("member : "+member);
+				console.log("cat : " +dto.cat);
 				if($("#taker1").text() == ""){
-					table += "<button id='taker1' class='popoverThis btn btn-large btn-secondary'>"+dto.taker+"</button>";
+					table += "&nbsp;<button id='taker1' class='popoverThis btn btn-large btn-secondary'>"+member+"</button>";
 					table += "<div id='popover-heading1' class='hide_1'>";
-				    table += "<img id='member1' class='img' src='resources/image/project_man.png' width='60' height='50'>"+dto.taker;
-				    table += "<input type='hidden' id='heading1_mem' value="+dto.taker+"></div><div id='popover-body1' class='hide_1'>";
+				    table += "<img id='member1' class='img' src='resources/image/project_man.png' width='60' height='50'>"+member;
+				    table += "<input type='hidden' id='heading1_mem' value="+member+"></div><div id='popover-body1' class='hide_1'>";
 					table += "<a href='#'>회원 정보 보기</a><hr><a href='#' id='except1'>프로젝트 제외하기</a></div>";
 				}else if($("#taker2").text() == ""){
-					table += "<button id='taker2' class='popoverThis btn btn-large btn-secondary'>"+dto.taker+"</button>";
+					table += "&nbsp;<button id='taker2' class='popoverThis btn btn-large btn-secondary'>"+member+"</button>";
 					table += "<div id='popover-heading2' class='hide_1'>";
-				    table += "<img id='member2' class='img' src='resources/image/project_man.png' width='60' height='50'>"+dto.taker;
-				    table += "<input type='hidden' id='heading2_mem' value="+dto.taker+"></div><div id='popover-body2' class='hide_1'>";
+				    table += "<img id='member2' class='img' src='resources/image/project_man.png' width='60' height='50'>"+member;
+				    table += "<input type='hidden' id='heading2_mem' value="+member+"></div><div id='popover-body2' class='hide_1'>";
 					table += "<a href='#'>회원 정보 보기</a><hr><a href='#' id='except2'>프로젝트 제외하기</a></div>";
 				}else if($("#taker3").text() == ""){
-					table += "<button id='taker3' class='popoverThis btn btn-large btn-secondary'>"+dto.taker+"</button>";
+					table += "&nbsp;<button id='taker3' class='popoverThis btn btn-large btn-secondary'>"+member+"</button>";
 					table += "<div id='popover-heading3' class='hide_1'>";
-				    table += "<img id='member3' class='img' src='resources/image/project_man.png' width='60' height='50'>"+dto.taker;
-				    table += "<input type='hidden' id='heading3_mem' value="+dto.taker+"></div><div id='popover-body3' class='hide_1'>";
+				    table += "<img id='member3' class='img' src='resources/image/project_man.png' width='60' height='50'>"+member;
+				    table += "<input type='hidden' id='heading3_mem' value="+member+"></div><div id='popover-body3' class='hide_1'>";
 					table += "<a href='#'>회원 정보 보기</a><hr><a href='#' id='except3'>프로젝트 제외하기</a></div>";
 				}else if($("#taker4").text() == ""){
-					table += "<button id='taker4' class='popoverThis btn btn-large btn-secondary'>"+dto.taker+"</button>";
+					table += "&nbsp;<button id='taker4' class='popoverThis btn btn-large btn-secondary'>"+member+"</button>";
 					table += "<div id='popover-heading4' class='hide_1'>";
-				    table += "<img id='member4' class='img' src='resources/image/project_man.png' width='60' height='50'>"+dto.taker;
-				    table += "<input type='hidden' id='heading4_mem' value="+dto.taker+"></div><div id='popover-body4' class='hide_1'>";
+				    table += "<img id='member4' class='img' src='resources/image/project_man.png' width='60' height='50'>"+member;
+				    table += "<input type='hidden' id='heading4_mem' value="+member+"></div><div id='popover-body4' class='hide_1'>";
 					table += "<a href='#'>회원 정보 보기</a><hr><a href='#' id='except4'>프로젝트 제외하기</a></div>";
 				}else if($("#taker5").text() == ""){
-					table += "<button id='taker5' class='popoverThis btn btn-large btn-secondary'>"+dto.taker+"</button>";
+					table += "&nbsp;<button id='taker5' class='popoverThis btn btn-large btn-secondary'>"+member+"</button>";
 					table += "<div id='popover-heading5' class='hide_1'>";
-				    table += "<img id='member5' class='img' src='resources/image/project_man.png' width='60' height='50'>"+dto.taker;
-				    table += "<input type='hidden' id='heading5_mem' value="+dto.taker+"></div><div id='popover-body5' class='hide_1'>";
+				    table += "<img id='member5' class='img' src='resources/image/project_man.png' width='60' height='50'>"+member;
+				    table += "<input type='hidden' id='heading5_mem' value="+member+"></div><div id='popover-body5' class='hide_1'>";
 					table += "<a href='#'>회원 정보 보기</a><hr><a href='#' id='except5'>프로젝트 제외하기</a></div>";
 				}
 				$(".project_taker").append(table);
@@ -290,7 +292,7 @@ $(function(){
 			 	    }
 			 	});
 			},
-			error : function(){
+			error : function(dto){
 				alert('데이터 통신 에러');
 			}
 		})
@@ -615,7 +617,23 @@ $(function(){
  	
  	/* 댓글 수정 */
  	$(document).on("click",".child3",function(){
- 		alert("asdasd");
+ 		let comment_no = $(this).attr("id");
+ 		let comment_comment = $(this).parents(".asdasd").find(".comment3").val();
+ 		$(this).parents(".asdasd").find(".comment_comment").text(comment_comment);
+ 		$.ajax({
+			type : "post",
+			url : "project_CommentUpdate.do",
+			data : {comment_no : comment_no,
+					comment_comment : comment_comment
+					},
+			datatype : "text",
+			success : function(){
+				alert("수정되었습니다.")
+			},
+			error : function(){
+				alert('데이터 통신 에러');
+			}
+		})
  	})
 })
 
@@ -897,7 +915,7 @@ $(function(){
 	         			<p class="comment_comment">${cdto.getComment_comment() }</p>
 	         			<div class="control3">
 		         			<textarea class="textarea comment3" id=""  cols="80%" rows="2" onkeydown="resize(this)" onkeyup="resize(this)">${cdto.getComment_comment() }</textarea>
-		         			<input type="button" class="btn btn-primary child3" value="저장">
+		         			<input type="button" id="${cdto.getComment_no() }" class="btn btn-primary child3" value="저장">
 	         			</div>
 					</div>
 					<c:if test="${cdto.getMem_name() == member.mem_name }">
