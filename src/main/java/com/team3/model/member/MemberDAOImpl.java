@@ -1,5 +1,7 @@
 package com.team3.model.member;
 
+import com.team3.model.DepartmentDTO;
+import com.team3.model.TeamDTO;
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.team3.model.Messenger_NotiDTO;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -16,18 +19,13 @@ public class MemberDAOImpl implements MemberDAO {
 	private SqlSessionTemplate sqlSession;
 
 	@Override
-	public MemberDTO memberLogin(MemberDTO dto) {
-		return this.sqlSession.selectOne("memberLogin", dto);
-	}
-
-	@Override
 	public MemberDTO selectMember(@Param("mem_id") String mem_id) {
 		return this.sqlSession.selectOne("selectMember", mem_id);
 	}
 
 	@Override
-	public void memberJoin(MemberDTO dto) {
-		this.sqlSession.insert("memberJoin", dto);
+	public int memberJoin(MemberDTO dto) {
+		return this.sqlSession.insert("memberJoin", dto);
 	}
 
 	@Override
@@ -41,8 +39,8 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public void memberDelete(String mem_id) {
-		this.sqlSession.delete("memberDelete", mem_id);
+	public void memberDelete(MemberDTO dto) {
+		this.sqlSession.delete("memberDelete", dto);
 	}
 
 	@Override
@@ -51,16 +49,26 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public int updatePwd(@Param("mem_id") String mem_id, @Param("mem_email") String mem_email, @Param("key") String key) {
-		System.out.println("mem_id >> " + mem_id);
-		System.out.println("mem_email >> " + mem_email);
-		System.out.println("key >> " + key);
-		return this.sqlSession.update("updatePwd");
+	public int updatePwd(HashMap<String, Object> map) {
+		System.out.println("mem_id >> " + map.get("mem_id"));
+		System.out.println("mem_email >> " + map.get("mem_email"));
+		System.out.println("key >> " + map.get("key"));
+		return this.sqlSession.update("updatePwd", map);
 	}
 
 	@Override
 	public int idCheck(String mem_id) {
 		return this.sqlSession.selectOne("idCheck", mem_id);
+	}
+
+	@Override
+	public List<DepartmentDTO> getDeptList() {
+		return this.sqlSession.selectList("deptList");
+	}
+
+	@Override
+	public List<TeamDTO> getTeamList() {
+		return this.sqlSession.selectList("teamList");
 	}
 
 	// 프로젝트 생성 시 멤버 리스트 가져오기
