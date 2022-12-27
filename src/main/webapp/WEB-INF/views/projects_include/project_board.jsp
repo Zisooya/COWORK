@@ -12,7 +12,6 @@
 <script src="resources/script/project/project_board.js"></script>
 <link href="${path}/resources/css/bootstrap_include.css" rel="stylesheet"/>
 <link href="${path}/resources/css/project/project_board.css" rel="stylesheet"/>
-
 </head>
 <body id="background_board">
 	<c:set var="list" value="${list }"/>
