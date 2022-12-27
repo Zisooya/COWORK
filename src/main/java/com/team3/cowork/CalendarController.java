@@ -154,6 +154,19 @@ public class CalendarController {
 		 return res;
 	 }
 	 
+	 @RequestMapping(value="cal_delete.do", produces ="application/text; charset=utf8")
+	 @ResponseBody
+	 public String calDelete(@RequestParam("param") String cal_no) {
+		 String result = "";
+		 int res = this.dao_cal.deleteEvent(Integer.parseInt(cal_no));
+		 if(res > 0) {
+			 result = "삭제 성공";
+		 }else {
+			 result = "삭제 실패";
+		 }
+		 return result;
+	 }
+	 
 	 @RequestMapping(value="cal_update.do", produces ="application/text; charset=utf8")
 	 @ResponseBody
 	 public String calUpdate(@ModelAttribute CalendarDTO dto,

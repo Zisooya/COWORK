@@ -23,6 +23,8 @@ $(function(){
 	$("#project_end").hide();
 	$(".hidden").hide();
 	$("#comment1_1").hide();
+	$(".comment3").hide();
+	$(".child3").hide();
 	
 	/* 상세내용 div 클릭시 활성화 */
 	$("#comment1").click(function(){
@@ -123,7 +125,6 @@ $(function(){
 		$("#control2").css({'border':'1px solid gray'});
 		$("#comment2").css({'border-style':'none'});
 		$("#child2").show(100);
-		
 	});
 	
 	/* 코멘트창 비활성화  */
@@ -587,7 +588,11 @@ $(function(){
  	$(document).on("click",".comment_edit",function(){
  		let comment_no = $(this).attr("id");
  		let comment_comment = $(this).parents(".asdasd").attr("id");
- 		alert(comment_comment);
+ 		let comment_comment1 = $(this).parents(".asdasd").find(".control2");
+ 		comment_comment1.css({'border':'1px solid gray'});
+		$(".comment3").css({'border-style':'none'});
+		$(".comment3").show();
+		$(".child3").show(100);
  		
  	})
 })
@@ -843,10 +848,10 @@ $(function(){
 			  </select>
 	      	 <h5 class="modal-title"><img src="resources/image/project_comment.png" width="20" height="20">&nbsp;코멘트</h5>
 	      	 <br>
-				      <!-- 삭제 -->
-				         <button id="delete" type="button" class="btn btn-primary" onclick="if(confirm('정말로 프로젝트를 삭제하시겠습니까??')){
-																											location.href='<%=request.getContextPath()%>/project_delete.do?num=${dto.getProject_no() }'
-																											}else{ruturn;}">프로젝트 삭제</button>
+			  <!-- 삭제 -->
+		         <button id="delete" type="button" class="btn btn-primary" onclick="if(confirm('정말로 프로젝트를 삭제하시겠습니까??')){
+																									location.href='<%=request.getContextPath()%>/project_delete.do?num=${dto.getProject_no() }'
+																									}else{ruturn;}">프로젝트 삭제</button>
 	         <img class="img" src="resources/image/project_man.png" class="img_mem_name" width="35" height="30">${member.mem_name}님
 	         <input type="hidden" id="img_mem_name" value="${member.mem_name}">
 			  <!-- 댓글 -->
@@ -864,12 +869,16 @@ $(function(){
 	         			<b>${cdto.getMem_name() }님 &nbsp;&nbsp; ${cdto.getComment_date().substring(0,10) }</b>
 	         		</div>
 	         		<div class="comment_body">
-	         			<p class="comment_comment">${cdto.getComment_comment() }</p>	
+	         			<p class="comment_comment">${cdto.getComment_comment() }</p>
+	         			<div class="control3">
+		         			<textarea class="textarea comment3" id=""  cols="80%" rows="2" onkeydown="resize(this)" onkeyup="resize(this)">${cdto.getComment_comment() }</textarea>
+		         			<input type="button" class="btn btn-primary child3" value="저장">
+	         			</div>
 					</div>
 					<c:if test="${cdto.getMem_name() == member.mem_name }">
 					<div class="comment_edit">
 						<a href="#" class="comment_edit" id="${cdto.getComment_no() }">수정하기</a>
-						 
+						
 						&nbsp; 
 						<a class="comment_remove" href="#" id="${cdto.getComment_no() }" >삭제하기</a>
 					</div>
