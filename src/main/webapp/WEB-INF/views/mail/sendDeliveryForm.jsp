@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page pageEncoding="UTF-8"  %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE HTML>
@@ -16,7 +15,6 @@
 	width: 100%;
 	margin-bottom: 0;
 }
-
 label {
 	font-weight: bold;
 }
@@ -53,7 +51,7 @@ label {
 							<nav aria-label="breadcrumb" role="navigation">
 								<ol class="breadcrumb">
 									<li class="breadcrumb-item"><a href="">홈</a></li>
-									<li class="breadcrumb-item active" aria-current="page">메일 답장</li>
+									<li class="breadcrumb-item active" aria-current="page">보낸 메일 전달</li>
 								</ol>
 							</nav>
 						</div>
@@ -74,10 +72,10 @@ label {
 
 						<div class="form-group">
 							<div class="mailReceiver">
-								<div class="form-group">
-									<input class="form-control" type="text" data-toggle="tooltip" title="주소록에서 선택해 주세요."
-										name="receiverName" readonly="readonly" value="${ sendEmp.mem_name }">
-									<input type="hidden" name="eml_to" value="${ sendEmp.mem_name}">
+								<div class="form-group"> 
+									<input class="form-control" id="receiver" type="text" data-toggle="tooltip" title="주소록에서 선택해 주세요."
+										name="receiverName" readonly="readonly" required="required" placeholder="받는 사람">
+									<input type="hidden" name="eml_to" required="required">
 								</div>
 								<div class="form-group">
 									<button type="button" class="btn btn-primary" data-backdrop="static" data-toggle="modal" data-target="#bd-example-modal-lg"><i class="icon-copy dw dw-agenda"></i> 주소록</button>
@@ -91,7 +89,7 @@ label {
 									</div>
 								</div>
 								<br>
-									<input class="form-control" value="RE: ${receiveMail.eml_title }" type="text" name="eml_title" required="required" placeholder="메일 제목을 입력해주세요.">
+									<input class="form-control" value="FW: ${sendMail.eml_title }" type="text" name="eml_title" required="required" placeholder="메일 제목을 입력해주세요.">
 								<br>
 								<br>
 								
@@ -101,23 +99,23 @@ label {
 						</div>
 						<div class="form-group">
 							<input type="file" class="form-control-file form-control height-auto" name="reUploadFile">
-							<c:if test="${!empty receiveMail.filename }">
-								현재 첨부된 파일 : ${receiveMail.filename } <br>
-	                            <input type="hidden" name="filepath" value="${ receiveMail.filepath }">
-	                            <input type="hidden" name="filename" value="${ receiveMail.filename }">
+							<c:if test="${!empty sendMail.filename }">
+								현재 첨부된 파일 : ${sendMail.filename } <br>
+	                            <input type="hidden" name="changeName" value="${ sendMail.filepath }">
+	                            <input type="hidden" name="originName" value="${ sendMail.filename }">
 							</c:if>
 							</div>
 
 						
 						<div class="form-group">
-							<textarea class="textarea_editor form-control border-radius-0" name="eml_content" required="required">
+							<textarea class="textarea_editor form-control border-radius-0" name="content" required="required">
 								-----Original Message-----<br>
-								From : ${ sendEmp.mem_name }<br>
-								To : ${ member.mem_name }<br>
-								Sent : ${receiveMail.create_date}<br>
-								Title : ${receiveMail.eml_title }<br>
+								From : ${ member.mem_name }<br>
+								To : ${sendMail.eml_to }<br>
+								Sent : ${sendMail.create_date}<br>
+								Title : ${sendMail.eml_title }<br>
 								<br>
-								${receiveMail.eml_content }
+								${sendMail.eml_content }
 							
 							</textarea>
 						</div>
@@ -126,7 +124,7 @@ label {
 						<div class="clearfix">
 							<div class="pull-right">
 								<button type="button" class="btn btn-outline-danger" onclick="history.go(-1)">취소</button>
-								<button type="button" onclick="sendDelivery();" class="btn btn-primary">메일 전송</button>
+								<button type="button" class="btn btn-primary" onclick="sendDelivery();">메일 전달</button>
 							</div>
 						</div>
 					</form>
@@ -136,59 +134,57 @@ label {
 		</div>
 	</div>
 	
-	<div class="modal fade bs-example-modal-lg" id="bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-				<div class="modal-dialog modal-lg">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title" id="myLargeModalLabel">받는 사람 선택</h4>
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-						</div>
-										
-						<div class="modal-body">
-							<div class="selectReceiver">
-								<div class="form-group" id="deptList">
+		<div class="modal fade bs-example-modal-lg" id="bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myLargeModalLabel">받는 사람 선택</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					</div>
 									
-									<select id="selectDept" class="custom-select col-6">
-										<option>부서 선택</option>
+					<div class="modal-body">
+						<div class="selectReceiver">
+							<div class="form-group" id="deptList">
+								
+								<select id="selectDept" class="custom-select col-6">
+									<option>부서 선택</option>
 										<option value="1">경영지원본부</option>
 										<option value="2">개발본부</option>
 										<option value="3">기획마케팅본부</option>
 										<option value="4">디자인본부</option>
-									</select>
-									
-						            <button class="btn btn-primary" id="searchEmp">조회</button>
+								</select>
 								
-								</div>
-								
-								<div id="empList">
-									<table border="1" class="table table-bordered border-primary" id="eList">
-										<thead class="table-primary">
-											<tr>
-												<th></th>
-												<th>이름</th>
-												<th>사번</th>
-												<th>직책</th>
-												<th>직급</th>
-											</tr>
-										</thead>
-										<tbody>
-											
-										</tbody>
-									</table>
-								</div>
+					            <button class="btn btn-primary" id="searchEmp">조회</button>
 							
 							</div>
+							
+							<div id="empList">
+								<table border="1" class="table table-bordered border-primary" id="eList">
+									<thead class="table-primary">
+										<tr>
+											<th></th>
+											<th>이름</th>
+											<th>사번</th>
+											<th>직책</th>
+											<th>직급</th>
+										</tr>
+									</thead>
+									<tbody>
+										
+									</tbody>
+								</table>
+							</div>
+						
 						</div>
-										
-										
-										
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-							<button type="button" class="btn btn-primary" onclick="selectReceiver();">선텍</button>
-						</div>
+					</div>
+											
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+						<button type="button" class="btn btn-primary" onclick="selectReceiver();">선텍</button>
 					</div>
 				</div>
 			</div>
+		</div>
 		</article>
 	
 	</div>
@@ -196,28 +192,35 @@ label {
 $(function(){
 	$("#searchEmp").click(function(){
 		
-		var dept_code = $("option:selected").val();
+		var deptCode = $("option:selected").val();
+		console.log(dept_code);
 		
 		if(dept_code == "부서 선택"){
-				
-			swal({
-                  type: 'error',
-                  title: 'error...',
-                  text: '부서를 선택해 주세요',
-	            })
+			
+			swal(
+	               {
+	                   type: 'error',
+	                   title: 'error...',
+	                   text: '부서를 선택해 주세요',
+	               }
+	           )
+	           
 			return false;
 		}
 		
 		$.ajax({
-			url: "empList.do",
+			url:"empList.do",
 			data:{dept_code:dept_code},
 			type:"get",
 			success:function(map){
+				console.log(map);
+				console.log(map["jrr"])
 				
 				var $tableBody = $("#eList tbody");
 				$tableBody.html("");
 				
 				$.each(map["jrr"], function(i, mem){
+					console.log("mem ~~~ "+ mem);
 					
 					var $tr = $("<tr>");
 					var $ckTd = $("<td><input type='checkBox' class='checkEmp' name='checkEmp'></td>");
@@ -233,7 +236,6 @@ $(function(){
 					$tr.append($rightTd);
 					
 					$tableBody.append($tr);
-					
 				})
 			},
 			error:function(e){
@@ -242,7 +244,6 @@ $(function(){
 		})
 	})
 })
-
 function selectReceiver(){
 	var tr = $("input[class=checkEmp]:checked").parent().parent().eq(0);
 	var td = tr.children();
@@ -250,23 +251,25 @@ function selectReceiver(){
 	var mem_id = td.eq(1).text();
 	
 	var dept_code = $("option:selected").val();
+	console.log(dept_code);
 	
-	if(dept_code == "부서 선택"){
-			
+	if(deptCode == "부서 선택"){
+		
 		swal(
                {
                    type: 'error',
-                   title: 'error...',
+                   title: 'Oops...',
                    text: '부서를 선택해 주세요',
                }
            )
+           
 		return false;
 		
 	}else if(tr.val() == null){
 		swal(
                {
                    type: 'error',
-                   title: 'error...',
+                   title: 'Oops...',
                    text: '받는 사람을 선택해 주세요',
                }
            )
@@ -278,14 +281,15 @@ function selectReceiver(){
 	
 	$("input[name=receiverName]").val(mem_name);
 	$("input[name=eml_to]").val(mem_id);
-	$("#bd-example-modal-lg").modal("hide");	
+	$("#bd-example-modal-lg").modal("hide");
 }
+
 function sendDelivery(){
-	var receiver = $("#sendDelivery input[name=receiverName]");
-	var title = $("#sendDelivery input[name=eml_title]");
-	var content = $("#sendDelivery textarea[name=eml_content]");
+	var eml_to = $("#sendDelivery input[name=receiverName]");
+	var eml_title = $("#sendDelivery input[name=eml_title]");
+	var eml_content = $("#sendDelivery textarea[name=eml_content]");
 	console.log(receiver);
-	if(receiver.val()=="" || receiver.val()==null){
+	if(eml_to.val()=="" || eml_to.val()==null){
 		
 	 swal(
                {
@@ -296,7 +300,7 @@ function sendDelivery(){
            )
 		return false;
 	 
-	}else if(title.val()=="" || title.val()==null){
+	}else if(eml_title.val()=="" || eml_title.val()==null){
 		
 		swal(
 	               {
@@ -307,7 +311,7 @@ function sendDelivery(){
 	           )
 			return false;
 		
-	}else if(content.val()=="" || content.val()==null){
+	}else if(eml_content.val()=="" || eml_content.val()==null){
 	
 		swal(
 	               {
@@ -318,11 +322,12 @@ function sendDelivery(){
 	           )
 			return false;
 	}else{
-		$("#sendDelivery").attr("action", "insertReply.do");
+		$("#sendDelivery").attr("action", "insertDelivery.do");
 		$("#sendDelivery").submit();
 		return true;
 	}
 }
+
 
 </script>	
 <script src="${ pageContext.servletContext.contextPath }/resources/plugins/sweetalert2/sweetalert2.all.js"></script>
