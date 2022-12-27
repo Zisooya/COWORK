@@ -102,7 +102,8 @@
 	
 	<!-- 보낸메일함 리스트 받아오기 -->
 	<select id="selectSendMailList" resultMap="sendResultSet">
-		 SELECT *
+		SELECT 
+		 	*
 		FROM EMAIL A
 		JOIN MEMBER B ON a.eml_to = b.mem_name
 		WHERE A.WRITER_STATUS=0
@@ -256,7 +257,7 @@
 	
 	<!-- 받은 메일 복구 -->
 	<update id="returnReceiveMail" parameterType="_int">
-		UPDATE MAIL
+		UPDATE EMAIL
 		SET RECEIVER_STATUS=0
 		WHERE EML_NO=#{mno}
 	</update>
@@ -270,14 +271,14 @@
 	<!-- 보낸 메일 영구삭제 -->
 	<update id="updateWriter" parameterType="_int">
 		UPDATE EMAIL
-		SET WRITER_STATUS=2
+		SET WRITER_STATUS=3
 		WHERE EML_NO=#{mno}
 	</update>
 	
 	<!-- 받은 메일 영구삭제 -->
 	<update id="updateReceiver" parameterType="_int">
 		UPDATE EMAIL
-		SET RECEIVER_STATUS=2
+		SET RECEIVER_STATUS=3
 		WHERE EML_NO=#{mno}
 	</update>
 	
