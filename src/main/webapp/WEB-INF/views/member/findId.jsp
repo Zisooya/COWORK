@@ -64,7 +64,7 @@
         if (mailJ.test($(this).val())) {
             $("#email_check").text("");
         } else {
-            $("#email_check").text("이메일을 확인하세요.");
+            $("#email_check").text("이메일 형식을 확인하세요.");
             $("#email_check").css("color", "red");
         }
     });
