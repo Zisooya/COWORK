@@ -45,6 +45,7 @@
 								<h4>휴지통</h4>
 							</div>
 							<nav aria-label="breadcrumb" role="navigation">
+							
 								<ol class="breadcrumb">
 									<li class="breadcrumb-item"><a href="mail_list.do">홈</a></li>
 									<li class="breadcrumb-item active" aria-current="page">휴지통</li>
@@ -78,6 +79,7 @@
 						</thead>
 						<tbody>
 							<c:forEach items="${ wasteList }" var="s">
+							<c:if test="${member.mem_name == s.getEml_to() }">
 								<tr>
 									<td scope="row">${ s.eml_no }</td>
 									
@@ -112,6 +114,7 @@
 									
 									<td>${s.create_date }</td>
 								</tr>
+								</c:if>
 							</c:forEach>
 							 
 							
