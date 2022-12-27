@@ -74,11 +74,11 @@ input{
  				<li class="liany"><a href="${ path }/receiveList.do">받은메일함</a></li>
  				<li class="liany"><a href="#">내게쓴메일함</a></li>
  				<li class="liany"><a href="${ path }/sendList.do">보낸메일함</a></li>
- 				<li class="liany"><a href="#">임시저장함</a></li>
- 				<li class="liany"><a href="#">외부메일함</a></li>
+ 				<!-- <li class="liany"><a href="#">임시저장함</a></li>
+ 				<li class="liany"><a href="#">외부메일함</a></li>-->
  			</ul>
  			<ul class="meun">
- 				<li class="liany"><a href="#">스펨메일함</a></li>
+ 				<!--<li class="liany"><a href="#">스펨메일함</a></li>-->
  				<li class="liany"><a href="waste.do">휴지통</a></li>
  			</ul>
  		</div>

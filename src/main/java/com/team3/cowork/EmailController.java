@@ -198,7 +198,14 @@ public class EmailController {
 	@RequestMapping("receiveDelivery.do")
 	public String receiveDelivery(EmailDTO m, HttpServletRequest request,
 			@RequestParam(name = "mno", required = false) int mno, Model model) {
+		
+		MemberDTO mem = (MemberDTO) request.getSession().getAttribute("member");
 
+		// 현재 로그인 된 회원 번호
+		int mem_no = mem.getMem_no();
+
+		System.out.println("로그인한 회원 번호 : " + mem_no);
+		
 		EmailDTO receiveMail = mailService.selectSendMail(mno);
 		
 		//보낸사람
