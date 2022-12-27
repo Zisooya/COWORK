@@ -11,5 +11,6 @@ public class Chat_MessageDTO {
     private String sender; // 메시지 보낸사람
     private String message; // 메시지
     private String send_date;
+    private int message_no;	// 메시지 번호
 	    
 }

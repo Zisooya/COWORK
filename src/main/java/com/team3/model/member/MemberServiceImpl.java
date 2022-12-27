@@ -4,6 +4,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.team3.model.Messenger_NotiDTO;
+
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -53,4 +55,20 @@ public class MemberServiceImpl implements MemberService {
     public int idCheck(String mem_id) {
         return dao.idCheck(mem_id);
     }
+    
+    // 로그인 시 메신저 알림 세션에 저장하기_Jisoo
+	@Override
+	public List<Messenger_NotiDTO> getMemNotiDTO(int mem_no) {
+		return dao.getMemNotiDTO(mem_no);
+	}
+
+	@Override
+	public int getMemNo(String mem_id) {
+		return dao.getMemNo(mem_id);
+	}
+
+	@Override
+	public int getNotiCount(int mem_no) {
+		return dao.getNotiCount(mem_no);
+	}
 }

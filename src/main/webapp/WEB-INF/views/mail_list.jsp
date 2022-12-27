@@ -21,6 +21,7 @@ ul{
 }
 
 .liany{
+	text-align: center;
   	float : left;	
 }
 
@@ -78,14 +79,15 @@ input{
  			</ul>
  			<ul class="meun">
  				<li class="liany"><a href="#">스펨메일함</a></li>
- 				<li class="liany"><a href="#">휴지통</a></li>
+ 				<li class="liany"><a href="waste.do">휴지통</a></li>
  			</ul>
  		</div>
  		</nav>
 		
 		<article id="content">
-			<jsp:include page="mail/list.jsp" />
+			<%-- <jsp:include page="mail/list.jsp" /> --%>
 		</article>
 	</div>
+	<jsp:include page="mail/menubar.jsp" />
 </body>
 </html>

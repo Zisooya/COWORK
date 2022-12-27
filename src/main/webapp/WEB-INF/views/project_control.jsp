@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 
 <jsp:include page="projects_include/link.jsp"/>
-<link href="${path}/resources/css/bootstrap_include.css" rel="stylesheet"/>
+<link href="${path}/resources/css/include.css" rel="stylesheet"/>
 <link href="${path}/resources/css/project/project_control.css" rel="stylesheet"/>
 
 </head>

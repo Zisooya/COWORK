@@ -30,10 +30,22 @@
 	<select id="memberFindId" resultType="String">
 		select mem_id from member where mem_name = #{mem_name} and mem_email = #{mem_email}
 	</select>
-	<update id="memberFindPwd" parameterType="Map">
-		update member set mem_pwd = #{key} where mem_id = #{mem_id} and mem_email = #{mem_email}
+	<update id="updatePwd" parameterType="Map">
+		update member set mem_pwd = '1234' where mem_id = #{mem_id} and mem_email = 'dekadm@naver.com'
 	</update>
 	<select id="idCheck" parameterType="String" resultType="Integer">
 		select count(*) from member where mem_id = #{mem_id}
+	</select>
+	
+	<select id="getMemNotiDTO" parameterType="int" resultType="messengerNotiDto">
+		select * from messenger_noti where mem_no=#{mem_no}
+	</select>
+	
+	<select id="getMemNo" parameterType="String" resultType="int">
+	 	select mem_no from member where mem_id= #{mem_id}
+	</select>
+	
+	<select id="getNotiCount" parameterType="int" resultType="int">
+		select count(*) from messenger_noti where mem_no=#{mem_no} and message_status='unread'
 	</select>
  </mapper> 

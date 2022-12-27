@@ -12,12 +12,9 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/pwe/css/deskhome_header_https_20220921.css">
 <title>Insert title here</title>
-<link href="${path}/resources/css/address.css" rel="stylesheet"/>
-<link href="${path}/resources/css/include.css" rel="stylesheet"/>
+<link href="${path}/resources/css/address.css?" rel="stylesheet"/>
+<link href="${path}/resources/css/include.css?" rel="stylesheet"/>
 <style type="text/css">
-
-.hord { display: table; margin-left: auto; margin-right: auto; }
-
 
 ul{
 	list-style:none;
@@ -25,12 +22,12 @@ ul{
 
 .liany{
 	text-align: center;
-	float : left;
+  	float : left;	
 }
 
 a{
 	text-decoration-line: none;
-	padding: 10px 10px
+	padding: 10px 0px
 }
 
 .mailMap{
@@ -62,36 +59,35 @@ input{
 </head>
 <body>
 	<div id="grid_container">
-	
-		<jsp:include page="../include.jsp" />
 
 		<nav id="side">
  		<div align="center">
  			<label id="side_label">전자메일</label>
  		</div>
- 		<div id="side_menu" style="overflow-y: auto; height: 84%">
+ 		<div id="side_menu" style="overflow-y: auto;">
  			<hr>
- 			<input class="mailMap" type="button" value="메일쓰기" onclick="location.href='send.do'">
+ 				<input class="mailMap" type="button" value="메일쓰기" onclick="location.href='${ path }/send.do'">
+ 				<%-- <input class="" type="button" value="내게쓰기" onclick="#"> --%>
  			<hr>
  			<ul class="meun">
- 				<li class="liany"><a href="mail_list.do">전체메일</a></li>
- 				<li class="liany"><a href="receiveList.do">받은메일함</a></li>
+ 				<li class="liany"><a href="${ path }/mail_list.do">전체메일</a></li>
+ 				<li class="liany"><a href="${ path }/receiveList.do">받은메일함</a></li>
  				<li class="liany"><a href="#">내게쓴메일함</a></li>
- 				<li class="liany"><a href="sendList.do">보낸메일함</a></li>
+ 				<li class="liany"><a href="${ path }/sendList.do">보낸메일함</a></li>
  				<li class="liany"><a href="#">임시저장함</a></li>
  				<li class="liany"><a href="#">외부메일함</a></li>
  			</ul>
- 			<!-- <hr class="add">  -->
  			<ul class="meun">
  				<li class="liany"><a href="#">스펨메일함</a></li>
- 				<li class="liany"><a href="#">휴지통</a></li>
+ 				<li class="liany"><a href="waste.do">휴지통</a></li>
  			</ul>
  		</div>
  		</nav>
 		
 		<article id="content">
-			<jsp:include page="send.jsp"/>
+			<%-- <jsp:include page="mail/list.jsp" /> --%>
 		</article>
-	</div>			
+	</div>
+	<jsp:include page="menubar.jsp" />
 </body>
 </html>

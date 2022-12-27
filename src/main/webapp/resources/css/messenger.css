@@ -27,9 +27,9 @@ input[id *= "popup"] + label + div > div { /* 모달창 */
 	top:56%;
 	left: 50%;
 	transform:translate(-50%,-50%);
-	width: 30%;
+	width: 35%;
 	min-width : 300px;
-	height: 50%;
+	height: 70%;
 	background: #fff;
 	z-index: 200 !important;
 	padding: 30px;
@@ -129,7 +129,7 @@ input[id *= "popup"] + label + div > label { /* 모달창 오픈 시 바탕 */
 
 
 /* 이 위에 삭제할 수도?? */
-
+/* 모달 콘텐츠*/
 #addChatRoomDiv {
 	text-align: left;
 }
@@ -140,56 +140,56 @@ input[id *= "popup"] + label + div > label { /* 모달창 오픈 시 바탕 */
 	margin: 10px 0 5px 0;
 }
 
-.dept_lb {
-	padding: 10px;
+input[id *= "memNo_"]{
+	display: inline-block;
+	width: 18px;
+	height: 18px;
 }
 
-input[id *= "dept_no"] {
-	display: none;
-}
-
-input[id *= "dept_no"] + label {
-	width: auto;
-	height: auto;
+input[id *= "memNo_"] + label {
+	width: clac(100% - 18px);
+	height: 18px;
 	text-align: left;
 	background: none;
 	font-size: 1rem;
-	font-weight: bold;	
+	font-weight: normal;	
+	line-height: 18px;
+	vertical-align: center;
+	padding: 0;
 }
 
-input[id *= "dept_no"] + label::before {
-  content:"";
-  background-image: url(../images/오른쪽화살표.png);
-  background-size: 1.1rem; 
-  width: 1.1rem;
-  height:1.1rem;
-  display:inline-block;  
+.modal_data {
+	display: block;
+	width: 100%;
+	margin: 10px;
 }
 
-input[id *= "dept_no"]:checked + label {
-	color:red;
+#search_box {
+	width: 100%;
+	height: 46px;
+	border-radius: 5px;
+	border: 1px solid #EAEAEA;
+	background-color:#EAEAEA;
+	background-image: url(../images/검색.png);
+	background-size: 25px;
+	background-repeat: no-repeat;
+	background-position: 5px center;
+	box-sizing: border-box;
+	padding: 0 40px;
+	font-size: 1rem;
 }
 
-input[id *= "dept_no"]:checked + label::before {
-  content:"";
-  background-image: url(../images/아래쪽화살표.png);
-  background-size: 1.1rem; 
-  width: 1.1rem;
-  height:1.1rem;
-  display:inline-block;  
+#form_btn {
+	width: 100px;
+	height: 46px;
+	background-color: #7BE66D;
+	color: #FFF;
+	font-size: 1rem;
+	border: 0;
+	border-radius: 5px;
+	box-sizing: border-box;
+	cursor: pointer;
 }
-
-input[id *= "dept_no"] + label + div {
-	margin-left: 40px;
-	width:auto;
-	max-height: 0;
-	overflow: hidden;
-}
-
-input[id *= "dept_no"]:checked + label + div {
-	max-height: 100%;
-}
-
 
 
 
@@ -398,16 +398,100 @@ input[name *= accordion_cb_] {
 	grid-template-rows : 90% 10%;
 }
 
+/* 우측 채팅방 상세 정보 */
 #right_chatRoomDetail{
-	background-color: #E4F7BA;
+	background-color: rgba(228, 247, 186, 0.6);
+	border: 1px solid #EAEAEA;
+	border-radius: 10px;
 	width: 100%;
 	height: 100%;
 	grid-column : 2/3;
 	grid-row : 1/3;	
-	z-index: -1;	
+	padding: 20px 20px 20px 40px;
+	box-sizing: border-box;
+	z-index: 1;	
+}
+
+.detail_div {
+	margin-bottom: 30px;
+}
+
+#detailTitle {
+	width: 100%;
+	height: auto;
+	margin: 10px 0;
+	font-size: 1.1rem;
+	line-height: 1.5rem;
+	vertical-align: center;
+	font-weight: 600;
+}
+
+.detail_btn {
+	width: 30px;
+	height: auto;
+	background: none;
+	border: none;
+	float: right;
+	vertical-align: center;
+}
+
+.detail_btn img {
+	cursor: pointer;
+}
+
+#exit_btn {
+	background: none;
+	border: none;
+	float: right;
+	vertical-align: center;	
+	
+}
+
+#exit_btn img {
+	width: 30px;
+	height: 30px;
+	cursor: pointer;	
+	position: fixed;
+	top: 92%;
+	left: 95%;
+}
+
+.detailChatRoomName{
+	margin-left: 10px;
+	width: 100%;	
+}
+
+.detailCont {
+	width: 100%;
+	height: auto;
+}
+
+.detailMemImg {
+	width: 40px;
+	height: 40px;
+	display: inline-block;
+	margin: 10px 10px 0 10px;
+	border: 1px solid #000;	
+}
+
+.detailMemName {
+	width: auto;
+	height: auto;
+	display: inline-block;
+	font-size: 1rem;
+	vertical-align: bottom;
+}
+
+.detailRank {
+	display:block;
+	color: grey;
+	font-size: 0.8rem;
 }
 
 
+
+
+/* 채팅방 */
 .rightM{
 	display: grid;
 	grid-template-columns : auto 250px;
@@ -499,8 +583,6 @@ input[name *= accordion_cb_] {
 	z-index: -1;		
 }
 
-
-
 .messages_people
 {
 	grid-column : 2/3;
@@ -533,11 +615,6 @@ input[name *= accordion_cb_] {
 	z-index: -1;
 }
 
-
-
-
-
-
 #sideBar_btn{
 	display: none;
 }
@@ -552,6 +629,7 @@ input[name *= accordion_cb_] {
 	left: 78%;
 	cursor: pointer;
 	transition: all 0.4s;
+	z-index: 2;
 }
 
 #sideBar_btn:checked + label img{
@@ -561,3 +639,5 @@ input[name *= accordion_cb_] {
 	left: 95%;	
 	transition: all 0.4s;
 }
+
+

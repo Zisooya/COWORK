@@ -104,12 +104,11 @@
 					<button type="button" onclick="javascript:clearText();">대화내용 지우기</button>	
 					</div>
 				<input type="checkbox" id="sideBar_btn">
-				<label for="sideBar_btn"><img id="sideBar_img" alt="사이드바 버튼" src="${path}/resources/images/사이드바화살표.png"> </label>	
-				<div id="right_chatRoomDetail">
+				<label for="sideBar_btn"><img id="sideBar_img" alt="사이드바 버튼" src="${path}/resources/images/M사이드바화살표.png"> </label>	
 				
+				<div id="right_chatRoomDetail">
+				</div>	
 					
-					
-				</div>		
 			</div>
 		</article>
 	
@@ -168,56 +167,42 @@ $(function(){
 		if($('#popup01').is(':checked')){
 			
 			let mem_no = $('#myNum').val();
-			
 			// DB 채팅방 번호 최댓값 가져오기
 			$.ajax({
 				type: 'POST',
-			//	async : false,
+				async : false,
 				url: '<%=request.getContextPath()%>/messenger_getChatRoomNoMax.do',
 				dataType:'json',
 				data: {"mem_no" : mem_no},
 				success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
 					//chatRoomNoMax
-					let chatRoomNoMax = data;
-					let newChatRoomNo = data + 1;
-					$("#addChatRoomDiv").html("<input name='chat_room_no' type='hidden' value='"+newChatRoomNo+"'>");	
+					let chatRoomNoMaxPlus = data + 1;
+					$("#addChatRoomDiv").html("<input id='newChatRoomNo' name='chat_room_no' type='hidden' value='"+chatRoomNoMaxPlus+"'>");	
 				},
 				error: function(res){ // 응답을 받지 못하였다거나 정상적인 응답이지만 데이터 형식을 확인할 수 없을 때 error 콜백이 호출.
 					alert('ajax 응답 오류');
 				}
 			});	// DB 채팅방 번호 최댓값 조회 $.ajax() end	
 			
-			// 회사 주소록 가져오기
+			let newChatRoomNo = $('#newChatRoomNo').val();
+			
+			// 회사 주소록은 컨트롤러에서 넘겨줌.
 			$.ajax({
-				type: 'POST',
-			//	async : false,
-				dataType:"json",
-				url: '<%=request.getContextPath()%>/messenger_getAllDeptList.do',
-				success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
-				// deptList
-					$('#addChatRoomDiv').append("<div class='modal_title'>대화상대 선택</div>");
-				$.each(data, function(index, DepartmentDTO) {
-					
-					$('#addChatRoomDiv').append("<input id='dept_no"+index+"' type='checkbox' ><label class='dept_lb' for='dept_no"+index+"'>"+DepartmentDTO.dept_name+"</label><div>연락처올자리</div>");
-					
-									
-					});
-				},
-				error: function(res){ // 응답을 받지 못하였다거나 정상적인 응답이지만 데이터 형식을 확인할 수 없을 때 error 콜백이 호출.
-					alert('ajax 응답 오류');
-				}
-			});	// 회사 주소록 조회 $.ajax() end		
-
-			
-			
-		
+				url:"http://"+location.host+"/cowork/newChat.do",
+				type:"post",
+				async : false,
+				datatype:"html",
+				data: {"newChatRoomNo" : newChatRoomNo},
+				success:function(data){
+					$("#addChatRoomDiv").append(data);
+				}	
+			});		
 			
 		}
 		
 	});	// 모달창 오픈 시 이벤트 end
 	
-	
-	
+
 
 	
 });
@@ -231,6 +216,9 @@ $(function(){
     // 웹소켓 연결 요청(핸드쉐이크) 시 실행 함수
     function openSocket(){
     	
+    	// 3초마다 메시지알림 읽음 처리
+    	setInterval(readNoti, 3000);    	
+    	
     	// console.log("현재 채팅방 번호는 ? "+chat_room_no);
     	
         if(ws !== undefined && ws.readyState !== WebSocket.CLOSED ){
@@ -241,9 +229,9 @@ $(function(){
         //웹소켓 객체 만드는 코드
         //cowork는 프로젝트 이름
         //messanger.do 웹소켓 서버단 @ServerEndpoint에 적은 path
-        ws = new WebSocket("ws://localhost:8282/cowork/chat");
-        
-        
+        // location.host => localhost:8282 (현재 내 pc에서)
+        ws = new WebSocket("ws://"+location.host+"/cowork/chat");
+
         
       	//웹 소켓이 서버와 연결되었을 때 호출되는 이벤트
         ws.onopen = function(event){
@@ -258,6 +246,7 @@ $(function(){
             console.log('writeResponse');
             console.log(event.data)
             writeResponse(event.data);
+            
         };
         
       	//웹 소켓이 닫혔을 때 호출되는 이벤트
@@ -269,32 +258,30 @@ $(function(){
         ws.onerror = function(event){
             alert('에러');
         };          
-    }
+    } // openSocket() 함수 end
     
     // 메세지 전송 버튼 클릭 시 실행되는 함수
     function send(){
     	
-    	var today = new Date();
-    	var year = today.getFullYear();
-    	var month = ('0' + (today.getMonth() + 1)).slice(-2);
-    	var day = ('0' + today.getDate()).slice(-2);
-    	var dateString = year + '/' + month  + '/' + day;
-    	
-    	var today = new Date();   
-		var hours = ('0' + today.getHours()).slice(-2); 
-		var minutes = ('0' + today.getMinutes()).slice(-2);
-		var seconds = ('0' + today.getSeconds()).slice(-2); 
-		var timeString = hours + ':' + minutes  + ':' + seconds;
-		
-		let send_date = dateString + " " + timeString;
+		// 현재 날짜 구하는 함수 호출
+		let send_date = getPresentDate();
 		
 		console.log(send_date);	// 2022/12/21 15:47:29
     	
 		let sender = document.getElementById("sender").value;
 		let message = document.getElementById("messageinput").value;
 		let chat_room_no = (document.getElementById("chat_room_no").value).toString();
+
+		// ajax로 DB에 메세지 저장하는 함수 호출=> 저장한 message_no값 반환
+		let message_no = insertChatMessage(chat_room_no, sender, message, send_date);		
 		
-        let text = message+","+sender+","+chat_room_no+","+send_date;
+		// 채팅방 숨겨진 input에 message_no 값 넣어두기
+		document.getElementById("message_no").value = message_no;
+		
+		// 저장된 메세지를 message_noti 테이블에도 저장하는 함수 호출
+		insertNoti();
+		
+        let text = message+","+sender+","+chat_room_no+","+send_date+","+message_no;
      	
         //웹소켓으로 textMessage객체의 값을 보낸다.
         ws.send(text);
@@ -307,9 +294,6 @@ $(function(){
         let messages = document.getElementById("messages");
         messages.scrollTop = messages.scrollHeight;
         
-		// ajax로 DB에 메세지 저장하는 함수 호출
-		insertChatMessage(chat_room_no, sender, message, send_date);
-		
     } // send() 함수 end
     
     
@@ -345,14 +329,13 @@ $(function(){
     	$.ajax({
     		type: 'POST',
     		url :"<%=request.getContextPath()%>/openChatRoom.do",
-    		//async : false,
+    		async : false,
     		dataType:"json",
     		data : {"chat_room_no": chat_room_no},
     		success : function(data){
     			
-    			
     			$('#messages').html("");
-    			$('#messages').append("<input id='chat_room_no' type='hidden' value='"+chat_room_no+"'>");
+    			$('#messages').append("<input id='chat_room_no' type='hidden' value='"+chat_room_no+"'><input id='message_no' type='hidden' value=''>");
 	    		$.each(data, function(index, Chat_MessageDTO) {
 	    			
 	    			if(Chat_MessageDTO.sender===mem_id){
@@ -367,11 +350,77 @@ $(function(){
 	            messages.scrollTop = messages.scrollHeight;
 	            
 	    		openSocket();
+	    		
     		}, 
     		error: function(res){ 
 				alert('ajax 응답 오류');
 			}
     	});   // 채팅방 별 jsp 불러오기 $.ajax() end
+    	
+    	// 우측 사이드바 채팅방 상세 정보 불러오기
+    	// 1. 채팅방 이름 불러오기  	
+    	$.ajax({
+    		type: 'POST',
+    		url :"<%=request.getContextPath()%>/messenger_getChatRoomName.do",
+    		async : false,
+    		dataType:"text",
+    		data : {"chat_room_no": chat_room_no},
+    		success : function(data){
+    			// chatRoomName
+    			let chatRoomName = data;
+    			$('#right_chatRoomDetail').html("");
+    			$('#right_chatRoomDetail').append("<div class='detail_div'><div id='detailTitle'>채팅방 이름<button class='detail_btn' id='edit_btn'><img alt='exit' src='${path}/resources/images/수정.png' style='width:25px; height:25px; '></button></div><div class='detailChatRoomName'>"+chatRoomName+"</div></div>");
+    			
+    		}, 
+    		error: function(res){ 
+				alert('ajax 응답 오류');
+			}
+    	});   // 1. 채팅방 이름 불러오기 $.ajax() end 
+
+    	// 2. 내 정보 불러오기
+    	let myNum = $('#myNum').val(); 
+    	
+    	$.ajax({
+    		type: 'POST',
+    		url :"<%=request.getContextPath()%>/messenger_getMyDTO.do",
+    		async : false,
+    		dataType:"json",
+    		data : {"mem_no": myNum},
+    		success : function(data){
+    			// myDTO
+    			let myDTO = data;
+    			$('#right_chatRoomDetail').append("<div class='detail_div'><div id='detailTitle'>채팅 참여자<button class='detail_btn' id='addParticipant_btn'><img alt='addParticipant' src='${path}/resources/images/추가.png' style='width:28px; height:28px; '></button></div><div class='detailCont'><img class='detailMemImg' src='${path}/resources/mem_upload/"+myDTO.mem_image+"'><div class='detailMemName'>(나) "+myDTO.mem_name+"</div></div>");
+	            
+    		}, 
+    		error: function(res){ 
+				alert('ajax 응답 오류');
+			}
+    	});   // 2. 내 정보 불러오기 $.ajax() end     	
+
+    	// 3. 참여자 정보 불러오기
+    	$.ajax({
+    		type: 'POST',
+    		url :"<%=request.getContextPath()%>/messenger_getParticipantList.do",
+    		async : false,
+    		dataType:"json",
+    		data : {
+    			"chat_room_no" : chat_room_no,
+    			"myNum" : myNum
+    			},
+    		success : function(data){
+    			// participantList
+    			
+	    		$.each(data, function(index, MemberDTO) {
+	    			
+	    			$('#right_chatRoomDetail').append("<div class='detailCont'><img class='detailMemImg' src='${path}/resources/mem_upload/"+MemberDTO.mem_image+"'><div class='detailMemName'>"+MemberDTO.mem_name+"("+MemberDTO.mem_id+")<div class='detailRank'>"+MemberDTO.dept_name+" "+MemberDTO.mem_rank+"</div></div></div></div><button id='exit_btn'><img alt='exit' src='${path}/resources/images/나가기.png'></button>");
+	    			
+	    		});	// $.each() 함수 end
+	            
+    		}, 
+    		error: function(res){ 
+				alert('ajax 응답 오류');
+			}
+    	});   // 3. 참여자 정보 불러오기 $.ajax() end         	
 
     	
 	}	// openChatRoom 함수 end
@@ -381,22 +430,110 @@ $(function(){
 		
 		let sendData = {"chat_room_no":chat_room_no,"sender":sender,"message":message,"send_date":send_date};
 		
+		let message_no;
+		
 		// DB에 메세지 저장 $.ajax()
 		$.ajax({
 			type: 'POST',
 			async : false,
 			url: '<%=request.getContextPath()%>/messenger_insertMessage.do',
 			data:sendData,
+			dataType:"json",
 			success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
-				if(data>0){
-					console.log('db에 메세지 저장 성공');
-				}					
+				// message_no
+				message_no = data;
 			},
 			error: function(res){ // 응답을 받지 못하였다거나 정상적인 응답이지만 데이터 형식을 확인할 수 없을 때 error 콜백이 호출.
 				alert('ajax 응답 오류');
 			}
-		});	// DB에 메세지 저장 $.ajax() end				
+		});	// DB에 메세지 저장 $.ajax() end	
+		
+		return message_no;
+		
+	} // insertChatMessage() 함수 end
+	
+	function insertNoti() {
+		
+		// 현재 날짜 구하는 함수 호출
+		let regdate = getPresentDate();
+		let mem_no = $('#myNum').val(); 
+		let chat_room_no = $('#chat_room_no').val(); 
+		let message_no = $('#message_no').val();		
+		
+		let sendData = {
+				"mem_no":mem_no,
+				"chat_room_no":chat_room_no,
+				"message_no":message_no,
+				"message_status":"unread",
+				"noti_cont":"메세지가 도착했습니다.",
+				"regdate":regdate
+				}
+		
+		// 저장된 메세지를 message_noti 테이블에도 저장하는 $.ajax()
+  		
+		$.ajax({
+			type: 'POST',
+			async : false,
+			url: '<%=request.getContextPath()%>/messenger_insertNoti.do',
+			contentType: "application/json",
+			data: JSON.stringify(sendData),
+			dataType:"json",
+			success: function(data){	// 정상적으로 응답 받았을 경우에는 success 콜백이 호출.
+				// check
+				if(data>0){
+					console.log('성공');
+				}
+			},
+			error: function(res){ // 응답을 받지 못하였다거나 정상적인 응답이지만 데이터 형식을 확인할 수 없을 때 error 콜백이 호출.
+				alert('ajax 응답 오류');
+			}
+		});	// DB에 메세지 저장 $.ajax() end			
+ 		 		
+	} // insertNoti() 함수 end
+	
+	function getPresentDate() {
+    	var today = new Date();
+    	var year = today.getFullYear();
+    	var month = ('0' + (today.getMonth() + 1)).slice(-2);
+    	var day = ('0' + today.getDate()).slice(-2);
+    	var dateString = year + '/' + month  + '/' + day;
+    	
+    	var today = new Date();   
+		var hours = ('0' + today.getHours()).slice(-2); 
+		var minutes = ('0' + today.getMinutes()).slice(-2);
+		var seconds = ('0' + today.getSeconds()).slice(-2); 
+		var timeString = hours + ':' + minutes  + ':' + seconds;
+		
+		let present = dateString + " " + timeString;
+		
+		return present;
 	}
+
+    // 메세지 읽음 처리하는 함수
+   	function readNoti() {
+    	
+    	let myNum = $('#myNum').val();
+    	let chat_room_no = $('#chat_room_no').val();
+		let sendData = {"mem_no": myNum, "chat_room_no":chat_room_no}
+		
+    	$.ajax({
+    		type: 'POST',
+    		url :"<%=request.getContextPath()%>/messenger_readNoti.do",
+    		async : false,
+    		contentType: "application/json",
+    		dataType:"json",
+    		data: JSON.stringify(sendData),
+    		success : function(data){
+    			// check
+    		}, 
+    		error: function(res){ 
+				alert('ajax 응답 오류');
+			}
+    	});   // 알림 숫자 영역 새로고침 $.ajax() end 
+	} // readNoti() 함수 end	
+
+
+
  
 </script>	
 </body>

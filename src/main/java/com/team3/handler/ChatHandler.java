@@ -90,27 +90,25 @@ public class ChatHandler {
 		System.out.println("메세지 >>> " + message );
 		
 		String[] messageArr = message.split(",");
-		//System.out.println(messageArr[0]);
-		//System.out.println(messageArr[1]);
-		//System.out.println(messageArr[2]);
-		//System.out.println(messageArr[3]);
-		
 		
 		//String sender = message.split(",")[1];
 		//message = message.split(",")[0];		
 		
 		String sender = messageArr[1];
 		message = messageArr[0];
-		int chat_room_no = Integer.parseInt(messageArr[2]);
+		//int chat_room_no = Integer.parseInt(messageArr[2]);
 		String send_date = messageArr[3];
+		//int message_no = Integer.parseInt(messageArr[4]);
 		
+/*		
 		System.out.println("sender>>>"+sender);
 		System.out.println("message>>>"+message);
 		System.out.println("chat_room_no>>>"+chat_room_no);
 		System.out.println("send_date>>>"+send_date);
+		System.out.println("message_no>>>"+message_no);
+*/		
 		
 		log.info("Message From " + sender + ": " + message);
-		
 		
 		try {
 			final Basic basic = session.getBasicRemote();

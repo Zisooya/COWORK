@@ -1,15 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
-<!DOCTYPE html>
+<%@ page pageEncoding="UTF-8"  %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
+<!DOCTYPE HTML>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>X-Normal GroupWare Solution</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>보낸메일함</title>
+<link href="${path}/resources/css/include.css" rel="stylesheet"/>
 <style type="text/css">
 #pagingArea{width:fit-content;margin:auto;}
 #mailList>tbody>tr:hover {
@@ -19,12 +16,18 @@
 	color: blue;
 }
 </style>
-
 </head>
 <body>
-
-<jsp:include page="../include.jsp" />
-
+	<div id="grid_container">
+	
+		<jsp:include page="../include.jsp" />
+	
+		<nav id="side">
+			<jsp:include page="Topmenubar.jsp" />
+		</nav>
+	
+		<article id="content">
+			
 <c:if test="${ !empty msg }">
 	<script>
 		swal("${msg}")
@@ -75,7 +78,7 @@
 						<tbody>
 							<c:forEach items="${ sendList }" var="s">
 								<tr>
-									<td scope="row">${ s.mailNo }</td>
+									<td scope="row">${ s.eml_no }</td>
 									
 									<c:choose>
 										<c:when test="${s.importantFlag == '1'}">
@@ -87,7 +90,7 @@
 									</c:choose>
 									
 									<c:choose>
-										<c:when test="${s.readCount == '0'}">
+										<c:when test="${s.read_count == '0'}">
 											<td><i class="icon-copy ion-ios-email"></i></td>
 										</c:when>
 										<c:otherwise>
@@ -97,7 +100,7 @@
 									
 									<td>${s.eml_to }</td>
 									<td>${s.eml_title }</td>
-									<td>${s.read_count }</td>
+									<td>${s.create_date }</td>
 								</tr>
 							</c:forEach>
 							 
@@ -106,48 +109,13 @@
 					</table>
 					
 					</div>
-					
-				<!-- 페이징 처리 부분 -->
-				<div id="pagingArea">
-				<nav aria-label="Page navigation example" class="hord1">
-				  <ul class="pagination">
-				    <li class="page-item">
-				    <c:if test="${paging.getPage() > paging.getBlock() }">
-				    
-				      <a class="page-link" href="mail_list.do?page=${paging.getStartBlock() - 1 }" aria-label="◀">
-				        <span aria-hidden="true">&laquo;</span>
-				      </a>
-				      </c:if>
-				    
-				    <c:forEach begin="${paging.getStartBlock() }" end="${paging.getEndBlock() }" var="i">
-				    
-				    </li>
-				    <c:if test="${i == paging.getPage() }">
-				    <li class="page-item"><a class="page-link" href="mail_list.do?page=${i }">${i }</a></li>
-				    </c:if>
-				    <c:if test="${i != paging.getPage() }">
-				    <li class="page-item"><a class="page-link" href="mail_list.do?page=${i }">${i }</a></li>
-				    </c:if>
-				    
-				    </c:forEach>
-				    	
-				    <li class="page-item">
-				    	<c:if test="${paging.getEndBlock() < paging.getAllPage() }">
-				      <a class="page-link" href="mail_list.do?page=${paging.getEndBlock() + 1 }" aria-label="▶">
-				        <span aria-hidden="true">&raquo;</span>
-				      </a>
-				      </c:if>
-				    </li>
-				  </ul>
-				</nav>
-				</div>	
-										
-				<!-- 페이징 시작 							
+								
+				<!-- 페이징 시작 -->							
 				 <div id="pagingArea">
                 <ul class="pagination">
                 	<c:choose>
                 		<c:when test="${ pi.currentPage ne 1 }">
-                			<li class="page-item"><a class="page-link" href="sendList.ml?currentPage=${ pi.currentPage-1 }">이전</a></li>
+                			<li class="page-item"><a class="page-link" href="sendList.do?currentPage=${ pi.currentPage-1 }">이전</a></li>
                 		</c:when>
                 		<c:otherwise>
                 			<li class="page-item disabled"><a class="page-link" href="">이전</a></li>
@@ -157,7 +125,7 @@
                     <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
                     	<c:choose>
 	                		<c:when test="${ pi.currentPage ne p }">
-                    			<li class="page-item"><a class="page-link" href="sendList.ml?currentPage=${ p }">${ p }</a></li>
+                    			<li class="page-item"><a class="page-link" href="sendList.do?currentPage=${ p }">${ p }</a></li>
 	                		</c:when>
 	                		<c:otherwise>
 	                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -168,34 +136,31 @@
                     
                     <c:choose>
                 		<c:when test="${ pi.currentPage ne pi.maxPage }">
-                			<li class="page-item"><a class="page-link" href="sendList.ml?currentPage=${ pi.currentPage+1 }">다음</a></li>
+                			<li class="page-item"><a class="page-link" href="sendList.do?currentPage=${ pi.currentPage+1 }">다음</a></li>
                 		</c:when>
                 		<c:otherwise>
-                			<li class="page-item disabled"><a class="page-link" href="sendList.ml?currentPage=${ pi.currentPage+1 }">다음</a></li>
+                			<li class="page-item disabled"><a class="page-link" href="sendList.do?currentPage=${ pi.currentPage+1 }">다음</a></li>
                 		</c:otherwise>
                 	</c:choose>
-                </ul>    -->
+                </ul>
             <!-- 페이징끝 --> 
             </div>
 			</div>
-									
-									
-				<!-- basic table  End -->
-				
-				</div>
-				</div>
-				</div>
-			
-<script>
-$(function(){
-	$(".mailList tbody tr").click(function(){
-		location.href="sendDetail.ml?mno=" + $(this).children().eq(0).text();
-	});
-});
-</script>
-			
-			
-
-
+							
+		<!-- basic table  End -->
+		
+		</div>
+		</div>
+		</div>
+		<script>
+		$(function(){
+			$(".mailList tbody tr").click(function(){
+				location.href="sendDetail.do?mno=" + $(this).children().eq(0).text();
+			});
+		});
+		</script>
+		</article>
+	</div>
+	<%--  <jsp:include page="menubar.jsp" /> --%>
 </body>
 </html>

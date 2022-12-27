@@ -92,7 +92,7 @@
                 location.replace("${path}/");
             },
             error: function () {
-                alert('입력정보가 일치하지 않습니다.');
+                alert('데이터 통신 오류');
                 location.replace("${path}/");
             }
         });

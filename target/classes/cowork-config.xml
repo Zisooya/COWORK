@@ -30,6 +30,7 @@
 		<typeAlias type="com.team3.model.Chat_RoomDTO" alias="chatRoomDto"/>
 		<typeAlias type="com.team3.model.Chat_MemberDTO" alias="chatMemberDto"/>
 		<typeAlias type="com.team3.model.Chat_MessageDTO" alias="chatMessageDto"/>
+		<typeAlias type="com.team3.model.Messenger_NotiDTO" alias="messengerNotiDto"/>
 		
 		
 	
@@ -43,10 +44,11 @@
 		<typeAlias type="com.team3.model.ProjectsDTO" alias="projectsdto"/>
 		<typeAlias type="com.team3.model.Main_ProjectsDTO" alias="maindto"/>
 		<typeAlias type="com.team3.model.Projects_statusDTO" alias="statusdto"/>
+		<typeAlias type="com.team3.model.Project_CommentDTO" alias="commentdto"/>
 		<typeAlias type="com.team3.model.PageDTO" alias="pagedto"/>
 		
 		<!-- *************** 귀근 *************** -->
-		<typeAlias type="com.team3.model.EmailDAO" alias="emailDao"/>
+		<typeAlias type="com.team3.model.EmailService" alias="emailDao"/>
 		<typeAlias type="com.team3.model.EmailDTO" alias="emailDto"/>
 	</typeAliases>
 
