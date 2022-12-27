@@ -270,14 +270,14 @@
 	<!-- 보낸 메일 영구삭제 -->
 	<update id="updateWriter" parameterType="_int">
 		UPDATE EMAIL
-		SET WRITER_STATUS=3
+		SET WRITER_STATUS=2
 		WHERE EML_NO=#{mno}
 	</update>
 	
 	<!-- 받은 메일 영구삭제 -->
 	<update id="updateReceiver" parameterType="_int">
 		UPDATE EMAIL
-		SET RECEIVER_STATUS=3
+		SET RECEIVER_STATUS=2
 		WHERE EML_NO=#{mno}
 	</update>
 	
