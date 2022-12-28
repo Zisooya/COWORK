@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="${path}/resources/css/address.css" rel="stylesheet"/>
+<%-- <link href="${path}/resources/css/address.css" rel="stylesheet"/> --%>
 <link href="${path}/resources/css/include.css" rel="stylesheet"/>
 <title>Insert title here</title>
 </head>
