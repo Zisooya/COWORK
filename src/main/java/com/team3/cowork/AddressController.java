@@ -117,10 +117,8 @@ public class AddressController {
 	DateTimeFormatter dtf = DateTimeFormatter.ofPattern(FORMAT_YYYYMMDD);
 	
 	// 2) DateTimeFormatter 를 이용하여 현재 날짜를 포맷에 맞게 파싱해준다. ex) 2021/06/25
-	String contextPath = request.getContextPath();
-	System.out.println("contextPath >> "+contextPath);
 	// 상대 경로 설정 수정 더 해야함
-    String basePath = "C:\\upload";
+    String basePath = "C:\\Users\\VVIP\\Documents\\GitHub\\COWORK\\src\\main\\webapp\\resources\\";
     String todayPath = LocalDateTime.now().format(dtf);
     
     // 3) BasePath 와 현재 날짜를 합친 Path 객체 생성

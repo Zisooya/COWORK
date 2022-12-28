@@ -42,6 +42,7 @@
  			let project_name = $(".project_name").text();
 			 $("#Project_content").load(href1, function() {
 		            $("#Project_content").modal("show");
+		            $("#Project_content").attr("alt",1);
 		            $('#form-control').focus();
 		      });
  		})

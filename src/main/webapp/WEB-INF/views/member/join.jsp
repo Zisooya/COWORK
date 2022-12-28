@@ -38,7 +38,6 @@
             width: 200px;
             height: 200px;
             margin-top: 20px;
-            margin: 0 auto;
             border-radius: 50%;
             border: solid 1px #ced4da;
         }
@@ -47,7 +46,6 @@
             margin-top: 20px;
             width: 200px;
             height: 200px;
-            margin: 0 auto;
             border-radius: 50%;
             border: solid 1px #ced4da;
             display: none;
@@ -92,74 +90,39 @@
     </div>
 
     <div class="col-sm-6 col-md-offset-3">
-        <form
-                action="${ path }/member_join_ok.do"
-                method="post"
-                role="form"
-                enctype="multipart/form-data"
-                id="user_check"
-                name="member"
-        >
+        <form action="${ path }/member_join_ok.do" method="post" role="form" enctype="multipart/form-data" id="user_check" name="member">
             <div class="form-group">
                 <label for="mem_id">아이디</label>
-                <input type="text" class="form-control" id="mem_id" name="mem_id" />
+                <input type="text" class="form-control" id="mem_id" name="mem_id">
                 <div class="check_font" id="id_check"></div>
             </div>
 
             <div class="form-group">
                 <label for="mem_pwd">비밀번호</label>
-                <input
-                        type="password"
-                        class="form-control"
-                        id="mem_pwd"
-                        name="mem_pwd"
-                />
+                <input type="password" class="form-control" id="mem_pwd" name="mem_pwd">
                 <div class="check_font" id="pwd_check"></div>
             </div>
 
             <div class="form-group">
                 <label for="mem_pwd2">비밀번호 확인</label>
-                <input
-                        type="password"
-                        class="form-control"
-                        id="mem_pwd2"
-                        name="mem_pwd2"
-                />
+                <input type="password" class="form-control" id="mem_pwd2" name="mem_pwd2">
                 <div class="check_font" id="pwd2_check"></div>
             </div>
 
             <div class="form-group">
                 <label for="mem_name">이름</label>
-                <input
-                        type="text"
-                        class="form-control"
-                        id="mem_name"
-                        name="mem_name"
-                />
-                <%--<div class="check_font" id="name_check"></div>--%>
+                <input type="text" class="form-control" id="mem_name" name="mem_name">
             </div>
 
             <div class="form-group">
                 <label for="mem_email">이메일 주소</label>
-                <input
-                        type="email"
-                        class="form-control"
-                        id="mem_email"
-                        name="mem_email"
-                />
+                <input type="email" class="form-control" id="mem_email" name="mem_email">
                 <div class="check_font" id="email_check"></div>
             </div>
 
             <div class="form-group">
                 <label for="mem_phone">휴대폰 번호</label>
-                <input
-                        type="tel"
-                        class="form-control"
-                        id="mem_phone"
-                        name="mem_phone"
-                        maxlength="13"
-                        placeholder="'-'없이 번호만 입력해주세요"
-                />
+                <input type="tel" class="form-control" id="mem_phone" name="mem_phone" maxlength="13" placeholder="'-'없이 번호만 입력해주세요">
                 <div class="check_font" id="phone_check"></div>
             </div>
 
@@ -209,7 +172,7 @@
             <div class="form-group">
                 <label for="mem_image">대표 이미지</label>
                 <div id="img_box">
-                    <img id="preview" src="resources/images/로그인_전_프로필.png">
+                    <img id="preview" src="resources/images/로그인_전_프로필.png" alt="기본 이미지">
                     <canvas id="canvas"></canvas>
                 </div>
                 <br>
@@ -228,14 +191,11 @@
     // 모든 공백 체크 정규식
     let memJ = /\s/g;
     // 아이디 정규식
-    let idJ = /^[a-z0-9][a-z0-9_\-]{4,19}$/;
+    let idJ = /^[0-9a-zA-Z][0-9a-zA-Z]{5,19}$/;
     // 비밀번호 정규식
-    let pwJ = /^[A-Za-z0-9]{4,12}$/;
-    /*// 이름 정규식
-    let nameJ = /^[가-힣]{2,4}|[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;*/
+    let pwJ = /^[0-9a-zA-Z][0-9a-zA-Z]{3,15}$/;
     // 이메일 검사 정규식
-    let mailJ =
-        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    let mailJ = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     // 휴대폰 번호 정규식
     let phoneJ = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
 
@@ -245,7 +205,7 @@
             $("#id_check").text("아이디를 입력하세요.");
             $("#id_check").css("color", "red");
         } else if (idJ.test($("#mem_id").val()) !== true) {
-            $("#id_check").text("4~12자리의 영문, 숫자만 사용 가능합니다.");
+            $("#id_check").text("6~20 자리의 영문, 숫자만 사용 가능합니다.");
             $("#id_check").css("color", "red");
         } else if ($("#mem_id").val() !== "") {
             let mem_id = $("#mem_id").val();
@@ -273,7 +233,7 @@
                             $("#user_check").attr("disabled", true);
                         } else {
                             $("#id_check").text(
-                                "아이디는 영문 소문자와 숫자 4~12자리만 가능합니다."
+                                "6~20 자리의 영문, 숫자만 사용 가능합니다."
                             );
                             $("#id_check").css("color", "red");
                             $("#user_check").attr("disabled", true);
@@ -297,31 +257,20 @@
             return false;
         }
         // 비밀번호가 같은 경우 && 비밀번호 정규식
-        if (
-            $("#mem_pwd").val() === $("#mem_pwd2").val() &&
-            pwJ.test($("#mem_pwd").val())
-        ) {
+        if ($("#mem_pwd").val() === $("#mem_pwd2").val() && pwJ.test($("#mem_pwd").val())) {
             in_val_arr[1] = true;
         } else {
             in_val_arr[1] = false;
             alert("비밀번호를 확인하세요.");
             return false;
         }
-        /*// 이름 정규식
-        if (nameJ.test($("#mem_name").val())) {
-            in_val_arr[2] = true;
-        } else {
-            in_val_arr[2] = false;
-            alert("이름을 확인하세요.");
-            return false;
-        }*/
         // 이메일 정규식
         if (mailJ.test($("#mem_email").val())) {
             console.log(phoneJ.test($("#mem_email").val()));
             in_val_arr[2] = true;
         } else {
             in_val_arr[2] = false;
-            alert("이메일을 확인하세요.");
+            alert("이메일 양식을 확인하세요.");
             return false;
         }
         // 휴대폰번호 정규식
@@ -354,9 +303,7 @@
             $("#id_check").text("");
         } else {
             console.log("false");
-            $("#id_check").text(
-                "5~20자리의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다."
-            );
+            $("#id_check").text("6~20 자리의 영문, 숫자만 사용 가능합니다.");
             $("#id_check").css("color", "red");
         }
     });
@@ -367,7 +314,7 @@
             $("#pwd_check").text("");
         } else {
             console.log("false");
-            $("#pwd_check").text("4~12자리의 숫자, 문자만 사용 가능합니다.");
+            $("#pwd_check").text("4~16 자리의 영문, 숫자만 사용 가능합니다.");
             $("#pwd_check").css("color", "red");
         }
     });
@@ -382,24 +329,11 @@
         }
     });
 
-    /*// 이름에 특수문자 들어가지 않도록 설정
-    $("#mem_name").blur(function () {
-        if (nameJ.test($(this).val())) {
-            console.log(nameJ.test($(this).val()));
-            $("#name_check").text("");
-        } else {
-            $("#name_check").text(
-                "한글 2~4자 이내로 입력하세요. (특수기호, 공백 사용 불가)"
-            );
-            $("#name_check").css("color", "red");
-        }
-    });*/
-
     $("#mem_email").blur(function () {
         if (mailJ.test($(this).val())) {
             $("#email_check").text("");
         } else {
-            $("#email_check").text("이메일 양식을 확인해주세요.");
+            $("#email_check").text("이메일 양식을 확인하세요.");
             $("#email_check").css("color", "red");
         }
     });
@@ -407,24 +341,19 @@
     // 휴대전화
     $("#mem_phone").blur(function () {
         if (phoneJ.test($(this).val())) {
-            console.log(nameJ.test($(this).val()));
             $("#phone_check").text("");
         } else {
-            $("#phone_check").text("휴대폰번호를 확인해주세요 ");
+            $("#phone_check").text("휴대폰 번호를 확인하세요.");
             $("#phone_check").css("color", "red");
         }
     });
 
     function uploadImgPreview() {
-
         let fileInfo = document.getElementById("mem_image").files[0];
-
         let reader = new FileReader();
 
         reader.onload = function () {
-
             document.getElementById("preview").src = reader.result;
-
             $("#preview").hide();
 
             let tempImage = new Image();
@@ -432,38 +361,21 @@
             tempImage.src = reader.result;
 
             tempImage.addEventListener("load", function () {
-
                 $("#canvas").show();
 
                 let canvas = document.getElementById("canvas");
-
                 let canvasContext = canvas.getContext("2d");
 
                 canvas.width = 240;
-
                 canvas.height = 300;
 
-                canvasContext.drawImage(
-                    this,
-
-                    -10,
-
-                    -10,
-
-                    270,
-
-                    330
-                );
+                canvasContext.drawImage(this, -10, -10, 270, 330);
 
                 canvasContext.stroke();
-
-                let dataURI = canvas.toDataURL("image/jpeg");
             });
         };
 
         if (fileInfo) {
-            console.log("INDEX #01");
-
             reader.readAsDataURL(fileInfo);
         }
     }

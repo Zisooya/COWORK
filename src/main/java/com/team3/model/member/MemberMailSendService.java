@@ -11,12 +11,11 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 @Service
 @Slf4j
-public class UserMailSendService {
+public class MemberMailSendService {
 
     @Autowired
     private JavaMailSender mailSender;
@@ -36,7 +35,7 @@ public class UserMailSendService {
         MimeMessage mail = mailSender.createMimeMessage();
         String htmlStr = "<div style=\"width:100%; min-width:690px; height:auto; margin:0; padding:50px 0px; box-sizing:border-box; background:#f4f4f7; font-family: 'Noto Sans KR', sans-serif;\">\n" +
                 "    <div style=\"width:690px; height:auto; margin:0 auto;\">\n" +
-                "        <div align=\"center\" style=\"width:548px; height:auto; margin:0; padding:60px 70px; background:#fff; border-left:1px solid #f4f4f7; border-right:1px solid #f4f4f7;\"><p style=\"font-size:18px; font-weight:700; color:#000; line-height:1; letter-spacing:-0.075em; margin-bottom:9px;\">&nbsp;회원님의 임시 비밀번호는&nbsp;<span style=\"color:#ff3c00;\">" + key + "</span>&nbsp;입니다.</p>\n" +
+                "        <div align=\"center\" style=\"width:548px; height:auto; margin:0; padding:60px 70px; background:#fff; border-left:1px solid #f4f4f7; border-right:1px solid #f4f4f7;\"><p style=\"font-size:18px; font-weight:700; color:#000; line-height:1; letter-spacing:-0.075em; margin-bottom:9px;\">" + name + "&nbsp;회원님의 임시 비밀번호는&nbsp;<span style=\"color:#ff3c00;\">" + key + "</span>&nbsp;입니다.</p>\n" +
                 "            <p style=\"font-size:15px; font-weight:400; color:#000; line-height:1.7; letter-spacing:-0.075em; margin:0;\">안내드린 정보로 접속하신 후 비밀번호를 변경하세요.<br>더욱 편리한 COWORK 서비스를 제공하기 위해 최선을 다하겠습니다.</p>\n" +
                 "            <a href=\"http://localhost:8888/\" style=\"font-size:15px; font-weight:500; letter-spacing:-0.075em; text-decoration:none; color:#fff; background:#7BE66D; padding:13px 29px 15px; border-radius:50px; display:inline-block; margin:28px 0 0;\" rel=\"noreferrer noopener\">로그인 페이지로 이동하기</a>\n" +
                 "            <div style=\"width:100%; height:1px; background:#e9e9eb; margin:45px 0 38px\">\n" +
