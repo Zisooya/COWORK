@@ -152,6 +152,9 @@ $(function(){
         	checkedMemArr.push($(this).val());
         });
         
+        // 마지막 인덱스에 내 회원번호도 배열에 저장
+        checkedMemArr.push(myNum);
+        
         var objParams = {
                 "checkedMemArr" : checkedMemArr, //체크된 멤버 배열 저장
                 "chat_room_no" : chat_room_no,
@@ -169,7 +172,7 @@ $(function(){
             data:objParams,
             success:function(data){
 					// newChatRoomNo
-					alert("새로운 채팅방"+data);
+					alert("새로운 채팅이 생성되었습니다.");
             },
             error:function(request, status, error){
                 console.log("AJAX 에러");

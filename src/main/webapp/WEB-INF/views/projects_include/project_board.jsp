@@ -135,6 +135,7 @@
 	</div>
 <input type="hidden" class="status_count" value="${count1 }">
 <div id="Project_content" class="modal" tabindex="-1">
+<input type="hidden" name="modal" value="1">
 </div>
 </body>
 </html>

@@ -198,31 +198,31 @@ $(function(){
 					table += "<div id='popover-heading1' class='hide_1'>";
 				    table += "<img id='member1' class='img' src='resources/image/project_man.png' width='60' height='50'>"+member;
 				    table += "<input type='hidden' id='heading1_mem' value="+member+"></div><div id='popover-body1' class='hide_1'>";
-					table += "<a href='#'>회원 정보 보기</a><hr><a href='#' id='except1'>프로젝트 제외하기</a></div>";
+					table += "<a href='#' id='except1'>프로젝트 제외하기</a></div>";
 				}else if($("#taker2").text() == ""){
 					table += "&nbsp;<button id='taker2' class='popoverThis btn btn-large btn-secondary'>"+member+"</button>";
 					table += "<div id='popover-heading2' class='hide_1'>";
 				    table += "<img id='member2' class='img' src='resources/image/project_man.png' width='60' height='50'>"+member;
 				    table += "<input type='hidden' id='heading2_mem' value="+member+"></div><div id='popover-body2' class='hide_1'>";
-					table += "<a href='#'>회원 정보 보기</a><hr><a href='#' id='except2'>프로젝트 제외하기</a></div>";
+					table += "<a href='#' id='except2'>프로젝트 제외하기</a></div>";
 				}else if($("#taker3").text() == ""){
 					table += "&nbsp;<button id='taker3' class='popoverThis btn btn-large btn-secondary'>"+member+"</button>";
 					table += "<div id='popover-heading3' class='hide_1'>";
 				    table += "<img id='member3' class='img' src='resources/image/project_man.png' width='60' height='50'>"+member;
 				    table += "<input type='hidden' id='heading3_mem' value="+member+"></div><div id='popover-body3' class='hide_1'>";
-					table += "<a href='#'>회원 정보 보기</a><hr><a href='#' id='except3'>프로젝트 제외하기</a></div>";
+					table += "<a href='#' id='except3'>프로젝트 제외하기</a></div>";
 				}else if($("#taker4").text() == ""){
 					table += "&nbsp;<button id='taker4' class='popoverThis btn btn-large btn-secondary'>"+member+"</button>";
 					table += "<div id='popover-heading4' class='hide_1'>";
 				    table += "<img id='member4' class='img' src='resources/image/project_man.png' width='60' height='50'>"+member;
 				    table += "<input type='hidden' id='heading4_mem' value="+member+"></div><div id='popover-body4' class='hide_1'>";
-					table += "<a href='#'>회원 정보 보기</a><hr><a href='#' id='except4'>프로젝트 제외하기</a></div>";
+					table += "<a href='#' id='except4'>프로젝트 제외하기</a></div>";
 				}else if($("#taker5").text() == ""){
 					table += "&nbsp;<button id='taker5' class='popoverThis btn btn-large btn-secondary'>"+member+"</button>";
 					table += "<div id='popover-heading5' class='hide_1'>";
 				    table += "<img id='member5' class='img' src='resources/image/project_man.png' width='60' height='50'>"+member;
 				    table += "<input type='hidden' id='heading5_mem' value="+member+"></div><div id='popover-body5' class='hide_1'>";
-					table += "<a href='#'>회원 정보 보기</a><hr><a href='#' id='except5'>프로젝트 제외하기</a></div>";
+					table += "<a href='#' id='except5'>프로젝트 제외하기</a></div>";
 				}
 				$(".project_taker").append(table);
 				$(".hide").hide();
@@ -552,13 +552,21 @@ $(function(){
 			datatype : "text",
 			success : function(dto){
 	         table = "";
-				table += "<div class='project_comments' id="+comment_no+">";
 	         	table += "<div class='asdasd'> <div class='comment_header'>";
 		        table += "<b>"+mem_name+"님 &nbsp;&nbsp; 방금 </b></div>";
-		        table += "<div class='comment_body'> <p class='comment_comment'>"+comment+"</p> </div>";
-				table += "<div class='comment_edit'> <a href='#'>수정하기</a> &nbsp; <a class='comment_remove' href='#' id="+comment_no+" >삭제하기</a>";
-				table += "<br> </div>";
+		        table += "<div class='comment_body'> <p class='comment_comment'>"+comment+"</p>";
+		        table += "<div class='control3'> <textarea class='textarea comment3' cols='80%' rows='2' onkeydown='resize(this)' onkeyup='resize(this)''>"+comment+"</textarea>";
+     			table += "<input type='button' id="+comment_no+" class='btn btn-primary child3' value='저장'> </div>";
+				table += "<div class='comment_edit'> <a href='#' class='comment_edit' id="+comment_no+">수정하기</a> &nbsp; <a class='comment_remove' href='#' id="+comment_no+" >삭제하기</a>";
+				table += "<br>";
 				$(".project_comments").prepend(table);
+				console.log("asd");
+				$(".comment3").css({'border':'1px solid gray'});
+				$(".comment3").css({'border-style':'none'});
+		    	$(".control3").css({'border-color':'lightgray'})
+				$(".control3").css({'border-style':'none'});
+				$(".child3").hide(100); 
+				$(".comment3").hide();
 			},
 			error : function(dto){
 				alert('데이터 통신 오류');
@@ -577,7 +585,6 @@ $(function(){
 					},
 			datatype : "text",
 			success : function(){
-				alert("삭제되었습니다.")
 				div_no1.remove();
 			},
 			error : function(){
@@ -750,7 +757,7 @@ $(function(){
 						    	</c:forEach>
 							</div>
 							<div id="popover-body1" class="hide_1">
-								<a href="#">회원 정보 보기</a><hr><a href="#" id="except1">프로젝트 제외하기</a>
+								<a href="#" id="except1">프로젝트 제외하기</a>
 							</div>
 						</c:if>
 						
@@ -767,7 +774,7 @@ $(function(){
 						    	</c:forEach>
 							</div>
 							<div id="popover-body2" class="hide_1">
-								<a href="#">회원 정보 보기</a><hr><a href="#" id="except2">프로젝트 제외하기</a>
+								<a href="#" id="except2">프로젝트 제외하기</a>
 							</div>
 						</c:if>
 						
@@ -784,7 +791,7 @@ $(function(){
 						    	</c:forEach>
 							</div>
 							<div id="popover-body3" class="hide_1">
-								<a href="#">회원 정보 보기</a><hr><a href="#" id="except3">프로젝트 제외하기</a>
+								<a href="#" id="except3">프로젝트 제외하기</a>
 							</div>
 						</c:if>
 						
@@ -801,7 +808,7 @@ $(function(){
 						    	</c:forEach>
 							</div>
 							<div id="popover-body4" class="hide_1">
-								<a href="#">회원 정보 보기</a><hr><a href="#" id="except4">프로젝트 제외하기</a>
+								<a href="#" id="except4">프로젝트 제외하기</a>
 							</div>
 						</c:if>
 						
@@ -818,7 +825,7 @@ $(function(){
 						    	</c:forEach>
 							</div>
 							<div id="popover-body5" class="hide_1">
-								<a href="#">회원 정보 보기</a><hr><a href="#" id="except5">프로젝트 제외하기</a>
+								<a href="#" id="except5">프로젝트 제외하기</a>
 							</div>
 						</c:if>
 					</div>
@@ -947,8 +954,6 @@ $(function(){
 		    	</c:forEach>
 		    </div>
 		    <div class="popover-body1">
-		    	<a href="#">회원 정보 보기</a>
-		    	<hr>
 		    	<a href="#" id="except1">
 		    		프로젝트 제외하기
 		    	</a>
@@ -963,8 +968,6 @@ $(function(){
 		    	</c:forEach>
 		    </div>
 		    <div class="popover-body2">
-		    	<a href="#">회원 정보 보기</a>
-		    	<hr>
 		    	<a href="#" id="except2">
 		    		프로젝트 제외하기
 		    	</a>
@@ -979,8 +982,6 @@ $(function(){
 		    	</c:forEach>
 		    </div>
 		    <div class="popover-body3">
-		    	<a href="#">회원 정보 보기</a>
-		    	<hr>
 		    	<a href="#" id="except3">
 		    		프로젝트 제외하기
 		    	</a>
@@ -995,8 +996,6 @@ $(function(){
 		    	</c:forEach>
 		    </div>
 		    <div class="popover-body4">
-		    	<a href="#">회원 정보 보기</a>
-		    	<hr>
 		    	<a href="#" id="except4">
 		    		프로젝트 제외하기
 		    	</a>
@@ -1011,8 +1010,6 @@ $(function(){
 		    	</c:forEach>
 		    </div>
 		    <div class="popover-body5">
-		    	<a href="#">회원 정보 보기</a>
-		    	<hr>
 		    	<a href="#" id="except5">
 		    		프로젝트 제외하기
 		    	</a>
