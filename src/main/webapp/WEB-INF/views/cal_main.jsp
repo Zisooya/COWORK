@@ -105,9 +105,11 @@
 				endTime_add.style.display = 'inline';
 			}
 		} */
+		
+		/* 검색 버튼 클릭 함수
 		moreBtn_search.onclick = function() {
 			
-		}
+		} */
 		
 		//close 버튼 클릭 시 모달창 닫힘 함수
 		closeBtn_detail.onclick = function() {
@@ -998,18 +1000,16 @@ html, body {
 			<label id="side_label">캘린더</label>
 			<div id="side_menu" style="overflow-y: auto;">
 				<input type="button" id="eventAdd_btn" value="일정 추가">
-				<!-- 일정 검색 -->
+				<%-- <!-- 일정 검색 -->
 				<form method="post" action="<%=request.getContextPath()%>/calendar_search.do" class="search-form" id="search_form">
 					<input id="search_input" name="keyword" class="form-control" type="text" placeholder="검색어를 입력하세요.">
 					<button type="button" class="btn btn-outline-dark" id="search_more_btn">▼</button>
 					<br>
-					<div>
-						ss
-					</div>
-				</form>
+				</form> --%>
 				<div class="container">
 					<div class="my-calendar clearfix">
-						<!-- <div class="clicked-date">
+						<!-- 미니달력 원래 있던 '오늘날짜+요일' 표시 부분
+						<div class="clicked-date">
 							<div class="cal-day"></div>
 							<div class="cal-date"></div>
 						</div> -->
@@ -1210,11 +1210,11 @@ html, body {
 							</c:forEach>
 						</select>
 					</div>
-					<div class="modal_add_elements">
+					<!-- <div class="modal_add_elements">
 						참석자
 						<input name="cal_attendee1" placeholder="이름을 입력하세요.">
 						<input type="button" value="주소록">
-					</div>
+					</div> -->
 					<div class="modal_add_elements">
 						장소
 						<input class="add_place" name="cal_place" placeholder="장소를 입력하세요." id="input_place">
@@ -1223,9 +1223,9 @@ html, body {
 						메모
 						<textarea class="add_memo" name="cal_memo" placeholder="메모를 작성하세요" id="input_memo"></textarea>
 					</div>
-					<div class="modal_add_elements">
+					<!-- <div class="modal_add_elements">
 						<span>파일첨부</span> <input class="form-control form-control-sm" id="formFileSm" type="file" name="file1">
-					</div>
+					</div> -->
 					<hr>
 					<span id="my_setting">내 설정</span>
 					<div class="modal_add_elements">

@@ -236,7 +236,7 @@ public class CalendarController {
 		 //System.out.println("update return값 : "+check);
 		 String result = "";
 		 if(check > 0) {
-			 result = "날짜 업데이트 성공";
+			 result = "일정이 수정되었습니다.";
 		 }
 		 
 		 return result;
