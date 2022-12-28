@@ -74,7 +74,7 @@ input{
  			<input class="mailMap" type="button" value="메일쓰기" onclick="location.href='send.do'">
  			<hr>
  			<ul class="meun">
- 				<li class="liany"><a href="mail_list.do">전체메일</a></li>
+ 				<!-- <li class="liany"><a href="mail_list.do">전체메일</a></li> -->
  				<li class="liany"><a href="receiveList.do">받은메일함</a></li>
  				<!--<li class="liany"><a href="#">내게쓴메일함</a></li>-->
  				<li class="liany"><a href="sendList.do">보낸메일함</a></li>
