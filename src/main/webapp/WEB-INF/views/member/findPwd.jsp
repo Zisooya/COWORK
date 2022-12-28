@@ -14,6 +14,7 @@
         .btn {
             width: 150px;
         }
+
         .form-input {
             width: 300px;
         }
@@ -23,8 +24,8 @@
             flex-direction: column;
             align-items: center;
         }
+
         .container {
-            margin: 0 auto;
             margin-top: 108px;
         }
 
@@ -58,16 +59,15 @@
 </body>
 <script>
     // 아이디 정규식
-    let idJ = /^[a-z0-9][a-z0-9_\-]{4,19}$/;
+    let idJ = /^[0-9a-zA-Z][0-9a-zA-Z]{5,19}$/;
     // 이메일 검사 정규식
-    let mailJ =
-        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    let mailJ = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
     $("#mem_id").blur(function () {
         if (idJ.test($("#mem_id").val())) {
             $("#id_check").text("");
         } else {
-            $("#id_check").text("아이디를 확인하세요.");
+            $("#id_check").text("아이디 형식을 확인하세요.");
             $("#id_check").css("color", "red");
         }
     });
@@ -76,29 +76,44 @@
         if (mailJ.test($(this).val())) {
             $("#email_check").text("");
         } else {
-            $("#email_check").text("이메일을 확인하세요.");
+            $("#email_check").text("이메일 형식을 확인하세요.");
             $("#email_check").css("color", "red");
         }
     });
 
-    $("#pwdConfirm_btn").click(function () {
-        $.ajax({
-            url: "${ path }/member_findPwd_ok.do",
-            type: "post",
-            dataType: "text",
-            data: {mem_id : $("#mem_id").val(), mem_email : $("#mem_email").val()},
-            success: function (data) {
-                if (data > 0) {
-                    alert('임시 비밀번호가 발급되었습니다. 등록된 이메일을 확인해주세요.');
-                    location.replace("${path}/");
-                } else {
-                    alert('등록되지 않은 회원정보입니다.');
-                    location.reload();
-                }
-            },
-            error: function () {
-                alert('데이터 통신 오류');
-                location.replace("${path}/");
+    $(document).ready(function () {
+        $("#pwdConfirm_btn").click(function () {
+            let mem_id = $("#mem_id").val();
+            let mem_email = $("#mem_email").val();
+            if (mem_id === "") {
+                alert("아이디를 입력하세요.");
+                $("#mem_id").focus();
+                return false;
+            }
+            if (mem_email === "") {
+                alert("이메일을 입력하세요.");
+                $("#mem_email").focus();
+                return false;
+            }
+            if (mem_id !== "" && mem_email !== "") {
+                $.ajax({
+                    url: "${ path }/member_findPwd_ok.do",
+                    type: "post",
+                    dataType: "text",
+                    data: {mem_id : $("#mem_id").val(), mem_email : $("#mem_email").val()},
+                    success: function (data) {
+                        if (data > 0) {
+                            alert('임시 비밀번호가 발급되었습니다. 등록된 이메일을 확인해주세요.');
+                            location.replace("${path}/");
+                        } else {
+                            alert('등록되지 않은 회원입니다.');
+                        }
+                    },
+                    error: function () {
+                        alert('데이터 통신 오류');
+                        location.replace("${path}/");
+                    }
+                });
             }
         });
     });

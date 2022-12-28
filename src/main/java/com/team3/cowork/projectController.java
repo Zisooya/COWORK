@@ -196,14 +196,22 @@ public class projectController {
 
 	// 프로젝트 삭제하기 _ 세건
 	@RequestMapping("project_delete.do")
-	public void ProjectDelete(@RequestParam int num, HttpServletResponse response) throws IOException {
+	public void ProjectDelete(@RequestParam int num,@RequestParam String mt, HttpServletResponse response) throws IOException {
 		int check = this.dao_projects.deleteProjects(num);
+		System.out.println(num);
+		System.out.println(mt);
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		if (check > 0) {
-			out.println("<script>");
-			out.println("location.href='project_control.do'");
-			out.println("</script>");
+			if(mt.equals("1")){
+				out.println("<script>");
+				out.println("location.href='project_board.do'");
+				out.println("</script>");
+			}else {
+				out.println("<script>");
+				out.println("location.href='project_control.do'");
+				out.println("</script>");
+			}
 		}
 	}
 

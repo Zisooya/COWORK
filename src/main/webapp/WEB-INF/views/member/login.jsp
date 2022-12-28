@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <html>
@@ -16,7 +16,6 @@
 <div class="container">
     <div class="login-content">
         <form class="form" name="login" method="post" action="${ path }/member_login_ok.do">
-
             <img id="logo_home" src="resources/images/COWORK.png" style="width:200px; height:45px; margin: 5px 10px 50px;" alt="로고"/>
             <div class="input-div one">
                 <div class="i">
@@ -33,7 +32,7 @@
                 </div>
                 <div class="div">
                     <h5>PASSWORD</h5>
-                    <input type="password" class="input" id="mem_pwd" name="mem_pwd" required>
+                    <input type="password" class="input" id="mem_pwd" name="mem_pwd" autocomplete="off" required>
                 </div>
             </div>
             <div class="remember">
@@ -126,7 +125,7 @@
 
     function remClass(){
         let parent = this.parentNode.parentNode;
-        if(this.value === ""){
+        if (this.value === "") {
             parent.classList.remove("focus");
         }
     }
