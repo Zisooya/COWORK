@@ -134,7 +134,7 @@
             *
 		FROM EMAIL A
 		JOIN MEMBER B ON A.eml_from = b.mem_name 
-		WHERE A.WRITER_STATUS=0
+		WHERE A.RECEIVER_STATUS=0
 		AND A.EML_to=#{mem_name}
 		ORDER BY A.EML_NO DESC
 	</select>

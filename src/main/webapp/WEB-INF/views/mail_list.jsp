@@ -12,7 +12,7 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/pwe/css/deskhome_header_https_20220921.css">
 <title>Insert title here</title>
-<link href="${path}/resources/css/address.css?" rel="stylesheet"/>
+<%-- <link href="${path}/resources/css/address.css?" rel="stylesheet"/> --%>
 <link href="${path}/resources/css/include.css?" rel="stylesheet"/>
 <style type="text/css">
 
@@ -22,7 +22,8 @@ ul{
 
 .liany{
 	text-align: center;
-  	float : left;	
+  	float : left;
+  	min-width: 300px;
 }
 
 a{
@@ -33,10 +34,17 @@ a{
 .mailMap{
 	padding: 10px 80px;
 }
-
-.meun li a:hover{
+.meun{
 	display: block;
-	font-size: 12px;
+	width: 100%;
+}
+.meun li{
+	text-align: left;
+	padding : 30px 30px 0px 30px;
+}
+.meun li a:hover{
+	width: 92%;
+	display: block;
 	color: #555; 
 	background: #7BE66D;
 	background-size: auto;
@@ -77,6 +85,7 @@ input{
  				<!--<li class="liany"><a href="#">임시저장함</a></li>
  				<li class="liany"><a href="#">외부메일함</a></li>-->
  			</ul>
+ 			<br>
  			<ul class="meun">
  				<!--<li class="liany"><a href="#">스펨메일함</a></li>-->
  				<li class="liany"><a href="waste.do">휴지통</a></li>
