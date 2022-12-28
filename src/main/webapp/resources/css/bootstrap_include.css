@@ -14,7 +14,7 @@ body {
 	display: grid;
 	grid-template-columns : 19% 62% 19%;
 	/* grid-template-rows : 75px 110px 600px 200px ; */
-	grid-template-rows : 120px calc(95% - 120px) 5% ;
+	grid-template-rows : 120px calc(100% - 120px);
 }
 
 
