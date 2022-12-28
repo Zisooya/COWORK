@@ -126,7 +126,7 @@ public class EmailController {
 
 	// 받은 메일함
 	@RequestMapping("receiveList.do")
-	public String selectReceiveMailList(@RequestParam(value = "page", required = false, defaultValue = "1") int Page,
+	public String selectReceiveMailList(@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
 			Model model, HttpServletRequest request) {
 
 		MemberDTO mem = (MemberDTO) request.getSession().getAttribute("member");
@@ -138,7 +138,7 @@ public class EmailController {
 
 		int listCount = mailService.selectReceiveMailListCount(mem.getMem_name());
 
-		PageDTO pi = PaginationMail.getPageInfo(listCount, Page, 10, 10);
+		PageDTO pi = PaginationMail.getPageInfo(listCount, currentPage, 10, 10);
 
 		ArrayList<EmailDTO> receiveList = mailService.selectReceiveMailList(pi, mem.getMem_name());
 
