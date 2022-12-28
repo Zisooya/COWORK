@@ -779,7 +779,7 @@ a {
 	position: fixed;
 	z-index: 10;
 	left: 0%;
-	top: 19%;
+	top: 8%;
 	width: 100%;
 	height: 100%;
 	overflow: auto;
@@ -982,12 +982,12 @@ html, body {
 	padding: 0px 3px 10px;
 	font-weight: normal;
 }
-#search_form {
+/* #search_form {
 	margin: 0px 14px 10px;
 }
 #search_input {
 	width: 90%;
-}
+} */
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -1098,7 +1098,7 @@ html, body {
 				
 			</div>
 		</nav>
-		<article id="content" style="margin: 0px 15px;">
+		<article id="content" style="margin: 25px 15px;">
 			<!-- 메인 기능 들어갈 부분 -->
 
 			<br>
