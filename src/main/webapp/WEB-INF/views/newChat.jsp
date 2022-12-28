@@ -14,56 +14,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.js"></script>
-</head>
-<body>
-
-
-<div class='modal_title'>대화상대 선택</div>
-
-	<input id="search_box" type="text" name="keyword" placeholder="이름으로 검색">
-
-
-		
-		<c:if test="${!empty memList }">
-		<!-- mem_no -->
-		<div id="memNoDiv">
-			<c:forEach items="${memList }" var="memberDto" varStatus="vs">
-				<div class="modal_data">
-				<input id="memNo_${vs.index }" name="mem_no" type="checkbox" value="${memberDto.getMem_no()}">
-				<label for="memNo_${vs.index }">${memberDto.mem_name} (${memberDto.dept_name} ${memberDto.mem_rank})</label>
-				</div>
-			</c:forEach>
-		</div>
-		</c:if>
-		
-	<form name="newChatRoom">	
-		
-		<!-- chat_room_no -->
-		<input name="chat_room_no" type="hidden" value="<%=newChatRoomNo%>">
-		
-		<!-- chat_room_name -->
-		<input name="chat_room_name" type="hidden" value="">
-				
-		<!-- chat_kind -->
-		<input name="chat_kind" type="hidden" value="">
-		
-		<!-- regdate -->
-		<input name="regdate" type="hidden" value="">
-		
-		<button id="form_btn">확인</button>
-	
-	</form>
-	
-
-
-<div id="checkedMem">
-</div>
-
 <script type="text/javascript">
 
-$(function(){
 	
 	/* 새로운 대화 생성 관련 내용*/
 	
@@ -173,6 +125,7 @@ $(function(){
             success:function(data){
 					// newChatRoomNo
 					alert("새로운 채팅이 생성되었습니다.");
+					$("#chatList_div").load(window.location.href + " #chatList_div");
             },
             error:function(request, status, error){
                 console.log("AJAX 에러");
@@ -183,11 +136,58 @@ $(function(){
 	}); // '확인' 버튼 클릭 이벤트 end
 
 
-});
 
 
 
 </script>
+<title>Insert title here</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.js"></script>
+</head>
+<body>
+
+
+<div class='modal_title'>대화상대 선택</div>
+
+	<input id="search_box" type="text" name="keyword" placeholder="이름으로 검색">
+
+
+		
+		<c:if test="${!empty memList }">
+		<!-- mem_no -->
+		<div id="memNoDiv">
+			<c:forEach items="${memList }" var="memberDto" varStatus="vs">
+				<div class="modal_data">
+				<input id="memNo_${vs.index }" name="mem_no" type="checkbox" value="${memberDto.getMem_no()}">
+				<label for="memNo_${vs.index }">${memberDto.mem_name} (${memberDto.dept_name} ${memberDto.mem_rank})</label>
+				</div>
+			</c:forEach>
+		</div>
+		</c:if>
+		
+	<form name="newChatRoom">	
+		
+		<!-- chat_room_no -->
+		<input name="chat_room_no" type="hidden" value="<%=newChatRoomNo%>">
+		
+		<!-- chat_room_name -->
+		<input name="chat_room_name" type="hidden" value="">
+				
+		<!-- chat_kind -->
+		<input name="chat_kind" type="hidden" value="">
+		
+		<!-- regdate -->
+		<input name="regdate" type="hidden" value="">
+		
+		<button id="form_btn">확인</button>
+	
+	</form>
+	
+
+
+<div id="checkedMem">
+</div>
+
+
 
 </body>
 </html>
