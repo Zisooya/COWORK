@@ -100,4 +100,19 @@ public class MessengerDAOImpl implements MessengerDAO {
 	public int readNoti(Messenger_NotiDTO notiDTO) {
 		return this.sqlSession.update("messengerDao.messenger_readNoti", notiDTO);
 	}
+
+	@Override
+	public int getPartiCount(int chat_room_no) {
+		return this.sqlSession.selectOne("messengerDao.messenger_getPartiCount", chat_room_no);
+	}
+
+	@Override
+	public Chat_MessageDTO getLastMDto(int chat_room_no) {
+		return this.sqlSession.selectOne("messengerDao.messenger_getLastMDto", chat_room_no);
+	}
+
+	@Override
+	public int getUnreadCount(Map<String,Object> map) {
+		return this.sqlSession.selectOne("messengerDao.messenger_getUnreadCount", map);
+	}
 }

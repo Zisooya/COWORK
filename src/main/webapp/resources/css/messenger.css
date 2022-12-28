@@ -250,6 +250,18 @@ input[id *= "memNo_"] + label {
 }
 
 /* 사이드바 메뉴 대화 목록 아코디언 */
+/* messenger.jsp주석 풀고 그리드 다시 사용 시 여기 주석 풀면 됨!!! 현재 .chat_room은 삭제하고 쓰기*/
+.chat_room {
+	padding: 0px;
+	background: none;
+	font-size: 1rem;
+	font-weight: normal;
+	text-align: left;
+	cursor: pointer;
+	padding-right: 8px;
+	margin: 10px 20px 0 20px;
+}
+/*
 .chatRoom_grid_container {
 	width: 100%;
 	height: 100%;
@@ -314,7 +326,7 @@ input[id *= "memNo_"] + label {
 			
 }
 
-
+*/
 .chatList_div label {
 	font-size: 1rem;
 	padding: 8px 25px;
@@ -402,6 +414,7 @@ input[name *= accordion_cb_] {
 	width: 62.8%;
 	position: fixed;
     top: 91%; 
+    box-sizing: border-box;
 }
 
 #messageinput {
@@ -455,6 +468,7 @@ input[name *= accordion_cb_] {
 	display: grid;
 	grid-template-columns : 78% 22%;
 	grid-template-rows : 90% 10%;
+	box-sizing: border-box;
 }
 
 /* 우측 채팅방 상세 정보 */
@@ -463,7 +477,7 @@ input[name *= accordion_cb_] {
 	border: 1px solid #EAEAEA;
 	border-radius: 10px;
 	width: 100%;
-	height: 95%;
+	height: 96.5%;
 	grid-column : 2/3;
 	grid-row : 1/3;	
 	padding: 20px 20px 20px 40px;

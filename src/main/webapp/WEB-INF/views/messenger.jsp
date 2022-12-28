@@ -62,19 +62,27 @@
 					<label class="messenger_label" for="messenger_menu01"><span></span>&nbsp;&nbsp;&nbsp;&nbsp;일대일</label>
 					<div class="accordion_cb_div">
 						<c:set var="oneToOneChatList" value="${oneToOneChatList}" />
+						<!--  
+						<c:set var="partiCountArr" value="${partiCountArr}" />
+						<c:set var="messageDto" value="${messageDto}" />
+						<c:set var="unreadCountArr" value="${unreadCountArr}" />
+						-->
 						<c:if test="${!empty oneToOneChatList }">
+													
 							<c:forEach items="${oneToOneChatList }" var="chatRoomDto" varStatus="vs">
 								<div class="chatRoom_grid_container">
 									<input type="checkbox" id="accordion_cb_o${vs.index }" 
 											name="accordion_cb_oneToOne" value="${chatRoomDto.getChat_room_no() }" >
-									<label class="chat_room" for="accordion_cb_o${vs.index }">${chatRoomDto.getChat_room_name() }</label>
-									<div class="chatMemCount">5</div>
+									<label class="chat_room" for="accordion_cb_o${vs.index }">${oneToOneChatList[vs.index].getChat_room_name() }</label>
+									<!--  
+									<div class="chatMemCount"><%-- ${partiCount} --%></div>
 									<div class="lastMessage">안녕하세요 안녕안녕 마케팅 부서예용</div>
 									<div class="lastDate">2022/12/29</div>
-									<div class="unreadCount">4</div>
+									<div class="unreadCount"><%-- ${unreadCount} --%></div>
+									-->
 								</div>
 							</c:forEach>
-						</c:if>
+					 	</c:if> 
 					</div>
 					
 					<input type="checkbox" id="messenger_menu02">
@@ -100,7 +108,7 @@
 			<div id="chat_grid_container">
 				<div id="messages">
 					<!-- <button type="button" onclick="closeSocket();" style="width:200px;">대화방 나가기</button> -->
-					
+	
 				</div>				
 					<div id="bottom_input">
 					<input type="hidden" id="sender" value="${member.mem_id}" >

@@ -105,13 +105,55 @@ public class MessengerController {
 		// 그룹 대화 목록 조회
 		List<Chat_RoomDTO> groupChatList = this.messengerDao.getGroupChatRoomList(mem_no);
 		//System.out.println("그룹 대화 목록"+ groupChatList);
-		
+/*		
 		// 각 채팅방에 해당하는 1)참가자수, 2)마지막 메세지 날짜,마지막 메세지, 3)unread 메세지 수 조회
+		int[] partiCountArr = new int[oneToOneChatList.size()];
+		List<Chat_MessageDTO> messageList = new ArrayList<Chat_MessageDTO>();
+		int[] unreadCountArr = new int[oneToOneChatList.size()];
 		
+		for(int i=0; i<oneToOneChatList.size(); i++) {
+			
+			// 각 채팅방 번호
+			int chat_room_no = oneToOneChatList.get(i).getChat_room_no();
+			
+			// 1) 각 채팅방의 참가자 수 구하는 메소드 호출
+			int partiCount = this.messengerDao.getPartiCount(chat_room_no);
+			
+			// 2) 각 채팅방의 마지막 메세지 구하는 메소드 호출
+			Chat_MessageDTO lastMDto = this.messengerDao.getLastMDto(chat_room_no);
+			
+			// 3) 각 채팅방의 메세지 DTO에서 mem_no가 현재 사용자이고 unread 상태인 메세지의 수 조회하는 메소드 호출
+			Map<String,Object>map = new HashMap<String,Object>();
+			map.put("chat_room_no", chat_room_no);
+			map.put("myNum", mem_no);
+			
+			int unreadCount = this.messengerDao.getUnreadCount(map);
+			
+			System.out.println("채팅방 번호:"+chat_room_no+" / 파티원수:" + partiCount+" / 마지막메세지:" + lastMDto+" / 안읽은 메세지 수:" + unreadCount);
+			
+			// 구한 데이터를 각각 배열과 리스트에 추가
+			partiCountArr[i] = partiCount;
+			
+			if(lastMDto != null) {
+				messageList.add(i, lastMDto);
+			}else {
+				Chat_MessageDTO nullDto = new Chat_MessageDTO(); 
+				nullDto.setMessage("");
+				nullDto.setSend_date("");
+				messageList.add(i, nullDto);
+			}
+			
+			unreadCountArr[i] = unreadCount;
+			
+		}
 		
+*/		
 
 		
 		model.addAttribute("oneToOneChatList", oneToOneChatList);
+		//model.addAttribute("partiCountArr", partiCountArr);
+		//model.addAttribute("messageList", messageList);
+		//model.addAttribute("unreadCountArr", unreadCountArr);
 		model.addAttribute("groupChatList", groupChatList);
 
 		return "messenger";

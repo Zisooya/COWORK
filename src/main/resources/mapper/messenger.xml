@@ -93,4 +93,16 @@
 		WHERE mem_no=#{mem_no} and chat_room_no=#{chat_room_no}		
 	</update>
 	
+	<select id="messenger_getPartiCount" parameterType="int" resultType="int">
+		select count(mem_no) from chat_member where chat_room_no=#{chat_room_no}
+	</select>
+	
+	<select id="messenger_getLastMDto" parameterType="int" resultType="chatMessageDto">
+		select * from (select * from chat_message where chat_room_no=#{chat_room_no} order by send_date desc) where rownum=1
+	</select>
+	
+	<select id="messenger_getUnreadCount" parameterType="Map" resultType="int">
+		select count(*) from messenger_noti where MESSAGE_STATUS='unread' and chat_room_no=#{chat_room_no} and mem_no=#{myNum}
+	</select>
+	
 </mapper>
