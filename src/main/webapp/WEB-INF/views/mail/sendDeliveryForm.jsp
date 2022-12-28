@@ -101,14 +101,14 @@ label {
 							<input type="file" class="form-control-file form-control height-auto" name="reUploadFile">
 							<c:if test="${!empty sendMail.filename }">
 								현재 첨부된 파일 : ${sendMail.filename } <br>
-	                            <input type="hidden" name="changeName" value="${ sendMail.filepath }">
-	                            <input type="hidden" name="originName" value="${ sendMail.filename }">
+	                            <input type="hidden" name="filepath" value="${ sendMail.filepath }">
+	                            <input type="hidden" name="filename" value="${ sendMail.filename }">
 							</c:if>
 							</div>
 
 						
 						<div class="form-group">
-							<textarea class="textarea_editor form-control border-radius-0" name="content" required="required">
+							<textarea class="textarea_editor form-control border-radius-0" name="eml_content" required="required">
 								-----Original Message-----<br>
 								From : ${ member.mem_name }<br>
 								To : ${sendMail.eml_to }<br>
@@ -124,7 +124,7 @@ label {
 						<div class="clearfix">
 							<div class="pull-right">
 								<button type="button" class="btn btn-outline-danger" onclick="history.go(-1)">취소</button>
-								<button type="button" class="btn btn-primary" onclick="sendDelivery();">메일 전달</button>
+								<button type="button" class="btn btn-primary" onclick="sendDelivery()">메일 전달</button>
 							</div>
 						</div>
 					</form>
@@ -180,7 +180,7 @@ label {
 											
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-						<button type="button" class="btn btn-primary" onclick="selectReceiver();">선텍</button>
+						<button type="button" class="btn btn-primary" onclick="selectReceiver()">선텍</button>
 					</div>
 				</div>
 			</div>
@@ -192,7 +192,7 @@ label {
 $(function(){
 	$("#searchEmp").click(function(){
 		
-		var deptCode = $("option:selected").val();
+		var dept_code = $("option:selected").val();
 		console.log(dept_code);
 		
 		if(dept_code == "부서 선택"){
@@ -253,12 +253,12 @@ function selectReceiver(){
 	var dept_code = $("option:selected").val();
 	console.log(dept_code);
 	
-	if(deptCode == "부서 선택"){
+	if(dept_code == "부서 선택"){
 		
 		swal(
                {
                    type: 'error',
-                   title: 'Oops...',
+                   title: 'error...',
                    text: '부서를 선택해 주세요',
                }
            )
@@ -269,7 +269,7 @@ function selectReceiver(){
 		swal(
                {
                    type: 'error',
-                   title: 'Oops...',
+                   title: 'error...',
                    text: '받는 사람을 선택해 주세요',
                }
            )
@@ -285,11 +285,11 @@ function selectReceiver(){
 }
 
 function sendDelivery(){
-	var eml_to = $("#sendDelivery input[name=receiverName]");
-	var eml_title = $("#sendDelivery input[name=eml_title]");
-	var eml_content = $("#sendDelivery textarea[name=eml_content]");
+	var to = $("#sendDelivery input[name=receiverName]");
+	var title = $("#sendDelivery input[name=eml_title]");
+	var content = $("#sendDelivery textarea[name=eml_content]");
 	console.log(receiver);
-	if(eml_to.val()=="" || eml_to.val()==null){
+	if(to.val()=="" || to.val()==null){
 		
 	 swal(
                {
@@ -300,7 +300,7 @@ function sendDelivery(){
            )
 		return false;
 	 
-	}else if(eml_title.val()=="" || eml_title.val()==null){
+	}else if(title.val()=="" || title.val()==null){
 		
 		swal(
 	               {
@@ -311,7 +311,7 @@ function sendDelivery(){
 	           )
 			return false;
 		
-	}else if(eml_content.val()=="" || eml_content.val()==null){
+	}else if(content.val()=="" || content.val()==null){
 	
 		swal(
 	               {
