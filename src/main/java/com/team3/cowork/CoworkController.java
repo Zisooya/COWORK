@@ -39,7 +39,9 @@ public class CoworkController {
 
 	@RequestMapping("main.do")
 	public String main() {
-		return "main";
+		// 메인 페이지 만들어지기 전까지 메신저를 메인페이지로.
+		//	return "main";	
+		return "messenger";
 	}
 
 	@RequestMapping("member_login_ok.do")
