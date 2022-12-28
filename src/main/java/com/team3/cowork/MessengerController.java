@@ -1,6 +1,8 @@
 package com.team3.cowork;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,18 +99,53 @@ public class MessengerController {
 		// 일대일 대화 목록 조회
 		List<Chat_RoomDTO> oneToOneChatList = this.messengerDao.getOneToOneChatRoomList(mem_no);
 		
-		System.out.println("일대일 대화 목록"+oneToOneChatList);
+		// System.out.println("일대일 대화 목록"+oneToOneChatList);
 		
 		
 		// 그룹 대화 목록 조회
 		List<Chat_RoomDTO> groupChatList = this.messengerDao.getGroupChatRoomList(mem_no);
 		//System.out.println("그룹 대화 목록"+ groupChatList);
+
 		
 		model.addAttribute("oneToOneChatList", oneToOneChatList);
 		model.addAttribute("groupChatList", groupChatList);
 
 		return "messenger";
 	}
+	
+	// 이거 참고만 하고 나중에 지우기.
+	public void newChatRoomName(List<Chat_RoomDTO> list) {
+		// 넘겨줄 채팅방 이름 재작업
+		String memName;	// 나 포함 참가자
+		String[] participant;  // 나 포함 참가자
+		String newChatRoomName;	// 채팅방 이름(나를 제외한 참가자 이름들) 채팅방 이름
+		
+		// 각 DTO 반복 실행
+		for(int i=0; i<list.size(); i++) {
+			
+			memName = list.get(i).getChat_room_name();
+			participant = memName.split(",");
+			
+			int lastIndex = (participant.length-1);
+			
+		// 채팅방 생성 시 채팅방 이름: 마지막 인덱스가 '나'	
+		//System.out.println(i+"번 째 dto 삭제 전: " + Arrays.toString(participant));
+		
+		List<String> strList = new ArrayList<>(Arrays.asList(participant));
+		strList.remove(lastIndex);
+		participant = strList.toArray(new String[0]);
+
+		//System.out.println(i+"번 째 dto 삭제 후: " + Arrays.toString(participant));
+		newChatRoomName = Arrays.toString(participant);
+		
+		//System.out.println(i+"번 째 dto 새로운 채팅방 이름: " + newChatRoomName );
+		
+		// 나를 제외한 참가자 이름을 채팅방 이름으로 set
+		list.get(i).setChat_room_name(newChatRoomName);
+		
+		
+		}			
+	}		
 	
 	@RequestMapping("messenger_insertMessage.do") 
 	public @ResponseBody int insertMessage(@RequestParam("chat_room_no") int chat_room_no,@RequestParam("sender") String sender,@RequestParam("message") String message,@RequestParam("send_date") String send_date){

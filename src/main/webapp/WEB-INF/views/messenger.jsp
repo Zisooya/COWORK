@@ -65,8 +65,7 @@
 						<c:if test="${!empty oneToOneChatList }">
 							<c:forEach items="${oneToOneChatList }" var="chatRoomDto" varStatus="vs">
 								<input type="checkbox" id="accordion_cb_o${vs.index }" 
-										name="accordion_cb_oneToOne" value="${chatRoomDto.getChat_room_no() }" 
-										>
+										name="accordion_cb_oneToOne" value="${chatRoomDto.getChat_room_no() }" >
 								<label class="chat_room" for="accordion_cb_o${vs.index }">${chatRoomDto.getChat_room_name() }</label>
 							</c:forEach>
 						</c:if>
