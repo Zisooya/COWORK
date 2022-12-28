@@ -65,8 +65,7 @@
 						<c:if test="${!empty oneToOneChatList }">
 							<c:forEach items="${oneToOneChatList }" var="chatRoomDto" varStatus="vs">
 								<input type="checkbox" id="accordion_cb_o${vs.index }" 
-										name="accordion_cb_oneToOne" value="${chatRoomDto.getChat_room_no() }" 
-										>
+										name="accordion_cb_oneToOne" value="${chatRoomDto.getChat_room_no() }" >
 								<label class="chat_room" for="accordion_cb_o${vs.index }">${chatRoomDto.getChat_room_name() }</label>
 							</c:forEach>
 						</c:if>
@@ -94,7 +93,7 @@
 		<article id="content">
 			<div id="chat_grid_container">
 				<div id="messages">
-					<button type="button" onclick="closeSocket();" style="width:200px;">대화방 나가기</button>
+					<!-- <button type="button" onclick="closeSocket();" style="width:200px;">대화방 나가기</button> -->
 					
 				</div>				
 					<div id="bottom_input">
@@ -135,12 +134,12 @@ $(function(){
 	$('#sideBar_btn').on('change',function(){
 		if($('#sideBar_btn').is(':checked')){
 			$('#right_chatRoomDetail').css({"width":"0","display":"none","transition":"all 0.4s"});
-			$('#messages').css({"width":"133%","transition":"all 0.4s"});
+			$('#messages').css({"width":"128%","transition":"all 0.4s"});
 			$('#bottom_input').css({"width":"82%","transition":"all 0.4s"});
 		}else{
 			$('#right_chatRoomDetail').css({"width":"100%","display":"block","transition":"all 0.4s"});
-			$('#messages').css({"width":"100%","transition":"all 0.4s"});
-			$('#bottom_input').css({"width":"61%","transition":"all 0.4s"});
+			$('#messages').css({"width":"97.6%","transition":"all 0.4s"});
+			$('#bottom_input').css({"width":"62.8%","transition":"all 0.4s"});
         }	
 	});
 	
@@ -234,6 +233,8 @@ $(function(){
     // 웹소켓 연결 요청(핸드쉐이크) 시 실행 함수
     function openSocket(){
     	
+    	console.log('소켓 오픈');
+    	
     	// 3초마다 메시지알림 읽음 처리
     	setInterval(readNoti, 3000);    	
     	
@@ -262,13 +263,9 @@ $(function(){
       	//웹 소켓에서 메시지가 왔을 때 호출되는 이벤트
         ws.onmessage = function(event){
             console.log('writeResponse');
-            console.log(event.data)
+            //console.log(event.data)
             writeResponse(event.data);
-            
-            // 1번쨰 방법
-            let chat_room_no = document.getElementById("chat_room_no").value;
-            // 메시지 도착하면 채팅방 데이터 다시 가져오기.
-            openChatRoom(chat_room_no);
+            autoScroll();
             
         };
         
@@ -346,7 +343,7 @@ $(function(){
 
     function openChatRoom(chat_room_no) {
     //const openChatRoom = function(chat_room_no){	
-    	console.log('소켓 오픈 계속 되고있다');
+    	console.log('채팅방 데이터 출력');
     	let mem_id = document.getElementById("sender").value;
     	
     	// 채팅방 별 데이터 불러오기

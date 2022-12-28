@@ -79,7 +79,7 @@
 						</thead>
 						<tbody>  
 							<c:forEach items="${ wasteList }" var="s">
-							<c:if test="${member.mem_name == s.getEml_from()}">
+							<c:if test="${member.mem_name == s.getEml_from() || member.mem_name == s.getEml_to()}">
 								<tr>
 									<td scope="row">${ s.eml_no }</td>
 									

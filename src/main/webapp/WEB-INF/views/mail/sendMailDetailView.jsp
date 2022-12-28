@@ -46,7 +46,7 @@
 		            <div class="card-header">
 		              <h3 class="mailbox-read-info">${m.eml_title }</h3>
 		              <br>
-		              <h4 class="card-title">to : ${m.eml_to }
+		              <h4 class="card-title">to : ${ m.eml_to }
 		              <br>
 		              from : ${member.mem_name }
                   		<span class="mailbox-read-time float-right">${m.create_date }</span>
@@ -76,7 +76,7 @@
             
             <!-- 버튼들 -->
             <form id="sendMail" action="" method="post">
-            	<input type="hidden" name="mem_name" value="${ member.mem_id }">
+            	<input type="hidden" name="mem_name" value="${ member.mem_name }">
             	<input type="hidden" name="mno" value="${m.eml_no }">
             
 	            <div class="card-footer">

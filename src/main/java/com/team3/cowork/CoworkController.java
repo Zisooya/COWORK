@@ -32,14 +32,16 @@ public class CoworkController {
 	private Mem_Upload mem_upload;
 
 	@Autowired
-	private UserMailSendService mailSender;
+	private MemberMailSendService mailSender;
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
 	@RequestMapping("main.do")
 	public String main() {
-		return "main";
+		// 메인 페이지 만들어지기 전까지 메신저를 메인페이지로.
+		//	return "main";	
+		return "messenger";
 	}
 
 	@RequestMapping("member_login_ok.do")
@@ -204,17 +206,21 @@ public class CoworkController {
 		String sessionPwd = ((MemberDTO)session.getAttribute("member")).getMem_pwd();
 		String dtoPwd = dto.getMem_pwd();
 
-		if (passwordEncoder.matches(dtoPwd, sessionPwd)) {
-			service.memberDelete(mem_id);
-			session.invalidate();
-
-			model.addAttribute("msg", "회원이 정상적으로 탈퇴되었습니다.");
-			model.addAttribute("url", "/");
-			return "member/msg";
-		} else {
-			model.addAttribute("msg", "비밀번호가 일치하지 않습니다.");
+		if (dtoPwd.equals("")) {
+			model.addAttribute("msg", "비밀번호를 입력하세요.");
 			model.addAttribute("url", "/myPage_delete.do");
-			return "member/msg";
+		} else {
+			if (!(passwordEncoder.matches(dtoPwd, sessionPwd))) {
+				model.addAttribute("msg", "비밀번호가 일치하지 않습니다.");
+				model.addAttribute("url", "/myPage_delete.do");
+			} else {
+				service.memberDelete(mem_id);
+				session.invalidate();
+
+				model.addAttribute("msg", "회원이 정상적으로 탈퇴되었습니다.");
+				model.addAttribute("url", "/");
+			}
 		}
+		return "member/msg";
 	}
 }
