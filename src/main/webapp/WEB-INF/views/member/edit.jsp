@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <html>
@@ -9,29 +9,34 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"/>
     <link rel="icon" href="data:;base64,=">
     <style>
-        .side_menu_body{
+        .side_menu_body {
             text-align: center;
         }
-        .side_menu_body a{
+
+        .side_menu_body a {
             text-decoration: none;
             color: black;
         }
-        .side_menu_body hr{
+
+        .side_menu_body hr {
             margin-top: 5px;
             margin-bottom: 5px;
         }
-        .side_menu_cont{
+
+        .side_menu_cont {
             border-radius:5px;
             padding-top: 13px;
             padding-bottom: 13px;
         }
-        .side_menu_cont:hover{
+
+        .side_menu_cont:hover {
             background-color: #7BE66D;
         }
 
-        .side_menu_cont:hover > a{
+        .side_menu_cont:hover > a {
             color:white;
         }
+
         .container {
             min-width: 960px;
             display: flex;
@@ -62,7 +67,6 @@
             width: 200px;
             height: 200px;
             margin-top: 20px;
-            margin: 0 auto;
             border-radius: 50%;
             border: solid 1px #ced4da;
         }
@@ -71,7 +75,6 @@
             margin-top: 20px;
             width: 200px;
             height: 200px;
-            margin: 0 auto;
             border-radius: 50%;
             border: solid 1px #ced4da;
             display: none;
@@ -216,10 +219,10 @@
                         <div id="img_box">
                             <c:choose>
                                 <c:when test="${member.mem_image == null}">
-                                    <img id="preview" src="resources/images/로그인_전_프로필.png">
+                                    <img id="preview" src="resources/images/로그인_전_프로필.png" alt="기본 이미지">
                                 </c:when>
                                 <c:otherwise>
-                                    <img id="preview" src="${path}/resources/mem_upload/${member.mem_image}">
+                                    <img id="preview" src="${path}/resources/mem_upload/${member.mem_image}" alt="대표 이미지">
                                 </c:otherwise>
                             </c:choose>
                             <canvas id="canvas"></canvas>
@@ -236,27 +239,22 @@
             </div>
         </div>
     </article>
-
 </div>
 </body>
 <script type="text/javascript">
     // 모든 공백 체크 정규식
     let memJ = /\s/g;
     // 비밀번호 정규식
-    let pwJ = /^[A-Za-z0-9]{4,12}$/;
+    let pwJ = /^[0-9a-zA-Z][0-9a-zA-Z]{3,15}$/;
     // 이메일 검사 정규식
-    let mailJ =
-        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    let mailJ = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     // 휴대폰 번호 정규식
     let phoneJ = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
 
     $("form").on("submit", function () {
         let in_val_arr = new Array(3).fill(false);
         // 비밀번호가 같은 경우 && 비밀번호 정규식
-        if (
-            $("#mem_pwd").val() === $("#mem_pwd2").val() &&
-            pwJ.test($("#mem_pwd").val())
-        ) {
+        if ($("#mem_pwd").val() === $("#mem_pwd2").val() && pwJ.test($("#mem_pwd").val())) {
             in_val_arr[0] = true;
         } else {
             in_val_arr[0] = false;
@@ -269,7 +267,7 @@
             in_val_arr[1] = true;
         } else {
             in_val_arr[1] = false;
-            alert("이메일을 확인하세요.");
+            alert("이메일 양식을 확인하세요.");
             return false;
         }
         // 휴대폰번호 정규식
@@ -302,7 +300,7 @@
             $("#pwd_check").text("");
         } else {
             console.log("false");
-            $("#pwd_check").text("4~12 자리의 숫자, 문자만 사용 가능합니다.");
+            $("#pwd_check").text("4~16 자리의 영문, 숫자만 사용 가능합니다.");
             $("#pwd_check").css("color", "red");
         }
     });
@@ -321,7 +319,7 @@
         if (mailJ.test($(this).val())) {
             $("#email_check").text("");
         } else {
-            $("#email_check").text("이메일 양식을 확인해주세요.");
+            $("#email_check").text("이메일 양식을 확인하세요.");
             $("#email_check").css("color", "red");
         }
     });
@@ -329,10 +327,9 @@
     // 휴대전화
     $("#mem_phone").blur(function () {
         if (phoneJ.test($(this).val())) {
-            console.log(nameJ.test($(this).val()));
             $("#phone_check").text("");
         } else {
-            $("#phone_check").text("휴대폰번호를 확인해주세요 ");
+            $("#phone_check").text("휴대폰번호를 확인하세요.");
             $("#phone_check").css("color", "red");
         }
     });
@@ -365,7 +362,6 @@
         };
 
         if (fileInfo) {
-            console.log("INDEX #01");
             reader.readAsDataURL(fileInfo);
         }
     }
