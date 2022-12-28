@@ -165,7 +165,7 @@
     </nav>
 
     <article id="content">
-        <form name="deleteForm" method="post" action="${path}/myPage_delete_ok.do">
+        <form name="deleteForm" id="deleteForm" method="post" action="${ path }/myPage_delete_ok.do">
             <div class="withDrawal">
                 <table>
                     <tr>
@@ -214,7 +214,7 @@
                     <tr>
                         <th>
                             <div id="byeBtnArea">
-                                <input type="submit" id="byeBtn" value="확인">
+                                <input type="button" id="byeBtn" value="확인">
                                 <input type="button" id="notByeBtn" onclick="location.href='${path}/myPage.do'" value="취소">
                             </div>
                         </th>
@@ -225,4 +225,15 @@
     </article>
 </div>
 </body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#byeBtn").click(function () {
+            if (confirm('정말로 회원을 탈퇴하시겠습니까?')) {
+                $("#deleteForm").submit();
+            } else {
+                return false;
+            }
+        });
+    });
+</script>
 </html>
