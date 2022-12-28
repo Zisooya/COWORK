@@ -1,18 +1,19 @@
 package com.team3.model.member;
 
+import com.team3.model.DepartmentDTO;
+import com.team3.model.TeamDTO;
 import org.apache.ibatis.annotations.Param;
 
 import com.team3.model.Messenger_NotiDTO;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface MemberDAO {
 
-	MemberDTO memberLogin(MemberDTO dto);
-
 	MemberDTO selectMember(@Param("mem_id") String mem_id);
 
-	void memberJoin(MemberDTO dto);
+	int memberJoin(MemberDTO dto);
 
 	MemberDTO memberDetail(String mem_id);
 
@@ -22,9 +23,13 @@ public interface MemberDAO {
 
 	String memberFindId(MemberDTO dto);
 
-	int updatePwd(@Param("mem_id") String mem_id, @Param("mem_email") String mem_email, @Param("key") String key);
+	int updatePwd(HashMap<String, Object> map);
 
 	int idCheck(String mem_id);
+
+	List<DepartmentDTO> getDeptList();
+
+	List<TeamDTO> getTeamList();
 
 	// 프로젝트 생성 시 멤버 리스트 가져오기 _ 세건
 	List<MemberDTO> getMemberList();

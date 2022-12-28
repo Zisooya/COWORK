@@ -165,4 +165,20 @@ public class EmailDAO {
 		
 		return sqlSession.insert("emailDao.resendMail", m);
 	}
+	//메인 보낸메일
+	public ArrayList<EmailDTO> mainSendMailList(SqlSessionTemplate sqlSession, String empId) {
+		
+		return (ArrayList)sqlSession.selectList("emailDao.mainSendMailList", empId);
+	}
+	
+	//메인 받은 메일
+	public ArrayList<EmailDTO> mainReceiveMailList(SqlSessionTemplate sqlSession, String empId) {
+		return (ArrayList)sqlSession.selectList("emailDao.mainReceiveMailList", empId);
+	}
+	//안읽은 메일 갯수
+	public int selectCountNoRead(SqlSessionTemplate sqlSession, String empId) {
+
+		return sqlSession.selectOne("emailDao.selectCountNoRead", empId);
+	}
+
 }

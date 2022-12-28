@@ -69,12 +69,12 @@
             
             <!-- 첨부파일 부분 -->
             <c:choose>
-            	<c:when test="${empty m.fileName}">
+            	<c:when test="${empty m.filename}">
             		
             	</c:when>
             	<c:otherwise>
             		<div class="card-footer bg-white">
-            			<a href="${ pageContext.servletContext.contextPath }/resources/mail_files/${m.filepath}" download="${ m.fileName }">${ m.originName }</a>
+            			<a href="${ pageContext.servletContext.contextPath }/resources/mail_files/${m.filepath}" download="${ m.filename }">${ m.filename }</a>
             		</div>
             	</c:otherwise>
             </c:choose>

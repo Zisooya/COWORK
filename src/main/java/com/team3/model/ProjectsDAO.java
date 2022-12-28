@@ -27,6 +27,7 @@ public interface ProjectsDAO {
 	int updateend(ProjectsDTO dto);								// 프로젝트 마감일 변경 _ 모달
 	int updatestart(ProjectsDTO dto);							// 프로젝트 시작일 변경 _ 모달
 	int updatecomment(ProjectsDTO dto);							// 프로젝트 상세내용 추가 및 변경 _ 모달
+	int project_Comment_Update(Project_CommentDTO cdto);		// 프로젝트 댓글 변경 _ 모달
 	
 	int deleteProjects(int num);								// 프로젝트 삭제 _ 모달
 	int project_Comment_delete(Project_CommentDTO cdto);		// 프로젝트 댓글 삭제 _ 모달

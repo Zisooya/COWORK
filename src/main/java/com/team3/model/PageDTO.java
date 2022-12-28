@@ -170,4 +170,10 @@ public class PageDTO {
 		}
 		
 	}  // 인자 생성자
+	
+	public String toString() {
+		return "PageInfo [currentPage=" + currentPage + ", listCount=" + listCount + ", pageLimit=" + pageLimit
+				+ ", maxPage=" + maxPage + ", startPage=" + startPage + ", endPage=" + endPage + ", boardLimit="
+				+ boardLimit + "]";
+	}
 }

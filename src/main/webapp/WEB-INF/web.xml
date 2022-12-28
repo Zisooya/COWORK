@@ -69,8 +69,8 @@
 	
 	
 	<!--주소록 파일업로드 설정 -->
-	<servlet>
- 	
+	<!--<servlet>
+
 		<servlet-name>appServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
@@ -78,11 +78,11 @@
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
-		
-		<!--  웹소켓을 위한 비동기 설정 -->
+
+		&lt;!&ndash;  웹소켓을 위한 비동기 설정 &ndash;&gt;
 		<async-supported>true</async-supported>
- 		
-		<!-- 파일 업로드 설정 -->
+
+		&lt;!&ndash; 파일 업로드 설정 &ndash;&gt;
 		 <multipart-config>
 			<!-- <location>C:/Users/user/Desktop/Github_desktop/COWORK/src/main/webapp/resources/address</location> -->
 			<max-file-size>20971520</max-file-size> 
@@ -90,6 +90,6 @@
 			<file-size-threshold>20971520</file-size-threshold> 
 		</multipart-config> 
   	
-	</servlet>
+	</servlet>-->
 	
 </web-app>

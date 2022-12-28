@@ -24,7 +24,7 @@
 		<jsp:include page="../include.jsp" />
 	
 		<nav id="side">
-			
+			<jsp:include page="Topmenubar.jsp" />
 		</nav>
 	
 		<article id="content">
@@ -45,8 +45,9 @@
 								<h4>휴지통</h4>
 							</div>
 							<nav aria-label="breadcrumb" role="navigation">
+							
 								<ol class="breadcrumb">
-									<li class="breadcrumb-item"><a href="">홈</a></li>
+									<li class="breadcrumb-item"><a href="mail_list.do">홈</a></li>
 									<li class="breadcrumb-item active" aria-current="page">휴지통</li>
 								</ol>
 							</nav>
@@ -76,10 +77,11 @@
 								<th scope="col">날짜</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody>  
 							<c:forEach items="${ wasteList }" var="s">
+							<c:if test="${member.mem_name == s.getEml_from()}">
 								<tr>
-									<td scope="row">${ s.eml_from }</td>
+									<td scope="row">${ s.eml_no }</td>
 									
 									<c:choose>
 										<c:when test="${s.importantFlag == '1'}">
@@ -99,10 +101,10 @@
 										</c:otherwise>
 									</c:choose>
 									
-									<td>${s.eml_from }</td>
+									<td>${s.eml_to }</td>
 									
 									<c:choose>
-										<c:when test="${s.eml_from == member.mem_name}">
+										<c:when test="${s.eml_from == member.mem_id}">
 											<td><i class="icon-copy ion-android-hand"></i>   ${s.eml_title }</td>
 										</c:when>
 										<c:otherwise>
@@ -112,6 +114,7 @@
 									
 									<td>${s.create_date }</td>
 								</tr>
+								</c:if>
 							</c:forEach>
 							 
 							
