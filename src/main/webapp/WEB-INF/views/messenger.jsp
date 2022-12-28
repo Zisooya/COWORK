@@ -64,9 +64,15 @@
 						<c:set var="oneToOneChatList" value="${oneToOneChatList}" />
 						<c:if test="${!empty oneToOneChatList }">
 							<c:forEach items="${oneToOneChatList }" var="chatRoomDto" varStatus="vs">
-								<input type="checkbox" id="accordion_cb_o${vs.index }" 
-										name="accordion_cb_oneToOne" value="${chatRoomDto.getChat_room_no() }" >
-								<label class="chat_room" for="accordion_cb_o${vs.index }">${chatRoomDto.getChat_room_name() }</label>
+								<div class="chatRoom_grid_container">
+									<input type="checkbox" id="accordion_cb_o${vs.index }" 
+											name="accordion_cb_oneToOne" value="${chatRoomDto.getChat_room_no() }" >
+									<label class="chat_room" for="accordion_cb_o${vs.index }">${chatRoomDto.getChat_room_name() }</label>
+									<div class="chatMemCount">5</div>
+									<div class="lastMessage">안녕하세요 안녕안녕 마케팅 부서예용</div>
+									<div class="lastDate">2022/12/29</div>
+									<div class="unreadCount">4</div>
+								</div>
 							</c:forEach>
 						</c:if>
 					</div>

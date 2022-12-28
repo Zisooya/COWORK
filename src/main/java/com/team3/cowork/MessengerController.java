@@ -105,6 +105,10 @@ public class MessengerController {
 		// 그룹 대화 목록 조회
 		List<Chat_RoomDTO> groupChatList = this.messengerDao.getGroupChatRoomList(mem_no);
 		//System.out.println("그룹 대화 목록"+ groupChatList);
+		
+		// 각 채팅방에 해당하는 1)참가자수, 2)마지막 메세지 날짜,마지막 메세지, 3)unread 메세지 수 조회
+		
+		
 
 		
 		model.addAttribute("oneToOneChatList", oneToOneChatList);
@@ -295,7 +299,8 @@ public class MessengerController {
 		
 		// 현재 사용자 포함, 체크된 모든 회원 해당 채팅방의 참여자로 DB의 chat_member 테이블에 insert.
 		
-		// 현재 사용자 채팅방에 추가
+		// 현재 사용자 채팅방에 추가(=> 프론트 단에서 체크 시 자신도 추가되게 해서 안해도 됨.)
+/*		
 		int check2 = this.messengerDao.insertMemToChatRoom(myNum);
 		
 		if(check2>0) {
@@ -303,7 +308,7 @@ public class MessengerController {
 		}else {
 			System.out.println("현재 사용자 채팅방 참가 실패");
 		}
-		
+ */		
 		int check3 = 0;
 		
 		// 체크된 사용자 채팅방에 추가

@@ -10,14 +10,14 @@
 		select r.chat_room_no, r.chat_room_name
 		from chat_room r join chat_member m
 		on r.chat_room_no = m.chat_room_no
-		where m.mem_no = #{mem_no} and r.chat_kind in 'one'
+		where m.mem_no = #{mem_no} and r.chat_kind in 'one' order by r.chat_room_no desc
 	</select>
 	
 	<select id="groupChatRoomList" parameterType="int" resultType="chatRoomDto">
 		select *
 		from chat_room r join chat_member m
 		on r.chat_room_no = m.chat_room_no
-		where m.mem_no = #{mem_no} and r.chat_kind='group'
+		where m.mem_no = #{mem_no} and r.chat_kind='group' order by r.chat_room_no desc
 	</select>
 	
 	<select id="messageList" parameterType="int" resultType="chatMessageDto">

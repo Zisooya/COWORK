@@ -235,6 +235,7 @@ input[id *= "memNo_"] + label {
 	cursor: pointer;
 }
 
+
 #messenger_chatList + label {
 	background: none;
 	text-align: left;
@@ -249,6 +250,71 @@ input[id *= "memNo_"] + label {
 }
 
 /* 사이드바 메뉴 대화 목록 아코디언 */
+.chatRoom_grid_container {
+	width: 100%;
+	height: 100%;
+	display: grid;
+	grid-template-columns : 58% 12% 30%;
+	grid-template-rows : 50% 50%;	
+	margin: 20px 0px;
+	grid-row-gap: 3px;
+	
+}
+
+.chat_room {
+	padding: 0px;
+	grid-column : 1/2;
+	grid-row : 1/2;		
+	background: none;
+	font-size: 0.8rem;
+	font-weight: normal;
+	text-align: left;
+	cursor: pointer;
+	padding-right: 8px;
+	overflow: hidden;
+}
+
+.chatMemCount{
+	text-align:left;
+	grid-column : 2/3;
+	grid-row : 1/2;		
+	font-size: 0.8rem;
+	color: grey;
+}
+
+.lastMessage{
+	width: 100%;
+	height: 0.8rem;
+	grid-column : 1/3;
+	grid-row : 2/3;	
+	font-size: 0.6rem;
+	color: grey;
+	overflow: hidden;
+	place-self: center start;
+}
+
+.lastDate {
+	grid-column : 3/4;
+	grid-row : 1/2;	
+	font-size: 0.5rem;
+	color: grey;		
+}
+
+.unreadCount {
+	width: 0.8rem;
+	height: 0.8rem;
+	text-align:center;
+	grid-column : 3/4;
+	grid-row : 2/3;	
+	place-self: center end;
+	font-size: 0.6rem;
+	color: #FFF;
+	background-color: red;
+	border-radius: 50%;
+			
+}
+
+
 .chatList_div label {
 	font-size: 1rem;
 	padding: 8px 25px;
@@ -261,10 +327,6 @@ input[id *= "memNo_"] + label {
 
 .accordion_cb_div label{
 	float: left;
-}
-
-.accordion_cb_div {
-	text-align: left;
 }
 
 .messenger_label {
@@ -300,13 +362,13 @@ input[id *= "messenger_menu"] + label span {
 }
 
 .accordion_cb_div {
-	margin-left: 40px;
+	margin-left: 10px;
 	width:90%;
 	max-height: 0;
 	overflow: hidden;
 	box-sizing: border-box;
-	
 }
+
 
 input[id *= "messenger_menu"]:checked + label + div {
 	max-height: 100%;
@@ -332,13 +394,7 @@ input[name *= accordion_cb_] {
 	display: none;
 }
 
-.chat_room {
-	background: none;
-	font-size: 0.9rem;
-	font-weight: normal;
-	text-align: left;
-	cursor: pointer;
-}
+
 
 /* 채팅방(article 부분) CSS  */
 
