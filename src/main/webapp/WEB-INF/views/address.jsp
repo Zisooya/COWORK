@@ -161,7 +161,7 @@
 						<a>기타</a>
 					</div>
 					
-					<hr  align="left">
+					<hr id="addrHr" align="left">
 					
 					<div class="subject">
 						<table id="addr_table">
@@ -369,9 +369,11 @@ $(function(){
 		if($('#sideBar_btn').is(':checked')){
 			$('#right_chatRoomDetail').css({"width":"100%","display":"block","transition":"all 0.4s"});
 			$('#addr_table').css({"width":"100%","transition":"all 0.4s"});
+			$('#addrHr').css({"width":"98%","transition":"all 0.4s"});
 		}else{
 			$('#right_chatRoomDetail').css({"width":"0","display":"none","transition":"all 0.4s"});
-			$('#addr_table').css({"width":"130%","transition":"all 0.4s"});
+			$('#addr_table').css({"width":"128%","transition":"all 0.4s"});
+			$('#addrHr').css({"width":"122%","transition":"all 0.4s"});
 
 	    }	
 	}); // 사이드바 숨기기/보이기 end
@@ -442,7 +444,7 @@ function openDetail(addrMemNo){
 			//memberDetail
 			
 			// 우측 사이드 바에 연락처 상세 정보 넣기
-			$('#right_chatRoomDetail').html("<img src='${path}/resources/mem_upload/"+data.mem_image+"' width='100' height='100'><div class='detail_div_c'><div class='detai_icon'><a href='${path}/messenger.do'><img src='resources/images/메신저.png' width='40' height='40'></a>메신저</div>  <div class='detai_icon'><a href='${path}/'> <img src='resources/images/메일.png' width='35' height='35'></a>메일</div> <div class='detai_icon'><a href='${path}/calendar.do'> <img src='resources/images/캘린더.png' width='35' height='35'></a>캘린더</div> </div><div class='detail_div'><div class='detail_title'>이름</div>" + data.mem_name + "</div><div class='detail_div'><div class='detail_title'>직급</div>" + data.mem_rank + "</div><div class='detail_div'><div class='detail_title'>소속팀</div>" +data.team_name + "</div><div class='detail_div'><div class='detail_title'>연락처</div>" + data.mem_phone + "</div><div class='detail_div'><div class='detail_title'>이메일</div>" + data.mem_email + "</div><div class='detail_div'><div class='detail_title'>아이디</div>" + data.mem_id +"</div>");
+			$('#right_chatRoomDetail').html("<img src='${path}/resources/mem_upload/"+data.mem_image+"' width='100' height='100'><div class='detail_div_c'><div class='detail_icon'><a href='${path}/messenger.do'><img src='resources/images/메신저.png' width='40' height='40'></a>메신저</div>  <div class='detail_icon'><a href='${path}/'> <img src='resources/images/메일.png' width='35' height='35'></a>메일</div> <div class='detail_icon'><a href='${path}/calendar.do'> <img src='resources/images/캘린더.png' width='35' height='35'></a>캘린더</div> </div><div class='detail_div'><div class='detail_title'>이름</div>" + data.mem_name + "</div><div class='detail_div'><div class='detail_title'>직급</div>" + data.mem_rank + "</div><div class='detail_div'><div class='detail_title'>소속팀</div>" +data.team_name + "</div><div class='detail_div'><div class='detail_title'>연락처</div>" + data.mem_phone + "</div><div class='detail_div'><div class='detail_title'>이메일</div>" + data.mem_email + "</div><div class='detail_div'><div class='detail_title'>아이디</div>" + data.mem_id +"</div>");
 			
 		},
 		error: function(res){ // 응답을 받지 못하였다거나 정상적인 응답이지만 데이터 형식을 확인할 수 없을 때 error 콜백이 호출.

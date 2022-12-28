@@ -93,7 +93,7 @@
 		<article id="content">
 			<div id="chat_grid_container">
 				<div id="messages">
-					<button type="button" onclick="closeSocket();" style="width:200px;">대화방 나가기</button>
+					<!-- <button type="button" onclick="closeSocket();" style="width:200px;">대화방 나가기</button> -->
 					
 				</div>				
 					<div id="bottom_input">
@@ -134,12 +134,12 @@ $(function(){
 	$('#sideBar_btn').on('change',function(){
 		if($('#sideBar_btn').is(':checked')){
 			$('#right_chatRoomDetail').css({"width":"0","display":"none","transition":"all 0.4s"});
-			$('#messages').css({"width":"133%","transition":"all 0.4s"});
+			$('#messages').css({"width":"128%","transition":"all 0.4s"});
 			$('#bottom_input').css({"width":"82%","transition":"all 0.4s"});
 		}else{
 			$('#right_chatRoomDetail').css({"width":"100%","display":"block","transition":"all 0.4s"});
-			$('#messages').css({"width":"100%","transition":"all 0.4s"});
-			$('#bottom_input').css({"width":"61%","transition":"all 0.4s"});
+			$('#messages').css({"width":"97.6%","transition":"all 0.4s"});
+			$('#bottom_input').css({"width":"62.8%","transition":"all 0.4s"});
         }	
 	});
 	
