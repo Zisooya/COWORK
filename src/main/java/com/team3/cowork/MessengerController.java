@@ -97,7 +97,9 @@ public class MessengerController {
 		// 일대일 대화 목록 조회
 		List<Chat_RoomDTO> oneToOneChatList = this.messengerDao.getOneToOneChatRoomList(mem_no);
 		
-		//System.out.println("일대일 대화 목록"+oneToOneChatList);
+		System.out.println("일대일 대화 목록"+oneToOneChatList);
+		
+		
 		// 그룹 대화 목록 조회
 		List<Chat_RoomDTO> groupChatList = this.messengerDao.getGroupChatRoomList(mem_no);
 		//System.out.println("그룹 대화 목록"+ groupChatList);
@@ -210,7 +212,7 @@ public class MessengerController {
 		return searchMemList;
 	}
 	
-	@RequestMapping(value="/messenger_insertNewChatRoom", method = RequestMethod.POST, produces = "application/text; charset=UTF-8;")
+	@RequestMapping(value="/messenger_insertNewChatRoom.do", method = RequestMethod.POST)
 	public @ResponseBody int insertNewChatRoom
 	(@RequestParam (value="checkedMemArr[]") List<String> checkedMemArr, 
 			@RequestParam (value="chat_room_no") int chat_room_no,
