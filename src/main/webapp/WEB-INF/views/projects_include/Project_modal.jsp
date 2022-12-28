@@ -642,6 +642,19 @@ $(function(){
 			}
 		})
  	})
+ 	
+ 	/* 프로젝트 삭제 */
+ 	$("#delete").click(function(){
+ 		let mt = $(this).parents("#Project_content").attr("alt");
+ 		let no = $(".project_no").val();
+ 		let project_no= parseInt(no);
+ 		table = "";
+ 		table += "<input type='hidden' name='mt' value="+mt+">";
+ 		$("#delete_form").append(table);
+ 		if(confirm('정말로 프로젝트를 삭제하시겠습니까??')){
+			$("#delete_form").submit();
+		}else{ruturn;}
+ 	})
 })
 
 </script>
@@ -898,10 +911,11 @@ $(function(){
 			  </select>
 	      	 <h5 class="modal-title"><img src="resources/image/project_comment.png" width="20" height="20">&nbsp;코멘트</h5>
 	      	 <br>
-			  <!-- 삭제 -->
-		         <button id="delete" type="button" class="btn btn-primary" onclick="if(confirm('정말로 프로젝트를 삭제하시겠습니까??')){
-																									location.href='<%=request.getContextPath()%>/project_delete.do?num=${dto.getProject_no() }'
-																									}else{ruturn;}">프로젝트 삭제</button>
+			 <!-- 삭제 -->
+	      	 <form id="delete_form"action="project_delete.do" method="post">
+	      		 <input type="hidden" class="project_no" name="num" value="${dto.getProject_no() }">
+		         <button id="delete" type="button" class="btn btn-primary">프로젝트 삭제</button>
+			</form>
 	         <img class="img" src="resources/image/project_man.png" class="img_mem_name" width="35" height="30">${member.mem_name}님
 	         <input type="hidden" id="img_mem_name" value="${member.mem_name}">
 			  <!-- 댓글 -->
