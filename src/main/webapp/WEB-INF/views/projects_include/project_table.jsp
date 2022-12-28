@@ -9,7 +9,43 @@
 
 <script src="resources/script/project/project_table.js"></script>
 <link href="${path}/resources/css/project/project_table.css" rel="stylesheet"/>
-
+<style type="text/css">
+	.project_name:hover{
+		cursor:pointer;
+		font-weight: bold;
+	}
+	#project_create{
+		max-width: 75vw;
+		align-self: center;
+	}
+	table{
+		border-radius: 5px;
+	}
+	.paging_btn:hover{
+		background-color:#C2F347;
+		color:white;
+ 	}
+ 	.paging_btn{
+		color:green;
+	 }
+	 .paging_div{
+	 	text-align: center;
+	 }
+	 .paging{
+	 	display: inline-block;
+	 	margin-right: 12vw;
+	 }
+	.insert_projects_btn{
+		background-color:#7BE66D;
+		border-style: none;
+		width:140px !important;
+		margin-right: 10.5vw;
+		border-color: white;
+	}
+	.insert_projects_btn:hover{
+		background-color:#C2F347;
+	}
+</style>
 </head>
 <body>
 	<c:set var="list" value="${list }"/>
@@ -75,8 +111,8 @@
 				</tr>
 				<tr id="insert_projects_tr">
 					<td colspan="5" align="center">
-						<input class="submit btn btn-primary insert_projects_btn" style="background-color: #C2F347; color:white;" type="button" value="추가하기">
-						<a href="#" class="project_btn insert_projects_a"><input class="btn btn-primary insert_projects_btn" style="background-color: #C2F347; color:white;" type="button" value="추가하기"></a>
+						<input class="submit btn btn-primary insert_projects_btn" style="background-color: #C2F347; color:white; border-style:none;" type="button" value="추가하기">
+						<a href="#" class="project_btn insert_projects_a"><input class="btn btn-primary insert_projects_btn" style="background-color: #C2F347; color:white; border-color:#C2F347" type="button" value="추가하기"></a>
 					</td>
 				</tr>
 		</table>

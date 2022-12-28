@@ -7,11 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.team3.model.DepartmentDTO;
 import com.team3.model.Messenger_NotiDTO;
-import com.team3.model.member.Mem_Upload;
-import com.team3.model.member.MemberDTO;
-import com.team3.model.member.MemberService;
-import com.team3.model.member.UserMailSendService;
+import com.team3.model.TeamDTO;
+import com.team3.model.member.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -24,16 +23,19 @@ import org.springframework.web.servlet.ModelAndView;
 public class CoworkController {
 
 	@Autowired
+	private MemberDAO dao;
+
+	@Autowired
 	private MemberService service;
 
 	@Autowired
 	private Mem_Upload mem_upload;
 
 	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+	private UserMailSendService mailSender;
 
 	@Autowired
-	private UserMailSendService mailSender;
+	private BCryptPasswordEncoder passwordEncoder;
 
 	@RequestMapping("main.do")
 	public String main() {
@@ -41,18 +43,18 @@ public class CoworkController {
 	}
 
 	@RequestMapping("member_login_ok.do")
-	public String loginOk(@ModelAttribute MemberDTO dto, HttpServletRequest request, Model model) {
+	public String loginOk(@ModelAttribute MemberDTO dto, @RequestParam("mem_id") String mem_id, @RequestParam("mem_pwd") String mem_pwd, HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
 
 		if (session.getAttribute("member") != null) {
 			session.removeAttribute("member");
 		}
 
-		MemberDTO result = service.memberLogin(dto);
+		MemberDTO result = service.memberLogin(mem_id, mem_pwd);
 		
 		// 로그인 시 메신저 알림 세션에 저장하기_Jisoo
-		String mem_id = dto.getMem_id();
-		int mem_no = this.service.getMemNo(mem_id);
+		String memberId = dto.getMem_id();
+		int mem_no = this.service.getMemNo(memberId);
 		List<Messenger_NotiDTO> notiDtoList = this.service.getMemNotiDTO(mem_no);
 		int notiCount = this.service.getNotiCount(mem_no);
 		
@@ -79,21 +81,32 @@ public class CoworkController {
 	}
 
 	@RequestMapping("member_join.do")
-	public String join() {
+	public String join(Model model) {
+		List<DepartmentDTO> deptList = this.service.getDeptList();
+		List<TeamDTO> teamList = this.service.getTeamList();
+
+		model.addAttribute("deptList", deptList);
+		model.addAttribute("teamList", teamList);
 
 		return "member/join";
 	}
 
 	@RequestMapping(value = "member_join_ok.do", method = RequestMethod.POST, headers = ("content-type=multipart/*"))
-	public String joinOk(@ModelAttribute MemberDTO dto, MultipartHttpServletRequest mRequest, HttpSession session) {
+	public String joinOk(@ModelAttribute MemberDTO dto, MultipartHttpServletRequest mRequest, HttpSession session, Model model) {
 		String fileName = mem_upload.fileUpload(mRequest, session);
 		if (fileName != null) {
 			dto.setMem_image(fileName);
 		}
 
-		service.memberJoin(dto);
+		int result = service.memberJoin(dto);
 
-		return "redirect:/";
+		if (result > 0) {
+			return "redirect:/";
+		} else {
+			model.addAttribute("msg", "회원가입 오류");
+			model.addAttribute("url", "/");
+			return "member/msg";
+		}
 	}
 
 	@RequestMapping("member_idCheck.do")
@@ -107,35 +120,6 @@ public class CoworkController {
 		response.getWriter().print(result);
 	}
 
-	@RequestMapping("member_edit.do")
-	public ModelAndView memberEdit(@RequestParam String mem_id) {
-		ModelAndView mav = new ModelAndView();
-
-		mav.setViewName("member/edit");
-		mav.addObject("memberEdit", service.memberDetail(mem_id));
-
-		return mav;
-	}
-
-	@RequestMapping("member_edit_ok.do")
-	public String memberEditOk(@ModelAttribute MemberDTO dto) {
-		service.memberEdit(dto);
-
-		return "redirect:member_edit.do?mem_id=" + dto.getMem_id();
-	}
-
-	@RequestMapping("member_delete.do")
-	public String memberDelete() {
-		return "member/delete";
-	}
-
-	@RequestMapping("member_delete_ok.do")
-	public String memberDeleteOk(@RequestParam String mem_id, HttpSession session) {
-		service.memberDelete(mem_id, session);
-
-		return "redirect:/";
-	}
-
 	@RequestMapping("member_findId.do")
 	public String memberFindId() {
 		return "member/findId";
@@ -147,8 +131,14 @@ public class CoworkController {
 
 		String id = service.memberFindId(dto);
 
-		mav.setViewName("member/getId");
-		mav.addObject("memberFindId", id);
+		if (id != null) {
+			mav.setViewName("member/getId");
+			mav.addObject("memberFindId", id);
+		} else {
+			mav.setViewName("member/msg");
+			mav.addObject("msg", "등록되지 않은 회원정보입니다.");
+			mav.addObject("url", "/member_findId.do");
+		}
 
 		return mav;
 	}
@@ -160,14 +150,71 @@ public class CoworkController {
 
 	@RequestMapping("member_findPwd_ok.do")
 	@ResponseBody
-	public String memberFindPwdOk(@RequestParam("mem_id") String mem_id, @RequestParam("mem_email") String mem_email) {
-		mailSender.mailSendWithPassword(mem_id, mem_email);
+	public void memberFindPwdOk(@RequestParam("mem_id") String mem_id, @RequestParam("mem_email") String mem_email, HttpServletResponse response) throws IOException {
+		int result = 0;
 
-		return "메일 전송";
+		if (mailSender.mailSendWithPassword(mem_id, mem_email) != 0) {
+			result = 1;
+		}
+
+		response.getWriter().print(result);
 	}
 
 	@RequestMapping("myPage.do")
 	public String myPage() {
-		return "myPage";
+		return "member/myPage";
+	}
+
+	@RequestMapping("myPage_edit.do")
+	public String myPageEdit(Model model) {
+		List<DepartmentDTO> deptList = this.service.getDeptList();
+		List<TeamDTO> teamList = this.service.getTeamList();
+
+		model.addAttribute("deptList", deptList);
+		model.addAttribute("teamList", teamList);
+
+		return "member/edit";
+	}
+
+	@RequestMapping("myPage_edit_ok.do")
+	public String myPageEditOk(@ModelAttribute MemberDTO dto, MultipartHttpServletRequest mRequest, HttpSession session, HttpServletRequest request) {
+		String fileName = mem_upload.fileUpload(mRequest, session);
+		if (fileName != null) {
+			dto.setMem_image(fileName);
+		}
+		if (session.getAttribute("member") != null) {
+			service.memberEdit(dto);
+			MemberDTO updateMember = dao.selectMember(dto.getMem_id());
+			request.getSession().setAttribute("member", updateMember);
+		}
+		System.out.println("바뀐 세션값 >> " + session.getAttribute("member"));
+
+		return "redirect:/main.do";
+	}
+
+	@RequestMapping("myPage_delete.do")
+	public String myPageDelete() {
+		return "member/delete";
+	}
+
+	@RequestMapping("myPage_delete_ok.do")
+	public String myPageDeleteOk(@ModelAttribute MemberDTO dto, HttpSession session, Model model) {
+		String mem_id = ((MemberDTO)session.getAttribute("member")).getMem_id();
+
+		String sessionPwd = ((MemberDTO)session.getAttribute("member")).getMem_pwd();
+		String dtoPwd = dto.getMem_pwd();
+
+		if (passwordEncoder.matches(dtoPwd, sessionPwd)) {
+			service.memberDelete(mem_id);
+			session.invalidate();
+
+			model.addAttribute("msg", "회원이 정상적으로 탈퇴되었습니다.");
+			model.addAttribute("url", "/");
+			return "member/msg";
+		} else {
+			model.addAttribute("msg", "비밀번호가 일치하지 않습니다.");
+			model.addAttribute("url", "/myPage_delete.do");
+			return "member/msg";
+		}
 	}
 }

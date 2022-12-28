@@ -97,12 +97,13 @@
 		SELECT COUNT(*)
 		FROM EMAIL
 		WHERE EML_from=#{mem_id}
-		AND WRITER_STATUS=0
+		AND WRITER_STATUS=1
 	</select>
 	
 	<!-- 보낸메일함 리스트 받아오기 -->
 	<select id="selectSendMailList" resultMap="sendResultSet">
-		 SELECT *
+		SELECT 
+		 	*
 		FROM EMAIL A
 		JOIN MEMBER B ON a.eml_to = b.mem_name
 		WHERE A.WRITER_STATUS=0
@@ -124,7 +125,7 @@
 		SELECT COUNT(*)
 		FROM EMAIL
 		WHERE eml_to=#{mem_id}
-		AND receiver_STATUS=0
+		AND receiver_STATUS=1
 	</select>
 	
 	<!-- 받은메일함 리스트 받아오기 -->
@@ -166,7 +167,7 @@
 	<update id="wasteReceiveMail" parameterType="_int">
 		UPDATE EMAIL
 		SET RECEIVER_STATUS=2
-		WHERE EML_NO=${mno}
+		WHERE EML_NO=#{mno}
 	</update>
 	
 	<!-- 이름으로 아이디 불러오기 -->
@@ -216,37 +217,27 @@
 	<!-- 보낸 메일 휴지통으로 이동 -->
 	<update id="wasteSendMail" parameterType="_int">
 		UPDATE EMAIL
-		SET WRITER_STATUS=0
-		WHERE EMl_NO=${mno}
+		SET WRITER_STATUS=2
+		WHERE EMl_NO=#{mno}
 	</update>
 	
 	<!-- 휴지통개수 -->
-	<select id="selectWasteMailListCount" resultType="_int">
+	<select id="selectWasteMailListCount" parameterType="emailDto" resultType="_int">
 		SELECT COUNT(*)
 		FROM EMAIL
-		<where>
-			<if test="eml_to == eml_to">
-				RECEIVER_STATUS=0
-			</if>
-			<if test="eml_from == mel_from">
-				OR WRITER_STATUS=0
-			</if>
-		</where>
+        where 
+        RECEIVER_STATUS=2
+        OR WRITER_STATUS=2
 	</select>
 	
 	<!-- 휴지통 리스트 -->
 	<select id="selectWasteMailList" resultMap="sendResultSet">
-		SELECT *
+		SELECT 
+            *
 		FROM EMAIL A
-		JOIN MEMBER B ON A.eml_no= b.mem_no
-		<where>
-			<if test="eml_to == empId">
-				A.RECEIVER_STATUS=0
-			</if>
-			<if test="eml_from == empId">
-				OR A.WRITER_STATUS=0
-			</if>
-		</where>
+		JOIN MEMBER B ON A.EML_to = B.MEM_name
+		where A.RECEIVER_STATUS=2
+        OR A.WRITER_STATUS=2
 		ORDER BY A.create_DATE DESC
 	</select>
 	
@@ -260,35 +251,73 @@
 	<!-- 보낸메일복구 -->
 	<update id="returnSendMail" parameterType="_int">
 		UPDATE EMAIL
-		SET WRITER_STATUS=1
-		WHERE EML_NO=${mno}
+		SET WRITER_STATUS=0
+		WHERE EML_NO=#{mno}
 	</update>
 	
 	<!-- 받은 메일 복구 -->
 	<update id="returnReceiveMail" parameterType="_int">
-		UPDATE MAIL
-		SET RECEIVER_STATUS=1
-		WHERE EML_NO=${mno}
+		UPDATE EMAIL
+		SET RECEIVER_STATUS=0
+		WHERE EML_NO=#{mno}
 	</update>
 	
 	<!-- 진짜영구삭제 -->
 	<delete id="wasteMail" parameterType="_int">
 		DELETE EMAIL
-		WHERE EML_NO=${mno}
+		WHERE EML_NO=#{mno}
 	</delete>
 	
 	<!-- 보낸 메일 영구삭제 -->
 	<update id="updateWriter" parameterType="_int">
 		UPDATE EMAIL
 		SET WRITER_STATUS=3
-		WHERE EML_NO=${mno}
+		WHERE EML_NO=#{mno}
 	</update>
 	
 	<!-- 받은 메일 영구삭제 -->
 	<update id="updateReceiver" parameterType="_int">
 		UPDATE EMAIL
 		SET RECEIVER_STATUS=3
-		WHERE EML_NO=${mno}
+		WHERE EML_NO=#{mno}
 	</update>
+	
+	<!-- 메인용 보낸메일함 -->
+	<select id="mainSendMailList" resultMap="sendResultSet">
+		<![CDATA[
+			SELECT *
+			FROM	(SELECT
+					    *
+					FROM EMAIL A
+					JOIN MEMBER B ON A.EML_TO=B.MEM_ID
+					WHERE A.WRITER_STATUS=1
+					AND A.EML_FROM=#{empId}
+					ORDER BY A.EML_NO DESC)
+			WHERE ROWNUM <= 5
+		]]>
+	</select>
+	
+	<!-- 메인 받은 메일함 -->
+	<select id="mainReceiveMailList" resultMap="receiveResultSet">
+		<![CDATA[
+			SELECT *
+			FROM   (SELECT *
+					FROM EMAIL A
+					JOIN MEMBER B ON A.EML_FROM=B.MEM_ID
+					WHERE A.RECEIVER_STATUS=1
+					AND A.EML_TO=#{empId}
+					ORDER BY A.EML_NO DESC)
+			WHERE ROWNUM <= 5
+		]]>
+	</select>
+	
+	<!--메인 받은 메일함 갯수 -->
+	<select id="selectCountNoRead" resultType="_int">
+		SELECT COUNT(*)
+		FROM EMAIL
+		WHERE EML_TO=#{empId}
+		AND RECEIVER_STATUS=1 
+		AND READ_COUNT=0
+	</select>
 	
   </mapper>

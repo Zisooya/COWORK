@@ -80,7 +80,7 @@
 							<c:forEach items="${groupChatList }" var="chatRoomDto2" varStatus="vs">
 								<input type="checkbox" id="accordion_cb_g${vs.index }" 
 										name="accordion_cb_group" value="${chatRoomDto2.getChat_room_no() }"
-										onclick="openChatRoom(this.value);">
+										>
 								<label class="chat_room" for="accordion_cb_g${vs.index }">${chatRoomDto2.getChat_room_name() }</label>
 							</c:forEach>
 						</c:if>
@@ -206,10 +206,16 @@ $(function(){
 	$("input[name *= 'accordion_cb_oneToOne']").click(function(){
 		
 		// 클릭한 input의 value
-		var click_value = $(this).attr('value');
+		var chat_room_no = $(this).attr('value');
 		
+		openChatRoom(chat_room_no);
+		
+    	openSocket();
+    	
     	// 1초마다 채팅방 데이터 불러오기
-    	setInterval(openChatRoom(click_value), 1000); 
+    	//setInterval(openChatRoom(click_value), 1000); 
+    	//setInterval(openChatRoom, 1000, chat_room_no);    	
+    	
 	});
 	
 	
@@ -258,6 +264,11 @@ $(function(){
             console.log('writeResponse');
             console.log(event.data)
             writeResponse(event.data);
+            
+            // 1번쨰 방법
+            let chat_room_no = document.getElementById("chat_room_no").value;
+            // 메시지 도착하면 채팅방 데이터 다시 가져오기.
+            openChatRoom(chat_room_no);
             
         };
         
@@ -331,9 +342,11 @@ $(function(){
         console.log(messages.parentNode);
         messages.parentNode.removeChild(messages)
   	}    
-    
+	
+
     function openChatRoom(chat_room_no) {
-    	
+    //const openChatRoom = function(chat_room_no){	
+    	console.log('소켓 오픈 계속 되고있다');
     	let mem_id = document.getElementById("sender").value;
     	
     	// 채팅방 별 데이터 불러오기
@@ -360,8 +373,6 @@ $(function(){
 	            let messages = document.getElementById("messages");
 	            messages.scrollTop = messages.scrollHeight;
 	            
-	    		 openSocket();
-	    		
     		}, 
     		error: function(res){ 
 				alert('ajax 응답 오류');

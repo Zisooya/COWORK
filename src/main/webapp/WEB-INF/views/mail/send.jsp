@@ -71,7 +71,7 @@ label {
 							</div>
 						</div>
 						<div class="form-group">
-							<input type="file" class="form-control-file form-control height-auto" name="uploadFile">
+							<input type="file" class="form-control-file form-control height-auto" name="uploadFile" multiple="multiple">
 						</div>
 
 						<div class="form-group">

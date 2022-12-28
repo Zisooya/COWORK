@@ -51,7 +51,7 @@
         </div>
         <div class="form-group text-center" id="btn_box">
             <button class="btn btn-primary" type="button" id="pwdConfirm_btn">확인</button>
-            <button class="btn btn-primary" type="button" onclick="history.back();">취소</button>
+            <button class="btn btn-primary" type="button" onclick="location.href='${path}/'">취소</button>
         </div>
     </form>
 </div>
@@ -87,9 +87,14 @@
             type: "post",
             dataType: "text",
             data: {mem_id : $("#mem_id").val(), mem_email : $("#mem_email").val()},
-            success: function () {
-                alert('메일 발송 완료');
-                location.replace("${path}/");
+            success: function (data) {
+                if (data > 0) {
+                    alert('임시 비밀번호가 발급되었습니다. 등록된 이메일을 확인해주세요.');
+                    location.replace("${path}/");
+                } else {
+                    alert('등록되지 않은 회원정보입니다.');
+                    location.reload();
+                }
             },
             error: function () {
                 alert('데이터 통신 오류');

@@ -36,7 +36,7 @@
  		<selectKey resultType="int" keyProperty="customer_no" order="BEFORE">
  			select max(customer_no) from customer
  		</selectKey>
- 		insert into customer values(#{customer_no} + 1,#{customer_name},#{customer_position},#{customer_rank},#{customer_dept}, #{customer_team},#{customer_email},#{customer_phone},#{mem_no},#{customer_image})
+ 		insert into customer values(#{customer_no} + 1,#{customer_name},#{customer_company},#{customer_dept}, #{customer_team},#{customer_email},#{customer_phone},#{mem_no},#{customer_image},#{customer_rank})
  	</insert>
  	
  	<select id="address_getMemDetail" parameterType="int" resultType="memberDTO">

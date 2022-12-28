@@ -214,4 +214,19 @@ public class EmailServiceImpl implements EmailService{
 			throw new CommException("updateReceiver 실패");
 		}	
 	}
+
+	@Override
+	public ArrayList<EmailDTO> mainSendMailList(String empId) {
+		return emailDao.mainSendMailList(sqlSession, empId);
+	}
+
+	@Override
+	public ArrayList<EmailDTO> mainReceiveMailList(String empId) {
+		return emailDao.mainReceiveMailList(sqlSession, empId);
+	}
+
+	@Override
+	public int selectCountNoRead(String empId) {
+		return emailDao.selectCountNoRead(sqlSession, empId);
+	}
 }
