@@ -89,7 +89,7 @@
 	<insert id="insertMail" parameterType="emailDto">
 		insert into email
 		values(seq_email.nextval, #{eml_from}, #{eml_to}, #{eml_title}, #{eml_content}, sysdate, default,
-				 #{importantFlag}, default, default, #{filename}, #{filepath})
+				 #{importantFlag}, default, default, #{filename}, #{filepath}, '')
 	</insert>
     
 	<!-- 보낸 메일함 갯수 -->
@@ -160,7 +160,7 @@
 	<insert id="resendMail" parameterType="emailDto">
 		insert into email
 		values(seq_email.nextval, #{eml_from}, #{eml_to}, #{eml_title}, #{eml_content}, sysdate, default,
-				 #{importantFlag}, default, default, #{filename}, #{filepath})
+				 #{importantFlag}, default, default, #{filename}, #{filepath}, '')
 	</insert>
 	
 	<!-- 받은메일에서 휴지통 -->
@@ -211,7 +211,7 @@
 	<insert id="insertSendDelivery" parameterType="emailDto">
 	insert into email
 		values(seq_email.nextval, #{eml_from}, #{eml_to}, #{eml_title}, #{eml_content}, sysdate, default,
-				 #{importantFlag}, default, default, #{filename}, #{filepath})
+				 #{importantFlag}, default, default, #{filename}, #{filepath}, '')
 	</insert>
 	
 	<!-- 보낸 메일 휴지통으로 이동 -->
@@ -245,7 +245,7 @@
 	<insert id="insertReply" parameterType="emailDto">
 		insert into email
 		values(seq_email.nextval, #{eml_from}, #{eml_to}, #{eml_title}, #{eml_content}, sysdate, default,
-				 #{importantFlag}, default, default, #{filename}, #{filepath})
+				 #{importantFlag}, default, default, #{filename}, #{filepath}, '')
 	</insert>
 	
 	<!-- 보낸메일복구 -->
