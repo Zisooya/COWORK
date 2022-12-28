@@ -54,6 +54,7 @@ $(function(){
  			console.log($(this).text())
 			 $("#Project_content").load(href1, function() {
 		            $("#Project_content").modal("show");
+		            $("#Project_content").attr("alt",2);
 		      });
  		})
  		

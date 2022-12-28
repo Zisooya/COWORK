@@ -14,7 +14,7 @@ body {
 	display: grid;
 	grid-template-columns : 19% 62% 19%;
 	/* grid-template-rows : 75px 110px 600px 200px ; */
-	grid-template-rows : 120px calc(100% - 120px);
+	grid-template-rows : 120px calc(100% - 160px);
 }
 
 
@@ -39,7 +39,7 @@ body {
 	display: grid;
 	grid-template-columns : 20% 60% 20%;
 	grid-template-rows : 50% 50%;	
-	background-color : #E4F7BA;
+	background-color :#E4F7BA;
 }
 
 #header_left {
