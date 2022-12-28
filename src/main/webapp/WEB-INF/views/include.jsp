@@ -44,7 +44,7 @@
          </div>   
       </div>   
    </header>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.js"></script>   
+<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.js"></script>  -->  
 <script type="text/javascript">
 
 // 1초마다 알림 숫자 영역에 새로운 값 주기
