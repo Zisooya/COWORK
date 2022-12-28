@@ -229,10 +229,8 @@ nav label {
 
 /* 말풍선 적절한 top 과 margin-left 로 위치조정 */
 [id*="arrow_box"] {
-	display:none;
+  display: none;
   position: absolute;
-  left: 7px;
-  top: 100px;
   width: 100px;
   padding: 8px;
   -webkit-border-radius: 8px;
@@ -240,8 +238,29 @@ nav label {
   border-radius: 8px;
   background: #333;
   color: #fff;
-  font-size: 14px;
+  font-size: 0.7rem;
   text-align: center;
+  top: 50px;
+}
+
+#arrow_box01 {
+  left: 3%;
+}
+
+#arrow_box02 {
+  left: 16.5%;
+}
+
+#arrow_box03 {
+  left: 30.5%;
+}
+
+#arrow_box04 {
+  left: 44%;
+}
+
+#arrow_box05 {
+  left: 57.5%;
 }
 
 [id*="arrow_box"]:after {
@@ -259,6 +278,10 @@ nav label {
   content: ' ';
 }
 
-#header_navi [id*="navi"]:hover + [id*="arrow_box"]{
+
+
+[id*="navi"]:hover + [id*="arrow_box"]{
   display: block;
 }
+
+
