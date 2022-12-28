@@ -229,7 +229,7 @@ nav label {
 
 /* 말풍선 적절한 top 과 margin-left 로 위치조정 */
 [id*="arrow_box"] {
-  display: none;
+	display:none;
   position: absolute;
   width: 100px;
   padding: 8px;

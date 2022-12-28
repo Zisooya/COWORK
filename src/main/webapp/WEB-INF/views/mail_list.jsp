@@ -70,7 +70,7 @@ input{
  				<%-- <input class="" type="button" value="내게쓰기" onclick="#"> --%>
  			<hr>
  			<ul class="meun">
- 				<li class="liany"><a href="mail_list.do">전체메일</a></li>
+ 				<!-- <li class="liany"><a href="mail_list.do">전체메일</a></li> -->
  				<li class="liany"><a href="receiveList.do">받은메일함</a></li>
  				<!--<li class="liany"><a href="#">내게쓴메일함</a></li>-->
  				<li class="liany"><a href="sendList.do">보낸메일함</a></li>
