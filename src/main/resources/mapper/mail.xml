@@ -116,7 +116,7 @@
 		SELECT
 		    *
 		FROM EMAIL A
-		JOIN MEMBER B ON a.eml_from = b.mem_name
+		JOIN MEMBER B ON a.eml_to = b.mem_name
 		AND A.EML_NO=#{mno}
 	</select>
 	
