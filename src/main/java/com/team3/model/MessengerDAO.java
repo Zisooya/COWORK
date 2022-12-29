@@ -38,6 +38,13 @@ public interface MessengerDAO {
 	int getMessageNoMax();
 	
 	int insertNoti(Messenger_NotiDTO notiDTO);
+	
 	int readNoti(Messenger_NotiDTO notiDTO);
+	
+	int getPartiCount(int chat_room_no);
+	
+	Chat_MessageDTO getLastMDto(int chat_room_no);
+	
+	int getUnreadCount(Map<String,Object> map);
 	
 }

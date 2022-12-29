@@ -178,7 +178,7 @@ body {
    grid-column : 1/2;
    grid-row : 3/4;   
 */
-	margin: 20px 0 100px 20px;
+	margin: 20px 0 0px 20px;
 	background: linear-gradient(35deg, rgba(123, 230, 109, 0.8), rgba(194, 243, 71, 0.8) ,rgba(228, 247, 186, 0.8),rgba(246, 255, 204, 0.8), rgba(255, 255, 240, 0.8));
 	border: 0.5px solid #EAEAEA;
 	border-radius: 10px;
@@ -218,7 +218,7 @@ nav label {
 #content {
    font-size: 1rem;
    width: 100%;
-   height: 100%;
+   height: 98%;
    grid-column : 2/4;
    grid-row : 2/3;
    margin: 50px 20px 20px 20px;   
@@ -231,8 +231,6 @@ nav label {
 [id*="arrow_box"] {
 	display:none;
   position: absolute;
-  left: 7px;
-  top: 100px;
   width: 100px;
   padding: 8px;
   -webkit-border-radius: 8px;
@@ -240,8 +238,29 @@ nav label {
   border-radius: 8px;
   background: #333;
   color: #fff;
-  font-size: 14px;
+  font-size: 0.7rem;
   text-align: center;
+  top: 70px;
+}
+
+#arrow_box01 {
+  left: 3%;
+}
+
+#arrow_box02 {
+  left: 16.5%;
+}
+
+#arrow_box03 {
+  left: 30.5%;
+}
+
+#arrow_box04 {
+  left: 44%;
+}
+
+#arrow_box05 {
+  left: 57.5%;
 }
 
 [id*="arrow_box"]:after {
@@ -259,6 +278,10 @@ nav label {
   content: ' ';
 }
 
-#header_navi [id*="navi"]:hover + [id*="arrow_box"]{
+
+
+[id*="navi"]:hover + [id*="arrow_box"]{
   display: block;
 }
+
+

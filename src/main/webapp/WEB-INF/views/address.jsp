@@ -40,7 +40,7 @@
 							
 								<div class="add_title">회사 / 소속</div> 
 								<div class="input_box">
-									<input name="customer_company" type="text" placeholder="직급"> <input name="customer_rank" type="text" placeholder="직책"> 
+									<input name="customer_company" type="text" placeholder="회사"> <input name="customer_rank" type="text" placeholder="직급"> 
 									<input name="customer_dept" type="text" placeholder="부서"> <input name="customer_team" type="text" placeholder="소속"> 
 								</div>
 							
