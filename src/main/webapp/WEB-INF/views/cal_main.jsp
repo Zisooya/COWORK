@@ -957,7 +957,7 @@ html, body {
   background: #FFC107;
 }
 #calendar {
-	height: 100%;
+	height: 102%;
 }
 #eventAdd_btn {
 	text-align: center;
