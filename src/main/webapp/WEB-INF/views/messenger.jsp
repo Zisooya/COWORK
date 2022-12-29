@@ -165,12 +165,14 @@ $(function(){
 			$('#right_chatRoomDetail').css('z-index','-2');
 			$('#bottom_input').css('z-index','-1');
 			$('#header').css('z-index','-1');
+			$('#messages').css('z-index','-1');
 			
 		}else{
 			$('#sideBar_img').css('z-index','2');
 			$('#right_chatRoomDetail').css('z-index','1');
 			$('#bottom_input').css('z-index','1');
 			$('#header').css('z-index','20');
+			$('#messages').css('z-index','1');
         }	
 	});
 	

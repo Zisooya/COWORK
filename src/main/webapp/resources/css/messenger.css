@@ -454,8 +454,8 @@ input[name *= accordion_cb_] {
 	line-height: 2rem;
 	box-sizing: border-box;
 	transition: all 0.4s;
-	background: linear-gradient(35deg, rgba(228, 247, 186, 0.8),rgba(246, 255, 204, 0.8));
-	z-index: -1
+	background-color: rgba(228, 247, 186, 0.6); 
+	z-index: 1;
 	
 }
 
