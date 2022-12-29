@@ -12,7 +12,6 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/pwe/css/deskhome_header_https_20220921.css">
 <title>Insert title here</title>
-<link href="${path}/resources/css/address.css" rel="stylesheet"/>
 <link href="${path}/resources/css/include.css" rel="stylesheet"/>
 <style type="text/css">
 
@@ -37,14 +36,16 @@ a{
 	padding: 10px 80px;
 }
 
+.meun li{
+	text-align: left;
+	padding : 30px 30px 0px 30px;
+}
 .meun li a:hover{
+	width: 92%;
 	display: block;
-	font-size: 12px;
 	color: #555; 
 	background: #7BE66D;
 	background-size: auto;
-	text-decoration-line: none;
-	padding: 10px 10px
 }
 
 input:focus{
@@ -74,7 +75,7 @@ input{
  			<input class="mailMap" type="button" value="메일쓰기" onclick="location.href='send.do'">
  			<hr>
  			<ul class="meun">
- 				<li class="liany"><a href="mail_list.do">전체메일</a></li>
+ 				<!-- <li class="liany"><a href="mail_list.do">전체메일</a></li> -->
  				<li class="liany"><a href="receiveList.do">받은메일함</a></li>
  				<!--<li class="liany"><a href="#">내게쓴메일함</a></li>-->
  				<li class="liany"><a href="sendList.do">보낸메일함</a></li>
