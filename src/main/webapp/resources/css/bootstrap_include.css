@@ -88,6 +88,7 @@ body {
 
 
 #header_right {
+
    width: auto;
    height: auto;   
    grid-column : 3/4;
