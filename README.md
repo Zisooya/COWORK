@@ -5,7 +5,7 @@
 [COWORK-KH팀프로젝트.zip](COWORK%20-%20%E1%84%89%E1%85%A1%E1%84%82%E1%85%A2%20%E1%84%92%E1%85%A7%E1%86%B8%E1%84%8B%E1%85%A5%E1%86%B8%E1%84%8B%E1%85%B3%E1%86%AF%20%E1%84%8B%E1%85%B1%E1%84%92%E1%85%A1%E1%86%AB%20%E1%84%80%E1%85%B3%E1%84%85%E1%85%AE%E1%86%B8%E1%84%8B%E1%85%B0%E1%84%8B%E1%85%A5%20c2999327a5b04eb087a4d8a71983c8ae/COWORK-KH%25ED%258C%2580%25ED%2594%2584%25EB%25A1%259C%25EC%25A0%259D%25ED%258A%25B8.zip)
 
 **⇒ 프로젝트 전체 내용이 담긴 ppt**입니다.
-![화면 캡처 2023-03-18 012413.jpg](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/93a51dd3-aceb-414e-beac-994aa51e95da/%ED%99%94%EB%A9%B4_%EC%BA%A1%EC%B2%98_2023-03-18_012413.jpg)
+<img width="80%" src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/93a51dd3-aceb-414e-beac-994aa51e95da/%ED%99%94%EB%A9%B4_%EC%BA%A1%EC%B2%98_2023-03-18_012413.jpg"/>
 
 빨간 박스 부분(메모)을 클릭해서 슬라이드 메모와 함께 읽어주세요!
 
