@@ -6,14 +6,14 @@
 
 **⇒ 프로젝트 전체 내용이 담긴 ppt**입니다. 슬라이드 메모와 함께 읽어주세요!
 
-# 1. 개발 환경
-
+# 1. 개발 환경 및 개발 기간
 - **Backend** - Java
 - **Frontend** - HTML, CSS, Javascript
 - **SQL** - ORACLE
 - **Framework** - Spring, mybatis
 - **기타** - Servlet / JSP, JDBC, Ajax, JQuery, Git
 - **개발 도구** - QUICK DBD(테이블 설계), OVEN(UI/UX 기획), STS
+- **개발기간** - 
 
 # 2. 주제 선정 이유와 프로젝트 소개
 
