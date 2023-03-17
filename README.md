@@ -5,9 +5,8 @@
 [COWORK-KH팀프로젝트.pptx](https://github.com/Zisooya/COWORK/files/11003827/COWORK-KH.pptx)
 
 **⇒ 프로젝트 전체 내용이 담긴 ppt**입니다.
-![화면 캡처 2023-03-18 012413](https://user-images.githubusercontent.com/113344769/225966983-ffceabc8-229f-486f-a8ed-ddcc16c7018c.jpg)
-
 빨간 박스 부분(메모)을 클릭해서 슬라이드 메모와 함께 읽어주세요!
+![화면 캡처 2023-03-18 012413](https://user-images.githubusercontent.com/113344769/225966983-ffceabc8-229f-486f-a8ed-ddcc16c7018c.jpg)
 
 # 1. 개발 환경
 
