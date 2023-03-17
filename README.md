@@ -13,7 +13,7 @@
 - **Framework** - Spring, mybatis
 - **기타** - Servlet / JSP, JDBC, Ajax, JQuery, Git
 - **개발 도구** - QUICK DBD(테이블 설계), OVEN(UI/UX 기획), STS
-- **개발기간** - 
+- **개발기간** - 22/11/30 ~ 22/12/29
 
 # 2. 주제 선정 이유와 프로젝트 소개
 
