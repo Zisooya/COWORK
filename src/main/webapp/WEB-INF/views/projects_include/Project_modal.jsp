@@ -635,7 +635,13 @@ $(function(){
 					},
 			datatype : "text",
 			success : function(){
-				alert("수정되었습니다.")
+				$(".comment3").css({'border':'1px solid gray'});
+				$(".comment3").css({'border-style':'none'});
+		    	$(".control3").css({'border-color':'lightgray'})
+				$(".control3").css({'border-style':'none'});
+				$(".child3").hide(100); 
+				$(".comment3").hide();
+				$(".comment_comment").show();
 			},
 			error : function(){
 				alert('데이터 통신 에러');

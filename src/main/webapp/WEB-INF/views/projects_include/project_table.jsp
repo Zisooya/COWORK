@@ -111,8 +111,8 @@
 				</tr>
 				<tr id="insert_projects_tr">
 					<td colspan="5" align="center">
-						<input class="submit btn btn-primary insert_projects_btn" style="background-color: #C2F347; color:white; border-style:none;" type="button" value="추가하기">
-						<a href="#" class="project_btn insert_projects_a"><input class="btn btn-primary insert_projects_btn" style="background-color: #C2F347; color:white; border-color:#C2F347" type="button" value="추가하기"></a>
+						<input class="submit btn btn-primary insert_projects_btn" style="background-color: #C2F347; color:white; border-style:none;" type="button" value="추가">
+						<a href="#" class="project_btn insert_projects_a"><input class="btn btn-primary insert_projects_btn" style="background-color: #C2F347; color:white; border-color:#C2F347" type="button" value="추가"></a>
 					</td>
 				</tr>
 		</table>

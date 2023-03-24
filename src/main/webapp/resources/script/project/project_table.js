@@ -41,9 +41,9 @@ $(function(){
 		})
 		
 		/* '+'아이콘 클릭시 'check'아이콘 변경 */
-		$(".project_check").click(function(){
-			$(".submit").hide();
-			$(".project_btn").show();
+		$(document).on("click",".project_btn",function(){
+			$(".submit").show();
+			$(".project_btn").hide();
 		})
 		
 		/* 프로젝트 이름 클릭시 상세보기 모달 창 생성 */

@@ -28,7 +28,7 @@ body {
     background-color : #FFFFFF;
    position: fixed;
    width:100%;
-   height:60px;
+   height:90px;
    z-index:20;   
 }
 
@@ -88,6 +88,7 @@ body {
 
 
 #header_right {
+
    width: auto;
    height: auto;   
    grid-column : 3/4;
